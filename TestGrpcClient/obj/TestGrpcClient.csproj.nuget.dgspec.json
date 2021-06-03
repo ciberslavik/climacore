@@ -1,0 +1,86 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj": {}
+  },
+  "projects": {
+    "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj",
+        "projectName": "TestGrpcClient",
+        "projectPath": "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj",
+        "packagesPath": "/home/ciber/.nuget/packages/",
+        "outputPath": "/home/ciber/ClimaProject/TestGrpcClient/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/ciber/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Google.Protobuf": {
+              "target": "Package",
+              "version": "[3.11.4, )"
+            },
+            "Grpc": {
+              "target": "Package",
+              "version": "[2.38.0, )"
+            },
+            "Grpc.Core": {
+              "target": "Package",
+              "version": "[2.38.0, )"
+            },
+            "Grpc.Net.Client": {
+              "target": "Package",
+              "version": "[2.28.0, )"
+            },
+            "Grpc.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.28.1, )"
+            },
+            "System.Net.Http": {
+              "target": "Package",
+              "version": "[4.3.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.409/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

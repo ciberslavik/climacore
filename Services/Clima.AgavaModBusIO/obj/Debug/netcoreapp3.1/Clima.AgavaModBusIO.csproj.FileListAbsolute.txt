@@ -1,0 +1,12 @@
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/bin/Debug/netcoreapp3.1/Clima.AgavaModBusIO.deps.json
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/bin/Debug/netcoreapp3.1/Clima.AgavaModBusIO.dll
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/bin/Debug/netcoreapp3.1/Clima.AgavaModBusIO.pdb
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/bin/Debug/netcoreapp3.1/Clima.Services.dll
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/bin/Debug/netcoreapp3.1/Clima.Services.pdb
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/Debug/netcoreapp3.1/Clima.AgavaModBusIO.csprojAssemblyReference.cache
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/Debug/netcoreapp3.1/Clima.AgavaModBusIO.AssemblyInfoInputs.cache
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/Debug/netcoreapp3.1/Clima.AgavaModBusIO.AssemblyInfo.cs
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/Debug/netcoreapp3.1/Clima.AgavaModBusIO.csproj.CoreCompileInputs.cache
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/Debug/netcoreapp3.1/Clima.AgavaModBusIO.csproj.CopyComplete
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/Debug/netcoreapp3.1/Clima.AgavaModBusIO.dll
+/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/Debug/netcoreapp3.1/Clima.AgavaModBusIO.pdb

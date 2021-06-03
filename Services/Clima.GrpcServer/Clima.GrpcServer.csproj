@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Protobuf Include="Protos\AppServer.proto" GrpcServices="Server" />
+    <ProjectReference Include="..\..\Clima.Services\Clima.Services.csproj" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+  </ItemGroup>
+
+  
+
+</Project>

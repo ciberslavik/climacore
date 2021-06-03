@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "TestGrpcClient";
+
+package clima_server;
+
+service AppServer
+{
+    rpc ServerInfo(ServerInfoRequest) returns (ServerInfoReply);
+}
+
+message ServerInfoRequest
+{}
+message ServerInfoReply
+{
+    string ServerName = 1;
+    int32 VersionMinor = 2;
+    int32 VersionMajor = 3;
+}

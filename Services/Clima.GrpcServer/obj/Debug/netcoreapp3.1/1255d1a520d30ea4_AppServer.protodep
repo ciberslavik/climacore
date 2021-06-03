@@ -1,0 +1,2 @@
+obj/Debug/netcoreapp3.1/AppServer.cs \
+obj/Debug/netcoreapp3.1/AppServerGrpc.cs: Protos/AppServer.proto

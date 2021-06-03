@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "Clima.AgavaModBusIO/1.0.0": {
+        "dependencies": {
+          "Clima.Services": "1.0.0"
+        },
+        "runtime": {
+          "Clima.AgavaModBusIO.dll": {}
+        }
+      },
+      "Clima.Services/1.0.0": {
+        "runtime": {
+          "Clima.Services.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Clima.AgavaModBusIO/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Clima.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

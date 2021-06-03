@@ -1,0 +1,238 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/ciber/ClimaProject/ClimaD/ClimaD.csproj": {}
+  },
+  "projects": {
+    "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj",
+        "projectName": "Clima.Services",
+        "projectPath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj",
+        "packagesPath": "/home/ciber/.nuget/packages/",
+        "outputPath": "/home/ciber/ClimaProject/Clima.Services/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/ciber/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.409/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/ciber/ClimaProject/ClimaD/ClimaD.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/ciber/ClimaProject/ClimaD/ClimaD.csproj",
+        "projectName": "ClimaD",
+        "projectPath": "/home/ciber/ClimaProject/ClimaD/ClimaD.csproj",
+        "packagesPath": "/home/ciber/.nuget/packages/",
+        "outputPath": "/home/ciber/ClimaProject/ClimaD/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/ciber/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {
+                "projectPath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj"
+              },
+              "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj": {
+                "projectPath": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj"
+              },
+              "/home/ciber/ClimaProject/Services/Clima.GrpcServer/Clima.GrpcServer.csproj": {
+                "projectPath": "/home/ciber/ClimaProject/Services/Clima.GrpcServer/Clima.GrpcServer.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Castle.Windsor": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.409/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj",
+        "projectName": "Clima.AgavaModBusIO",
+        "projectPath": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj",
+        "packagesPath": "/home/ciber/.nuget/packages/",
+        "outputPath": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/ciber/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {
+                "projectPath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.409/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/ciber/ClimaProject/Services/Clima.GrpcServer/Clima.GrpcServer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/ciber/ClimaProject/Services/Clima.GrpcServer/Clima.GrpcServer.csproj",
+        "projectName": "Clima.GrpcServer",
+        "projectPath": "/home/ciber/ClimaProject/Services/Clima.GrpcServer/Clima.GrpcServer.csproj",
+        "packagesPath": "/home/ciber/.nuget/packages/",
+        "outputPath": "/home/ciber/ClimaProject/Services/Clima.GrpcServer/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/ciber/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {
+                "projectPath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Grpc.AspNetCore": {
+              "target": "Package",
+              "version": "[2.27.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.409/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

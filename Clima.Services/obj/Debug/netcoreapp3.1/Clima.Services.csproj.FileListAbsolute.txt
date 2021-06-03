@@ -1,0 +1,9 @@
+/home/ciber/ClimaProject/Clima.Services/bin/Debug/netcoreapp3.1/Clima.Services.deps.json
+/home/ciber/ClimaProject/Clima.Services/bin/Debug/netcoreapp3.1/Clima.Services.dll
+/home/ciber/ClimaProject/Clima.Services/bin/Debug/netcoreapp3.1/Clima.Services.pdb
+/home/ciber/ClimaProject/Clima.Services/obj/Debug/netcoreapp3.1/Clima.Services.csprojAssemblyReference.cache
+/home/ciber/ClimaProject/Clima.Services/obj/Debug/netcoreapp3.1/Clima.Services.AssemblyInfoInputs.cache
+/home/ciber/ClimaProject/Clima.Services/obj/Debug/netcoreapp3.1/Clima.Services.AssemblyInfo.cs
+/home/ciber/ClimaProject/Clima.Services/obj/Debug/netcoreapp3.1/Clima.Services.csproj.CoreCompileInputs.cache
+/home/ciber/ClimaProject/Clima.Services/obj/Debug/netcoreapp3.1/Clima.Services.dll
+/home/ciber/ClimaProject/Clima.Services/obj/Debug/netcoreapp3.1/Clima.Services.pdb
