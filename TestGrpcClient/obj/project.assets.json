@@ -1125,12 +1125,11 @@
       ]
     },
     "runtime.native.System.Net.Http/4.3.0": {
-      "sha512": "ZVuZJqnnegJhd2k/PtAbbIcZ3aZeITq3sj06oKfMBSfphW3HDmk/t4ObvbOk/JA/swGR0LNqMksAh/f7gpTROg==",
+      "sha512": "guqHgQOK2eUgtJae2VKjNawBn1xjC0hfOt5wASHa60XHbIdCsQlqtvMsFG+3hy7yp88V+gi9fZCjubuDkeakcQ==",
       "type": "package",
       "path": "runtime.native.system.net.http/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -2815,12 +2814,11 @@
       ]
     },
     "System.Security.Cryptography.OpenSsl/4.3.0": {
-      "sha512": "h4CEgOgv5PKVF/HwaHzJRiVboL2THYCou97zpmhjghx5frc7fIvlkY1jL+lnIQyChrJDMNEXS6r7byGif8Cy4w==",
+      "sha512": "vOYy7Jv9KsG3ld2hLt0GoERd82SZi4BelrbXLwI9yFBYX7kpbvUCWYo4eyevk47cuJXZ9ZLVAryANcc7iY71aA==",
       "type": "package",
       "path": "system.security.cryptography.openssl/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.6/System.Security.Cryptography.OpenSsl.dll",
@@ -3134,19 +3132,23 @@
     ]
   },
   "packageFolders": {
-    "/home/ciber/.nuget/packages/": {}
+    "/home/cibers/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj",
+      "projectUniqueName": "/home/cibers/ClimaProject/climacore/TestGrpcClient/TestGrpcClient.csproj",
       "projectName": "TestGrpcClient",
-      "projectPath": "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj",
-      "packagesPath": "/home/ciber/.nuget/packages/",
-      "outputPath": "/home/ciber/ClimaProject/TestGrpcClient/obj/",
+      "projectPath": "/home/cibers/ClimaProject/climacore/TestGrpcClient/TestGrpcClient.csproj",
+      "packagesPath": "/home/cibers/.nuget/packages/",
+      "outputPath": "/home/cibers/ClimaProject/climacore/TestGrpcClient/obj/",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "/home/ciber/.nuget/NuGet/NuGet.Config"
+        "/home/cibers/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

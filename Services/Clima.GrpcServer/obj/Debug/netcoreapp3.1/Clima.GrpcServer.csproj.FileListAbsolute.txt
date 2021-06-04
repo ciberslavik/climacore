@@ -10,3 +10,15 @@
 /home/ciber/ClimaProject/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.csproj.CopyComplete
 /home/ciber/ClimaProject/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.dll
 /home/ciber/ClimaProject/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.pdb
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/bin/Debug/netcoreapp3.1/Clima.GrpcServer.deps.json
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/bin/Debug/netcoreapp3.1/Clima.GrpcServer.dll
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/bin/Debug/netcoreapp3.1/Clima.GrpcServer.pdb
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/bin/Debug/netcoreapp3.1/Clima.Services.dll
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/bin/Debug/netcoreapp3.1/Clima.Services.pdb
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.csprojAssemblyReference.cache
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.AssemblyInfoInputs.cache
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.AssemblyInfo.cs
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.csproj.CoreCompileInputs.cache
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.csproj.CopyComplete
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.dll
+/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/obj/Debug/netcoreapp3.1/Clima.GrpcServer.pdb

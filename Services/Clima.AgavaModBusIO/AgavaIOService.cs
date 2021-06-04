@@ -1,12 +1,19 @@
 using System.Collections.Generic;
 using System;
 using Clima.Services.IO;
+using Clima.AgavaModBusIO.Model;
+
 namespace Clima.AgavaModBusIO
 {
-    public class AgavaIOService:IIOSystem
+    public class AgavaIOService:IIOService
     {
-        Dictionary<string, DiscreteInput> _dInputs;
+        Dictionary<int, AgavaIOModule> _modules;
         Dictionary<string, DiscreteOutput> _dOutputs;
+
+        public IList<DiscreteInput> DiscreteInputs => throw new NotImplementedException();
+
+        public IList<DiscreteOutput> DiscreteOutputs => throw new NotImplementedException();
+
         public void Init()
         {
 
@@ -19,17 +26,6 @@ namespace Clima.AgavaModBusIO
         {
 
         }
-        public IList<DiscreteInput> DiscreteInputs
-        {
-            get
-            {
-                return new List<DiscreteInput>(_dInputs.Values);
-            }
-        }
-        public IList<DiscreteOutput> DiscreteOutputs
-        {
-            get
-            {return new List<DiscreteOutput>(_dOutputs.Values);}
-        }
+        
     }
 }

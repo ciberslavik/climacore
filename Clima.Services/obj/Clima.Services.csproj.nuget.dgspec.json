@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {}
+    "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj": {}
   },
   "projects": {
-    "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {
+    "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj",
+        "projectUniqueName": "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj",
         "projectName": "Clima.Services",
-        "projectPath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj",
-        "packagesPath": "/home/ciber/.nuget/packages/",
-        "outputPath": "/home/ciber/ClimaProject/Clima.Services/obj/",
+        "projectPath": "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj",
+        "packagesPath": "/home/cibers/.nuget/packages/",
+        "outputPath": "/home/cibers/ClimaProject/climacore/Clima.Services/obj/",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/home/ciber/.nuget/NuGet/NuGet.Config"
+          "/home/cibers/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"

@@ -30,3 +30,9 @@
 /home/ciber/ClimaProject/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.genruntimeconfig.cache
 /home/ciber/ClimaProject/ClimaD/bin/Debug/netcoreapp3.1/Clima.AgavaModBusIO.dll
 /home/ciber/ClimaProject/ClimaD/bin/Debug/netcoreapp3.1/Clima.AgavaModBusIO.pdb
+/home/cibers/ClimaProject/climacore/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.csprojAssemblyReference.cache
+/home/cibers/ClimaProject/climacore/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.AssemblyInfoInputs.cache
+/home/cibers/ClimaProject/climacore/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.AssemblyInfo.cs
+/home/cibers/ClimaProject/climacore/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.csproj.CoreCompileInputs.cache
+/home/cibers/ClimaProject/climacore/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.dll
+/home/cibers/ClimaProject/climacore/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.pdb

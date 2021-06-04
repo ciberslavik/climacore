@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj": {}
+    "/home/cibers/ClimaProject/climacore/TestGrpcClient/TestGrpcClient.csproj": {}
   },
   "projects": {
-    "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj": {
+    "/home/cibers/ClimaProject/climacore/TestGrpcClient/TestGrpcClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj",
+        "projectUniqueName": "/home/cibers/ClimaProject/climacore/TestGrpcClient/TestGrpcClient.csproj",
         "projectName": "TestGrpcClient",
-        "projectPath": "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj",
-        "packagesPath": "/home/ciber/.nuget/packages/",
-        "outputPath": "/home/ciber/ClimaProject/TestGrpcClient/obj/",
+        "projectPath": "/home/cibers/ClimaProject/climacore/TestGrpcClient/TestGrpcClient.csproj",
+        "packagesPath": "/home/cibers/.nuget/packages/",
+        "outputPath": "/home/cibers/ClimaProject/climacore/TestGrpcClient/obj/",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/home/ciber/.nuget/NuGet/NuGet.Config"
+          "/home/cibers/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"

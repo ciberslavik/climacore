@@ -7,5 +7,9 @@
     <ProjectReference Include="..\..\Clima.Services\Clima.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NModbus" Version="3.0.62" />
+  </ItemGroup>
+
   
 </Project>

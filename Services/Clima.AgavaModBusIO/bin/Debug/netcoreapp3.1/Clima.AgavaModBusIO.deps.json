@@ -8,10 +8,19 @@
     ".NETCoreApp,Version=v3.1": {
       "Clima.AgavaModBusIO/1.0.0": {
         "dependencies": {
-          "Clima.Services": "1.0.0"
+          "Clima.Services": "1.0.0",
+          "NModbus": "3.0.62"
         },
         "runtime": {
           "Clima.AgavaModBusIO.dll": {}
+        }
+      },
+      "NModbus/3.0.62": {
+        "runtime": {
+          "lib/netstandard2.0/NModbus.dll": {
+            "assemblyVersion": "3.0.62.0",
+            "fileVersion": "3.0.62.0"
+          }
         }
       },
       "Clima.Services/1.0.0": {
@@ -26,6 +35,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "NModbus/3.0.62": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NE2DxRMMuLudN7cl39swpXwLzsfOIH3JGIdoCrcGSk8Ppj8MzZjPD/goP8ldF85ILo4WtB9dRbaN7hMOHWp9DQ==",
+      "path": "nmodbus/3.0.62",
+      "hashPath": "nmodbus.3.0.62.nupkg.sha512"
     },
     "Clima.Services/1.0.0": {
       "type": "project",

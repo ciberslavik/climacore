@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "NModbus/3.0.62": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/NModbus.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/NModbus.dll": {}
+        }
+      },
       "Clima.Services/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -15,6 +24,25 @@
     }
   },
   "libraries": {
+    "NModbus/3.0.62": {
+      "sha512": "NE2DxRMMuLudN7cl39swpXwLzsfOIH3JGIdoCrcGSk8Ppj8MzZjPD/goP8ldF85ILo4WtB9dRbaN7hMOHWp9DQ==",
+      "type": "package",
+      "path": "nmodbus/3.0.62",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/NModbus.dll",
+        "lib/net45/NModbus.xml",
+        "lib/net46/NModbus.dll",
+        "lib/net46/NModbus.xml",
+        "lib/netstandard1.3/NModbus.dll",
+        "lib/netstandard1.3/NModbus.xml",
+        "lib/netstandard2.0/NModbus.dll",
+        "lib/netstandard2.0/NModbus.xml",
+        "nmodbus.3.0.62.nupkg.sha512",
+        "nmodbus.nuspec"
+      ]
+    },
     "Clima.Services/1.0.0": {
       "type": "project",
       "path": "../../Clima.Services/Clima.Services.csproj",
@@ -23,23 +51,28 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Clima.Services >= 1.0.0"
+      "Clima.Services >= 1.0.0",
+      "NModbus >= 3.0.62"
     ]
   },
   "packageFolders": {
-    "/home/ciber/.nuget/packages/": {}
+    "/home/cibers/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj",
+      "projectUniqueName": "/home/cibers/ClimaProject/climacore/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj",
       "projectName": "Clima.AgavaModBusIO",
-      "projectPath": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj",
-      "packagesPath": "/home/ciber/.nuget/packages/",
-      "outputPath": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/",
+      "projectPath": "/home/cibers/ClimaProject/climacore/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj",
+      "packagesPath": "/home/cibers/.nuget/packages/",
+      "outputPath": "/home/cibers/ClimaProject/climacore/Services/Clima.AgavaModBusIO/obj/",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "/home/ciber/.nuget/NuGet/NuGet.Config"
+        "/home/cibers/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -50,8 +83,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {
-              "projectPath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj"
+            "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj": {
+              "projectPath": "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj"
             }
           }
         }
@@ -64,6 +97,12 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "dependencies": {
+          "NModbus": {
+            "target": "Package",
+            "version": "[3.0.62, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

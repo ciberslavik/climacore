@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Clima.Services.IO
 {
-    public interface IIOSystem
+    public interface IIOService
     {
         void Init();
         void Start();
