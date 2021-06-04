@@ -99,3 +99,5 @@
 /home/cibers/ClimaProject/climacore/AgavaIOService.Tests/obj/Debug/netcoreapp3.1/AgavaIOService.Tests.dll
 /home/cibers/ClimaProject/climacore/AgavaIOService.Tests/obj/Debug/netcoreapp3.1/AgavaIOService.Tests.pdb
 /home/cibers/ClimaProject/climacore/AgavaIOService.Tests/obj/Debug/netcoreapp3.1/AgavaIOService.Tests.genruntimeconfig.cache
+/home/ciber/ClimaProject/Tests/AgavaIOService.Tests/obj/Debug/netcoreapp3.1/AgavaIOService.Tests.dll
+/home/ciber/ClimaProject/Tests/AgavaIOService.Tests/obj/Debug/netcoreapp3.1/AgavaIOService.Tests.pdb

@@ -36,3 +36,4 @@
 /home/cibers/ClimaProject/climacore/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.csproj.CoreCompileInputs.cache
 /home/cibers/ClimaProject/climacore/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.dll
 /home/cibers/ClimaProject/climacore/ClimaD/obj/Debug/netcoreapp3.1/ClimaD.pdb
+/home/ciber/ClimaProject/ClimaD/bin/Debug/netcoreapp3.1/NModbus.dll

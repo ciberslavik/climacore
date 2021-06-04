@@ -11,7 +11,7 @@ namespace ClimaD.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IIOService>().ImplementedBy<AgavaIOService>().LifestyleSingleton());
+            container.Register(Component.For<IIOService>().ImplementedBy<AgavaIoService>().LifestyleSingleton());
         }
     }
 }
