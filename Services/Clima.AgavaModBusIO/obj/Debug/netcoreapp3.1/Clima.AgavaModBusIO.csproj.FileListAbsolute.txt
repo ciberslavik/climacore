@@ -22,3 +22,15 @@
 /home/cibers/ClimaProject/climacore/Services/Clima.AgavaModBusIO/bin/Debug/netcoreapp3.1/Clima.Services.dll
 /home/cibers/ClimaProject/climacore/Services/Clima.AgavaModBusIO/bin/Debug/netcoreapp3.1/Clima.Services.pdb
 /home/cibers/ClimaProject/climacore/Services/Clima.AgavaModBusIO/obj/Debug/netcoreapp3.1/Clima.AgavaModBusIO.csproj.CopyComplete
+E:\ClimaProject\Services\Clima.AgavaModBusIO\bin\Debug\netcoreapp3.1\Clima.AgavaModBusIO.deps.json
+E:\ClimaProject\Services\Clima.AgavaModBusIO\bin\Debug\netcoreapp3.1\Clima.AgavaModBusIO.dll
+E:\ClimaProject\Services\Clima.AgavaModBusIO\bin\Debug\netcoreapp3.1\Clima.AgavaModBusIO.pdb
+E:\ClimaProject\Services\Clima.AgavaModBusIO\bin\Debug\netcoreapp3.1\Clima.Services.dll
+E:\ClimaProject\Services\Clima.AgavaModBusIO\bin\Debug\netcoreapp3.1\Clima.Services.pdb
+E:\ClimaProject\Services\Clima.AgavaModBusIO\obj\Debug\netcoreapp3.1\Clima.AgavaModBusIO.csprojAssemblyReference.cache
+E:\ClimaProject\Services\Clima.AgavaModBusIO\obj\Debug\netcoreapp3.1\Clima.AgavaModBusIO.AssemblyInfoInputs.cache
+E:\ClimaProject\Services\Clima.AgavaModBusIO\obj\Debug\netcoreapp3.1\Clima.AgavaModBusIO.AssemblyInfo.cs
+E:\ClimaProject\Services\Clima.AgavaModBusIO\obj\Debug\netcoreapp3.1\Clima.AgavaModBusIO.csproj.CoreCompileInputs.cache
+E:\ClimaProject\Services\Clima.AgavaModBusIO\obj\Debug\netcoreapp3.1\Clima.AgavaModBusIO.csproj.CopyComplete
+E:\ClimaProject\Services\Clima.AgavaModBusIO\obj\Debug\netcoreapp3.1\Clima.AgavaModBusIO.dll
+E:\ClimaProject\Services\Clima.AgavaModBusIO\obj\Debug\netcoreapp3.1\Clima.AgavaModBusIO.pdb

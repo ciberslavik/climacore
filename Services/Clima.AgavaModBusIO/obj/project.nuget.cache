@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "2hVv3NTdNmCq3gOZTLjfWrDDHy3dLk9eeT4aIM+onGQNQ0LJX33FSUZzHf2wV7XDkeQjURwQssPSQACQwPytug==",
+  "dgSpecHash": "1v1zE7Ke+exeWBUZrhqL2fHIqBTVSN6+kV6HMbX/jhNhezCQuD41T3PkEkywVIGvyUj1EO7dT4M+7p364fRY9Q==",
   "success": true,
-  "projectFilePath": "/home/cibers/ClimaProject/climacore/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj",
+  "projectFilePath": "E:\\ClimaProject\\Services\\Clima.AgavaModBusIO\\Clima.AgavaModBusIO.csproj",
   "expectedPackageFiles": [
-    "/home/cibers/.nuget/packages/nmodbus/3.0.62/nmodbus.3.0.62.nupkg.sha512"
+    "C:\\Users\\Admin\\.nuget\\packages\\nmodbus\\3.0.62\\nmodbus.3.0.62.nupkg.sha512"
   ],
   "logs": []
 }

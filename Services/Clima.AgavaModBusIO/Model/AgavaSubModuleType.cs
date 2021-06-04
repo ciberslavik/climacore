@@ -4,6 +4,7 @@ namespace Clima.AgavaModBusIO.Model
 {
     internal enum AgavaSubModuleType:byte
     {
+        None = 0x00,
         DO = 0x01,
         SYM = 0x02,
         R = 0x03,

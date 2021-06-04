@@ -1,21 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimaD", "ClimaD\ClimaD.csproj", "{3E09BD44-3FCE-4CED-B3DB-4F6327B1B8BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimaD", "ClimaD\ClimaD.csproj", "{3E09BD44-3FCE-4CED-B3DB-4F6327B1B8BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Services", "Clima.Services\Clima.Services.csproj", "{B84F8B92-D67B-4131-A377-B36A2D2F6941}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Services", "Clima.Services\Clima.Services.csproj", "{B84F8B92-D67B-4131-A377-B36A2D2F6941}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{DBDBBDB0-C46E-11EB-85D2-F5DF8E83D940}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.GrpcServer", "Services\Clima.GrpcServer\Clima.GrpcServer.csproj", "{05B3A7B5-3892-4A48-8684-835D98B02A4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.GrpcServer", "Services\Clima.GrpcServer\Clima.GrpcServer.csproj", "{05B3A7B5-3892-4A48-8684-835D98B02A4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGrpcClient", "TestGrpcClient\TestGrpcClient.csproj", "{990586AD-6F9D-404A-83BB-3CD98119DEB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGrpcClient", "TestGrpcClient\TestGrpcClient.csproj", "{990586AD-6F9D-404A-83BB-3CD98119DEB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.AgavaModBusIO", "Services\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj", "{701E6700-EA8B-4E76-A37C-FE05EB6DBD9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.AgavaModBusIO", "Services\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj", "{701E6700-EA8B-4E76-A37C-FE05EB6DBD9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core", "Clima.Core\Clima.Core.csproj", "{360D3A0C-333B-4768-93B1-3D028362D5BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Core", "Clima.Core\Clima.Core.csproj", "{360D3A0C-333B-4768-93B1-3D028362D5BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3F2B0E5D-E533-4ACA-87A3-B4C5D405EEFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTestProject1", "Tests\NUnitTestProject1\NUnitTestProject1.csproj", "{7520E4AB-4F22-45B7-B7C8-0F084FC03156}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgavaIOService.Test", "Tests\AgavaIOService.Test\AgavaIOService.Test.csproj", "{6F9E5491-C263-4D3D-BE21-8A804FEAE289}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,9 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3E09BD44-3FCE-4CED-B3DB-4F6327B1B8BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -102,9 +105,41 @@ Global
 		{360D3A0C-333B-4768-93B1-3D028362D5BC}.Release|x64.Build.0 = Release|Any CPU
 		{360D3A0C-333B-4768-93B1-3D028362D5BC}.Release|x86.ActiveCfg = Release|Any CPU
 		{360D3A0C-333B-4768-93B1-3D028362D5BC}.Release|x86.Build.0 = Release|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Debug|x64.Build.0 = Debug|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Debug|x86.Build.0 = Debug|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Release|x64.ActiveCfg = Release|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Release|x64.Build.0 = Release|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Release|x86.ActiveCfg = Release|Any CPU
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156}.Release|x86.Build.0 = Release|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Debug|x64.Build.0 = Debug|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Debug|x86.Build.0 = Debug|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Release|x64.ActiveCfg = Release|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Release|x64.Build.0 = Release|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Release|x86.ActiveCfg = Release|Any CPU
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{701E6700-EA8B-4E76-A37C-FE05EB6DBD9E} = {DBDBBDB0-C46E-11EB-85D2-F5DF8E83D940}
 		{05B3A7B5-3892-4A48-8684-835D98B02A4E} = {DBDBBDB0-C46E-11EB-85D2-F5DF8E83D940}
+		{701E6700-EA8B-4E76-A37C-FE05EB6DBD9E} = {DBDBBDB0-C46E-11EB-85D2-F5DF8E83D940}
+		{7520E4AB-4F22-45B7-B7C8-0F084FC03156} = {3F2B0E5D-E533-4ACA-87A3-B4C5D405EEFF}
+		{6F9E5491-C263-4D3D-BE21-8A804FEAE289} = {3F2B0E5D-E533-4ACA-87A3-B4C5D405EEFF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEAAC052-DCD6-4F9E-BCD3-90DD2341CBEC}
 	EndGlobalSection
 EndGlobal

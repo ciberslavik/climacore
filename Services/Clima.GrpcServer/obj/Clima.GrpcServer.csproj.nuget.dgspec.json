@@ -1,32 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/Clima.GrpcServer.csproj": {}
+    "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj": {}
   },
   "projects": {
-    "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj": {
+    "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj",
+        "projectUniqueName": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj",
         "projectName": "Clima.Services",
-        "projectPath": "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj",
-        "packagesPath": "/home/cibers/.nuget/packages/",
-        "outputPath": "/home/cibers/ClimaProject/climacore/Clima.Services/obj/",
+        "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\ClimaProject\\Clima.Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/cibers/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -38,6 +41,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",
@@ -53,36 +57,39 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.409/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/Clima.GrpcServer.csproj": {
+    "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/Clima.GrpcServer.csproj",
+        "projectUniqueName": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
         "projectName": "Clima.GrpcServer",
-        "projectPath": "/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/Clima.GrpcServer.csproj",
-        "packagesPath": "/home/cibers/.nuget/packages/",
-        "outputPath": "/home/cibers/ClimaProject/climacore/Services/Clima.GrpcServer/obj/",
+        "projectPath": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/cibers/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj": {
-                "projectPath": "/home/cibers/ClimaProject/climacore/Clima.Services/Clima.Services.csproj"
+              "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
+                "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj"
               }
             }
           }
@@ -95,6 +102,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Grpc.AspNetCore": {
               "target": "Package",
@@ -116,7 +124,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.409/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
