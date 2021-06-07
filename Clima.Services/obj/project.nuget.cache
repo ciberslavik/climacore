@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5tNK3lXOp4mkzqhVyExkRIggNT2d+EgSN2Fa0Ze7suGOBBj47SVNxZ469ItNNQtdiDELbRgG5S/DjVz9SA4gjQ==",
+  "dgSpecHash": "EvKp1/CFA/n1lAcLWiCIntaFob+ZLwBYnQ0JYDEzOxEachUZ+ugUyL3Lu6qfjQYbI7emr6yw4b5O8cFF+XyqAw==",
   "success": true,
-  "projectFilePath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj",
+  "projectFilePath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

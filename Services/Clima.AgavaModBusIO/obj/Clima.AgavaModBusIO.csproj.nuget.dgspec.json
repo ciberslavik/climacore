@@ -1,29 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj": {}
+    "E:\\ClimaProject\\Services\\Clima.AgavaModBusIO\\Clima.AgavaModBusIO.csproj": {}
   },
   "projects": {
-    "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {
+    "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj",
+        "projectUniqueName": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj",
         "projectName": "Clima.Services",
-        "projectPath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj",
-        "packagesPath": "/home/ciber/.nuget/packages/",
-        "outputPath": "/home/ciber/ClimaProject/Clima.Services/obj/",
+        "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\ClimaProject\\Clima.Services\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/home/ciber/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -35,6 +41,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",
@@ -50,33 +57,39 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.409/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj": {
+    "E:\\ClimaProject\\Services\\Clima.AgavaModBusIO\\Clima.AgavaModBusIO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj",
+        "projectUniqueName": "E:\\ClimaProject\\Services\\Clima.AgavaModBusIO\\Clima.AgavaModBusIO.csproj",
         "projectName": "Clima.AgavaModBusIO",
-        "projectPath": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj",
-        "packagesPath": "/home/ciber/.nuget/packages/",
-        "outputPath": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/obj/",
+        "projectPath": "E:\\ClimaProject\\Services\\Clima.AgavaModBusIO\\Clima.AgavaModBusIO.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\ClimaProject\\Services\\Clima.AgavaModBusIO\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/home/ciber/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {
-                "projectPath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj"
+              "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
+                "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj"
               }
             }
           }
@@ -89,6 +102,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.System.Core": {
               "target": "Package",
@@ -122,7 +136,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.409/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
