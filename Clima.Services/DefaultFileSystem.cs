@@ -34,7 +34,7 @@ namespace Clima.Services
 
         public void CreateDirectory(string path)
         {
-            throw new System.NotImplementedException();
+            Directory.CreateDirectory(path);
         }
 
         public void WriteTextFile(string filePath, string data)

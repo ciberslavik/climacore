@@ -1,6 +1,7 @@
 ﻿using System;
 using Castle.Windsor;
 using Clima.Services.Communication;
+using Clima.Services.Configuration;
 using ClimaD.Installers;
 
 namespace ClimaD
@@ -16,10 +17,20 @@ namespace ClimaD
             
             IAppServer server = _container.Resolve<IAppServer>();
             server.Start();
-            
+
+            var store = _container.Resolve<IConfigurationStorage>();
+            store.RegisterConfig<TestConfig>();
             
             Console.WriteLine("Hello World!");
             Console.ReadKey();
+        }
+    }
+
+    public class TestConfig : ConfigItemBase
+    {
+        public TestConfig()
+        {
+            
         }
     }
 }

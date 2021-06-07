@@ -35,11 +35,12 @@ namespace Clima.Services.Configuration
 
         public void RegisterConfig<ConfigT>(ConfigT instance) where ConfigT : ConfigItemBase, new()
         {
-            string fileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) 
-                              + _serializer.DataExtension;
+            string fileName = typeof(ConfigT).FullName + _serializer.DataExtension;
             if (instance != null)
             {
                 string data = _serializer.Serialize(instance);
+                string fullPath = Path.Combine(_fs.ConfigurationPath, fileName);
+                _fs.WriteTextFile(fullPath, data);
             }
         }
 
