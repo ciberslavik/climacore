@@ -41,5 +41,10 @@ namespace Clima.Services
         {
             File.WriteAllText(filePath, data, Encoding.UTF8);
         }
+
+        public string ReadTextFile(string filePath)
+        {
+            return File.ReadAllText(filePath);
+        }
     }
 }

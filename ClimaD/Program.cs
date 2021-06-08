@@ -19,7 +19,13 @@ namespace ClimaD
             server.Start();
 
             var store = _container.Resolve<IConfigurationStorage>();
-            store.RegisterConfig<TestConfig>();
+            
+            var testConf = new TestConfig();
+            testConf.Data = "Hello";
+            store.RegisterConfig(testConf);
+
+            var testConf2 = store.GetConfig<TestConfig>();
+            Console.WriteLine(testConf2.Data);
             
             Console.WriteLine("Hello World!");
             Console.ReadKey();
@@ -28,9 +34,16 @@ namespace ClimaD
 
     public class TestConfig : ConfigItemBase
     {
+        private string _data;
         public TestConfig()
         {
-            
+            Data = "";
+        }
+
+        public string Data
+        {
+            get => _data;
+            set => _data = value;
         }
     }
 }

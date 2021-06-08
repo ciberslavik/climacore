@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -8,7 +10,8 @@ namespace Clima.Services.Configuration
     {
         private readonly IConfigurationSerializer _serializer;
         private readonly IFileSystem _fs;
-
+        private Dictionary<string, ConfigItemBase> _loaded;
+        
         public DefaultConfigurationStorage(IConfigurationSerializer serializer, IFileSystem fs)
         {
             _serializer = serializer;
@@ -25,17 +28,25 @@ namespace Clima.Services.Configuration
         {
             var defConfig = new ConfigT();
 
-            RegisterConfig<ConfigT>(defConfig);
+            RegisterConfig(defConfig);
         }
 
         public void RegisterConfig<ConfigT>(string name) where ConfigT : ConfigItemBase, new()
         {
-            throw new System.NotImplementedException();
+            var defConfig = new ConfigT();
+
+            RegisterConfig(name,defConfig);
         }
 
         public void RegisterConfig<ConfigT>(ConfigT instance) where ConfigT : ConfigItemBase, new()
         {
-            string fileName = typeof(ConfigT).FullName + _serializer.DataExtension;
+            string configName = typeof(ConfigT).FullName;
+            RegisterConfig(configName, instance);
+        }
+
+        public void RegisterConfig<ConfigT>(string name, ConfigT instance) where ConfigT : ConfigItemBase, new()
+        {
+            string fileName = name + _serializer.DataExtension;
             if (instance != null)
             {
                 string data = _serializer.Serialize(instance);
@@ -44,19 +55,52 @@ namespace Clima.Services.Configuration
             }
         }
 
-        public void RegisterConfig<ConfigT>(string name, ConfigT instance) where ConfigT : ConfigItemBase, new()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public ConfigT GetConfig<ConfigT>() where ConfigT : ConfigItemBase, new()
         {
-            throw new System.NotImplementedException();
+            string configName = typeof(ConfigT).FullName;
+
+            return GetConfig<ConfigT>(configName);
         }
 
         public ConfigT GetConfig<ConfigT>(string name) where ConfigT : ConfigItemBase, new()
         {
-            throw new System.NotImplementedException();
+            string filePath = Path.Combine(_fs.ConfigurationPath, (name + _serializer.DataExtension));
+            ConfigT retVavule = null;
+            if (_fs.FileExist(filePath))
+            {
+                string data = _fs.ReadTextFile(filePath);
+                try
+                {
+                    retVavule = _serializer.Deserialize<ConfigT>(data);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+
+            return retVavule;
+        }
+
+        public bool Exist<ConfigT>() where ConfigT : ConfigItemBase, new()
+        {
+            string configName = typeof(ConfigT).FullName;
+            return Exist(configName);
+        }
+
+        public bool Exist(string name)
+        {
+            string filePath = Path.Combine(_fs.ConfigurationPath, name + _serializer.DataExtension);
+            if (_fs.FileExist(filePath))
+                return true;
+            else
+                return false;
+        }
+
+        public void Save()
+        {
+            
         }
     }
 }

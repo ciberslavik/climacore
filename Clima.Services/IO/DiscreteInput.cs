@@ -2,22 +2,17 @@ using System;
 
 namespace Clima.Services.IO
 {
+    public delegate void PinStateChangedEventHandler(PinStateChangedEventArgs args);
     public class DiscreteInput:PinBase
     {
-        public override PinType PinType
-        {
-            get
-            {
-                return PinType.Discrete;
-            }
-        }
+        public event PinStateChangedEventHandler PinStateChanged;
+        public override PinType PinType => PinType.Discrete;
 
-        public override PinDir Direction
+        public override PinDir Direction => PinDir.Input;
+
+        protected virtual void OnPinStateChanged(PinStateChangedEventArgs args)
         {
-            get
-            {
-                return PinDir.Input;
-            }
+            PinStateChanged?.Invoke(args);
         }
     }
 }

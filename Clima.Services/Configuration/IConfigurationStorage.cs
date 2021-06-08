@@ -9,6 +9,8 @@ namespace Clima.Services.Configuration
 
         ConfigT GetConfig<ConfigT>() where ConfigT : ConfigItemBase, new();
         ConfigT GetConfig<ConfigT>(string name) where ConfigT : ConfigItemBase, new();
-        
+        bool Exist<ConfigT>() where ConfigT : ConfigItemBase, new();
+        bool Exist(string name);
+        void Save();
     }
 }

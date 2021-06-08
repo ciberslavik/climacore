@@ -2,22 +2,21 @@ using System;
 
 namespace Clima.Services.IO
 {
+    public delegate void AInputEventHandler(AnalogInputEventArgs arg);
     public class AnalogInput : PinBase
     {
-        public override PinType PinType
+        protected AnalogInput()
         {
-            get
-            {
-                return PinType.Analog;
-            }
+            
         }
+        public event AInputEventHandler ValueReady;
+        public override PinType PinType => PinType.Analog;
+        public override PinDir Direction => PinDir.Input;
 
-        public override PinDir Direction
+        public IAnalogValueConverter ValueConverter { get; set; }
+        protected virtual void OnValueReady()
         {
-            get
-            {
-                return PinDir.Input;
-            }
+            ValueReady?.Invoke(new AnalogInputEventArgs());
         }
     }
 }

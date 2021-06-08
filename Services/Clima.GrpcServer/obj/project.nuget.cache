@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RgvZ+QvI4jdSO7EfAQXT5tS1GEOxJ5E8qaxE9mZGxHf8QSxyNW5h3cAU9VXyATm7zE2ZeJ7PuhaHz+Vtw8YOQg==",
+  "dgSpecHash": "nmsbwRMXjVFP8+O0x7nEg+pthtO3Mt/NfypB68lryP56AG+lVAQ/OV9yLndxcd9ykMtv6tgObmQoOBeBNUSVmg==",
   "success": true,
   "projectFilePath": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
   "expectedPackageFiles": [

@@ -9,5 +9,6 @@ namespace Clima.Services
         bool FileExist(string path);
         void CreateDirectory(string path);
         void WriteTextFile(string filePath, string data);
+        string ReadTextFile(string filePath);
     }
 }

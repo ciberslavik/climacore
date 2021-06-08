@@ -8,7 +8,7 @@ namespace Clima.Services.IO
         void Init();
         void Start();
         void Stop();
-        IList<DiscreteInput> DiscreteInputs{get;}
-        IList<DiscreteOutput> DiscreteOutputs{get;}
+        IDictionary<string, DiscreteInput> DiscreteInputs{get;}
+        IDictionary<string, DiscreteOutput> DiscreteOutputs{get;}
     }
 }
