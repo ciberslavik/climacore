@@ -4,6 +4,63 @@
     "E:\\ClimaProject\\ClimaD\\ClimaD.csproj": {}
   },
   "projects": {
+    "E:\\ClimaProject\\Clima.Core\\Clima.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\ClimaProject\\Clima.Core\\Clima.Core.csproj",
+        "projectName": "Clima.Core",
+        "projectPath": "E:\\ClimaProject\\Clima.Core\\Clima.Core.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\ClimaProject\\Clima.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -96,6 +153,9 @@
               },
               "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj": {
                 "projectPath": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj"
+              },
+              "E:\\ClimaProject\\Services\\Clima.LocalDataBase\\Clima.LocalDataBase.csproj": {
+                "projectPath": "E:\\ClimaProject\\Services\\Clima.LocalDataBase\\Clima.LocalDataBase.csproj"
               },
               "E:\\ClimaProject\\Services\\Clima.NewtonSoftJsonSerializer\\Clima.NewtonSoftJsonSerializer.csproj": {
                 "projectPath": "E:\\ClimaProject\\Services\\Clima.NewtonSoftJsonSerializer\\Clima.NewtonSoftJsonSerializer.csproj"
@@ -262,6 +322,82 @@
             "Grpc.AspNetCore": {
               "target": "Package",
               "version": "[2.27.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\ClimaProject\\Services\\Clima.LocalDataBase\\Clima.LocalDataBase.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\ClimaProject\\Services\\Clima.LocalDataBase\\Clima.LocalDataBase.csproj",
+        "projectName": "Clima.LocalDataBase",
+        "projectPath": "E:\\ClimaProject\\Services\\Clima.LocalDataBase\\Clima.LocalDataBase.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\ClimaProject\\Services\\Clima.LocalDataBase\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "netcoreapp5.0",
+            "projectReferences": {
+              "E:\\ClimaProject\\Clima.Core\\Clima.Core.csproj": {
+                "projectPath": "E:\\ClimaProject\\Clima.Core\\Clima.Core.csproj"
+              },
+              "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
+                "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "netcoreapp5.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[5.0.6, )"
             }
           },
           "imports": [

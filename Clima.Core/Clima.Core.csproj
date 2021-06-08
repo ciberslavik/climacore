@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataModel" />
+    <Folder Include="DataModel\Security" />
   </ItemGroup>
 
 </Project>

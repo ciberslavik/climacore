@@ -13,6 +13,7 @@
     <ProjectReference Include="..\Services\Clima.GrpcServer\Clima.GrpcServer.csproj" />
     <ProjectReference Include="..\Services\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj" />
     <ProjectReference Include="..\Clima.Services\Clima.Services.csproj" />
+    <ProjectReference Include="..\Services\Clima.LocalDataBase\Clima.LocalDataBase.csproj" />
     <ProjectReference Include="..\Services\Clima.NewtonSoftJsonSerializer\Clima.NewtonSoftJsonSerializer.csproj" />
   </ItemGroup>
 

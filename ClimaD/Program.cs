@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Castle.Windsor;
+using Clima.LocalDataBase.Security;
 using Clima.Services.Communication;
 using Clima.Services.Configuration;
 using ClimaD.Installers;
@@ -10,6 +12,14 @@ namespace ClimaD
     {
         static void Main(string[] args)
         {
+            SecurityProvider provider = new SecurityProvider();
+
+            provider.Users.Add(new User("Admin"));
+            provider.SaveChanges();
+            
+            var user = provider.Users.OrderBy(b => b.UserId).First();
+            Console.WriteLine($"User Name: {user.UserLogin}");
+            
             IWindsorContainer _container = new WindsorContainer();
             _container.Install(new CommunicationInstaller());
             _container.Install(new IOInstaller());
