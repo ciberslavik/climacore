@@ -25,7 +25,7 @@ namespace Clima.AgavaModBusIO.Model
             set => _pins = value;
         }
 
-        public static AgavaIoModule CreateIoModule(int address, byte[] signature)
+        public static AgavaIoModule CreateIoModule(int address, ushort[] signature)
         {
             var module = new AgavaIoModule(address);
             module._moduleAddress = address;

@@ -15,7 +15,7 @@ namespace AgavaIOService.Test
         {
             var module = AgavaIoModule.CreateIoModule(
                 1,
-                new byte[] {0x03, 0x03, 0x06, 0x03, 0x03, 0x06});
+                new ushort[] {0x03, 0x03, 0x06, 0x03, 0x03, 0x06});
             
             Assert.Pass();
         }

@@ -41,7 +41,7 @@ namespace Clima.AgavaModBusIO
             transport.WriteTimeout = config.ResponseTimeout;
             
             _master = factory.CreateMaster(transport);
-            
+            ScanBus(1, 5);
         }
         public void Start()
         {
@@ -51,6 +51,24 @@ namespace Clima.AgavaModBusIO
         {
 
         }
-        
+
+        private void ScanBus(int start, int end)
+        {
+            for (int i = start; i <= end; i++)
+            {
+                try
+                {
+                    byte addr = BitConverter.GetBytes(i)[0];
+                    ushort[] value = _master.ReadHoldingRegisters(addr, 2017, 6);
+                    AgavaIoModule module = AgavaIoModule.CreateIoModule(i, value);
+                    _modules.Add(i, module);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+        }
     }
 }

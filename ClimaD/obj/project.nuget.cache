@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rPloDQQnjrw0x8IVbnKYCBN8qlCIOwiVtlyG3ROZM7yjZFCgk3/y9Bn0rjYjf5zULpJJemTB491GattRS3Ytcw==",
+  "dgSpecHash": "DPi4LhRvf63uV5I8sxB1Nu2gh1mevhrbWZt5KwVqradX3fH5H/HC+Z/0nbyGQdmzVzYED5fuNhfJZEvlDS3y6w==",
   "success": true,
   "projectFilePath": "E:\\ClimaProject\\ClimaD\\ClimaD.csproj",
   "expectedPackageFiles": [
@@ -132,10 +132,10 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Пакет \"Microsoft.System.Core 1.0.0\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \".NETCoreApp,Version=v3.1\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "message": "Пакет \"Microsoft.System.Core 1.0.0\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \"net5.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
       "libraryId": "Microsoft.System.Core",
       "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
+        "net5.0"
       ]
     }
   ]
