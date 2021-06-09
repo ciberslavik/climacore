@@ -7,6 +7,7 @@ namespace Clima.GrpcServer
     {
         public override Task<ServerInfoReply> ServerInfo(ServerInfoRequest request, ServerCallContext context)
         {
+            
             return Task.FromResult(new ServerInfoReply
             {
                 ServerName = "ClimaProject gRPC server",
