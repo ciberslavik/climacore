@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.DataModel", "Clima.Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.TcpServer", "Services\Clima.TcpServer\Clima.TcpServer.csproj", "{8B5F9FC6-8D85-4828-ACAE-F954F9459ED0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.DataModel.TestGui", "Tests\Clima.DataModel.TestGui\Clima.DataModel.TestGui.csproj", "{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,6 +201,18 @@ Global
 		{8B5F9FC6-8D85-4828-ACAE-F954F9459ED0}.Release|x64.Build.0 = Release|Any CPU
 		{8B5F9FC6-8D85-4828-ACAE-F954F9459ED0}.Release|x86.ActiveCfg = Release|Any CPU
 		{8B5F9FC6-8D85-4828-ACAE-F954F9459ED0}.Release|x86.Build.0 = Release|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Debug|x64.Build.0 = Debug|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Debug|x86.Build.0 = Debug|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Release|x64.ActiveCfg = Release|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Release|x64.Build.0 = Release|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Release|x86.ActiveCfg = Release|Any CPU
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,6 +226,7 @@ Global
 		{88974A36-6A29-4CA5-9D08-E4C018A64ACB} = {DBDBBDB0-C46E-11EB-85D2-F5DF8E83D940}
 		{C0E9C47F-55F2-471F-A30B-83795BDCEF61} = {DBDBBDB0-C46E-11EB-85D2-F5DF8E83D940}
 		{8B5F9FC6-8D85-4828-ACAE-F954F9459ED0} = {DBDBBDB0-C46E-11EB-85D2-F5DF8E83D940}
+		{81FEEA18-B2B1-44CF-8CDD-177EE3FF1187} = {3F2B0E5D-E533-4ACA-87A3-B4C5D405EEFF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EEAAC052-DCD6-4F9E-BCD3-90DD2341CBEC}
