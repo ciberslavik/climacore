@@ -16,7 +16,7 @@ namespace Clima.TcpServer
      protected List<Task> TcpClientTasks = new List<Task>();
      protected int MaxConcurrentListeners = 3;
      protected int AwaiterTimeoutInMS = 500;
-     
+     protected bool IsRunning;
      public Server(ConnectionHandlerDelegate connectionHandler)
      {
          this.OnHandleConnection = connectionHandler ?? throw new ArgumentNullException();
@@ -30,7 +30,17 @@ namespace Clima.TcpServer
      }
      public void StartServerListening()
      {
-         
+         if (this.IsRunning)
+             return; //Already running, only one running instance allowed.
+
+         this.IsRunning = true;
+         this._listener.Start();
+         this.ExitSignal = false;
+
+         while (!this.ExitSignal)
+             this.ConnectionLooper();
+
+         this.IsRunning = false;
      }
      protected virtual void ConnectionLooper()
      {
