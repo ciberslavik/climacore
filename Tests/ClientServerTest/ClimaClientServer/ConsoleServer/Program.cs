@@ -1,5 +1,7 @@
 ﻿using System;
 using Clima.TcpServer;
+using DataContract;
+using NewtonsoftJsonSerializer;
 
 namespace ConsoleServer
 {
@@ -28,8 +30,21 @@ namespace ConsoleServer
                 Console.WriteLine(input);
             }
 
-            var BLL = new Host(OnHostMessage);
-            BLL.RunServerThread(); //Server runs in a dedicated thread seperate from mains thread
+            ServerConfig config = new ServerConfig
+            {
+                Host = "127.0.0.1",
+                Port = 8080,
+                MaxConcurentListeners = 3,
+                Timeout = 500
+            };
+            IDataSerializer serializer = new NewtonsoftSerializer();
+            var BLL = new Server(config, serializer);
+            BLL.MessageReceived += new Server.MessageReceivedHandler(message =>
+            {
+                Console.WriteLine($"Message name:{message.Name}");
+                Console.WriteLine($"    Data:{message.Data}");
+            });   
+            BLL.StartServer();//Server runs in a dedicated thread seperate from mains thread
 
             while (Console.ReadKey().Key != ConsoleKey.Escape)
             {
@@ -38,7 +53,7 @@ namespace ConsoleServer
             }
 
             Console.WriteLine("Attempting clean exit");
-            BLL.WaitForServerThreadToStop();
+            BLL.WaitStopServer();
 
             Console.WriteLine("Exiting console Main.");
         }

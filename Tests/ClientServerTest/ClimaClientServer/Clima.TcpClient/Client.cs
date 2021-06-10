@@ -1,4 +1,8 @@
-﻿namespace Clima.TcpClient
+﻿using System.IO;
+using System.Text;
+using DataContract;
+
+namespace Clima.TcpClient
 {
     using System;
     using System.Net.Sockets;
@@ -6,87 +10,64 @@
 
     public class Client
     {
-        #region Public Properties
-        private volatile bool _ExitSignal;
-        public bool ExitSignal
+        private bool _exitSignal;
+        private string _host;
+        private int _port;
+        private readonly IDataSerializer _serializer;
+
+        public delegate void ServerResponseHandler(Message message);
+
+        public event ServerResponseHandler ServerResponce;
+        
+        public Client(string host, int port, IDataSerializer serializer)
         {
-            get => this._ExitSignal;
-            set => this._ExitSignal = value;
+            _host = host;
+            _port = port;
+            _serializer = serializer;
         }
-        #endregion
 
-        #region Public Delegates
-        public delegate void ConnectionHandlerDelegate(NetworkStream connectedAutoDisposedNetStream);
-        public delegate void MessageDelegate(string message);
-        #endregion
-
-        #region Variables
-        #region Init/State
-        protected readonly int ConnectionAttemptDelayInMS; //The client delay between failed attempts to connect to the server
-        protected readonly string Host;
-        protected readonly int Port;
-        protected bool IsRunning;
-        #endregion
-
-        #region Callbacks
-        protected readonly ConnectionHandlerDelegate OnHandleConnection; //the connection handler logic will be performed by the consumer of this class
-        protected readonly MessageDelegate OnMessage;
-        #endregion
-        #endregion
-
-        #region Constructor
-        public Client(MessageDelegate onMessage, ConnectionHandlerDelegate connectionHandler, string host = "127.0.0.1", int port = 8080, int connectionAttemptDelayInMS = 2000)
+        public void SendMessage(Message message)
         {
-            this.OnMessage = onMessage ?? throw new ArgumentNullException(nameof(onMessage));
-            this.OnHandleConnection = connectionHandler ?? throw new ArgumentNullException(nameof(connectionHandler));
-            this.Host = host ?? throw new ArgumentNullException(nameof(host));
-            this.Port = port;
-            this.ConnectionAttemptDelayInMS = connectionAttemptDelayInMS;
-        }
-        #endregion
-
-        #region Public Functions
-        public virtual void Run()
-        {
-            if (this.IsRunning)
-                return; //Already running, only one running instance allowed.
-
-            this.IsRunning = true;
-            this.ExitSignal = false;
-
-            while (!this.ExitSignal)
-                this.ConnectionLooper();
-
-            this.IsRunning = false;
-        }
-        #endregion
-
-        #region Protected Functions
-        protected virtual void ConnectionLooper()
-        {
-            this.OnMessage.Invoke("Attemping server connection... on Thread " + Thread.CurrentThread.ManagedThreadId.ToString());
-            using (var Client = new TcpClient())
+            using (var client = new TcpClient())
             {
                 try
                 {
-                    Client.Connect(this.Host, this.Port);
+                    client.Connect(_host, _port);
                 }
-                catch(SocketException ex)
+                catch (SocketException e)
                 {
-                    this.OnMessage.Invoke(ex.Message);
-                    Thread.Sleep(this.ConnectionAttemptDelayInMS); //Server is unavailable, wait before re-trying
-                    return;
+                    Console.WriteLine(e.Message);
+                    throw;
                 }
-
-                if (!Client.Connected) //Abort if not connected
+                if(!client.Connected)
                     return;
-
-                using (var netstream = Client.GetStream()) //Auto dispose of the netstream connection
+                client.Client.SendBufferSize = 2048;
+                
+                using (NetworkStream netstream = client.GetStream())
                 {
-                    this.OnHandleConnection.Invoke(netstream);
+                    string data = _serializer.Serialize(message);
+                    var writer = new StreamWriter(netstream) {AutoFlush = true};
+                    var reader = new StreamReader(netstream);
+                    string responce = "";
+                    string clientData = _serializer.Serialize(message);
+                    try
+                    { 
+                        writer.Write(clientData+" \r\n");
+                        responce = reader.ReadToEnd();
+                        Console.WriteLine(responce);
+                    }
+                    catch (IOException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
             }
         }
-        #endregion
+
+        protected virtual void OnServerResponce(Message message)
+        {
+            ServerResponce?.Invoke(message);
+        }
     }
 }

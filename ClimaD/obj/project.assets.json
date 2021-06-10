@@ -405,21 +405,6 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.System.Core/1.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/System.Core.dll": {},
-          "lib/System.Xml.Linq.dll": {},
-          "lib/System.Xml.dll": {},
-          "lib/System.dll": {}
-        },
-        "runtime": {
-          "lib/System.Core.dll": {},
-          "lib/System.Xml.Linq.dll": {},
-          "lib/System.Xml.dll": {},
-          "lib/System.dll": {}
-        }
-      },
       "Microsoft.Win32.Primitives/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -2091,7 +2076,6 @@
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "Clima.Services": "1.0.0",
-          "Microsoft.System.Core": "1.0.0",
           "NModbus": "3.0.62",
           "NModbus.Serial": "3.0.62",
           "System.IO.Ports": "6.0.0-preview.4.21253.7"
@@ -2135,7 +2119,10 @@
         },
         "runtime": {
           "bin/placeholder/Clima.GrpcServer.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Clima.LocalDataBase/1.0.0": {
         "type": "project",
@@ -2787,21 +2774,6 @@
         "runtime.json"
       ]
     },
-    "Microsoft.System.Core/1.0.0": {
-      "sha512": "mHfcRTipieXM5TckHJAlSHiJPoOlEOxZmk6dCSHTRstwfmKWm7gWQzuFOJnFWzGljihkIjsLwzCsiI1MVl+/Cw==",
-      "type": "package",
-      "path": "microsoft.system.core/1.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/System.Core.dll",
-        "lib/System.Xml.Linq.dll",
-        "lib/System.Xml.dll",
-        "lib/System.dll",
-        "microsoft.system.core.1.0.0.nupkg.sha512",
-        "microsoft.system.core.nuspec"
-      ]
-    },
     "Microsoft.Win32.Primitives/4.3.0": {
       "sha512": "9ZQKCWxH7Ijp9BfahvL2Zyf1cJIk8XYLF6Yjzr2yi0b2cOut/HQ31qf1ThHAgCc3WiZMdnWcfJCgN82/0UunxA==",
       "type": "package",
@@ -2991,11 +2963,12 @@
       ]
     },
     "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "sha512": "LdIvj7Bi2jiaNTqY/ezZGVXHe1KI5fjLSI026O1TjVzsmdgTP/zTF+f3nwHCjwttyhsPBEiswv0PekimPWZwWg==",
+      "sha512": "c3YNH1GQJbfIPJeCnr4avseugSqPrxwIqzthYyZDN6EuOyNOzq+y2KSUfRcXauya1sF4foESTgwM5e1A8arAKw==",
       "type": "package",
       "path": "runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
@@ -3063,11 +3036,12 @@
       ]
     },
     "runtime.native.System.IO.Compression/4.3.0": {
-      "sha512": "b+V9JC/Ii3sR659flBeaBJww111425tgjcDS1k+hqV4sGh9FALRDBvJnDtQ895gAzpPTUOFDHdqaZ2Et7BpZMg==",
+      "sha512": "INBPonS5QPEgn7naufQFXJEp3zX6L4bwHgJ/ZH78aBTpeNfQMtf7C6VrAFhlq2xxWBveIOWyFzQjJ8XzHMhdOQ==",
       "type": "package",
       "path": "runtime.native.system.io.compression/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -3175,11 +3149,12 @@
       ]
     },
     "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.Apple/4.3.0": {
-      "sha512": "Kh9W4agE0r/hK8AX1LvyQI2NrKHBL8pO0gRoDTdDb0LL6Ta1Z2OtFx3lOaAE0ZpCUc/dt9Wzs3rA7a3IsKdOVA==",
+      "sha512": "kVXCuMTrTlxq4XOOMAysuNwsXWpYeboGddNGpIgNSZmv1b6r/s/DPk0fYMB7Q5Qo4bY68o48jt4T4y5BVecbCQ==",
       "type": "package",
       "path": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.apple/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.apple.4.3.0.nupkg.sha512",
@@ -3215,11 +3190,12 @@
       ]
     },
     "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-      "sha512": "JGc0pAWRE8lB4Ucygk2pYSKbUPLlAIq6Bczf5/WF2D/VKJEPtYlVUMxk8fbl1zRfTWzSHi+VcFZlaPlWiNxeKg==",
+      "sha512": "ytoewC6wGorL7KoCAvRfsgoJPJbNq+64k2SqW6JcOAebWsFUvCCYgfzQMrnpvPiEl4OrblUlhF2ji+Q1+SVLrQ==",
       "type": "package",
       "path": "runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
@@ -3600,11 +3576,12 @@
       ]
     },
     "System.Collections.Specialized/4.3.0": {
-      "sha512": "NoPBj0ykejqAWW4p4gGtrrL+3c84ZLSvGnHgq422ew1Rj4WKj1FA8/BCybqC111EtgcqUl6ZJNFYYS22HLgbjA==",
+      "sha512": "Epx8PoVZR0iuOnJJDzp7pWvdfMMOAvpUo95pC4ScH2mJuXkKA2Y4aR3cG9qt2klHgSons1WFh4kcGW7cSXvrxg==",
       "type": "package",
       "path": "system.collections.specialized/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6051,11 +6028,12 @@
       ]
     },
     "System.Runtime.Serialization.Primitives/4.3.0": {
-      "sha512": "2Z5t70a2SwMsfQDp9KOclaZNyQhfIga2gppq9lIUDM1A4ohTshn4JqT7ir8bvIhXgorWKYDAr6rPzEbi/nTGKg==",
+      "sha512": "Wz+0KOukJGAlXjtKr+5Xpuxf8+c8739RI1C+A2BoQZT+wMCCoMDDdO8/4IRHfaVINqL78GO8dW8G2lW/e45Mcw==",
       "type": "package",
       "path": "system.runtime.serialization.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6234,11 +6212,12 @@
       ]
     },
     "System.Security.Cryptography.Csp/4.3.0": {
-      "sha512": "yO2k5o+Z+DiFRBvvB9vdRRAGHi6bm02M9OWXfCqQ8K0UxD3Woc3svQheZfb7PoTEFs0kGacO0IzzMWsb6Mkeow==",
+      "sha512": "X4s/FCkEUnRGnwR3aSfVIkldBmtURMhmexALNTwpjklzxWU7yjMk7GHLKOZTNkgnWnE0q7+BCf9N2LVRWxewaA==",
       "type": "package",
       "path": "system.security.cryptography.csp/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6306,11 +6285,12 @@
       ]
     },
     "System.Security.Cryptography.OpenSsl/4.3.0": {
-      "sha512": "vOYy7Jv9KsG3ld2hLt0GoERd82SZi4BelrbXLwI9yFBYX7kpbvUCWYo4eyevk47cuJXZ9ZLVAryANcc7iY71aA==",
+      "sha512": "h4CEgOgv5PKVF/HwaHzJRiVboL2THYCou97zpmhjghx5frc7fIvlkY1jL+lnIQyChrJDMNEXS6r7byGif8Cy4w==",
       "type": "package",
       "path": "system.security.cryptography.openssl/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.6/System.Security.Cryptography.OpenSsl.dll",
@@ -7160,53 +7140,47 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/home/ciber/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ClimaProject\\ClimaD\\ClimaD.csproj",
+      "projectUniqueName": "/home/ciber/ClimaProject/ClimaD/ClimaD.csproj",
       "projectName": "ClimaD",
-      "projectPath": "E:\\ClimaProject\\ClimaD\\ClimaD.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "E:\\ClimaProject\\ClimaD\\obj\\",
+      "projectPath": "/home/ciber/ClimaProject/ClimaD/ClimaD.csproj",
+      "packagesPath": "/home/ciber/.nuget/packages/",
+      "outputPath": "/home/ciber/ClimaProject/ClimaD/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/ciber/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "netcoreapp5.0"
+        "net5.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
-          "targetAlias": "netcoreapp5.0",
+          "targetAlias": "net5.0",
           "projectReferences": {
-            "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
-              "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj"
+            "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj": {
+              "projectPath": "/home/ciber/ClimaProject/Clima.Services/Clima.Services.csproj"
             },
-            "E:\\ClimaProject\\Services\\Clima.AgavaModBusIO\\Clima.AgavaModBusIO.csproj": {
-              "projectPath": "E:\\ClimaProject\\Services\\Clima.AgavaModBusIO\\Clima.AgavaModBusIO.csproj"
+            "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj": {
+              "projectPath": "/home/ciber/ClimaProject/Services/Clima.AgavaModBusIO/Clima.AgavaModBusIO.csproj"
             },
-            "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj": {
-              "projectPath": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj"
+            "/home/ciber/ClimaProject/Services/Clima.GrpcServer/Clima.GrpcServer.csproj": {
+              "projectPath": "/home/ciber/ClimaProject/Services/Clima.GrpcServer/Clima.GrpcServer.csproj"
             },
-            "E:\\ClimaProject\\Services\\Clima.LocalDataBase\\Clima.LocalDataBase.csproj": {
-              "projectPath": "E:\\ClimaProject\\Services\\Clima.LocalDataBase\\Clima.LocalDataBase.csproj"
+            "/home/ciber/ClimaProject/Services/Clima.LocalDataBase/Clima.LocalDataBase.csproj": {
+              "projectPath": "/home/ciber/ClimaProject/Services/Clima.LocalDataBase/Clima.LocalDataBase.csproj"
             },
-            "E:\\ClimaProject\\Services\\Clima.NewtonSoftJsonSerializer\\Clima.NewtonSoftJsonSerializer.csproj": {
-              "projectPath": "E:\\ClimaProject\\Services\\Clima.NewtonSoftJsonSerializer\\Clima.NewtonSoftJsonSerializer.csproj"
+            "/home/ciber/ClimaProject/Services/Clima.NewtonSoftJsonSerializer/Clima.NewtonSoftJsonSerializer.csproj": {
+              "projectPath": "/home/ciber/ClimaProject/Services/Clima.NewtonSoftJsonSerializer/Clima.NewtonSoftJsonSerializer.csproj"
             },
-            "E:\\ClimaProject\\Services\\Clima.TcpServer\\Clima.TcpServer.csproj": {
-              "projectPath": "E:\\ClimaProject\\Services\\Clima.TcpServer\\Clima.TcpServer.csproj"
+            "/home/ciber/ClimaProject/Services/Clima.TcpServer/Clima.TcpServer.csproj": {
+              "projectPath": "/home/ciber/ClimaProject/Services/Clima.TcpServer/Clima.TcpServer.csproj"
             }
           }
         }
@@ -7219,7 +7193,7 @@
     },
     "frameworks": {
       "net5.0": {
-        "targetAlias": "netcoreapp5.0",
+        "targetAlias": "net5.0",
         "dependencies": {
           "Castle.Windsor": {
             "target": "Package",
@@ -7237,24 +7211,15 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.300/RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Пакет \"Microsoft.System.Core 1.0.0\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \"net5.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
-      "libraryId": "Microsoft.System.Core",
-      "targetGraphs": [
-        "net5.0"
-      ]
-    }
-  ]
+  }
 }
