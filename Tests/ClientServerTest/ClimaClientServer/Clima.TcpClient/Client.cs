@@ -1,4 +1,7 @@
 ﻿using System.IO;
+using System.Net.Security;
+using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using DataContract;
 
@@ -41,30 +44,48 @@ namespace Clima.TcpClient
                 }
                 if(!client.Connected)
                     return;
-                client.Client.SendBufferSize = 2048;
+                NetworkStream s = client.GetStream();
+                    
                 
-                using (NetworkStream netstream = client.GetStream())
-                {
-                    string data = _serializer.Serialize(message);
-                    var writer = new StreamWriter(netstream) {AutoFlush = true};
-                    var reader = new StreamReader(netstream);
-                    string responce = "";
-                    string clientData = _serializer.Serialize(message);
-                    try
-                    { 
-                        writer.Write(clientData+" \r\n");
-                        responce = reader.ReadToEnd();
-                        Console.WriteLine(responce);
-                    }
-                    catch (IOException e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
-                    }
-                }
+                // Encode a test message into a byte array.
+                // Signal the end of the message using the "<EOF>".
+                byte[] messsage = Encoding.UTF8.GetBytes("Hello from the client.<EOF>");
+                // Send hello message to the server.
+                s.Write(messsage);
+                s.Flush();
+                // Read message from the server.
+                string serverMessage = ReadMessage(s);
+                Console.WriteLine("Server says: {0}", serverMessage);
+                // Close the client connection.
+                client.Close();
+                Console.WriteLine("Client closed.");
             }
         }
+        private string ReadMessage(Stream sslStream)
+        {
+            byte [] buffer = new byte[2048];
+            StringBuilder messageData = new StringBuilder();
+            int bytes = -1;
+            do
+            {
+                bytes = sslStream.Read(buffer, 0, buffer.Length);
 
+                // Use Decoder class to convert from bytes to UTF8
+                // in case a character spans two buffers.
+                Decoder decoder = Encoding.UTF8.GetDecoder();
+                char[] chars = new char[decoder.GetCharCount(buffer,0,bytes)];
+                decoder.GetChars(buffer, 0, bytes, chars,0);
+                messageData.Append (chars);
+                // Check for EOF or an empty message.
+                if (messageData.ToString().IndexOf("<EOF>") != -1)
+                {
+                    break;
+                }
+            } while (bytes !=0);
+            
+            return messageData.ToString();
+        }
+        
         protected virtual void OnServerResponce(Message message)
         {
             ServerResponce?.Invoke(message);

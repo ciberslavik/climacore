@@ -6,5 +6,6 @@ namespace Clima.TcpServer
         public int Port { get; set; }
         public int MaxConcurentListeners { get; set; }
         public int Timeout { get; set; }
+        public string CertFile { get; set; }
     }
 }

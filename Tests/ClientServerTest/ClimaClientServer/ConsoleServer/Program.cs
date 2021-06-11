@@ -35,7 +35,8 @@ namespace ConsoleServer
                 Host = "127.0.0.1",
                 Port = 8080,
                 MaxConcurentListeners = 3,
-                Timeout = 500
+                Timeout = 500,
+                CertFile = @"e:\ClimaProject\Tests\ClientServerTest\ClimaClientServer\Local.crt"
             };
             IDataSerializer serializer = new NewtonsoftSerializer();
             var BLL = new Server(config, serializer);
