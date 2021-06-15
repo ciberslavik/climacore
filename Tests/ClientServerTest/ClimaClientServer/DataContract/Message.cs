@@ -6,11 +6,12 @@ namespace DataContract
         private string _data;
         private int _dataLen;
 
-        public Message()
+        public Message(string name = "", string data = "")
         {
-            Name = "";
-            Data = "";
+            Name = name;
+            Data = data;
         }
+
         public string Name
         {
             get => _name;

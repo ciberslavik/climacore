@@ -13,7 +13,7 @@ namespace NewtonsoftJsonSerializer
             Settings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameHandling = TypeNameHandling.None,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 //ContractResolver = new ProjectContractResolver(),
@@ -40,12 +40,16 @@ namespace NewtonsoftJsonSerializer
             }
             catch (JsonSerializationException e)
             {
-                throw new SerializerDataNotSupportException();
+                throw new SerializerDataNotSupportException(e);
             }  
         }
     }
 
     public class SerializerDataNotSupportException : Exception
     {
+        public SerializerDataNotSupportException(Exception ex = null):base(ex.Message)
+        {
+            
+        }
     }
 }

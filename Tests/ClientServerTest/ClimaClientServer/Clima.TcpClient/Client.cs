@@ -46,10 +46,13 @@ namespace Clima.TcpClient
                     return;
                 NetworkStream s = client.GetStream();
                     
+                var request = new NetworkRequest();
+                request.Data = Encoding.UTF8.GetBytes("Hello client request");
                 
+                string msgStr = _serializer.Serialize(request);
                 // Encode a test message into a byte array.
                 // Signal the end of the message using the "<EOF>".
-                byte[] messsage = Encoding.UTF8.GetBytes("Hello from the client.<EOF>");
+                byte[] messsage = Encoding.UTF8.GetBytes(msgStr + "<EOF>");
                 // Send hello message to the server.
                 s.Write(messsage);
                 s.Flush();
