@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DataContract;
+using DataContract.NetworkModel;
 
 namespace Clima.TcpServer
 {
@@ -163,9 +164,9 @@ namespace Clima.TcpServer
         private NetworkReply ClientMessageReceived(NetworkRequest request)
         {
             NetworkReply reply = new NetworkReply();
-            string data = Encoding.UTF8.GetString(request.Data);
+            string data = request.Data;
             Console.WriteLine($"Request:{request.RequestType}\n Data:{data}");
-
+            reply.Data = "Hello C# Server reply";
             return reply;
         }
 

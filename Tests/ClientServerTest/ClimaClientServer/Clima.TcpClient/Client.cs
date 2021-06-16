@@ -4,6 +4,7 @@ using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using DataContract;
+using DataContract.NetworkModel;
 
 namespace Clima.TcpClient
 {
@@ -47,7 +48,7 @@ namespace Clima.TcpClient
                 NetworkStream s = client.GetStream();
                     
                 var request = new NetworkRequest();
-                request.Data = Encoding.UTF8.GetBytes("Hello client request");
+                request.Data = "Hello client request";
                 
                 string msgStr = _serializer.Serialize(request);
                 // Encode a test message into a byte array.

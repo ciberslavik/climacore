@@ -1,0 +1,10 @@
+version = 1
+
+namespace = "DataContract"
+
+message ServerInfoRequest
+{
+    int32 VersionMinor;
+    int32 VersionMajor;
+    string ServerName;
+}
