@@ -1,5 +1,5 @@
 ﻿using System;
-using Clima.TcpServer;
+using Clima.TcpServer.CoreServer;
 using DataContract;
 using NewtonsoftJsonSerializer;
 
@@ -30,7 +30,7 @@ namespace ConsoleServer
                 Console.WriteLine(input);
             }
 
-            ServerConfig config = new ServerConfig
+            /*ServerConfig config = new ServerConfig
             {
                 Host = "127.0.0.1",
                 Port = 8080,
@@ -38,13 +38,14 @@ namespace ConsoleServer
                 Timeout = 500,
                 CertFile = @"e:\ClimaProject\Tests\ClientServerTest\ClimaClientServer\Local.crt"
             };
-            IDataSerializer serializer = new NewtonsoftSerializer();
-            var BLL = new Server(config, serializer);
-            BLL.MessageReceived += new Server.MessageReceivedHandler(message =>
+            IDataSerializer serializer = new NewtonsoftSerializer();*/
+            var BLL = new Server("127.0.0.1", 8080);
+            
+            /*BLL.MessageReceived += new Server.MessageReceivedHandler(message =>
             {
                 Console.WriteLine($"Message name:{message.Name}");
                 Console.WriteLine($"    Data:{message.Data}");
-            });   
+            });   */
             BLL.StartServer();//Server runs in a dedicated thread seperate from mains thread
 
             while (Console.ReadKey().Key != ConsoleKey.Escape)
