@@ -5,7 +5,7 @@ namespace Clima.Services.IO
     public delegate void AInputEventHandler(AnalogInputEventArgs arg);
     public class AnalogInput : PinBase
     {
-        protected AnalogInput()
+        public AnalogInput()
         {
             
         }

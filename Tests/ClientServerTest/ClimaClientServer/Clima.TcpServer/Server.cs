@@ -26,14 +26,18 @@ namespace Clima.TcpServer
 
         // Client socket.
         public Socket workSocket = null;
-    }  
-    
+    }
+
     public class Server
     {
         private ServerConfig _config;
         private readonly IDataSerializer _serializer;
         private List<ClientWorker> _workers;
-        
+        private List<Task> _clientTasks = new List<Task>();
+        private TcpListener _listener;
+        private Thread _listenThread;
+        private bool _isRunning;
+        private bool _exitSignal;
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
         public delegate void MessageReceivedHandler(Message message);
@@ -44,61 +48,67 @@ namespace Clima.TcpServer
         {
             _config = config;
             _serializer = serializer;
+            _listener = new TcpListener(IPAddress.Parse(_config.Host), _config.Port);
+            _listenThread = new Thread(Run);
+            
             _workers = new List<ClientWorker>();
+            _isRunning = false;
         }
 
         public void StartServer()
         {
-            //_listenerThread.Start();
+            _listenThread.Start();
             // Establish the local endpoint for the socket.  
             // The DNS name of the computer  
             // running the listener is "host.contoso.com".  
-            IPAddress ipAddress = IPAddress.Parse(_config.Host);  
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, _config.Port);  
-  
+            /*IPAddress ipAddress = IPAddress.Parse(_config.Host);
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, _config.Port);
+
             // Create a TCP/IP socket.  
-            Socket listener = new Socket(ipAddress.AddressFamily,  
-                SocketType.Stream, ProtocolType.Tcp );  
-  
+            Socket listener = new Socket(ipAddress.AddressFamily,
+                SocketType.Stream, ProtocolType.Tcp);
+
             // Bind the socket to the local endpoint and listen for incoming connections.  
-            try {  
-                listener.Bind(localEndPoint);  
-                listener.Listen(100);  
-  
-                while (true) {  
+            try
+            {
+                listener.Bind(localEndPoint);
+                listener.Listen(100);
+
+                while (true)
+                {
                     // Set the event to nonsignaled state.  
-                    allDone.Reset();  
-  
+                    allDone.Reset();
+
                     // Start an asynchronous socket to listen for connections.  
-                    Console.WriteLine("Waiting for a connection...");  
+                    Console.WriteLine("Waiting for a connection...");
                     listener.BeginAccept(
-                        new AsyncCallback(AcceptCallback),  
-                        listener );  
-  
+                        new AsyncCallback(AcceptCallback),
+                        listener);
+
                     // Wait until a connection is made before continuing.  
-                    allDone.WaitOne();  
-                }  
-  
-            } catch (Exception e) {  
-                Console.WriteLine(e.ToString());  
-            }  
-  
-            Console.WriteLine("\nPress ENTER to continue...");  
-            Console.Read();  
+                    allDone.WaitOne();
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            */
         }
 
         public void WaitStopServer()
         {
-            //_exitSignal = true;
+            _exitSignal = true;
             Console.WriteLine("Exit Signal sent to server thread");
             Console.WriteLine("Join server thread");
-            //_listenerThread.Join();
+            _listenThread.Join();
             Console.WriteLine("Server thread has stopped");
         }
 
         protected virtual void Run()
         {
-            /*Console.WriteLine($"Server started thread id:{Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine($"Server started thread id:{Thread.CurrentThread.ManagedThreadId}");
 
             if (_isRunning)
                 return;
@@ -109,12 +119,12 @@ namespace Clima.TcpServer
             while (!_exitSignal)
                 ConnectionLooper();
 
-            _isRunning = false;*/
+            _isRunning = false;
         }
 
         protected virtual void ConnectionLooper()
         {
-            /*while (_clientTasks.Count < _config.MaxConcurentListeners)
+            while (_clientTasks.Count < _config.MaxConcurentListeners)
             {
                 var AwaiterTask = Task.Run(async () =>
                 {
@@ -126,10 +136,10 @@ namespace Clima.TcpServer
 
             int removaAtIndex = Task.WaitAny(_clientTasks.ToArray(), _config.Timeout);
             if (removaAtIndex > 0)
-                _clientTasks.RemoveAt(removaAtIndex);*/
+                _clientTasks.RemoveAt(removaAtIndex);
         }
 
-        /*protected virtual void ProcessConnectionFromClient(TcpClient Connection)
+        protected virtual void ProcessConnectionFromClient(TcpClient Connection)
         {
             Console.WriteLine("Connection established on Thread " + Thread.CurrentThread.ManagedThreadId);
 
@@ -137,25 +147,26 @@ namespace Clima.TcpServer
                 return;
 
             Console.WriteLine($"From host:{Connection.Client.RemoteEndPoint}");
-            _workers.Add(new ClientWorker(Connection));
-
+            var worker = new ClientWorker(Connection.Client, _serializer);
+            worker.MessageReceived += ClientMessageReceived;
+            _workers.Add(worker);
+            worker.Process();
         }
-        */
         protected virtual void OnMessageReceived(Message message)
         {
             MessageReceived?.Invoke(message);
         }
-        
+
         private void AcceptCallback(IAsyncResult ar)
         {
             // Signal the main thread to continue.  
-            allDone.Set();  
-  
+            allDone.Set();
+
             // Get the socket that handles the client request.  
-            Socket listener = (Socket) ar.AsyncState;  
-            Socket handler = listener.EndAccept(ar);  
-  
-            var worker = new ClientWorker(handler,_serializer);
+            Socket listener = (Socket) ar.AsyncState;
+            Socket handler = listener.EndAccept(ar);
+
+            var worker = new ClientWorker(handler, _serializer);
             worker.MessageReceived += ClientMessageReceived;
             worker.Process();
             _workers.Add(worker);
@@ -169,12 +180,5 @@ namespace Clima.TcpServer
             reply.Data = "Hello C# Server reply";
             return reply;
         }
-
-        private void Send(Socket handler, String data)
-        {
-              
-        }
-
-       
     }
 }

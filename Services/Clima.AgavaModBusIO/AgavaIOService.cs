@@ -17,16 +17,24 @@ namespace Clima.AgavaModBusIO
         private Dictionary<int, AgavaIoModule> _modules;
         private SerialPort _port;
         private IModbusSerialMaster _master;
-
+        private Dictionary<string, AnalogOutput> _analogOutputs;
+        private Dictionary<string, AnalogInput> _analogInputs;
+        private Dictionary<string, DiscreteInput> _discreteInputs;
+        private Dictionary<string, DiscreteOutput> _discreteOutputs;
         public AgavaIoService(IConfigurationStorage configStorage)
         {
             _configStorage = configStorage;
             _modules = new Dictionary<int, AgavaIoModule>();
         }
 
-        public IDictionary<string, DiscreteInput> DiscreteInputs => throw new NotImplementedException();
+        public bool IsRunning { get; private set; }
+        public IDictionary<string, DiscreteInput> DiscreteInputs => _discreteInputs;
 
-        public IDictionary<string, DiscreteOutput> DiscreteOutputs => throw new NotImplementedException();
+        public IDictionary<string, DiscreteOutput> DiscreteOutputs => _discreteOutputs;
+
+        public IDictionary<string, AnalogOutput> AnalogOutputs => _analogOutputs;
+
+        public IDictionary<string, AnalogInput> AnalogInputs => _analogInputs;
 
         public void Init()
         {
@@ -42,6 +50,9 @@ namespace Clima.AgavaModBusIO
             
             _master = factory.CreateMaster(transport);
             ScanBus(1, 5);
+
+
+            IsInit = true;
         }
         public void Start()
         {
@@ -51,6 +62,8 @@ namespace Clima.AgavaModBusIO
         {
 
         }
+
+        public bool IsInit { get; private set; }
 
         private void ScanBus(int start, int end)
         {

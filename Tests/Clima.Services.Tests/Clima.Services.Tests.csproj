@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>netcoreapp5.0</TargetFramework>
 
         <IsPackable>false</IsPackable>
     </PropertyGroup>
@@ -15,6 +15,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Clima.Services\Clima.Services.csproj" />
+      <ProjectReference Include="..\..\Services\Clima.NewtonSoftJsonSerializer\Clima.NewtonSoftJsonSerializer.csproj" />
+      <ProjectReference Include="..\FakeIOService\FakeIOService.csproj" />
     </ItemGroup>
 
 </Project>

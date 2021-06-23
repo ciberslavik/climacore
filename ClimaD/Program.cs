@@ -18,8 +18,7 @@ namespace ClimaD
                 Console.WriteLine(input);
             }
             
-            ServerHost host = new ServerHost(OnHostMessage);
-            host.RunServerThread();
+            
             
             IWindsorContainer _container = new WindsorContainer();
             //_container.Install(new CommunicationInstaller());
@@ -40,6 +39,10 @@ namespace ClimaD
             
             Console.WriteLine("Hello World!");
             
+            
+            
+            
+            
             while (Console.ReadKey().Key != ConsoleKey.Escape)
             {
                 Console.Clear();
@@ -47,7 +50,7 @@ namespace ClimaD
             }
 
             Console.WriteLine("Attempting clean exit");
-            host.WaitForServerThreadToStop();
+            //host.WaitForServerThreadToStop();
 
             Console.WriteLine("Exiting console Main.");
             

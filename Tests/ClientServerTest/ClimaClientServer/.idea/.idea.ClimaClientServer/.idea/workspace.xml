@@ -26,19 +26,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96193865-43a5-4ca8-8987-c626c8b012f5" name="Default Changelist" comment="ссссс">
-      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Frames/FrameBase.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Frames/FrameBase.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Frames/IFrameFactory.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Services/DefaultFrameFactory.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Services/DefaultFrameFactory.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Services/FrameManager.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Services/FrameManager.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Buffer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/DataReceivedEventArgs.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Server.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Session.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ClimaClientServer/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ClimaClientServer/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ClimaClientServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ClimaClientServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ConsoleServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ConsoleServer/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Buffer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Buffer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Server.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Server.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Session.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Session.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/Server.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clima.TcpServer/Server.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,35 +43,11 @@
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Clima.TcpServer/ClientWorker.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ACE91933-3425-4F52-8699-C561E49C94CB/1F/Socket.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/91BDA0DE-9E35-45EC-9EA9-A607E81E7626/133/Thread.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/187A6DE7-99CE-4E64-88B5-B6D55E8B7D18/18E/Monitor.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ACE91933-3425-4F52-8699-C561E49C94CB/3B/SocketPal.Unix.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/ConsoleServer/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ACE91933-3425-4F52-8699-C561E49C94CB/1B/NetworkStream.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Clima.TcpClient/Client.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/91BDA0DE-9E35-45EC-9EA9-A607E81E7626/1D8/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Clima.TcpServer/ServerConfig.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Clima.TcpServer/ClientWorker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Clima.TcpServer/Server.cs" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <changedPaths>
-      <option value="$PROJECT_DIR$/Clima.TcpServer/ClientWorker.cs" />
-      <option value="$PROJECT_DIR$/DataContract/NetworkRequest.cs" />
-      <option value="$PROJECT_DIR$/Clima.TcpClient/Client.cs" />
-      <option value="$PROJECT_DIR$/CodeGenerator/Program.cs" />
-      <option value="$PROJECT_DIR$/CodeGenerator/DataModel/Message.cs" />
-      <option value="$PROJECT_DIR$/CodeGenerator/TestProtos/Test.ptocol" />
-      <option value="$PROJECT_DIR$/CodeGenerator/DataModel/ProtocolFile.cs" />
-      <option value="$PROJECT_DIR$/DataContract/NetworkModel/NetworkReply.cs" />
-      <option value="$PROJECT_DIR$/Clima.TcpServer/Server.cs" />
-      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/DataReceivedEventArgs.cs" />
-      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Buffer.cs" />
-      <option value="$PROJECT_DIR$/ConsoleServer/Program.cs" />
-      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Session.cs" />
-      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Server.cs" />
-    </changedPaths>
+    <setting file="file://$PROJECT_DIR$/ConsoleServer/Program.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1tl1UzaFlAaQIxE7K5SIGvvSn1Q" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -95,6 +64,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="do_not_show_solution_notification" value="true" />
   </component>
   <component name="RunManager" selected=".NET Project.Avalonia.NETCoreMVVMApp">
     <configuration name="Avalonia.NETCoreMVVMApp" type="DotNetProject" factoryName=".NET Project">
@@ -180,6 +150,7 @@
       <updated>1623328882759</updated>
       <workItem from="1623328888019" duration="4499000" />
       <workItem from="1623735579347" duration="12446000" />
+      <workItem from="1624425914407" duration="1260000" />
     </task>
     <task id="LOCAL-00001" summary="Finish workday and Create client server template">
       <created>1623332721903</created>
@@ -231,6 +202,12 @@
     <MESSAGE value="1111" />
     <MESSAGE value="ссссс" />
     <option name="LAST_COMMIT_MESSAGE" value="ссссс" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="500" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624427141996">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="500" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1624427141996" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

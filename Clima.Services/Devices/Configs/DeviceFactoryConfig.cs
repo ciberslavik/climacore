@@ -1,4 +1,5 @@
-﻿using Clima.Services.Configuration;
+﻿using System.Collections.Generic;
+using Clima.Services.Configuration;
 
 namespace Clima.Services.Devices.Configs
 {
@@ -7,7 +8,9 @@ namespace Clima.Services.Devices.Configs
         public DeviceFactoryConfig()
         {
             DiscreteFanConfig = new DiscreteFanConfig();
+            FcConfig = new List<FCConfig>();
         }
         public DiscreteFanConfig DiscreteFanConfig { get; set; } 
+        public List<FCConfig> FcConfig { get; set; }
     }
 }

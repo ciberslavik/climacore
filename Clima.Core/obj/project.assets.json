@@ -1,37 +1,85 @@
 {
   "version": 3,
   "targets": {
-    ".NETStandard,Version=v2.1": {}
+    ".NETStandard,Version=v2.1": {
+      "Clima.DataModel/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "compile": {
+          "bin/placeholder/Clima.DataModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Clima.DataModel.dll": {}
+        }
+      },
+      "Clima.Services/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "compile": {
+          "bin/placeholder/Clima.Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Clima.Services.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Clima.DataModel/1.0.0": {
+      "type": "project",
+      "path": "../Clima.DataModel/Clima.DataModel.csproj",
+      "msbuildProject": "../Clima.DataModel/Clima.DataModel.csproj"
+    },
+    "Clima.Services/1.0.0": {
+      "type": "project",
+      "path": "../Clima.Services/Clima.Services.csproj",
+      "msbuildProject": "../Clima.Services/Clima.Services.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETStandard,Version=v2.1": []
+    ".NETStandard,Version=v2.1": [
+      "Clima.DataModel >= 1.0.0",
+      "Clima.Services >= 1.0.0"
+    ]
   },
   "packageFolders": {
-    "/home/ciber/.nuget/packages/": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ciber/ClimaProject/Clima.Core/Clima.Core.csproj",
+      "projectUniqueName": "E:\\ClimaProject\\Clima.Core\\Clima.Core.csproj",
       "projectName": "Clima.Core",
-      "projectPath": "/home/ciber/ClimaProject/Clima.Core/Clima.Core.csproj",
-      "packagesPath": "/home/ciber/.nuget/packages/",
-      "outputPath": "/home/ciber/ClimaProject/Clima.Core/obj/",
+      "projectPath": "E:\\ClimaProject\\Clima.Core\\Clima.Core.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "E:\\ClimaProject\\Clima.Core\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "/home/ciber/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netstandard2.1": {
           "targetAlias": "netstandard2.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\ClimaProject\\Clima.DataModel\\Clima.DataModel.csproj": {
+              "projectPath": "E:\\ClimaProject\\Clima.DataModel\\Clima.DataModel.csproj"
+            },
+            "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
+              "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -58,7 +106,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.300/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

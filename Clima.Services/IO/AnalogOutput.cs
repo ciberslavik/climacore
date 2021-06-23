@@ -19,5 +19,6 @@ namespace Clima.Services.IO
                 return PinDir.Output;
             }
         }
+        public virtual double Value { get; set; }
     }
 }
