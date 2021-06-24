@@ -12,7 +12,7 @@ namespace Clima.NewtonSoftJsonSerializer
             Settings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameHandling = TypeNameHandling.None,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 //ContractResolver = new ProjectContractResolver(),

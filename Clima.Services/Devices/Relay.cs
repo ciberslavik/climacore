@@ -1,18 +1,79 @@
-﻿using Clima.Services.Devices.Configs;
+﻿using Clima.Core.Alarm;
+using Clima.Services.Devices.Configs;
+using Clima.Services.IO;
 
 namespace Clima.Services.Devices
 {
-    public class Relay:Device
+    public class Relay:Device, IAlarmNotifier
     {
         private RelayConfig _config;
-        public Relay(RelayConfig config)
+        private DiscreteOutput _enablePin;
+        private DiscreteInput _monitorPin;
+        
+        public Relay()
         {
         }
 
+        public DiscreteInput MonitorPin { get; private set; }
+        public void On()
+        {
+            if (_config.RelayEdge == ActiveEdge.Rising)
+            {
+                if (!_enablePin.State)
+                {
+                    _enablePin.State = true;
+                }
+            }
+            else if(_config.RelayEdge == ActiveEdge.Falling)
+            {
+                if (_enablePin.State)
+                {
+                    _enablePin.State = false;
+                }
+            }
+        }
+        public void Off()
+        {
+            if (_config.RelayEdge == ActiveEdge.Rising)
+            {
+                if (_enablePin.State)
+                {
+                    _enablePin.State = false;
+                }
+            }
+            else if(_config.RelayEdge == ActiveEdge.Falling)
+            {
+                if (!_enablePin.State)
+                {
+                    _enablePin.State = true;
+                }
+            }
+        }
+        public override void InitDevice(IIOService ioService, object deviceConfig)
+        {
+            if (deviceConfig is RelayConfig cfg)
+            {
+                _enablePin = ioService.DiscreteOutputs[cfg.RelayPinName];
+                _monitorPin = ioService.DiscreteInputs[cfg.MonitorPinName];
+                _monitorPin.PinStateChanged += MonitorPinOnPinStateChanged;
+                _config = cfg;
+            }
+            else
+            {
+                throw new ConfigNotSupportException(typeof(RelayConfig),deviceConfig.GetType());
+            }
+        }
 
-        public override void InitDevice()
+        private void MonitorPinOnPinStateChanged(object sender, PinStateChangedEventArgs args)
         {
             throw new System.NotImplementedException();
+        }
+
+        public event AlarmNotifyHandler AlarmNotify;
+
+        protected virtual void OnAlarmNotify(AlarmNotifyEventArgs ea)
+        {
+            AlarmNotify?.Invoke(ea);
         }
     }
 }

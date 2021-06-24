@@ -1,10 +1,12 @@
 ﻿using Clima.Services.Devices.Alarm;
+using Clima.Services.IO;
 
 namespace Clima.Services.Devices
 {
     public abstract class Device
     {
         private DeviceState _deviceState;
+        public string Name { get; set; }
 
         protected Device()
         {
@@ -19,7 +21,7 @@ namespace Clima.Services.Devices
             protected set => _deviceState = value;
         }
 
-        public abstract void InitDevice();
+        public abstract void InitDevice(IIOService ioService, object deviceConfig);
 
         protected virtual void OnAlarm(DeviceAlarmEventArgs ea)
         {

@@ -1,4 +1,5 @@
-﻿using Clima.Services.Configuration;
+﻿using System.Collections.Generic;
+using Clima.Services.Configuration;
 
 namespace Clima.Core.Ventelation
 {
@@ -8,6 +9,7 @@ namespace Clima.Core.Ventelation
         {
         }
 
-        
+        public List<DFanConfig> DFanConfigs { get; set; } = new List<DFanConfig>();
+        public List<AFanConfig> AFanConfigs { get; set; } = new List<AFanConfig>();
     }
 }

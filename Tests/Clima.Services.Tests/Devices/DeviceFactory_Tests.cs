@@ -38,5 +38,15 @@ namespace Clima.Services.Tests.Devices
             
             fc.StartFC();
         }
+
+        [Test]
+        public void CreateRelay_Test()
+        {
+            var relay = _factory.CreateRelay(0);
+            
+            relay.On();
+            
+            relay.Off();
+        }
     }
 }

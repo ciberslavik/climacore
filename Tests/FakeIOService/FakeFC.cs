@@ -1,4 +1,5 @@
-﻿using Clima.Services.IO;
+﻿using System;
+using Clima.Services.IO;
 
 namespace FakeIOService
 {
@@ -19,11 +20,22 @@ namespace FakeIOService
             string analogPinName = $"AO:{fcNumber}";
 
             _enPin = io.DiscreteOutputs[enPinName];
+            _enPin.PinStateChanged += EnPinOnPinStateChanged;
+            
             _alarmPin = io.DiscreteInputs[alarmPinName];
+            _alarmPin.PinStateChanged += AlarmPinOnPinStateChanged;
+            
             _analogPin = io.AnalogOutputs[analogPinName];
         }
-        
-        
-        
+
+        private void AlarmPinOnPinStateChanged(object sender, PinStateChangedEventArgs args)
+        {
+            Console.WriteLine($"FC:{_fcNumber} alarm emulated");
+        }
+
+        private void EnPinOnPinStateChanged(object sender, PinStateChangedEventArgs args)
+        {
+            Console.WriteLine($"FC:{_fcNumber} enabled");
+        }
     }
 }

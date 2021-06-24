@@ -18,13 +18,7 @@ namespace Clima.Services.Devices
             _configStorage = configStorage;
             if (!_configStorage.Exist("DeviceFactory"))
             {
-                var cfg = new DeviceFactoryConfig();
-                cfg.FcConfig.Add(new FCConfig());
-                cfg.FcConfig[0].EnablePinName = "DO:0";
-                cfg.FcConfig[0].AlarmPinName = "DI:0";
-                cfg.FcConfig[0].AnalogPinName = "AO:0";
-                cfg.FcConfig[0].FCName = "FC:0";
-                cfg.FcConfig[0].StartUpTime = 1000;
+                var cfg = DeviceFactoryConfig.CreateDefault();
                 
                 _configStorage.RegisterConfig("DeviceFactory", cfg);
             }
@@ -37,27 +31,30 @@ namespace Clima.Services.Devices
         public FrequencyConverter CreateFrequencyConverter(int number)
         {
             
-            FCConfig fcCfg = _config.FcConfig[number];
+            FCConfig fcCfg = _config.FcConfigItems[number];
             
             var fc = new FrequencyConverter();
-            
-            //Set fc pins
-            fc.EnablePin = _io.DiscreteOutputs[fcCfg.EnablePinName];
-            fc.AlarmPin = _io.DiscreteInputs[fcCfg.AlarmPinName];
-            fc.AnalogPin = _io.AnalogOutputs[fcCfg.AnalogPinName];
-            fc.StartUpTime = fcCfg.StartUpTime;
+
+            fc.Name = $"FC:{number}";
             //Register fc alarm in alarm manager
             _alarmManager.AddNotifier(fc);
             
-            fc.InitDevice();
+            fc.InitDevice(_io, fcCfg);
             
             return fc;
         }
 
-        public DiscreteFanController CreateFanController()
+        public Relay CreateRelay(int relayNumber)
         {
+            RelayConfig relCfg = _config.RelayConfigItems[relayNumber];
             
-            throw new NotImplementedException();
+            var rel = new Relay();
+            rel.Name = $"REL:{relayNumber}";
+            
+            _alarmManager.AddNotifier(rel);
+
+            rel.InitDevice(_io, relCfg);
+            return rel;
         }
 
         public ServoController CreateServoController(int number)
