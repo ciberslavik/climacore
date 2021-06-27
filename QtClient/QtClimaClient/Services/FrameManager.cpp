@@ -3,6 +3,7 @@
 FrameManager::FrameManager(CMainWindow *mainWindow, QObject *parent) : QObject(parent)
 {
     m_MainWindow = mainWindow;
+    m_MainFrame = m_MainWindow->getMainFrame();
 }
 
 
@@ -12,19 +13,16 @@ CMainWindow *FrameManager::MainWindow() const
     return m_MainWindow;
 }
 
-void FrameManager::setMainWindow(CMainWindow *newMainWindow)
+void FrameManager::setCurrentFrame(const FrameName &frameName)
 {
-    m_MainWindow = newMainWindow;
-}
+    FrameBase *frame;
 
-void FrameManager::RegisterFrame(FrameBase *frame)
-{
-
-}
-
-void FrameManager::setCurrentFrame(const QString &frameName)
-{
-
+    switch (frameName) {
+        case FrameName::SystemState:
+        break;
+    case FrameName::MainMenu:
+        break;
+    }
 }
 
 void FrameManager::PreviousFrame()

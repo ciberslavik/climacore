@@ -11,6 +11,10 @@ class NetworkRequest : public QSerializer
 public:
     explicit NetworkRequest()
     {}
+    virtual ~NetworkRequest()
+    {
+
+    }
     QS_FIELD(QByteArray, RequestType)
     QS_FIELD(QByteArray, Data)
 };

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Clima.GrpcServer
 {
-    public class GrpcAppServer : IAppServer
+    public class GrpcAppServer
     {
         Thread _serverThread;
         public void Start()

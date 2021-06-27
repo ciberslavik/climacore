@@ -13,7 +13,7 @@ public:
 
     }
 
-    QS_FIELD(QString, ReplyType)
+    QS_FIELD(QString, RequestType)
     QS_FIELD(QString, Data)
 
 };

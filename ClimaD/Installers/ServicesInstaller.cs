@@ -3,7 +3,9 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Clima.NewtonSoftJsonSerializer;
 using Clima.Services;
+using Clima.Services.Authorization;
 using Clima.Services.Configuration;
+using FakeAuthorizationRepository;
 
 namespace ClimaD.Installers
 {
@@ -23,7 +25,18 @@ namespace ClimaD.Installers
                 Component
                     .For<IConfigurationStorage>()
                     .ImplementedBy<DefaultConfigurationStorage>()
-                    .LifestyleSingleton());
+                    .LifestyleSingleton(),
+                Component
+                    .For<IAuthRepository>()
+                    .ImplementedBy<AuthorizationRepository>()
+                    .LifestyleSingleton(),
+                Component
+                    .For<IWindsorContainer>()
+                    .Instance(container),
+                Component
+                    .For<IServiceProvider>()
+                    .ImplementedBy<CastleServiceProvider>()
+                );
         }
     }
 }

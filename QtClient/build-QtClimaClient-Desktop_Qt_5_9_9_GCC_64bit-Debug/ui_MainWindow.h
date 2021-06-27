@@ -17,6 +17,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -29,6 +30,7 @@ public:
     QVBoxLayout *verticalLayout;
     QLabel *lblTitle;
     QFrame *mainFrame;
+    QPushButton *pushButton;
     QLabel *lblStatus;
 
     void setupUi(QMainWindow *MainWindow)
@@ -57,6 +59,9 @@ public:
         mainFrame->setObjectName(QStringLiteral("mainFrame"));
         mainFrame->setFrameShape(QFrame::StyledPanel);
         mainFrame->setFrameShadow(QFrame::Raised);
+        pushButton = new QPushButton(mainFrame);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(130, 40, 89, 25));
 
         verticalLayout->addWidget(mainFrame);
 
@@ -81,6 +86,7 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
         lblTitle->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
+        pushButton->setText(QApplication::translate("MainWindow", "PushButton", Q_NULLPTR));
         lblStatus->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
     } // retranslateUi
 

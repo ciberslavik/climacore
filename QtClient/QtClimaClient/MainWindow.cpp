@@ -13,6 +13,11 @@ CMainWindow::~CMainWindow()
     delete ui;
 }
 
+QFrame *CMainWindow::getMainFrame()
+{
+    return ui->mainFrame;
+}
+
 
 void CMainWindow::on_pushButton_clicked()
 {

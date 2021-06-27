@@ -5,16 +5,16 @@ namespace Clima.TcpServer.CoreServer
     public class DataReceivedEventArgs:EventArgs
     {
         private readonly string _data;
-        private readonly int _sessionId;
+        private readonly Session _session;
 
-        public DataReceivedEventArgs(int sessionId, string data = "")
+        public DataReceivedEventArgs(Session session, string data = "")
         {
-            _sessionId = sessionId;
+            _session = session;
             _data = data;
         }
 
         public string Data => _data;
 
-        public int SessionId => _sessionId;
+        public Session Session => _session;
     }
 }

@@ -74,6 +74,13 @@ class QSerializer {
         return json;
     }
 
+    QString toJsonString() const
+    {
+        QJsonDocument doc;
+        doc.setObject(toJson());
+
+        return doc.toJson(QJsonDocument::Indented);
+    }
     ///\brief Deserialize all accessed JSON propertyes for this object
     void fromJson(const QJsonValue & val) {
         if(val.isObject())

@@ -24,22 +24,21 @@ namespace ConsoleServer
             }
 
             //Write the host messages to the console
-            void OnHostMessage(string input)
+            /*void OnHostMessage(string input)
             {
                 PeriodicallyClearScreen();
                 Console.WriteLine(input);
-            }
+            }*/
 
-            /*ServerConfig config = new ServerConfig
-            {
-                Host = "127.0.0.1",
-                Port = 8080,
-                MaxConcurentListeners = 3,
-                Timeout = 500,
-                CertFile = @"e:\ClimaProject\Tests\ClientServerTest\ClimaClientServer\Local.crt"
-            };
-            IDataSerializer serializer = new NewtonsoftSerializer();*/
-            var BLL = new Server("127.0.0.1", 8080);
+            ServerConfig config = new ServerConfig();
+
+            var serverOpt = new ServerOption();
+            serverOpt.Config = config;
+            serverOpt.Host = "127.0.0.1";
+            serverOpt.Port = 5911;
+            
+            IDataSerializer serializer = new NewtonsoftSerializer();
+            var BLL = new Server(serverOpt);
             
             /*BLL.MessageReceived += new Server.MessageReceivedHandler(message =>
             {

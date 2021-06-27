@@ -13,6 +13,7 @@ public:
 
     // IFrameFactory interface
 public:
-    virtual FrameBase *CreateFrame(const QString &frameName) override;
+    virtual SystemStateFrame *CreateSystemStateFrame() override;
+    virtual MainMenuFrame *CreateMainMenuFrame() override;
 };
 

@@ -25,13 +25,84 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96193865-43a5-4ca8-8987-c626c8b012f5" name="Default Changelist" comment="ссссс">
+    <list default="true" id="96193865-43a5-4ca8-8987-c626c8b012f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../Clima.Core/IClimaSheduler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../ClimaD/Installers/CoreInstaller.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Models/LivestockState.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Models/LivestockState.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Network/Session.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Network/Session.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/LivestockState.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/Session.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/SystemStateModel.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/moc_LivestockState.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/moc_LivestockState.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/moc_Session.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/moc_Session.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/moc_SystemStateModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/moc_SystemStateModel.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clima.TcpClient/ClientOption.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clima.TcpClient/ClimaClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clima.TcpClient/DataReceivedEventArgs.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/NetworkRequest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/NetworkResponce.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/ServerConfig.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/ServerOption.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/SessionCreatedEventArgs.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataContract/NetworkModel/Message.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataContract/NetworkModel/MessageType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../.idea/.idea.ClimaProject/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../.idea/.idea.ClimaProject/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Clima.Core/ClimaSheduler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Clima.Core/ClimaSheduler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Clima.Core/obj/Clima.Core.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Clima.Core/obj/Clima.Core.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Clima.Core/obj/Clima.Core.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Clima.Core/obj/Clima.Core.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Clima.Core/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Clima.Core/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Clima.Core/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Clima.Core/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Clima.Services/obj/Clima.Services.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Clima.Services/obj/Clima.Services.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Clima.Services/obj/Clima.Services.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Clima.Services/obj/Clima.Services.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Clima.Services/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Clima.Services/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Clima.Services/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Clima.Services/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ClimaD/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ClimaD/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ClimaD/obj/ClimaD.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ClimaD/obj/ClimaD.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ClimaD/obj/ClimaD.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ClimaD/obj/ClimaD.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ClimaD/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ClimaD/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ClimaD/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../../ClimaD/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Frames/SystemStateFrame.ui" beforeDir="false" afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Frames/SystemStateFrame.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/MainWindow.ui" beforeDir="false" afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/MainWindow.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Network/ClientConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/Network/ClientConnection.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/QtClimaClient.pro" beforeDir="false" afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/QtClimaClient.pro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../../QtClient/QtClimaClient/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/ClientConnection.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/ClientConnection.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/MainWindow.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/MainWindow.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/QtClimaClient" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/ui_MainWindow.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../../QtClient/build-QtClimaClient-Desktop_Qt_5_9_9_GCC_64bit-Debug/ui_MainWindow.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Services/Clima.AgavaModBusIO/obj/Clima.AgavaModBusIO.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Services/Clima.AgavaModBusIO/obj/Clima.AgavaModBusIO.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Services/Clima.AgavaModBusIO/obj/Clima.AgavaModBusIO.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Services/Clima.AgavaModBusIO/obj/Clima.AgavaModBusIO.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Services/Clima.AgavaModBusIO/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Services/Clima.AgavaModBusIO/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Services/Clima.AgavaModBusIO/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Services/Clima.AgavaModBusIO/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/Clima.GrpcServer.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/Clima.GrpcServer.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/Clima.GrpcServer.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/Clima.GrpcServer.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/Clima.GrpcServer.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/Clima.GrpcServer.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Services/Clima.GrpcServer/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../TestGrpcClient/obj/Debug/netcoreapp3.1/TestGrpcClient.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../../TestGrpcClient/obj/Debug/netcoreapp3.1/TestGrpcClient.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../TestGrpcClient/obj/TestGrpcClient.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../TestGrpcClient/obj/TestGrpcClient.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../TestGrpcClient/obj/TestGrpcClient.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/../../../TestGrpcClient/obj/TestGrpcClient.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../TestGrpcClient/obj/TestGrpcClient.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/../../../TestGrpcClient/obj/TestGrpcClient.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../TestGrpcClient/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../TestGrpcClient/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../TestGrpcClient/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../../../TestGrpcClient/obj/project.nuget.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ClimaClientServer/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ClimaClientServer/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ClimaClientServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ClimaClientServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Buffer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Buffer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.NETCoreMVVMApp/App.axaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.NETCoreMVVMApp/App.axaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/ClientWorker.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Buffer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DataContract/Buffer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/DataReceivedEventArgs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/DataReceivedEventArgs.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Server.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Server.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Session.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Session.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/Server.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Clima.TcpServer/Server.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/Server.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clima.TcpServer/ServerConfig.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConsoleServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ConsoleServer/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataContract/Message.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,11 +114,36 @@
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Clima.TcpClient/Client.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Clima.TcpServer/ServerConfig.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Clima.TcpServer/ClientWorker.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Clima.TcpServer/Server.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ACE91933-3425-4F52-8699-C561E49C94CB/1F/Socket.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/91BDA0DE-9E35-45EC-9EA9-A607E81E7626/133/Thread.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/187A6DE7-99CE-4E64-88B5-B6D55E8B7D18/18E/Monitor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ACE91933-3425-4F52-8699-C561E49C94CB/3B/SocketPal.Unix.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ConsoleServer/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ACE91933-3425-4F52-8699-C561E49C94CB/1B/NetworkStream.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Clima.TcpClient/Client.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/91BDA0DE-9E35-45EC-9EA9-A607E81E7626/1D8/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <changedPaths>
+      <option value="$PROJECT_DIR$/Clima.TcpServer/ClientWorker.cs" />
+      <option value="$PROJECT_DIR$/DataContract/NetworkRequest.cs" />
+      <option value="$PROJECT_DIR$/Clima.TcpClient/Client.cs" />
+      <option value="$PROJECT_DIR$/CodeGenerator/Program.cs" />
+      <option value="$PROJECT_DIR$/CodeGenerator/DataModel/Message.cs" />
+      <option value="$PROJECT_DIR$/CodeGenerator/TestProtos/Test.ptocol" />
+      <option value="$PROJECT_DIR$/CodeGenerator/DataModel/ProtocolFile.cs" />
+      <option value="$PROJECT_DIR$/DataContract/NetworkModel/NetworkReply.cs" />
+      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/DataReceivedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Buffer.cs" />
+      <option value="$PROJECT_DIR$/ConsoleServer/Program.cs" />
+      <option value="$PROJECT_DIR$/DataContract/Buffer.cs" />
+      <option value="$PROJECT_DIR$/Clima.TcpServer/Server.cs" />
+      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/SessionCreatedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Session.cs" />
+      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/NetworkResponce.cs" />
+      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/NetworkRequest.cs" />
+      <option value="$PROJECT_DIR$/Clima.TcpServer/CoreServer/Server.cs" />
+    </changedPaths>
   </component>
   <component name="ProjectId" id="1tl1UzaFlAaQIxE7K5SIGvvSn1Q" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -59,14 +155,13 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34957463" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.3495935" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="do_not_show_solution_notification" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.Avalonia.NETCoreMVVMApp">
+  <component name="RunManager" selected=".NET Project.ConsoleServer">
     <configuration name="Avalonia.NETCoreMVVMApp" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -150,7 +245,7 @@
       <updated>1623328882759</updated>
       <workItem from="1623328888019" duration="4499000" />
       <workItem from="1623735579347" duration="12446000" />
-      <workItem from="1624425914407" duration="1260000" />
+      <workItem from="1624803366059" duration="8242000" />
     </task>
     <task id="LOCAL-00001" summary="Finish workday and Create client server template">
       <created>1623332721903</created>
@@ -202,12 +297,6 @@
     <MESSAGE value="1111" />
     <MESSAGE value="ссссс" />
     <option name="LAST_COMMIT_MESSAGE" value="ссссс" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="500" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624427141996">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="500" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1624427141996" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

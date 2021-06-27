@@ -4,7 +4,7 @@ using Clima.Services.Devices;
 
 namespace Clima.Core
 {
-    public class ClimaSheduler
+    public class ClimaSheduler : IClimaSheduler
     {
         
 
@@ -36,19 +36,19 @@ namespace Clima.Core
             throw new System.NotImplementedException();
         }
 
-        void StartSheduler()
+        public void StartSheduler()
         {
             
         }
 
-        void StopSheduler()
+        public void StopSheduler()
         {
             
         }
-        
-        int ControlCycleTime { get; set; }
-        int MeasureCycleTime { get; set; }
-        
-        ShedulerContext Context { get; set; }
+
+        public int ControlCycleTime { get; set; }
+        public int MeasureCycleTime { get; set; }
+
+        public ShedulerContext Context { get; set; }
     }
 }

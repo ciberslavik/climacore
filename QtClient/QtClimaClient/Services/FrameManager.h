@@ -2,32 +2,32 @@
 
 #include <MainWindow.h>
 #include <QObject>
+#include <QStack>
 
 #include <Frames/FrameBase.h>
+#include "FrameName.h"
 
 class FrameManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(CMainWindow* MainWindow READ MainWindow WRITE setMainWindow)
-
 
     CMainWindow *m_MainWindow;
+    QFrame *m_MainFrame;
+    FrameBase *m_CurrentFrame;
 
+    QStack<FrameBase*> *m_FrameHistory;
 public:
-    explicit FrameManager(CMainWindow *mainWindow, QObject *parent = nullptr);
-
-
 
     CMainWindow *MainWindow() const;
-    void setMainWindow(CMainWindow *newMainWindow);
-    void RegisterFrame(FrameBase *frame);
 
-    void setCurrentFrame(const QString &frameName);
+    void setCurrentFrame(const FrameName &frame);
     void PreviousFrame();
 signals:
 
+protected:
+    explicit FrameManager(CMainWindow *mainWindow, QObject *parent = nullptr);
 private:
-
+    static FrameManager *_instnce;
 
 };
 

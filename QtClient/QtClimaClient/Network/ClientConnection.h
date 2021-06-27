@@ -1,5 +1,6 @@
 #pragma once
 
+#include "NetworkReply.h"
 #include "NetworkRequest.h"
 
 #include <QObject>
@@ -11,8 +12,12 @@ class ClientConnection:public QObject
 public:
     explicit ClientConnection(QObject *parent = nullptr);
     void ConnectToHost(const QString &host, const int &port);
+    void Disconnect();
+    bool isConnected(){return m_socket->isOpen();}
+signals:
+    void ReplyReceived(const NetworkReply &reply);
 public slots:
-    void SendRequest(const NetworkRequest &request);
+    void SendRequest(NetworkRequest *request);
 private slots:
     void onReadyRead();
 
@@ -20,4 +25,5 @@ private:
     QTcpSocket *m_socket;
     QString readStrBuffer;
     QByteArray *readBuffer;
+    bool m_connected;
 };

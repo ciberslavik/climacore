@@ -6,7 +6,12 @@ DefaultFrameFactory::DefaultFrameFactory()
 
 }
 
-
-FrameBase *DefaultFrameFactory::CreateFrame(const QString &frameName)
+SystemStateFrame *DefaultFrameFactory::CreateSystemStateFrame()
 {
+    return nullptr;
+}
+
+MainMenuFrame *DefaultFrameFactory::CreateMainMenuFrame()
+{
+    return nullptr;
 }

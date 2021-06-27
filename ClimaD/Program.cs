@@ -21,10 +21,12 @@ namespace ClimaD
             
             
             IWindsorContainer _container = new WindsorContainer();
-            //_container.Install(new CommunicationInstaller());
+            //
             _container.Install(new IOInstaller());
             _container.Install(new ServicesInstaller());
+            _container.Install(new CoreInstaller());
             
+            _container.Install(new CommunicationInstaller());
             //IAppServer server = _container.Resolve<IAppServer>();
             //server.Start();
 
@@ -38,9 +40,10 @@ namespace ClimaD
             Console.WriteLine(testConf2.Data);
             
             Console.WriteLine("Hello World!");
-            
-            
-            
+
+            var server = _container.Resolve<IServer>();
+
+            server.StartServer();
             
             
             while (Console.ReadKey().Key != ConsoleKey.Escape)
