@@ -14,7 +14,7 @@ namespace Clima.AgavaModBusIO
     public class AgavaIoService:IIOService
     {
         private readonly IConfigurationStorage _configStorage;
-        private Dictionary<int, AgavaIoModule> _modules;
+        
         private SerialPort _port;
         private IModbusSerialMaster _master;
         private Dictionary<string, AnalogOutput> _analogOutputs;
@@ -24,7 +24,6 @@ namespace Clima.AgavaModBusIO
         public AgavaIoService(IConfigurationStorage configStorage)
         {
             _configStorage = configStorage;
-            _modules = new Dictionary<int, AgavaIoModule>();
         }
 
         public bool IsRunning { get; private set; }
@@ -38,10 +37,29 @@ namespace Clima.AgavaModBusIO
 
         public void Init()
         {
-            var config = _configStorage.GetConfig<ModbusConfig>();
+            if (!_configStorage.Exist("ModbusConfig"))
+            {
+                var defaultConfig = ModbusConfig.CreateDefault();
+                _configStorage.RegisterConfig("ModbusConfig", defaultConfig);
+            }
+            var config = _configStorage.GetConfig<ModbusConfig>("ModbusConfig");
+            
             _port = new SerialPort();
             _port.PortName = config.PortName;
             _port.BaudRate = config.Baudrate;
+            
+            Console.WriteLine($"Starting Modbus server on port:{config.PortName}");
+            //_port.Handshake = Handshake.RequestToSend;
+            try
+            {
+                _port.Open();
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e);
+                throw new IOServiceException(e.Message);
+            }
+            
             
             var factory = new ModbusFactory();
             var transport = factory.CreateRtuTransport(_port);
@@ -71,17 +89,27 @@ namespace Clima.AgavaModBusIO
             {
                 try
                 {
+                    Console.WriteLine($"Scan address:{i}");
+                    
                     byte addr = BitConverter.GetBytes(i)[0];
                     ushort[] value = _master.ReadHoldingRegisters(addr, 2017, 6);
-                    AgavaIoModule module = AgavaIoModule.CreateIoModule(i, value);
-                    _modules.Add(i, module);
+                    string signatureStr = $"Module:{i} signature:";
+                    foreach (var mod in value)
+                    {
+                        signatureStr += $"{mod:X}";
+                    }
+                    Console.WriteLine(signatureStr);
                 }
-                catch (Exception e)
+                catch (TimeoutException tie)
                 {
-                    Console.WriteLine(e);
-                    throw;
+                    Console.WriteLine($"Address:{i} is free.");
                 }
             }
+        }
+
+        private void ProcessModule(int moduleId, ushort[] signature)
+        {
+            
         }
     }
 }

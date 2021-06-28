@@ -4,7 +4,15 @@ namespace Clima.AgavaModBusIO.Configuration
 {
     public class ModbusConfig:ConfigItemBase
     {
-        
+        public static ModbusConfig CreateDefault()
+        {
+            return new ModbusConfig()
+            {
+                PortName = "/dev/ttyUSB1",
+                Baudrate = 115200,
+                ResponseTimeout = 300
+            };
+        }
         public ModbusConfig()
         {
         }

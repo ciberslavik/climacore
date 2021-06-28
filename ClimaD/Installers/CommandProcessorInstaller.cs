@@ -20,6 +20,10 @@ namespace ClimaD.Installers
                                     .For<ICommandProcessor>()
                                     .ImplementedBy<CommandProcessor>()
                                     .LifestyleSingleton(),
+                                Component
+                                    .For<IServiceProcessorFactory>()
+                                    .ImplementedBy<DefaultServiceProcessorFactory>()
+                                    .LifestyleSingleton(),
                                 Classes
                                     .FromAssemblyContaining(typeof(IServiceProcessor))
                                     .BasedOn<IServiceProcessor>()
