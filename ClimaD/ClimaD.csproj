@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Services\Clima.Authorization\Clima.Authorization.csproj" />
     <ProjectReference Include="..\Services\Clima.CommandProcessor\Clima.CommandProcessor.csproj" />
     <ProjectReference Include="..\Services\Clima.GrpcServer\Clima.GrpcServer.csproj" />
     <ProjectReference Include="..\Services\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj" />

@@ -6,12 +6,12 @@ namespace Clima.CommandProcessor.Requests
         {
             
         }
-        public NetworkRequest(string requestType = "", string data = "")
+        public NetworkRequest(string requestName = "", string data = "")
         {
-            RequestType = requestType;
+            RequestName = requestName;
             Data = data;
         }
-        public string RequestType { get; set; }
+        public string RequestName { get; set; }
         public string Data { get; set; }
     }
 }

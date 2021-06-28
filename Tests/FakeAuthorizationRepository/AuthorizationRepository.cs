@@ -7,7 +7,7 @@ using Clima.Services.Authorization;
 
 namespace FakeAuthorizationRepository
 {
-    public class AuthorizationRepository:IAuthRepository
+    public class AuthorizationRepository:IAuthorizationRepository
     {
         private Dictionary<string, User> _users;
         
@@ -44,6 +44,11 @@ namespace FakeAuthorizationRepository
             }
 
             return null;
+        }
+
+        public bool UserExist(string login)
+        {
+            return _users.ContainsKey(login);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Castle.Windsor;
+using Castle.Windsor.Installer;
 using Clima.LocalDataBase.Security;
 using Clima.Services.Communication;
 using Clima.Services.Configuration;
@@ -13,20 +14,15 @@ namespace ClimaD
     {
         static void Main(string[] args)
         {
-            void OnHostMessage(string input)
-            {
-                Console.WriteLine(input);
-            }
-            
-            
             
             IWindsorContainer _container = new WindsorContainer();
             //
-            _container.Install(new IOInstaller());
             _container.Install(new ServicesInstaller());
+            _container.Install(new IOInstaller());
+            _container.Install(new CommunicationInstaller());
+            _container.Install(new CommandProcessorInstaller());
             _container.Install(new CoreInstaller());
             
-            _container.Install(new CommunicationInstaller());
             //IAppServer server = _container.Resolve<IAppServer>();
             //server.Start();
 
@@ -39,12 +35,13 @@ namespace ClimaD
             var testConf2 = store.GetConfig<TestConfig>();
             Console.WriteLine(testConf2.Data);
             
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Server starting...");
 
             var server = _container.Resolve<IServer>();
-
-            server.StartServer();
             
+            server.StartServer();
+            Console.WriteLine("Server started...");
+            Console.WriteLine("Press esc key to stop");
             
             while (Console.ReadKey().Key != ConsoleKey.Escape)
             {
@@ -53,7 +50,7 @@ namespace ClimaD
             }
 
             Console.WriteLine("Attempting clean exit");
-            //host.WaitForServerThreadToStop();
+            server.WaitStopServer();
 
             Console.WriteLine("Exiting console Main.");
             

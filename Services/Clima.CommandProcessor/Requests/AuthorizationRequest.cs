@@ -6,6 +6,7 @@ namespace Clima.CommandProcessor.Requests
         {
             
         }
+        public string Function { get; set; }
         public string Login { get; set; }
         public string PasswordHash { get; set; }
     }

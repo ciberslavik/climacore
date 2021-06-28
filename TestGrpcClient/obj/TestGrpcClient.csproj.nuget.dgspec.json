@@ -1,25 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj": {}
+    "E:\\ClimaProject\\TestGrpcClient\\TestGrpcClient.csproj": {}
   },
   "projects": {
-    "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj": {
+    "E:\\ClimaProject\\TestGrpcClient\\TestGrpcClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj",
+        "projectUniqueName": "E:\\ClimaProject\\TestGrpcClient\\TestGrpcClient.csproj",
         "projectName": "TestGrpcClient",
-        "projectPath": "/home/ciber/ClimaProject/TestGrpcClient/TestGrpcClient.csproj",
-        "packagesPath": "/home/ciber/.nuget/packages/",
-        "outputPath": "/home/ciber/ClimaProject/TestGrpcClient/obj/",
+        "projectPath": "E:\\ClimaProject\\TestGrpcClient\\TestGrpcClient.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\ClimaProject\\TestGrpcClient\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/home/ciber/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -80,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.301/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

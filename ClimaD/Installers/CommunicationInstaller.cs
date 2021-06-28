@@ -26,28 +26,16 @@ namespace ClimaD.Installers
             var serverConfig = configStore.GetConfig<ServerConfig>("ServerConfig");
 
             container.Register(Component
-                                    .For<ServerConfig>()
-                                    .Instance(serverConfig),
-                                Component
-                                    .For<IServer>()
-                                    .ImplementedBy<Server>()
-                                    .LifestyleSingleton(),
-                                Component
-                                    .For<ICommunicationSerializer>()
-                                    .ImplementedBy<NewtonsoftCommunicationSerializer>()
-                                    .LifestyleSingleton(),
-                                Component
-                                    .For<ICommandProcessor>()
-                                    .ImplementedBy<CommandProcessor>()
-                                    .LifestyleSingleton());
-
-            var server = container.Resolve<IServer>();
-            var processor = container.Resolve<ICommandProcessor>();
-
-            server.DataReceived += (ea) =>
-            {
-                processor.ProcessCommand(ea.Session, ea.Data);
-            };
+                    .For<ServerConfig>()
+                    .Instance(serverConfig),
+                Component
+                    .For<IServer>()
+                    .ImplementedBy<Server>()
+                    .LifestyleSingleton(),
+                Component
+                    .For<ICommunicationSerializer>()
+                    .ImplementedBy<NewtonsoftCommunicationSerializer>()
+                    .LifestyleSingleton());
         }
     }
 }
