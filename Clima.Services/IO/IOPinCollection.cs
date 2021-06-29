@@ -8,40 +8,56 @@ namespace Clima.Services.IO
         private Dictionary<string, AnalogInput> _analogInputs;
         private Dictionary<string, DiscreteInput> _discreteInputs;
         private Dictionary<string, DiscreteOutput> _discreteOutputs;
+        #region Events
+        public event DiscretePinStateChangedEventHandler DiscreteInputChanged;
+        protected virtual void OnDiscreteInputChanged(DiscretePinStateChangedEventArgs ea)
+        {
+            DiscreteInputChanged?.Invoke(ea);
+        }
+        public event DiscretePinStateChangedEventHandler DiscreteOutputChanged;
+        protected virtual void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
+        {
+            DiscreteOutputChanged?.Invoke(ea);
+        }
+        public event AnalogPinValueChangedEventHandler AnalogOutputChanged;
+        protected virtual void OnAnalogOutputChanged(AnalogPinValueChangedEventArgs ea)
+        {
+            AnalogOutputChanged?.Invoke(ea);
+        }
+        public event AnalogPinValueChangedEventHandler AnalogInputChanged;
+        protected virtual void OnAnalogInputChanged(AnalogPinValueChangedEventArgs ea)
+        {
+            AnalogInputChanged?.Invoke(ea);
+        }
         
+        #endregion Events
         public IOPinCollection()
         {
             _analogInputs = new Dictionary<string, AnalogInput>();
             _analogOutputs = new Dictionary<string, AnalogOutput>();
             _discreteInputs = new Dictionary<string, DiscreteInput>();
             _discreteOutputs = new Dictionary<string, DiscreteOutput>();
-            
         }
 
 
         public Dictionary<string, AnalogOutput> AnalogOutputs => _analogOutputs;
-
         public void AddAnalogOutput(string pinName, AnalogOutput output)
         {
+            output.ValueChanged += OnAnalogOutputChanged;
             _analogOutputs.Add(pinName, output);
-            output.ValueChanged+= OnOutputValueChanged;
         }
-        private void OnOutputValueChanged(AnalogPinValueChangedEventArgs ea)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public Dictionary<string, AnalogInput> AnalogInputs => _analogInputs;
-
         public void AddAnalogInput(string pinName, AnalogInput input)
         {
+            input.ValueChanged += OnAnalogInputChanged;
             _analogInputs.Add(pinName, input);
         }
-
+        
         public Dictionary<string, DiscreteInput> DiscreteInputs => _discreteInputs;
-
         public void AddDiscreteInput(string pinName, DiscreteInput input)
         {
+            input.PinStateChanged += OnDiscreteInputChanged;
             _discreteInputs.Add(pinName, input);
         }
 
@@ -49,13 +65,8 @@ namespace Clima.Services.IO
 
         public void AddDiscreteOutput(string pinName, DiscreteOutput output)
         {
-            output.PinStateChanged += OnOutputStateChanged;
+            output.PinStateChanged += OnDiscreteOutputChanged;
             _discreteOutputs.Add(pinName, output);
-        }
-
-        private void OnOutputStateChanged(DiscretePinStateChangedEventArgs ea)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

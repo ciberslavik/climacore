@@ -93,14 +93,23 @@ namespace Clima.AgavaModBusIO
                         .Select(b => (object) b).ToArray();
                     break;
                 case RequestType.ReadInputRegisters:
+                    reply.Data = _master.ReadInputRegisters(
+                            request.ModuleID,
+                            request.RegisterAddress,
+                            request.DataCount)
+                        .Select(b => (object) b).ToArray();
                     break;
                 case RequestType.WriteSingleCoil:
+                    _master.WriteSingleCoil(request.ModuleID,request.RegisterAddress,(bool)request.Data[0]);
                     break;
                 case RequestType.WriteSingleRegister:
+                    _master.WriteSingleRegister(request.ModuleID,request.RegisterAddress,(ushort)request.Data[0]);
                     break;
                 case RequestType.WriteMultipleCoils:
+                    _master.WriteMultipleCoils(request.ModuleID, request.RegisterAddress, request.Data.Select(b=>(bool)b).ToArray());
                     break;
                 case RequestType.WriteMultipleRegisters:
+                    _master.WriteMultipleRegisters(request.ModuleID, request.RegisterAddress, request.Data.Select(b=>(ushort)b).ToArray());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
