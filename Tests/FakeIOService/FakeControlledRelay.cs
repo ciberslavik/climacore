@@ -30,7 +30,7 @@ namespace FakeIOService
             
         }
 
-        private void OutOnPinStateChanged(object sender, PinStateChangedEventArgs args)
+        private void OutOnPinStateChanged(DiscretePinStateChangedEventArgs args)
         {
             _onTimer.Start();
             Console.WriteLine($"Relay:{_relayNumber} on");

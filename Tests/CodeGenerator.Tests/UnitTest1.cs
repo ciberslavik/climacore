@@ -29,7 +29,7 @@ namespace CodeGenerator.Tests
             authService.Properties.Add(usersProp);
             
             MethodParameter loginParameter = new MethodParameter();
-            loginParameter.ParameterName = "login";
+            loginParameter.ParameterName = "Login";
             loginParameter.ParameterType = "string";
             
             Method getUserByName = new Method();

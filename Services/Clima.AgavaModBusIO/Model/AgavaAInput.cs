@@ -1,28 +1,29 @@
 using System;
+using Clima.AgavaModBusIO.Model;
 using Clima.Services.IO;
 
 namespace Clima.AgavaModBusIO
 {
     public class AgavaAInput:AnalogInput
     {
+        private int _moduleAddr;
         private int _regAddress;
-        private int _pinNumber;
-        public AgavaAInput(int pinNumber, int regAddress)
+        private int _pinNumberInModule;
+        private AgavaAnalogInType _inputType;
+        public AgavaAInput(int moduleAddress, int pinNumberInModule)
         {
-            _regAddress = regAddress;
-            _pinNumber = pinNumber;
+            _moduleAddr = moduleAddress;
+            _regAddress = pinNumberInModule * 2;
+            _pinNumberInModule = pinNumberInModule;
         }
+        internal int PinNumberInModule => _pinNumberInModule;
+        internal int RegAddress => _regAddress;
+        internal int ModuleAddress => _moduleAddr;
 
-        public int RegAddress
+        public AgavaAnalogInType InputType
         {
-            get => _regAddress;
-            set => _regAddress = value;
-        }
-
-        public int PinNumber
-        {
-            get => _pinNumber;
-            set => _pinNumber = value;
+            get => _inputType;
+            set => _inputType = value;
         }
     }
 }

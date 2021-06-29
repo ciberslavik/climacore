@@ -2,19 +2,19 @@ using System;
 
 namespace Clima.Services.IO
 {
-    public delegate void PinStateChangedEventHandler(object sender, PinStateChangedEventArgs args);
+    
     public class DiscreteInput:PinBase
     {
         private bool _prevPinState;
         private bool _state;
-        public event PinStateChangedEventHandler PinStateChanged;
+        public event DiscretePinStateChangedEventHandler PinStateChanged;
         public override PinType PinType => PinType.Discrete;
 
         public override PinDir Direction => PinDir.Input;
 
-        protected virtual void OnPinStateChanged(PinStateChangedEventArgs args)
+        protected virtual void OnPinStateChanged(DiscretePinStateChangedEventArgs args)
         {
-            PinStateChanged?.Invoke(this, args);
+            PinStateChanged?.Invoke(args);
         }
 
         public bool State
@@ -26,7 +26,7 @@ namespace Clima.Services.IO
                 {
                     _prevPinState = _state;
                     _state = value;
-                    OnPinStateChanged(new PinStateChangedEventArgs());
+                    OnPinStateChanged(new DiscretePinStateChangedEventArgs(this, _prevPinState, _state));
                 }
             }
         }

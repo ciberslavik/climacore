@@ -4,9 +4,10 @@ namespace Clima.Services.IO
 {
     public class DiscreteOutput:PinBase
     {
-        public event PinStateChangedEventHandler PinStateChanged;
+        public event DiscretePinStateChangedEventHandler PinStateChanged;
         private bool _pinState;
         private bool _pinPrevState;
+        private int _pinIndex;
         public override PinType PinType
         {
             get
@@ -31,14 +32,14 @@ namespace Clima.Services.IO
                 if (_pinState != value)
                 {
                     _pinState = value;
-                    OnPinStateChanged(new PinStateChangedEventArgs());
+                    OnPinStateChanged(new DiscretePinStateChangedEventArgs(this, _pinState, _pinState));
                 }
             }
         }
 
-        protected virtual void OnPinStateChanged(PinStateChangedEventArgs args)
+        protected virtual void OnPinStateChanged(DiscretePinStateChangedEventArgs args)
         {
-            PinStateChanged?.Invoke(this, args);
+            PinStateChanged?.Invoke(args);
         }
     }
 }

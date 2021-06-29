@@ -17,23 +17,17 @@ namespace Clima.AgavaModBusIO
         
         private SerialPort _port;
         private IModbusSerialMaster _master;
-        private Dictionary<string, AnalogOutput> _analogOutputs;
-        private Dictionary<string, AnalogInput> _analogInputs;
-        private Dictionary<string, DiscreteInput> _discreteInputs;
-        private Dictionary<string, DiscreteOutput> _discreteOutputs;
+        private IOPinCollection _pins;
         public AgavaIoService(IConfigurationStorage configStorage)
         {
             _configStorage = configStorage;
+            _pins = new IOPinCollection();
         }
 
         public bool IsRunning { get; private set; }
-        public IDictionary<string, DiscreteInput> DiscreteInputs => _discreteInputs;
 
-        public IDictionary<string, DiscreteOutput> DiscreteOutputs => _discreteOutputs;
+        public IOPinCollection Pins => _pins;
 
-        public IDictionary<string, AnalogOutput> AnalogOutputs => _analogOutputs;
-
-        public IDictionary<string, AnalogInput> AnalogInputs => _analogInputs;
 
         public void Init()
         {
@@ -42,6 +36,7 @@ namespace Clima.AgavaModBusIO
                 var defaultConfig = ModbusConfig.CreateDefault();
                 _configStorage.RegisterConfig("ModbusConfig", defaultConfig);
             }
+            
             var config = _configStorage.GetConfig<ModbusConfig>("ModbusConfig");
             
             _port = new SerialPort();
@@ -49,7 +44,7 @@ namespace Clima.AgavaModBusIO
             _port.BaudRate = config.Baudrate;
             
             Console.WriteLine($"Starting Modbus server on port:{config.PortName}");
-            //_port.Handshake = Handshake.RequestToSend;
+            
             try
             {
                 _port.Open();
@@ -67,9 +62,8 @@ namespace Clima.AgavaModBusIO
             transport.WriteTimeout = config.ResponseTimeout;
             
             _master = factory.CreateMaster(transport);
+            
             ScanBus(1, 5);
-
-
             IsInit = true;
         }
         public void Start()
@@ -99,6 +93,7 @@ namespace Clima.AgavaModBusIO
                         signatureStr += $"{mod:X}";
                     }
                     Console.WriteLine(signatureStr);
+                    ProcessModule(i, value);
                 }
                 catch (TimeoutException tie)
                 {
@@ -107,9 +102,147 @@ namespace Clima.AgavaModBusIO
             }
         }
 
-        private void ProcessModule(int moduleId, ushort[] signature)
+        internal void ProcessModule(int moduleId, ushort[] signature)
+        {
+            int mDICount = 0;
+            int mDOCount = 0;
+            int mAICount = 0;
+            int mAOCount = 0;
+
+            for (int subNumber = 0; subNumber < signature.Length; subNumber++)
+            {
+                AgavaSubModuleType subType = (AgavaSubModuleType)signature[subNumber];
+                
+                switch (subType)
+                {
+                    case AgavaSubModuleType.None:
+                        continue;
+                    case AgavaSubModuleType.DO:
+                        for (int p = 0; p < 4; p++)
+                        {
+                            mDOCount++;
+                            CreateDiscrOut(moduleId, mDOCount);
+                        }
+                        break;
+                    case AgavaSubModuleType.SYM:
+                        for (int p = 0; p < 2; p++)
+                        {
+                            mDOCount++;
+                            CreateDiscrOut(moduleId, mDOCount);
+                        }
+                        break;
+                    case AgavaSubModuleType.R:
+                        for (int p = 0; p < 2; p++)
+                        {
+                            mDOCount++;
+                            CreateDiscrOut(moduleId, mDOCount);
+                        }
+                        break;
+                    case AgavaSubModuleType.AI:
+                        for (int p = 0; p < 4; p++)
+                        {
+                            mAICount++;
+                            CreateAnalogIn(moduleId, mAICount);
+                        }
+                        break;
+                    case AgavaSubModuleType.AIO:
+                        for (int p = 0; p < 2; p++)
+                        {
+                            mAICount++;
+                            CreateAnalogIn(moduleId, mAICount);
+                        }
+                        for (int p = 0; p < 2; p++)
+                        {
+                            mAOCount++;
+                            CreateAnalogOut(moduleId, mAOCount);
+                        }
+                        break;
+                    case AgavaSubModuleType.DI:
+                        for (int p = 0; p < 4; p++)
+                        {
+                            mDICount++;
+                            CreateDiscrIn(moduleId, mDICount);
+                        }
+                        break;
+                    case AgavaSubModuleType.TMP:
+                        for (int p = 0; p < 2; p++)
+                        {
+                            mAICount++;
+                            CreateAnalogIn(moduleId, mAICount);
+                        }
+                        break;
+                    case AgavaSubModuleType.DO6:
+                        for (int p = 0; p < 6; p++)
+                        {
+                            mDOCount++;
+                            CreateDiscrOut(moduleId, mDOCount);
+                        }
+                        break;
+                    case AgavaSubModuleType.ENI:
+                        continue;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+        #region Create pins methods
+        private void CreateDiscrOut(int moduleId, int mDOCount)
+        {
+            var pinName = $"DO:{moduleId}:{mDOCount}";
+            var DO = new AgavaDOutput(moduleId, mDOCount)
+            {
+                PinName = pinName
+            };
+            DO.PinStateChanged += DOOnPinStateChanged;
+            
+            _pins.AddDiscreteOutput(pinName, DO);
+        }
+        private void CreateDiscrIn(int moduleId, int mDOCount)
+        {
+            var pinName = $"DI:{moduleId}:{mDOCount}";
+            var DI = new AgavaDInput(moduleId, mDOCount)
+            {
+                PinName = pinName
+            };
+            
+
+            _pins.AddDiscreteInput(pinName, DI);
+        }
+        private void CreateAnalogIn(int moduleId, int pinNumber)
+        {
+            var pinName = $"AI:{moduleId}:{pinNumber}";
+            var AI = new AgavaAInput(moduleId, pinNumber)
+            {
+                PinName = pinName
+            };
+            _pins.AddAnalogInput(pinName, AI);
+        }
+        private void CreateAnalogOut(int moduleId, int pinNumber)
+        {
+            var pinName = $"AO:{moduleId}:{pinNumber}";
+            var AO = new AgavaAOutput(moduleId, pinNumber)
+            {
+                PinName = pinName
+            };
+            AO.ValueChanged += AnalogOutValueChanged;
+            _pins.AddAnalogOutput(pinName, AO);
+        }
+        #endregion Create pins methods
+        private void AnalogOutValueChanged(AnalogPinValueChangedEventArgs ea)
         {
             
         }
+
+        private void DOOnPinStateChanged(DiscretePinStateChangedEventArgs args)
+        {
+            if (args.Pin is AgavaDOutput pin)
+            {
+                Console.WriteLine($"Pin:{pin.PinName} changedt to:{args.NewState}");
+            }
+        }
+
+
+        
+        
     }
 }

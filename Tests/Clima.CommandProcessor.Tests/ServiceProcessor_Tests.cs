@@ -41,5 +41,16 @@ namespace Clima.CommandProcessor.Tests
             
             Assert.Pass();
         }
+        [Test]
+        public void Test_Devider()
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                int ostatok = i % 16;
+                int b1 = i / 16;
+                Console.WriteLine($"Остаток:{ostatok}:{b1}");    
+            }
+                
+        }
     }
 }

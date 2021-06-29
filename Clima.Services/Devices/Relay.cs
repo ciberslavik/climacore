@@ -53,8 +53,8 @@ namespace Clima.Services.Devices
         {
             if (deviceConfig is RelayConfig cfg)
             {
-                _enablePin = ioService.DiscreteOutputs[cfg.RelayPinName];
-                _monitorPin = ioService.DiscreteInputs[cfg.MonitorPinName];
+                _enablePin = ioService.Pins.DiscreteOutputs[cfg.RelayPinName];
+                _monitorPin = ioService.Pins.DiscreteInputs[cfg.MonitorPinName];
                 _monitorPin.PinStateChanged += MonitorPinOnPinStateChanged;
                 _config = cfg;
             }
@@ -64,7 +64,7 @@ namespace Clima.Services.Devices
             }
         }
 
-        private void MonitorPinOnPinStateChanged(object sender, PinStateChangedEventArgs args)
+        private void MonitorPinOnPinStateChanged(DiscretePinStateChangedEventArgs args)
         {
             throw new System.NotImplementedException();
         }

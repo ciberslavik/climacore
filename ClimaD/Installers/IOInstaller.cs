@@ -12,13 +12,13 @@ namespace ClimaD.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IIOService>().ImplementedBy<AgavaIoService>().LifestyleSingleton());
-
+            //container.Register(Component.For<IIOService>().ImplementedBy<AgavaIoService>().LifestyleSingleton());
+            container.Register(Component.For<IIOService>().ImplementedBy<FakeIO>().LifestyleSingleton());
             var io = container.Resolve<IIOService>();
 
             try
             {
-                io.Init();
+                //io.Init();
             }
             catch (IOServiceException e)
             {

@@ -6,27 +6,19 @@ namespace Clima.AgavaModBusIO
 {
     public class AgavaDOutput : DiscreteOutput
     {
-        private int _pinNumber;
+        private int _pinNumberInModule;
         private int _regAddress;
-        public AgavaDOutput()
+        private int _moduleAddr;
+
+        internal AgavaDOutput(int moduleAddr, int pinNumberInModule)
         {
-            _pinNumber = 0;
-            _pinNumber = 0;
+            _pinNumberInModule = pinNumberInModule;
+            _regAddress = 10000 + (_pinNumberInModule / 16);
+            _moduleAddr = moduleAddr;
         }
 
-        public AgavaDOutput(int pinNumber, int regAddress)
-        {
-            _pinNumber = pinNumber;
-            _regAddress = regAddress;
-        }
-        internal int PinNumber
-        {
-            get => _pinNumber;
-        }
-
-        internal int RegAddress
-        {
-            get => _regAddress;
-        }
+        internal int PinNumberInModule => _pinNumberInModule;
+        internal int RegAddress => _regAddress;
+        internal int ModuleAddress => _moduleAddr;
     }
 }

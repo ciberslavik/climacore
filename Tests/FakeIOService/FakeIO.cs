@@ -61,10 +61,9 @@ namespace FakeIOService
             IsInit = true;
         }
         
-        private void DoutOnPinStateChanged(object sender, PinStateChangedEventArgs args)
+        private void DoutOnPinStateChanged(DiscretePinStateChangedEventArgs args)
         {
-            DiscreteOutput output = (DiscreteOutput) sender;
-            Console.WriteLine($"DO State Changed:{output.PinName}");
+            Console.WriteLine($"DO State Changed:{args.Pin.PinName}");
         }
 
         public void Start()
@@ -79,6 +78,7 @@ namespace FakeIOService
 
         public bool IsInit { get; private set; }
         public bool IsRunning { get; private set; }
+        public IOPinCollection Pins { get; }
 
         public IDictionary<string, DiscreteInput> DiscreteInputs => _discreteInputs;
 

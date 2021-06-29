@@ -72,13 +72,13 @@ namespace Clima.Services.Devices
             if (deviceConfig is FCConfig cfg)
             {
                 //Initialize pins
-                EnablePin = ioService.DiscreteOutputs[cfg.EnablePinName];
+                EnablePin = ioService.Pins.DiscreteOutputs[cfg.EnablePinName];
                 EnablePin.State = false;
                 
-                AnalogPin = ioService.AnalogOutputs[cfg.AnalogPinName];
+                AnalogPin = ioService.Pins.AnalogOutputs[cfg.AnalogPinName];
                 AnalogPin.Value = 0.0;
                 
-                AlarmPin = ioService.DiscreteInputs[cfg.AlarmPinName];
+                AlarmPin = ioService.Pins.DiscreteInputs[cfg.AlarmPinName];
                 AlarmPin.PinStateChanged += OnAlarmStateChanged;
 
                 StartUpTime = cfg.StartUpTime;
@@ -89,7 +89,7 @@ namespace Clima.Services.Devices
             }
         }
 
-        private void OnAlarmStateChanged(object sender, PinStateChangedEventArgs args)
+        private void OnAlarmStateChanged(DiscretePinStateChangedEventArgs args)
         {
             if (IsRunning)
             {

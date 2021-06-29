@@ -1,3 +1,4 @@
+using Clima.AgavaModBusIO;
 using Clima.AgavaModBusIO.Model;
 using NUnit.Framework;
 
@@ -13,9 +14,9 @@ namespace AgavaIOService.Test
         [Test]
         public void CreateModule_Test()
         {
-            var module = AgavaIoModule.CreateIoModule(
+            /*AgavaIoService service = new AgavaIoService();
                 1,
-                new ushort[] {0x03, 0x03, 0x06, 0x03, 0x03, 0x06});
+                new ushort[] {0x03, 0x03, 0x06, 0x03, 0x03, 0x06});*/
             
             Assert.Pass();
         }

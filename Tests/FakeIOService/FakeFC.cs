@@ -28,12 +28,12 @@ namespace FakeIOService
             _analogPin = io.AnalogOutputs[analogPinName];
         }
 
-        private void AlarmPinOnPinStateChanged(object sender, PinStateChangedEventArgs args)
+        private void AlarmPinOnPinStateChanged(DiscretePinStateChangedEventArgs args)
         {
             Console.WriteLine($"FC:{_fcNumber} alarm emulated");
         }
 
-        private void EnPinOnPinStateChanged(object sender, PinStateChangedEventArgs args)
+        private void EnPinOnPinStateChanged(DiscretePinStateChangedEventArgs args)
         {
             Console.WriteLine($"FC:{_fcNumber} enabled");
         }
