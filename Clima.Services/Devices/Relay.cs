@@ -1,4 +1,5 @@
-﻿using Clima.Core.Alarm;
+﻿using System.Timers;
+using Clima.Core.Alarm;
 using Clima.Services.Devices.Configs;
 using Clima.Services.IO;
 
@@ -6,69 +7,176 @@ namespace Clima.Services.Devices
 {
     public class Relay:Device, IAlarmNotifier
     {
+        private enum RelayState
+        {
+            None,
+            Init,
+            TryOn,
+            On,
+            TryOff,
+            Off,
+            Alarm
+        }
         private RelayConfig _config;
         private DiscreteOutput _enablePin;
         private DiscreteInput _monitorPin;
-        
+        private Timer _monitorTimer;
+
+        private RelayState _state;
         public Relay()
         {
+            MonitorPin = null;
+            EnablePin = null;
+            _config = RelayConfig.CreateDefaultConfig();
+            _monitorTimer = new Timer();
+            _monitorTimer.Elapsed += MonitorTimerOnElapsed;
+            _monitorTimer.AutoReset = false;
+            //_monitorTimer.
+            _state = RelayState.None;
         }
 
-        public DiscreteInput MonitorPin { get; private set; }
+        private void MonitorTimerOnElapsed(object sender, ElapsedEventArgs e)
+        {
+            
+            if (_state == RelayState.TryOff)
+            {
+                if (GetMonitorState())
+                {
+                    _state = RelayState.Alarm;
+                    throw new DeviceException($"Рэле {_config.RelayName} не отключилось в течении времени ожидания");
+                }
+                _state = RelayState.Off;
+            }
+            else if (_state == RelayState.TryOn)
+            {
+                if (!GetMonitorState())
+                {
+                        _state = RelayState.Alarm;
+                        throw new DeviceException($"Рэле {_config.RelayName} не включилось после подачи команды в течении времени ожидания {_config.MonitorTimeout}");
+                }
+                _state = RelayState.Off;
+            }
+        }
+
+        public RelayConfig Configuration
+        {
+            get => _config;
+            set => _config = value;
+        }
+        public DiscreteInput MonitorPin { get; set; }
+        public DiscreteOutput EnablePin { get; set; }
+        
         public void On()
         {
-            if (_config.RelayEdge == ActiveEdge.Rising)
+            if (_config.EnableLevel == ActiveLevel.High)
             {
-                if (!_enablePin.State)
+                if (!EnablePin.State)
                 {
-                    _enablePin.State = true;
+                    EnablePin.State = true;
                 }
             }
-            else if(_config.RelayEdge == ActiveEdge.Falling)
+            else if(_config.EnableLevel == ActiveLevel.Low)
             {
-                if (_enablePin.State)
+                if (EnablePin.State)
                 {
-                    _enablePin.State = false;
+                    EnablePin.State = false;
                 }
             }
+
+            _state = RelayState.TryOn;
+            _monitorTimer.Start();
         }
         public void Off()
         {
-            if (_config.RelayEdge == ActiveEdge.Rising)
+            if (_config.EnableLevel == ActiveLevel.High)
             {
-                if (_enablePin.State)
+                if (EnablePin.State)
                 {
-                    _enablePin.State = false;
+                    EnablePin.State = false;
                 }
             }
-            else if(_config.RelayEdge == ActiveEdge.Falling)
+            else if(_config.EnableLevel == ActiveLevel.Low)
             {
-                if (!_enablePin.State)
+                if (!EnablePin.State)
                 {
-                    _enablePin.State = true;
+                    EnablePin.State = true;
                 }
             }
+
+            _state = RelayState.TryOff;
+            
+            _monitorTimer.Start();
         }
-        public override void InitDevice(IIOService ioService, object deviceConfig)
+        public override void InitDevice()
         {
-            if (deviceConfig is RelayConfig cfg)
+            if(MonitorPin == null || EnablePin == null)
+                return;
+            _state = RelayState.Init;
+            MonitorPin.PinStateChanged += MonitorPinOnPinStateChanged;
+            _monitorTimer.Interval = _config.MonitorTimeout;
+            Off();
+        }
+
+        private void MonitorPinOnPinStateChanged(DiscretePinStateChangedEventArgs ea)
+        {
+            if (_state == RelayState.TryOn)
             {
-                _enablePin = ioService.Pins.DiscreteOutputs[cfg.RelayPinName];
-                _monitorPin = ioService.Pins.DiscreteInputs[cfg.MonitorPinName];
-                _monitorPin.PinStateChanged += MonitorPinOnPinStateChanged;
-                _config = cfg;
+                if (GetMonitorState())
+                {
+                    _monitorTimer.Stop();
+                    _state = RelayState.On;
+                }
             }
-            else
+            else if (_state == RelayState.On)
             {
-                throw new ConfigNotSupportException(typeof(RelayConfig),deviceConfig.GetType());
+                if (!GetMonitorState())
+                {
+                    _state = RelayState.Alarm;
+                    throw new DeviceException($"Рэле {_config.RelayName} отключилось во время работы");
+                }
+            }
+            else if (_state == RelayState.TryOff)
+            {
+                if (!GetMonitorState())
+                {
+                    _state = RelayState.Off;
+                    _monitorTimer.Stop();
+                }
+            }
+            else if (_state == RelayState.Off)
+            {
+                if (GetMonitorState())
+                {
+                    _state = RelayState.Alarm;
+                    throw new DeviceException($"Рэле {_config.RelayName} включилось в ручном режиме");
+                }
             }
         }
 
-        private void MonitorPinOnPinStateChanged(DiscretePinStateChangedEventArgs args)
+        private bool GetMonitorState()
         {
-            throw new System.NotImplementedException();
+            bool monitorState = false;
+            if (_config.MonitorLevel == ActiveLevel.High)
+            {
+                if (MonitorPin.State)
+                    monitorState = true;
+            }
+            else if (_config.MonitorLevel == ActiveLevel.Low)
+            {
+                if (!MonitorPin.State)
+                    monitorState = true;
+            }
+
+            return monitorState;
         }
 
+        private void SetEnableState(bool state)
+        {
+            if (_config.EnableLevel == ActiveLevel.High)
+                EnablePin.State = state;
+            else if (_config.EnableLevel == ActiveLevel.Low)
+                EnablePin.State = !state;
+        }
         public event AlarmNotifyHandler AlarmNotify;
 
         protected virtual void OnAlarmNotify(AlarmNotifyEventArgs ea)

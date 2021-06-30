@@ -11,15 +11,17 @@ namespace Clima.AgavaModBusIO.Model
         {
             _moduleID = moduleId;
             _pins = new IOPinCollection();
-            
+            _pins.AnalogOutputChanged += OnAnalogOutputChanged;
         }
 
+        public event AnalogPinValueChangedEventHandler AnalogOutputChanged;
+        #region Create module functions
         public static AgavaIOModule CreateModule(byte moduleId, ushort[] signature)
         {
-            int mDICount = 0;
-            int mDOCount = 0;
-            int mAICount = 0;
-            int mAOCount = 0;
+            int mDiCount = 0;
+            int mDoCount = 0;
+            int mAiCount = 0;
+            int mAoCount = 0;
             var module = new AgavaIOModule(moduleId);
             
             for (int subNumber = 0; subNumber < signature.Length; subNumber++)
@@ -33,62 +35,62 @@ namespace Clima.AgavaModBusIO.Model
                     case AgavaSubModuleType.DO:
                         for (int p = 0; p < 4; p++)
                         {
-                            mDOCount++;
-                            module.CreateDiscrOut(mDOCount);
+                            mDoCount++;
+                            module.CreateDiscrOut(mDoCount);
                         }
                         break;
                     case AgavaSubModuleType.SYM:
                         for (int p = 0; p < 2; p++)
                         {
-                            mDOCount++;
-                            module.CreateDiscrOut(mDOCount);
+                            mDoCount++;
+                            module.CreateDiscrOut(mDoCount);
                         }
                         break;
                     case AgavaSubModuleType.R:
                         for (int p = 0; p < 2; p++)
                         {
-                            mDOCount++;
-                            module.CreateDiscrOut(mDOCount);
+                            mDoCount++;
+                            module.CreateDiscrOut(mDoCount);
                         }
                         break;
                     case AgavaSubModuleType.AI:
                         for (int p = 0; p < 4; p++)
                         {
-                            mAICount++;
-                            module.CreateAnalogIn(mAICount);
+                            mAiCount++;
+                            module.CreateAnalogIn(mAiCount);
                         }
                         break;
                     case AgavaSubModuleType.AIO:
                         for (int p = 0; p < 2; p++)
                         {
-                            mAICount++;
-                            module.CreateAnalogIn(mAICount);
+                            mAiCount++;
+                            module.CreateAnalogIn(mAiCount);
                         }
                         for (int p = 0; p < 2; p++)
                         {
-                            mAOCount++;
-                            module.CreateAnalogOut(mAOCount);
+                            mAoCount++;
+                            module.CreateAnalogOut(mAoCount);
                         }
                         break;
                     case AgavaSubModuleType.DI:
                         for (int p = 0; p < 4; p++)
                         {
-                            mDICount++;
-                            module.CreateDiscrIn(mDICount);
+                            mDiCount++;
+                            module.CreateDiscrIn(mDiCount);
                         }
                         break;
                     case AgavaSubModuleType.TMP:
                         for (int p = 0; p < 2; p++)
                         {
-                            mAICount++;
-                            module.CreateAnalogIn(mAICount);
+                            mAiCount++;
+                            module.CreateAnalogIn(mAiCount);
                         }
                         break;
                     case AgavaSubModuleType.DO6:
                         for (int p = 0; p < 6; p++)
                         {
-                            mDOCount++;
-                            module.CreateDiscrOut(mDOCount);
+                            mDoCount++;
+                            module.CreateDiscrOut(mDoCount);
                         }
                         break;
                     case AgavaSubModuleType.ENI:
@@ -134,10 +136,11 @@ namespace Clima.AgavaModBusIO.Model
             pin.PinName = pinName;
             _pins.AddDiscreteOutput(pinName, pin);
         }
-
+        #endregion Create module functions
         public byte ModuleId => _moduleID;
 
-        public bool IsModified => (_pins.IsAnalogModified || _pins.IsDiscreteModified);
+        public bool IsDiscreteModified => _pins.IsDiscreteModified;
+        public bool IsAnalogModified => _pins.IsAnalogModified;
         public IOPinCollection Pins => _pins;
 
         public PinBase GetPinByName(string pinName)
@@ -178,13 +181,9 @@ namespace Clima.AgavaModBusIO.Model
                     if(GetPinByName(pinName) is AgavaDInput pin)
                     {
                         if ((data[i] & (1 << j)) > 0)
-                        {
                             pin.State = true;
-                        }
                         else
-                        {
                             pin.State = false;
-                        }
                     }
                     else
                     {
@@ -242,9 +241,9 @@ namespace Clima.AgavaModBusIO.Model
             return buffer;
         }
 
-        public ushort[] GetAORawData()
+        protected virtual void OnAnalogOutputChanged(AnalogPinValueChangedEventArgs ea)
         {
-            return new ushort[1];
+            AnalogOutputChanged?.Invoke(ea);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Clima.Services.Devices
             protected set => _deviceState = value;
         }
 
-        public abstract void InitDevice(IIOService ioService, object deviceConfig);
+        public abstract void InitDevice();
 
         protected virtual void OnAlarm(DeviceAlarmEventArgs ea)
         {

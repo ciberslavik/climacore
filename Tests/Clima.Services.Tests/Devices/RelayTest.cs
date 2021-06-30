@@ -1,4 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System.Threading;
+using Clima.Services.Devices;
+using Clima.Services.IO;
+using NSubstitute;
+using NSubstitute.ReceivedExtensions;
+using NUnit.Framework;
 
 namespace Clima.Services.Tests.Devices
 {
@@ -8,7 +13,55 @@ namespace Clima.Services.Tests.Devices
         {
         }
 
-        //[Test]
-       // public void 
+        [Test]
+        public void InitRelay_Test()
+        {
+            Relay relay = new Relay();
+            DiscreteOutput enablePin = Substitute.For<DiscreteOutput>();
+            enablePin.State = true;
+            
+            DiscreteInput monitorPin = Substitute.For<DiscreteInput>();
+            relay.EnablePin = enablePin;
+            relay.MonitorPin = monitorPin;
+            
+            relay.InitDevice();
+
+            Assert.AreEqual(enablePin.State, false);
+        }
+
+        [Test]
+        public void RelayToOnState_Test()
+        {
+            Relay relay = new Relay();
+            DiscreteOutput enablePin = Substitute.For<DiscreteOutput>();
+            DiscreteInput monitorPin = Substitute.For<DiscreteInput>();
+            relay.EnablePin = enablePin;
+            relay.MonitorPin = monitorPin;
+            
+            relay.InitDevice();
+            
+            relay.On();
+
+            monitorPin.State = true;
+            
+            Assert.AreEqual(enablePin.State, true);
+        }
+
+        [Test]
+        public void RealayMonitorTimeoutException_Test()
+        {
+            Relay relay = new Relay();
+            DiscreteOutput enablePin = Substitute.For<DiscreteOutput>();
+            DiscreteInput monitorPin = Substitute.For<DiscreteInput>();
+            relay.EnablePin = enablePin;
+            relay.MonitorPin = monitorPin;
+            relay.Configuration.MonitorTimeout = 10;
+            relay.InitDevice();
+            
+            relay.On();
+            
+            Thread.Sleep(3000);
+            
+        }
     }
 }

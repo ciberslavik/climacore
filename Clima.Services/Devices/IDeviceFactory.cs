@@ -3,7 +3,7 @@
     public interface IDeviceFactory
     {
         FrequencyConverter CreateFrequencyConverter(int number);
-        Relay CreateRelay(int relayNumber);
+        Relay GetRelay(string relayName);
         ServoController CreateServoController(int number);
         HeaterController CreateHeaterController(int number);
         

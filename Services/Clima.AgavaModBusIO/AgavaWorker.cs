@@ -12,8 +12,8 @@ namespace Clima.AgavaModBusIO
     public class AgavaWorker
     {
         #region Private fields
-        
-        private readonly IOPinCollection _pins;
+
+        private readonly Dictionary<byte, AgavaIOModule> _modules;
         private readonly IModbusSerialMaster _master;
         private object queueLocker = null;
         private Queue<AgavaRequest> _requestQueue;
@@ -34,16 +34,9 @@ namespace Clima.AgavaModBusIO
         #endregion Events
         #region Public Methods
         
-        public AgavaWorker(IOPinCollection pins, IModbusSerialMaster master)
+        public AgavaWorker(Dictionary<byte, AgavaIOModule> modules, IModbusSerialMaster master)
         {
-            _pins = pins;
-            //
-            _pins.DiscreteOutputChanged+= OnDiscreteOutputChanged;
-            _pins.AnalogOutputChanged += OnAnalogOutputChanged;
-            
-            
-            
-            
+            _modules = modules;
             
             _master = master;
             _requestQueue = new Queue<AgavaRequest>();
@@ -94,6 +87,7 @@ namespace Clima.AgavaModBusIO
             
             while (!_exitSignal)
             {
+                ProcessDiscreteOutputs();
                 if (_requestQueue.Count > 0)
                 {
                     ProcessRequest(_requestQueue.Dequeue());
@@ -162,19 +156,21 @@ namespace Clima.AgavaModBusIO
             OnReplyReceived(reply);
         }
 
-        private void ProcessModifiedDiscretePins()
+        private void ProcessDiscreteOutputs()
         {
-            if (_pins.IsDiscreteModified)
+            foreach (var module in _modules.Values.ToList())
             {
-                var pinList = _pins.ModifiedDiscreteOutputs
-                    .Select(v=>(AgavaDOutput)v)
-                    .ToList();
-                foreach (var pin in pinList)
+                if (module.IsDiscreteModified)
                 {
-                    Console.WriteLine($"    Modified DO: {pin.PinName}");
+                    var doRegister = module.GetDORawData();
+                    AgavaRequest request = new AgavaRequest();
+                    request.ModuleID = module.ModuleId;
+                    request.RegisterAddress = 10000;
+                    request.DataCount = (ushort)doRegister.Length;
+                    request.Data = doRegister.Select(b => (object) b).ToArray();
+                    
+                    EnqueueRequest(request);
                 }
-                
-                _pins.AcceptDiscrete();
             }
         }
         #endregion Private mothods

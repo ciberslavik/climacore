@@ -9,7 +9,7 @@ namespace Clima.Services.Devices
         }
 
 
-        public override void InitDevice(IIOService ioService, object deviceConfig)
+        public override void InitDevice()
         {
             throw new System.NotImplementedException();
         }

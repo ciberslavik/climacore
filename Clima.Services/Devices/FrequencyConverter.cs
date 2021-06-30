@@ -64,29 +64,12 @@ namespace Clima.Services.Devices
                 }
             }
         }
-        internal DiscreteOutput EnablePin { get; private set; }
-        internal DiscreteInput AlarmPin { get; private set; }
-        internal AnalogOutput AnalogPin { get; private set; }
-        public override void InitDevice(IIOService ioService, object deviceConfig)
+        internal DiscreteOutput EnablePin { get; set; }
+        internal DiscreteInput AlarmPin { get; set; }
+        internal AnalogOutput AnalogPin { get; set; }
+        public override void InitDevice()
         {
-            if (deviceConfig is FCConfig cfg)
-            {
-                //Initialize pins
-                EnablePin = ioService.Pins.DiscreteOutputs[cfg.EnablePinName];
-                EnablePin.State = false;
-                
-                AnalogPin = ioService.Pins.AnalogOutputs[cfg.AnalogPinName];
-                AnalogPin.Value = 0.0;
-                
-                AlarmPin = ioService.Pins.DiscreteInputs[cfg.AlarmPinName];
-                AlarmPin.PinStateChanged += OnAlarmStateChanged;
-
-                StartUpTime = cfg.StartUpTime;
-            }
-            else
-            {
-                throw new ConfigNotSupportException(typeof(FCConfig),deviceConfig.GetType());
-            }
+            
         }
 
         private void OnAlarmStateChanged(DiscretePinStateChangedEventArgs args)

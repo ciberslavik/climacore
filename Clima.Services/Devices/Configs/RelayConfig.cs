@@ -5,18 +5,31 @@
         public RelayConfig()
         {
         }
+        public static RelayConfig CreateDefaultConfig()
+        {
+            RelayConfig relay = new RelayConfig();
+            relay.EnablePinName = "DO:1:1";
+            relay.MonitorPinName = "DI:1:1";
+            relay.EnableLevel = ActiveLevel.High;
+            relay.MonitorLevel = ActiveLevel.High;
+            relay.MonitorTimeout = 200;
+            relay.RelayName = "REL:1";
 
-        public string RelayPinName { get; set; }
+            return relay;
+        }
+        public string EnablePinName { get; set; }
         public string MonitorPinName { get; set; }
-        public ActiveEdge RelayEdge { get; set; }
-        public ActiveEdge MonitorEdge { get; set; }
+        public ActiveLevel EnableLevel { get; set; }
+        public ActiveLevel MonitorLevel { get; set; }
         public int MonitorTimeout { get; set; }
         public string RelayName { get; set; }
+        
     }
 
-    public enum ActiveEdge
+    public enum ActiveLevel
     {
-        Rising,
-        Falling
+        High,
+        Low
     }
+    
 }

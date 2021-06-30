@@ -2,6 +2,8 @@
 using Clima.NewtonSoftJsonSerializer;
 using Clima.Services.Configuration;
 using Clima.Services.Devices;
+using Clima.Services.Devices.Configs;
+using Clima.Services.Devices.FactoryConfigs;
 using Clima.Services.IO;
 using FakeIOService;
 using NSubstitute;
@@ -16,7 +18,9 @@ namespace Clima.Services.Tests.Devices
         private IAlarmManager _alarmManager;
 
         private IDeviceFactory _factory;
-        public DeviceFactory_Tests()
+
+        [SetUp]
+        public void FactorySetup()
         {
             _ioService = new FakeIO();
             _ioService.Init();
@@ -25,8 +29,34 @@ namespace Clima.Services.Tests.Devices
             IConfigurationSerializer serializer = new NewtonsoftConfigSerializer();
             _configStore = new DefaultConfigurationStorage(serializer, fs);
             _alarmManager = Substitute.For<IAlarmManager>();
-
+            
+            CreateDefaultFactoryConfig();
+            
             _factory = new DeviceFactory(_configStore, _ioService, _alarmManager);
+        }
+
+        private void CreateDefaultFactoryConfig()
+        {
+            DeviceFactoryConfig factoryConfig = new DeviceFactoryConfig();
+            var relayConfig = new RelayConfig()
+            {
+                EnablePinName = "DO:1:1",
+                EnableLevel = ActiveLevel.High,
+
+                MonitorPinName = "DI:1:1",
+                MonitorLevel = ActiveLevel.High,
+
+                RelayName = "REL:1",
+                
+                MonitorTimeout = 200
+            };
+            factoryConfig.RelayConfigItems.Add(relayConfig);
+            
+            _configStore.RegisterConfig("DeviceFactory", factoryConfig);
+        }
+        public DeviceFactory_Tests()
+        {
+            
         }
         
         
@@ -42,7 +72,7 @@ namespace Clima.Services.Tests.Devices
         [Test]
         public void CreateRelay_Test()
         {
-            var relay = _factory.CreateRelay(0);
+            var relay = _factory.GetRelay("REL:1");
             
             relay.On();
             

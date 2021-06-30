@@ -53,15 +53,19 @@ namespace AgavaIOService.Test
         }
 
         [TestCase(new ushort[] {0x06, 0x07, 0x04, 0x06, 0x07, 0x05})]
-        public void GetAORawData_Test(ushort[] caseData)
+        public void AnalogOutputChangedInvoked_Test(ushort[] caseData)
         {
             AgavaIOModule module = AgavaIOModule.CreateModule(1, caseData);
-
+            bool wasCalled = false;
+            module.AnalogOutputChanged += ea =>
+            {
+                wasCalled = true;
+            };
             var pin = module.GetPinByName("AO:1:1") as AgavaAOutput;
 
             pin.Value = 100.0;
 
-            module.GetAORawData();
+            Assert.IsTrue(wasCalled);
         }
         [Test]
         public void SetDIRawData_Test()

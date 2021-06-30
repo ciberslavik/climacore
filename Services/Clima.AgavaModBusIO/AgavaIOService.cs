@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using System.IO.Ports;
+using System.Linq;
 using Clima.AgavaModBusIO.Configuration;
 using Clima.Services.IO;
 using Clima.AgavaModBusIO.Model;
@@ -72,16 +73,19 @@ namespace Clima.AgavaModBusIO
             
             Console.WriteLine("Create modbus worker.");
             
-            _worker = new AgavaWorker(_pins, _master);
+            _worker = new AgavaWorker(_modules, _master);
             
             Console.WriteLine("IO System  initialization complete");
             IsInit = true;
         }
         public void Start()
         {
-            Console.WriteLine("Starting IO Server.");
-            _worker.CycleTime = _config.IOProcessorCycleTime;
-            _worker.StartWorker();
+            if (IsInit)
+            {
+                Console.WriteLine("Starting IO Server.");
+                _worker.CycleTime = _config.IOProcessorCycleTime;
+                _worker.StartWorker();
+            }
         }
         public void Stop()
         {
@@ -107,6 +111,7 @@ namespace Clima.AgavaModBusIO
                     }
                     Console.WriteLine(signatureStr);
                     var module = AgavaIOModule.CreateModule(i, value);
+                    module.AnalogOutputChanged+= ModuleOnAnalogOutputChanged;
                     _modules.Add(i, module);
                 }
                 catch (TimeoutException tie)
@@ -116,6 +121,22 @@ namespace Clima.AgavaModBusIO
             }
         }
         
-       
+        private void ModuleOnAnalogOutputChanged(AnalogPinValueChangedEventArgs ea)
+        {
+            if (ea.Pin is AgavaAOutput pin)
+            {
+                AgavaRequest request = new AgavaRequest();
+                request.RequestType = RequestType.WriteMultipleRegisters;
+                request.ModuleID = pin.ModuleId;
+                request.RegisterAddress = pin.RegAddress;
+                request.DataCount = 2;
+                //TODO
+                request.Data = new ushort[2].Select(b => (object)b).ToArray();
+                
+                _worker.EnqueueRequest(request);
+            }
+
+                
+        }
     }
 }

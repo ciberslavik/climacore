@@ -7,17 +7,17 @@ namespace Clima.AgavaModBusIO
     public class AgavaDInput : DiscreteInput
     {
         private int _pinNumberInModule;
-        private int _regAddress;
-        private int _moduleAddr;
+        private ushort _regAddress;
+        private byte _moduleId;
 
-        public AgavaDInput(int moduleAddr, int pinNumberInModule)
+        public AgavaDInput(byte moduleId, int pinNumberInModule)
         {
             _pinNumberInModule = pinNumberInModule;
-            _regAddress = 10000 + (_pinNumberInModule / 16);
-            _moduleAddr = moduleAddr;
+            _regAddress = (ushort)(10000 + (_pinNumberInModule / 16));
+            _moduleId = moduleId;
         }
         internal int PinNumberInModule => _pinNumberInModule;
-        internal int RegAddress => _regAddress;
-        internal int ModuleAddress => _moduleAddr;
+        internal ushort RegAddress => _regAddress;
+        internal byte ModuleId => _moduleId;
     }
 }
