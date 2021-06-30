@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Clima.AgavaModBusIO.Model;
 using Clima.Services.IO;
 using NModbus;
 
@@ -10,15 +11,18 @@ namespace Clima.AgavaModBusIO
     public delegate void ReplyReceivedEventHandler(AgavaReply reply);
     public class AgavaWorker
     {
+        #region Private fields
+        
         private readonly IOPinCollection _pins;
         private readonly IModbusSerialMaster _master;
-        private object queueLocker;
+        private object queueLocker = null;
         private Queue<AgavaRequest> _requestQueue;
         private Thread _workerThread;
-
+        
         private bool _isRunning;
         private bool _exitSignal;
 
+        #endregion Private fields
         #region Events
 
         public event ReplyReceivedEventHandler ReplyReceived;
@@ -27,15 +31,33 @@ namespace Clima.AgavaModBusIO
             ReplyReceived?.Invoke(reply);
         }
 
-        #endregion
+        #endregion Events
         #region Public Methods
         
         public AgavaWorker(IOPinCollection pins, IModbusSerialMaster master)
         {
             _pins = pins;
+            //
+            _pins.DiscreteOutputChanged+= OnDiscreteOutputChanged;
+            _pins.AnalogOutputChanged += OnAnalogOutputChanged;
+            
+            
+            
+            
+            
             _master = master;
             _requestQueue = new Queue<AgavaRequest>();
             _workerThread = new Thread(Run);
+        }
+
+        private void OnAnalogOutputChanged(AnalogPinValueChangedEventArgs ea)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
+        {
+            throw new NotImplementedException();
         }
 
         public void StartWorker()
@@ -57,14 +79,32 @@ namespace Clima.AgavaModBusIO
         }
         
         #endregion Public Methods
+
+        #region Public properties
+
+        public int CycleTime { get; set; }
+        public int DiscreteCycleDevider { get; set; }
+        public int AnalogCycleDevider { get; set; }
+
+        #endregion Public properties
+        #region Private mothods
         private void Run()
         {
+            Console.WriteLine("IO Thread started.");
+            
             while (!_exitSignal)
             {
+                if (_requestQueue.Count > 0)
+                {
+                    ProcessRequest(_requestQueue.Dequeue());
+                }
                 
+                Thread.Sleep(CycleTime);
             }
+            Console.WriteLine("IO Thread exited.");
         }
-
+        
+        
         private void ProcessRequest(AgavaRequest request)
         {
             AgavaReply reply = new AgavaReply();
@@ -121,7 +161,22 @@ namespace Clima.AgavaModBusIO
             
             OnReplyReceived(reply);
         }
-        
-        
+
+        private void ProcessModifiedDiscretePins()
+        {
+            if (_pins.IsDiscreteModified)
+            {
+                var pinList = _pins.ModifiedDiscreteOutputs
+                    .Select(v=>(AgavaDOutput)v)
+                    .ToList();
+                foreach (var pin in pinList)
+                {
+                    Console.WriteLine($"    Modified DO: {pin.PinName}");
+                }
+                
+                _pins.AcceptDiscrete();
+            }
+        }
+        #endregion Private mothods
     }
 }
