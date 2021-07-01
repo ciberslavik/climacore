@@ -1,8 +1,6 @@
-using System;
-using System.Runtime.CompilerServices;
 using Clima.Services.IO;
 
-namespace Clima.AgavaModBusIO
+namespace Clima.AgavaModBusIO.Model
 {
     public class AgavaDInput : DiscreteInput
     {

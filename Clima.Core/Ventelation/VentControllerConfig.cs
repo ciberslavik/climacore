@@ -9,7 +9,7 @@ namespace Clima.Core.Ventelation
         {
         }
 
-        public List<DFanConfig> DFanConfigs { get; set; } = new List<DFanConfig>();
-        public List<AFanConfig> AFanConfigs { get; set; } = new List<AFanConfig>();
+        public List<DiscreteFanConfig> DiscreteFanConfigs { get; set; } = new List<DiscreteFanConfig>();
+        public List<AnalogFanConfig> AnalogFanConfigs { get; set; } = new List<AnalogFanConfig>();
     }
 }

@@ -1,22 +1,22 @@
-﻿using Clima.Core.Alarm;
+﻿using Clima.Services.Alarm;
 using Clima.Services.Devices;
 
 namespace Clima.Core.Ventelation
 {
-    public class DFan:IAlarmNotifier
+    public class DiscreteFan:IAlarmNotifier
     {
-        private readonly DFanConfig _config;
+        private readonly DiscreteFanConfig _config;
         private readonly Relay _fanRelay;
 
-        public DFan(DFanConfig config, Relay fanRelay)
+        public DiscreteFan(Relay relay)
         {
-            _config = config;
-            _fanRelay = fanRelay;
+            _fanRelay = relay;
         }
 
         public void Start()
         {
-            
+            _fanRelay.On();
+            IsRunning = true;
         }
 
         public void Stop()

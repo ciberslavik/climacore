@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Clima.Core.Alarm;
+using Clima.Services.Alarm;
 using Clima.Services.Configuration;
 using Clima.Services.Devices.Configs;
 using Clima.Services.Devices.FactoryConfigs;
@@ -16,6 +16,7 @@ namespace Clima.Services.Devices
         private readonly DeviceFactoryConfig _config;
 
         private readonly Dictionary<string, Relay> _relays;
+        private readonly Dictionary<string, FrequencyConverter> _frequencyConverters;
         
         public DeviceFactory(IConfigurationStorage configStorage, IIOService io,IAlarmManager _alarmManager)
         {
@@ -31,20 +32,46 @@ namespace Clima.Services.Devices
             this._alarmManager = _alarmManager;
             _config = _configStorage.GetConfig<DeviceFactoryConfig>("DeviceFactory");
             _relays = new Dictionary<string, Relay>();
+            _frequencyConverters = new Dictionary<string, FrequencyConverter>();
         }
 
-        public FrequencyConverter CreateFrequencyConverter(int number)
+        public FrequencyConverter GetFrequencyConverter(string converterName)
         {
+            //Check FC created
+            if (_frequencyConverters.ContainsKey(converterName))
+                return _frequencyConverters[converterName];
             
-            FCConfig fcCfg = _config.FcConfigItems[number];
+            //Check FC config is exist
+            FCConfig fcCfg = _config.GetFCConfig(converterName);
+            if (fcCfg is null)
+                throw new IndexOutOfRangeException(
+                    $"Frequency converter: {converterName} not created, converter configuration not found.");
+            
+            //Check pins
+            if (!_io.Pins.DiscreteOutputs.ContainsKey(fcCfg.EnablePinName))
+                throw new IndexOutOfRangeException(
+                    $"Frequency converter: {converterName} not created, \n Enable pin:{fcCfg.EnablePinName} not found in IO system.");
+
+            if (!_io.Pins.DiscreteInputs.ContainsKey(fcCfg.AlarmPinName))
+                throw new IndexOutOfRangeException(
+                    $"Frequency converter: {converterName} not created, \n Alarm pin:{fcCfg.AlarmPinName} not found in IO system.");
+
+            if (!_io.Pins.AnalogOutputs.ContainsKey(fcCfg.AnalogPinName))
+                throw new IndexOutOfRangeException(
+                    $"Frequency converter: {converterName} not created, \n Enable pin:{fcCfg.AnalogPinName} not found in IO system.");
             
             var fc = new FrequencyConverter();
 
-            fc.Name = $"FC:{number}";
+            fc.EnablePin = _io.Pins.DiscreteOutputs[fcCfg.EnablePinName];
+            fc.AlarmPin = _io.Pins.DiscreteInputs[fcCfg.AlarmPinName];
+            fc.AnalogPin = _io.Pins.AnalogOutputs[fcCfg.AnalogPinName];
+            
+            fc.Name = fcCfg.FCName;
             //Register fc alarm in alarm manager
             _alarmManager.AddNotifier(fc);
             
             fc.InitDevice();
+            
             
             return fc;
         }
@@ -67,7 +94,7 @@ namespace Clima.Services.Devices
             if (!_io.Pins.DiscreteInputs.ContainsKey(relCfg.MonitorPinName))
                 throw new IndexOutOfRangeException($"Monitor pin:{relCfg.MonitorPinName} not find in IO system");
             
-            var rel = new Relay();
+            var rel = new Relay(new DefaultTimer());
 
             rel.EnablePin = _io.Pins.DiscreteOutputs[relCfg.EnablePinName];
             rel.MonitorPin = _io.Pins.DiscreteInputs[relCfg.MonitorPinName];

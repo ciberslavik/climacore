@@ -24,7 +24,16 @@ namespace Clima.Services.Devices.FactoryConfigs
 
             return null;
         }
+        public FCConfig GetFCConfig(string converterName)
+        {
+            foreach (FCConfig config in FcConfigItems)
+            {
+                if (config.FCName.Equals(converterName))
+                    return config;
+            }
 
+            return null;
+        }
         public static DeviceFactoryConfig CreateDefault()
         {
             var cfg = new DeviceFactoryConfig();

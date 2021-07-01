@@ -1,7 +1,6 @@
-using System;
 using Clima.Services.IO;
 
-namespace Clima.AgavaModBusIO
+namespace Clima.AgavaModBusIO.Model
 {
     public class AgavaAOutput:AnalogOutput
     {

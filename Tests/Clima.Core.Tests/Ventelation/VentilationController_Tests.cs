@@ -1,4 +1,6 @@
-﻿using Clima.NewtonSoftJsonSerializer;
+using Clima.Core.Ventelation;
+using Clima.NewtonSoftJsonSerializer;
+using Clima.Services;
 using Clima.Services.Alarm;
 using Clima.Services.Configuration;
 using Clima.Services.Devices;
@@ -9,9 +11,9 @@ using FakeIOService;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Clima.Services.Tests.Devices
+namespace Clima.Core.Tests.Ventelation
 {
-    public class DeviceFactory_Tests
+    public class VentilationController_Tests
     {
         private IIOService _ioService;
         private IConfigurationStorage _configStore;
@@ -20,7 +22,7 @@ namespace Clima.Services.Tests.Devices
         private IDeviceFactory _factory;
 
         [SetUp]
-        public void FactorySetup()
+        public void TestsSetUp()
         {
             _ioService = new StubIOService();
             _ioService.Init();
@@ -42,10 +44,10 @@ namespace Clima.Services.Tests.Devices
             {
                 var relayConfig = new RelayConfig()
                 {
-                    EnablePinName = $"DO:1:{relayNumber + 2}",
+                    EnablePinName = $"DO:1:{relayNumber+2}",
                     EnableLevel = ActiveLevel.High,
 
-                    MonitorPinName = $"DI:1:{relayNumber + 2}",
+                    MonitorPinName = $"DI:1:{relayNumber+2}",
                     MonitorLevel = ActiveLevel.High,
 
                     RelayName = $"REL:{relayNumber}",
@@ -69,29 +71,48 @@ namespace Clima.Services.Tests.Devices
             }
 
             _configStore.RegisterConfig("DeviceFactory", factoryConfig);
+
+            VentControllerConfig ventConfig = new VentControllerConfig();
+
+            for (int dFanNumber = 1; dFanNumber <= 8; dFanNumber++)
+            {
+                var dFanConfig = new DiscreteFanConfig()
+                {
+                    PerformancePerFan = 15000,
+                    FanCount = 2,
+                    IsDiscard = false,
+                    RelayName = $"REL:{dFanNumber}",
+                    StartPower = 50,
+                    StopPower = 10,
+                    FanName = $"Discrete fan {dFanNumber}"
+                };
+                ventConfig.DiscreteFanConfigs.Add(dFanConfig);
+            }
+
+            for (int aFanNumber = 1; aFanNumber <= 2; aFanNumber++)
+            {
+                var aFanConfig = new AnalogFanConfig()
+                {
+                    Performance = 15000,
+                    FanName = $"Analog fan {aFanNumber}",
+                    FCName = $"FC:{aFanNumber}",
+                    MinimumPower = 10
+                };
+                ventConfig.AnalogFanConfigs.Add(aFanConfig);
+            }
+
+            _configStore.RegisterConfig("VentilationController", ventConfig);
         }
 
-        public DeviceFactory_Tests()
-        {
-            
-        }
-        
-        
-        
         [Test]
-        public void CreateFC_Test()
+        public void CreateController_Test()
         {
-            var fc = _factory.GetFrequencyConverter("FC:1");
+            var controllerConfig = _configStore.GetConfig<VentControllerConfig>("VentilationController");
+            var ventController = new VentilationController(_factory);
             
-            Assert.NotNull(fc);
-        }
-
-        [Test]
-        public void CreateRelay_Test()
-        {
-            var relay = _factory.GetRelay("REL:1");
+            ventController.Init(controllerConfig);
             
-            Assert.NotNull(relay);
+            Assert.NotNull(ventController);
         }
     }
 }

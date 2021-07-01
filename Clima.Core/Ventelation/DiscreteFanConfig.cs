@@ -1,8 +1,8 @@
 ﻿namespace Clima.Core.Ventelation
 {
-    public class DFanConfig
+    public class DiscreteFanConfig
     {
-        public DFanConfig()
+        public DiscreteFanConfig()
         {
         }
 
@@ -24,5 +24,6 @@
             get => PerformancePerFan * FanCount;
         }
         public  bool IsDiscard { get; set; }
+        public string FanName { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace Clima.Services.Tests.Devices
         [Test]
         public void InitRelay_Test()
         {
-            Relay relay = new Relay();
+            Relay relay = new Relay(new FakeTimer());
             DiscreteOutput enablePin = Substitute.For<DiscreteOutput>();
             enablePin.State = true;
             
@@ -32,7 +32,7 @@ namespace Clima.Services.Tests.Devices
         [Test]
         public void RelayToOnState_Test()
         {
-            Relay relay = new Relay();
+            Relay relay = new Relay(new FakeTimer());
             DiscreteOutput enablePin = Substitute.For<DiscreteOutput>();
             DiscreteInput monitorPin = Substitute.For<DiscreteInput>();
             relay.EnablePin = enablePin;
@@ -50,7 +50,8 @@ namespace Clima.Services.Tests.Devices
         [Test]
         public void RealayMonitorTimeoutException_Test()
         {
-            Relay relay = new Relay();
+            var timer = new FakeTimer();
+            Relay relay = new Relay(timer);
             DiscreteOutput enablePin = Substitute.For<DiscreteOutput>();
             DiscreteInput monitorPin = Substitute.For<DiscreteInput>();
             relay.EnablePin = enablePin;
@@ -60,8 +61,7 @@ namespace Clima.Services.Tests.Devices
             
             relay.On();
             
-            Thread.Sleep(3000);
-            
+            Assert.Throws<DeviceException>(() => timer.InvokeElapsed());
         }
     }
 }

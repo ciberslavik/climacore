@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Timers;
-using Clima.Core.Alarm;
+using Clima.Services.Alarm;
 using Clima.Services.Devices.Configs;
 using Clima.Services.IO;
 

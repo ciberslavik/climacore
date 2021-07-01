@@ -1,5 +1,5 @@
 ﻿using System.Timers;
-using Clima.Core.Alarm;
+using Clima.Services.Alarm;
 using Clima.Services.Devices.Configs;
 using Clima.Services.IO;
 
@@ -20,22 +20,22 @@ namespace Clima.Services.Devices
         private RelayConfig _config;
         private DiscreteOutput _enablePin;
         private DiscreteInput _monitorPin;
-        private Timer _monitorTimer;
+        private ITimer _monitorTimer;
 
         private RelayState _state;
-        public Relay()
+        public Relay(ITimer timer)
         {
             MonitorPin = null;
             EnablePin = null;
             _config = RelayConfig.CreateDefaultConfig();
-            _monitorTimer = new Timer();
+            _monitorTimer = timer;
             _monitorTimer.Elapsed += MonitorTimerOnElapsed;
-            _monitorTimer.AutoReset = false;
+            
             //_monitorTimer.
             _state = RelayState.None;
         }
 
-        private void MonitorTimerOnElapsed(object sender, ElapsedEventArgs e)
+        private void MonitorTimerOnElapsed(object sender)
         {
             
             if (_state == RelayState.TryOff)

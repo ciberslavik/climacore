@@ -1,4 +1,4 @@
-﻿namespace Clima.Core.Alarm
+﻿namespace Clima.Services.Alarm
 {
     public delegate void AlarmNotifyHandler(AlarmNotifyEventArgs ea);
 

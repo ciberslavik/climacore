@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Clima.Core.Alarm
+namespace Clima.Services.Alarm
 {
     public class AlarmEventArgs:EventArgs
     {

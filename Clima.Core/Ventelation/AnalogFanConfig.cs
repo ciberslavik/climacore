@@ -1,10 +1,11 @@
 ﻿namespace Clima.Core.Ventelation
 {
-    public class AFanConfig
+    public class AnalogFanConfig
     {
-        public AFanConfig()
+        public AnalogFanConfig()
         {
         }
+        public string FanName { get; set; }
         public string FCName { get; set; }
         public double Performance { get; set; }
         public double MinimumPower { get; set; }

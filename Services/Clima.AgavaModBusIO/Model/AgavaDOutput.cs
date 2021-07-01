@@ -1,8 +1,6 @@
-using System;
-using Clima.AgavaModBusIO.Model;
 using Clima.Services.IO;
 
-namespace Clima.AgavaModBusIO
+namespace Clima.AgavaModBusIO.Model
 {
     public class AgavaDOutput : DiscreteOutput
     {
