@@ -4,13 +4,13 @@ namespace Clima.Services.IO
 {
     public class IOPinCollection
     {
-        private Dictionary<string, AnalogOutput> _analogOutputs;
-        private List<AnalogOutput> _modifiedAnalogOutputs;
+        private Dictionary<string, IAnalogOutput> _analogOutputs;
+        private List<IAnalogOutput> _modifiedAnalogOutputs;
         
-        private Dictionary<string, AnalogInput> _analogInputs;
-        private Dictionary<string, DiscreteInput> _discreteInputs;
-        private Dictionary<string, DiscreteOutput> _discreteOutputs;
-        private List<DiscreteOutput> _modifiedDiscreteOutputs;
+        private Dictionary<string, IAnalogInput> _analogInputs;
+        private Dictionary<string, IDiscreteInput> _discreteInputs;
+        private Dictionary<string, IDiscreteOutput> _discreteOutputs;
+        private List<IDiscreteOutput> _modifiedDiscreteOutputs;
         private bool _isAnalogModified;
         private bool _isDiscreteModified;
         #region Events
@@ -22,7 +22,7 @@ namespace Clima.Services.IO
         public event DiscretePinStateChangedEventHandler DiscreteOutputChanged;
         protected virtual void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
         {
-            if (ea.Pin is DiscreteOutput pin)
+            if (ea.Pin is IDiscreteOutput pin)
             {
                 if (ModifiedDiscreteOutputs.Contains(pin))
                 {
@@ -40,7 +40,7 @@ namespace Clima.Services.IO
         public event AnalogPinValueChangedEventHandler AnalogOutputChanged;
         protected virtual void OnAnalogOutputChanged(AnalogPinValueChangedEventArgs ea)
         {
-            if (ea.Pin is AnalogOutput output)
+            if (ea.Pin is IAnalogOutput output)
             {
                 if (ModifiedAnalogOutputs.Contains(output))
                 {
@@ -63,49 +63,49 @@ namespace Clima.Services.IO
         #endregion Events
         public IOPinCollection()
         {
-            _analogInputs = new Dictionary<string, AnalogInput>();
-            _analogOutputs = new Dictionary<string, AnalogOutput>();
-            _modifiedAnalogOutputs = new List<AnalogOutput>();
-            _discreteInputs = new Dictionary<string, DiscreteInput>();
-            _discreteOutputs = new Dictionary<string, DiscreteOutput>();
-            _modifiedDiscreteOutputs = new List<DiscreteOutput>();
+            _analogInputs = new Dictionary<string, IAnalogInput>();
+            _analogOutputs = new Dictionary<string, IAnalogOutput>();
+            _modifiedAnalogOutputs = new List<IAnalogOutput>();
+            _discreteInputs = new Dictionary<string, IDiscreteInput>();
+            _discreteOutputs = new Dictionary<string, IDiscreteOutput>();
+            _modifiedDiscreteOutputs = new List<IDiscreteOutput>();
 
             _isAnalogModified = false;
             _isDiscreteModified = false;
         }
         
-        public Dictionary<string, AnalogOutput> AnalogOutputs => _analogOutputs;
-        public void AddAnalogOutput(string pinName, AnalogOutput output)
+        public Dictionary<string, IAnalogOutput> AnalogOutputs => _analogOutputs;
+        public void AddAnalogOutput(string pinName, IAnalogOutput output)
         {
             output.ValueChanged += OnAnalogOutputChanged;
             _analogOutputs.Add(pinName, output);
         }
         
-        public Dictionary<string, AnalogInput> AnalogInputs => _analogInputs;
-        public void AddAnalogInput(string pinName, AnalogInput input)
+        public Dictionary<string, IAnalogInput> AnalogInputs => _analogInputs;
+        public void AddAnalogInput(string pinName, IAnalogInput input)
         {
             input.ValueChanged += OnAnalogInputChanged;
             _analogInputs.Add(pinName, input);
         }
         
-        public Dictionary<string, DiscreteInput> DiscreteInputs => _discreteInputs;
-        public void AddDiscreteInput(string pinName, DiscreteInput input)
+        public Dictionary<string, IDiscreteInput> DiscreteInputs => _discreteInputs;
+        public void AddDiscreteInput(string pinName, IDiscreteInput input)
         {
             input.PinStateChanged += OnDiscreteInputChanged;
             _discreteInputs.Add(pinName, input);
         }
 
-        public Dictionary<string, DiscreteOutput> DiscreteOutputs => _discreteOutputs;
+        public Dictionary<string, IDiscreteOutput> DiscreteOutputs => _discreteOutputs;
 
         public bool IsAnalogModified => _isAnalogModified;
 
         public bool IsDiscreteModified => _isDiscreteModified;
 
-        public List<AnalogOutput> ModifiedAnalogOutputs => _modifiedAnalogOutputs;
+        public List<IAnalogOutput> ModifiedAnalogOutputs => _modifiedAnalogOutputs;
 
-        public List<DiscreteOutput> ModifiedDiscreteOutputs => _modifiedDiscreteOutputs;
+        public List<IDiscreteOutput> ModifiedDiscreteOutputs => _modifiedDiscreteOutputs;
 
-        public void AddDiscreteOutput(string pinName, DiscreteOutput output)
+        public void AddDiscreteOutput(string pinName, IDiscreteOutput output)
         {
             output.PinStateChanged += OnDiscreteOutputChanged;
             _discreteOutputs.Add(pinName, output);

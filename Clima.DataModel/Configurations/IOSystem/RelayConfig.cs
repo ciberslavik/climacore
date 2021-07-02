@@ -1,6 +1,8 @@
-﻿namespace Clima.Services.Devices.Configs
+﻿using Clima.DataModel.Configurations.IOSystem;
+
+namespace Clima.Services.Devices.Configs
 {
-    public class RelayConfig
+    public class RelayConfig:DeviceConfigBase
     {
         public RelayConfig()
         {

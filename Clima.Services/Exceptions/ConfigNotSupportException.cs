@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Clima.Services.Devices.Configs
+namespace Clima.Services.Exceptions
 {
     public class ConfigNotSupportException:Exception
     {

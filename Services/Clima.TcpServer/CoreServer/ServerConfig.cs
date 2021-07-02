@@ -1,3 +1,4 @@
+using Clima.DataModel.Configurations;
 using Clima.Services.Configuration;
 
 namespace Clima.TcpServer.CoreServer

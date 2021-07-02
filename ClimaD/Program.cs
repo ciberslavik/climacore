@@ -2,6 +2,7 @@
 using System.Linq;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Clima.DataModel.Configurations;
 using Clima.LocalDataBase.Security;
 using Clima.Services.Communication;
 using Clima.Services.Configuration;

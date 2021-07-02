@@ -7,8 +7,8 @@ namespace Clima.Services.IO
     {
         private bool _newState;
         private bool _prevState;
-        private PinBase _pin;
-        public DiscretePinStateChangedEventArgs(PinBase pin, bool prevState, bool newState)
+        private IPin _pin;
+        public DiscretePinStateChangedEventArgs(IPin pin, bool prevState, bool newState)
         {
             _pin = pin;
             _prevState = prevState;
@@ -17,6 +17,6 @@ namespace Clima.Services.IO
         public bool NewState => _newState;
         public bool PrevState => _prevState;
 
-        public PinBase Pin => _pin;
+        public IPin Pin => _pin;
     }
 }

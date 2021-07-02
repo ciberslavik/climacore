@@ -1,5 +1,7 @@
 ﻿using System.Threading;
+using Clima.DataModel.Configurations.IOSystem;
 using Clima.Services.Devices;
+using Clima.Services.Devices.Configs;
 using Clima.Services.IO;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
@@ -9,42 +11,73 @@ namespace Clima.Services.Tests.Devices
 {
     public class RelayTest
     {
+        private Relay _relay;
         public RelayTest()
         {
         }
-
+        [SetUp]
+        public void SetupRelay()
+        {
+            
+        }
         [Test]
         public void InitRelay_Test()
         {
-            Relay relay = new Relay(new FakeTimer());
-            DiscreteOutput enablePin = Substitute.For<DiscreteOutput>();
-            enablePin.State = true;
+            FakeTimer timer = new FakeTimer();
+            Relay relay = new Relay(timer);
             
-            DiscreteInput monitorPin = Substitute.For<DiscreteInput>();
+            var enablePin = Substitute.For<IDiscreteOutput>();
+            enablePin.State.Returns(false);
+            
+            var monitorPin = Substitute.For<IDiscreteInput>();
+            monitorPin.State.Returns(false);
+            
             relay.EnablePin = enablePin;
             relay.MonitorPin = monitorPin;
-            
-            relay.InitDevice();
 
-            Assert.AreEqual(enablePin.State, false);
+            _relay = relay;
+            
+            _relay.InitDevice(RelayConfig.CreateDefaultConfig());
+            
+            monitorPin.State.Returns(false);
+            
+            timer.InvokeElapsed();
+            
+            enablePin.Received().SetState(false,true);
+            Assert.AreEqual(_relay.EnablePin.State, false);
         }
 
         [Test]
         public void RelayToOnState_Test()
         {
             Relay relay = new Relay(new FakeTimer());
-            DiscreteOutput enablePin = Substitute.For<DiscreteOutput>();
-            DiscreteInput monitorPin = Substitute.For<DiscreteInput>();
+            
+            var enablePin = Substitute.For<IDiscreteOutput>();
+            enablePin.State.Returns(false);
+            
+            var monitorPin = Substitute.For<IDiscreteInput>();
+            monitorPin.State.Returns(false);
+            
             relay.EnablePin = enablePin;
             relay.MonitorPin = monitorPin;
-            
-            relay.InitDevice();
-            
-            relay.On();
 
-            monitorPin.State = true;
+            _relay = relay;
             
-            Assert.AreEqual(enablePin.State, true);
+            _relay.InitDevice(RelayConfig.CreateDefaultConfig());
+            
+            monitorPin.State.Returns(false);
+            
+            _relay.On();
+            
+            _relay.MonitorPin.PinStateChanged +=
+                Raise.Event<DiscretePinStateChangedEventHandler>(new object[]
+                {
+                    new DiscretePinStateChangedEventArgs(_relay.MonitorPin, false, true)
+                }); //With(new DiscretePinStateChangedEventArgs(monitorPin, false, true));
+            
+            enablePin.Received().SetState(true,true);
+            Assert.AreEqual(_relay.EnablePin.State, true);
+            
         }
 
         [Test]
@@ -52,12 +85,12 @@ namespace Clima.Services.Tests.Devices
         {
             var timer = new FakeTimer();
             Relay relay = new Relay(timer);
-            DiscreteOutput enablePin = Substitute.For<DiscreteOutput>();
-            DiscreteInput monitorPin = Substitute.For<DiscreteInput>();
+            var enablePin = Substitute.For<IDiscreteOutput>();
+            var monitorPin = Substitute.For<IDiscreteInput>();
             relay.EnablePin = enablePin;
             relay.MonitorPin = monitorPin;
             relay.Configuration.MonitorTimeout = 10;
-            relay.InitDevice();
+            relay.InitDevice(default(DeviceConfigBase));
             
             relay.On();
             

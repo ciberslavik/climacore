@@ -1,11 +1,11 @@
 using Clima.Core.Ventelation;
+using Clima.DataModel.Configurations.IOSystem;
 using Clima.NewtonSoftJsonSerializer;
 using Clima.Services;
 using Clima.Services.Alarm;
 using Clima.Services.Configuration;
 using Clima.Services.Devices;
 using Clima.Services.Devices.Configs;
-using Clima.Services.Devices.FactoryConfigs;
 using Clima.Services.IO;
 using FakeIOService;
 using NSubstitute;
@@ -59,12 +59,12 @@ namespace Clima.Core.Tests.Ventelation
 
             for (int fcNumber = 1; fcNumber <= 2; fcNumber++)
             {
-                var fcConfig = new FCConfig()
+                var fcConfig = new FrequencyConverterConfig()
                 {
                     EnablePinName = $"DO:1:{fcNumber}",
                     AlarmPinName = $"DI:1:{fcNumber}",
                     AnalogPinName = $"AO:1:{fcNumber}",
-                    FCName = $"FC:{fcNumber}",
+                    ConverterName = $"FC:{fcNumber}",
                     StartUpTime = 1000
                 };
                 factoryConfig.FcConfigItems.Add(fcConfig);

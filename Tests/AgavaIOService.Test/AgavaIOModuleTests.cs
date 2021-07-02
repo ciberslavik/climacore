@@ -44,8 +44,8 @@ namespace AgavaIOService.Test
                 1,
                 new ushort[] {0x03, 0x03, 0x06, 0x03, 0x03, 0x06});
 
-            DiscreteOutput pin = module.Pins.DiscreteOutputs["DO:1:4"];
-            pin.State = true;
+            IDiscreteOutput pin = module.Pins.DiscreteOutputs["DO:1:4"];
+            pin.SetState(true,true);
             
             var result = module.GetDORawData();
             
@@ -63,7 +63,7 @@ namespace AgavaIOService.Test
             };
             var pin = module.GetPinByName("AO:1:1") as AgavaAOutput;
 
-            pin.Value = 100.0;
+            pin.SetValue(100.0);
 
             Assert.IsTrue(wasCalled);
         }

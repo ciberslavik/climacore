@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Clima.Services.Configuration;
+using Clima.DataModel.Configurations;
 
 namespace Clima.Core.Ventelation
 {

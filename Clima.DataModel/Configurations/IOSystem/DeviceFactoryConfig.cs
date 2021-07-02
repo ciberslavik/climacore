@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
-using Clima.Services.Configuration;
 using Clima.Services.Devices.Configs;
 
-namespace Clima.Services.Devices.FactoryConfigs
+namespace Clima.DataModel.Configurations.IOSystem
 {
     public class DeviceFactoryConfig:ConfigItemBase
     {
         public DeviceFactoryConfig()
         {
-            FcConfigItems = new List<FCConfig>();
+            FcConfigItems = new List<FrequencyConverterConfig>();
             RelayConfigItems = new List<RelayConfig>();
         }
-        public List<FCConfig> FcConfigItems { get; set; }
+        public List<FrequencyConverterConfig> FcConfigItems { get; set; }
         public List<RelayConfig> RelayConfigItems { get; set; }
 
         public RelayConfig GetRelayConfig(string relayName)
@@ -24,11 +23,11 @@ namespace Clima.Services.Devices.FactoryConfigs
 
             return null;
         }
-        public FCConfig GetFCConfig(string converterName)
+        public FrequencyConverterConfig GetFCConfig(string converterName)
         {
-            foreach (FCConfig config in FcConfigItems)
+            foreach (FrequencyConverterConfig config in FcConfigItems)
             {
-                if (config.FCName.Equals(converterName))
+                if (config.ConverterName.Equals(converterName))
                     return config;
             }
 

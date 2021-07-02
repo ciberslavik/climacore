@@ -26,7 +26,12 @@ namespace Clima.Core.Ventelation
                 
                 _discreteFans.Add(discreteFan);
             }
-            
+
+            foreach (var analogFanConfig in _config.AnalogFanConfigs)
+            {
+                var analogFan = CreateAnalogFan(analogFanConfig);
+                
+            }
         }
 
         private DiscreteFan CreateDiscreteFan(DiscreteFanConfig config)
@@ -36,6 +41,13 @@ namespace Clima.Core.Ventelation
             return fan;
         }
 
+        private AnalogFan CreateAnalogFan(AnalogFanConfig config)
+        {
+            FrequencyConverter converter = _deviceFactory.GetFrequencyConverter(config.FCName);
+
+            var fan = new AnalogFan(converter);
+            return fan;
+        }
         public void SetPerformance(double performance)
         {
             

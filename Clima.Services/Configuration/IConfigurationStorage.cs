@@ -1,3 +1,5 @@
+using Clima.DataModel.Configurations;
+
 namespace Clima.Services.Configuration
 {
     public interface IConfigurationStorage

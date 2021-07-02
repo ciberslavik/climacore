@@ -1,4 +1,5 @@
-﻿using Clima.Services.IO;
+﻿using Clima.DataModel.Configurations.IOSystem;
+using Clima.Services.IO;
 
 namespace Clima.Services.Devices
 {
@@ -9,7 +10,7 @@ namespace Clima.Services.Devices
         }
 
 
-        public override void InitDevice()
+        public override void InitDevice(DeviceConfigBase deviceConfig)
         {
             throw new System.NotImplementedException();
         }

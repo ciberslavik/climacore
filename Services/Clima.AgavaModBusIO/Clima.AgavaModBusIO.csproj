@@ -4,6 +4,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Clima.DataModel\Clima.DataModel.csproj" />
     <ProjectReference Include="..\..\Clima.Services\Clima.Services.csproj" />
   </ItemGroup>
 

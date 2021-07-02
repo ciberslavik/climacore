@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Timers;
+using Clima.DataModel.Configurations.IOSystem;
 using Clima.Services.Alarm;
-using Clima.Services.Devices.Configs;
 using Clima.Services.IO;
 
 namespace Clima.Services.Devices
@@ -30,7 +30,7 @@ namespace Clima.Services.Devices
             
             if (AlarmPin.State == false)
             {
-                EnablePin.State = true;
+                EnablePin.SetState(true, true);
                 _startTimer.Interval = StartUpTime;
                 _startTimer.Start();
             }
@@ -40,7 +40,7 @@ namespace Clima.Services.Devices
         {
             if (IsRunning)
             {
-                AnalogPin.Value = 0;
+                AnalogPin.SetValue(0);
                 State = FCStateEnum.Stopping;
                 _startTimer.Start();
             }
@@ -56,7 +56,7 @@ namespace Clima.Services.Devices
             {
                 if (IsRunning)
                 {
-                    AnalogPin.Value = value;
+                    AnalogPin.SetValue(value);
                 }
                 else
                 {
@@ -64,10 +64,10 @@ namespace Clima.Services.Devices
                 }
             }
         }
-        internal DiscreteOutput EnablePin { get; set; }
-        internal DiscreteInput AlarmPin { get; set; }
-        internal AnalogOutput AnalogPin { get; set; }
-        public override void InitDevice()
+        internal IDiscreteOutput EnablePin { get; set; }
+        internal IDiscreteInput AlarmPin { get; set; }
+        internal IAnalogOutput AnalogPin { get; set; }
+        public override void InitDevice(DeviceConfigBase deviceConfig)
         {
             
         }
@@ -76,7 +76,7 @@ namespace Clima.Services.Devices
         {
             if (IsRunning)
             {
-                AlarmNotify?.Invoke(new AlarmNotifyEventArgs());
+                AlarmNotify?.Invoke(new AlarmNotifyEventArgs($"Ошибка частотного преобразователя"));
                 State = FCStateEnum.Alarm;
             }
         }
@@ -87,14 +87,14 @@ namespace Clima.Services.Devices
             {
                 if (!AlarmPin.State)
                 {
-                    AnalogPin.Value = _value;
+                    AnalogPin.SetValue(_value);
                     IsRunning = true;
                     State = FCStateEnum.Running;
                 }
             }
             else if (State == FCStateEnum.Stopping)
             {
-                EnablePin.State = false;
+                EnablePin.SetState(false,true);
                 State = FCStateEnum.Stopped;
                 IsRunning = false;
             }

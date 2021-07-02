@@ -143,7 +143,7 @@ namespace Clima.AgavaModBusIO.Model
         public bool IsAnalogModified => _pins.IsAnalogModified;
         public IOPinCollection Pins => _pins;
 
-        public PinBase GetPinByName(string pinName)
+        public IPin GetPinByName(string pinName)
         {
             if (pinName.Contains("DO"))
             {
@@ -181,9 +181,9 @@ namespace Clima.AgavaModBusIO.Model
                     if(GetPinByName(pinName) is AgavaDInput pin)
                     {
                         if ((data[i] & (1 << j)) > 0)
-                            pin.State = true;
+                            pin.SetState(true);
                         else
-                            pin.State = false;
+                            pin.SetState(false);
                     }
                     else
                     {

@@ -2,11 +2,9 @@ using Clima.Services.IO;
 
 namespace Clima.AgavaModBusIO.Model
 {
-    public class AgavaDOutput : DiscreteOutput
+    public class AgavaDOutput :AgavaPinBase, IDiscreteOutput
     {
-        private int _pinNumberInModule;
-        private ushort _regAddress;
-        private byte _moduleId;
+        private bool _state;
 
         internal AgavaDOutput(byte moduleId, int pinNumberInModule)
         {
@@ -15,8 +13,19 @@ namespace Clima.AgavaModBusIO.Model
             _moduleId = moduleId;
         }
 
-        internal int PinNumberInModule => _pinNumberInModule;
-        internal ushort RegAddress => _regAddress;
-        internal byte ModuleId => _moduleId;
+        
+        public event DiscretePinStateChangedEventHandler PinStateChanged;
+
+        public bool State => _state;
+
+        public void SetState(bool state, bool queued)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected virtual void OnPinStateChanged(DiscretePinStateChangedEventArgs ea)
+        {
+            PinStateChanged?.Invoke(ea);
+        }
     }
 }

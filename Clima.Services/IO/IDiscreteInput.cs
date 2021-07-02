@@ -2,11 +2,11 @@ using System;
 
 namespace Clima.Services.IO
 {
-    public interface IDiscreteOutput:IPin
+    
+    public interface IDiscreteInput:IPin
     {
         event DiscretePinStateChangedEventHandler PinStateChanged;
         
-        bool State { get; }
-        void SetState(bool state, bool queued);
+        public bool State { get; }
     }
 }

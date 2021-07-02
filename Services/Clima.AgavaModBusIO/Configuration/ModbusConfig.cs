@@ -1,4 +1,5 @@
-﻿using Clima.Services.Configuration;
+﻿using Clima.DataModel.Configurations;
+using Clima.Services.Configuration;
 
 namespace Clima.AgavaModBusIO.Configuration
 {
