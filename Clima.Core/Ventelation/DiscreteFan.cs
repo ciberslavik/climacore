@@ -3,11 +3,11 @@ using Clima.Services.Devices;
 
 namespace Clima.Core.Ventelation
 {
-    public class DiscreteFan:IAlarmNotifier
+    public class DiscreteFan:IDiscreteFan, IAlarmNotifier
     {
         private readonly DiscreteFanConfig _config;
         private readonly Relay _fanRelay;
-
+        
         public DiscreteFan(Relay relay)
         {
             _fanRelay = relay;
@@ -23,7 +23,10 @@ namespace Clima.Core.Ventelation
         {
             
         }
-        public bool IsRunning { get; set; }
+        public bool IsRunning { get; private set; }
+
+        public DiscreteFanConfig Config => _config;
+
         public bool IsAlarm { get; set; }
         public event AlarmNotifyHandler AlarmNotify;
 

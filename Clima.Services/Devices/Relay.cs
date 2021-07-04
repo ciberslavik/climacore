@@ -99,8 +99,14 @@ namespace Clima.Services.Devices
                 EnablePin.SetState(true, true);
 
             _state = RelayState.TryOff;
-
-            _monitorTimer.Start();
+            if (GetMonitorState(MonitorPin.State))
+            {
+                _monitorTimer.Start();
+            }
+            else
+            {
+                _state = RelayState.Off;
+            }
         }
 
         public override void InitDevice(DeviceConfigBase deviceConfig)

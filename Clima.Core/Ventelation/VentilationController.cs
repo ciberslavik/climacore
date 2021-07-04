@@ -8,13 +8,13 @@ namespace Clima.Core.Ventelation
     {
         private readonly IDeviceFactory _deviceFactory;
         private VentControllerConfig _config;
-        private List<DiscreteFan> _discreteFans;
-        private AnalogFan _analog1;
-        private AnalogFan _analog2;
+        private List<IDiscreteFan> _discreteFans;
+        private IAnalogFan _analog1;
+        private IAnalogFan _analog2;
         public VentilationController(IDeviceFactory deviceFactory)
         {
             _deviceFactory = deviceFactory;
-            _discreteFans = new List<DiscreteFan>();
+            _discreteFans = new List<IDiscreteFan>();
         }
 
         public void Init(VentControllerConfig config)
