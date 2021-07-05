@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.NetworkServer.Transpo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.NetworkServer.Serialization.Newtonsoft", "Clima.NetworkServer.Serialization.Newtonsoft\Clima.NetworkServer.Serialization.Newtonsoft.csproj", "{C7612002-A7DD-46A3-B07A-70815D812A49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleServer", "ConsoleServer\ConsoleServer.csproj", "{114D4E96-028A-4717-9642-3EC7DD5DD83B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{C7612002-A7DD-46A3-B07A-70815D812A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7612002-A7DD-46A3-B07A-70815D812A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7612002-A7DD-46A3-B07A-70815D812A49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{114D4E96-028A-4717-9642-3EC7DD5DD83B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{114D4E96-028A-4717-9642-3EC7DD5DD83B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{114D4E96-028A-4717-9642-3EC7DD5DD83B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{114D4E96-028A-4717-9642-3EC7DD5DD83B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

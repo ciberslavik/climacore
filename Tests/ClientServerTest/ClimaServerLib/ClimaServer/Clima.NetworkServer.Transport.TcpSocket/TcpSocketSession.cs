@@ -25,7 +25,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         private bool _receiving;
         private bool _sending;
         public event EventHandler Connected;
-        
+        public event EventHandler<MessageEventArgs> MessageReceived; 
         public string ConnectionId => _connectionId;
         public int SendBufferSize { get; set; } = 1024;
         public int ReceiveBufferSize { get; set; } = 1024;
@@ -38,6 +38,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         public TcpSocketSession()
         {
             _connectionId = Guid.NewGuid().ToString();
+            _sendLock = new object();
         }
         public Session Session
         {
@@ -61,6 +62,12 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             _receiveEventArg.Completed += OnAsyncCompleted;
             _sendEventArg = new SocketAsyncEventArgs();
             _sendEventArg.Completed += OnAsyncCompleted;
+
+            BytesSent = 0;
+            BytesReceived = 0;
+
+            IsConnected = true;
+            TryReceive();
         }
         
         public bool Disconnect()
@@ -349,7 +356,11 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                     str = str.Substring(0, str.IndexOf("<EOF>", StringComparison.Ordinal));
                 }
                 //DataReceivedEventArgs arg = new DataReceivedEventArgs(Id, str);
-                //OnDataReceived(arg);
+                MessageReceived?.Invoke(this,new MessageEventArgs()
+                {
+                    ConnectionId = ConnectionId,
+                    Data = str
+                });
                 TryReceive();
             }
 

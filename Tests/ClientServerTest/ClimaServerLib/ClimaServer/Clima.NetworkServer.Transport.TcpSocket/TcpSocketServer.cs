@@ -37,7 +37,17 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
         public Task SendAsync(string connectionId, string data)
         {
-            throw new NotImplementedException();
+            var connection = TryGetConnection(connectionId);
+            if (connection != null)
+            {
+                return Task.Run(async () =>
+                {
+                    var tcpSession = (TcpSocketSession) connection;
+                    tcpSession.SendStringAsync(data);
+                });
+            }
+
+            return null;
         }
 
         public event EventHandler<MessageEventArgs> MessageReceived;
@@ -72,6 +82,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             {
                 var AwaiterTask = Task.Run(async () =>
                 {
+                    Console.WriteLine($"Listening on thread:{Thread.CurrentThread.ManagedThreadId}");
                     ProcessConnectionFromClient(await _listener.AcceptTcpClientAsync());
                 });
                 _listenerTasks.Add(AwaiterTask);
@@ -86,8 +97,37 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
         private void ProcessConnectionFromClient(TcpClient client)
         {
-            
+            if (client.Connected)
+            {
+                Console.WriteLine($"Client connection established {client.Client.RemoteEndPoint}");
+                var session = new TcpSocketSession();
+                session.ReceiveBufferSize = _config.ReceiveBufferSize;
+                session.SendBufferSize = _config.SendBufferSize;
+                session.MessageReceived += SessionOnMessageReceived;
+                try
+                {
+                    session.Connect(client.Client);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    throw;
+                }
+                
+                _connections.TryAdd(session.ConnectionId, session);
+                
+                ClientConnected?.Invoke(this, new MessageEventArgs()
+                {
+                    ConnectionId = session.ConnectionId
+                });
+            }
         }
+
+        private void SessionOnMessageReceived(object? sender, MessageEventArgs e)
+        {
+            MessageReceived?.Invoke(sender, e);
+        }
+
 
         public void Dispose()
         {

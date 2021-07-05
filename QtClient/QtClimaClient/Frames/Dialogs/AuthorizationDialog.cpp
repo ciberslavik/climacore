@@ -16,16 +16,16 @@ AuthorizationDialog::AuthorizationDialog(ClientConnection *conn, QWidget *parent
     RequestUserList requestUserList;// = new RequestUserList();
     requestUserList.RequestType = "AllUsers";
 
-    NetworkRequest *netRequest = new NetworkRequest();
-    netRequest->RequestType = "RequestUserList";
+    //NetworkRequest *netRequest = new NetworkRequest();
+    //netRequest->RequestType = "RequestUserList";
 
-    netRequest->Data = requestUserList.toJsonString().toUtf8();
+    //netRequest->Data = requestUserList.toJsonString().toUtf8();
 
     if(m_Connection->isConnected())
     {
         connect(m_Connection,&ClientConnection::ReplyReceived, this, &AuthorizationDialog::onReplyReceived);
-        m_Connection->SendRequest(netRequest);
-        delete netRequest;
+        //m_Connection->SendRequest(netRequest);
+        //delete netRequest;
     }
 }
 
@@ -74,16 +74,16 @@ void AuthorizationDialog::onReplyReceived(const NetworkReply &reply)
 
 NetworkRequest *AuthorizationDialog::CreateUserListRequest(QString requestType, QString parameter)
 {
-    NetworkRequest *request = new NetworkRequest();
-    request->RequestType = "RequestUserList";
+    //NetworkRequest *request = new NetworkRequest();
+    //request->RequestType = "RequestUserList";
 
-    RequestUserList requestUL;
-    requestUL.RequestType = requestType;
-    requestUL.Parameters = parameter;
+    //RequestUserList requestUL;
+    //requestUL.RequestType = requestType;
+    //requestUL.Parameters = parameter;
 
-    request->Data = requestUL.toJsonString().toUtf8();
+    //request->Data = requestUL.toJsonString().toUtf8();
 
-    return request;
+    return new NetworkRequest();
 }
 
 

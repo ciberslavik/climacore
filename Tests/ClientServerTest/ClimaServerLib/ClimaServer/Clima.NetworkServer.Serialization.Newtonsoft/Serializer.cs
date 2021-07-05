@@ -24,7 +24,7 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
 
         public IMessage Deserialize(string data, IMessageTypeProvider typeProvider, IMessageNameProvider nameProvider)
         {
-            using (var sr = new StreamReader(data ?? string.Empty))
+            using (var sr = new StringReader(data ?? string.Empty))
             {
                 var preview = default(GenericMessage);
                 try

@@ -40,6 +40,8 @@ HEADERS += \
     Network/NetworkReply.h \
     Network/NetworkRequest.h \
     Network/ReplyUserList.h \
+    Network/Request.h \
+    Network/RequestParams.h \
     Network/RequestUserList.h \
     Network/Session.h \
     Services/DefaultFrameFactory.h \

@@ -2,7 +2,7 @@
 
 #include <QObject>
 #include <Services/QSerializer.h>
-
+#include "RequestParams.h"
 
 class NetworkRequest : public QSerializer
 {
@@ -15,7 +15,10 @@ public:
     {
 
     }
-    QS_FIELD(QByteArray, RequestType)
-    QS_FIELD(QByteArray, Data)
+    QS_FIELD(QString, jsonrpc)
+    QS_FIELD(QString, method)
+    QS_OBJECT(RequestParams, params)
+    QS_FIELD(int, id)
+
 };
 

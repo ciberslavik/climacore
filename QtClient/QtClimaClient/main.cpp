@@ -3,6 +3,7 @@
 #include <QApplication>
 
 #include <Network/ClientConnection.h>
+#include <Network/Request.h>
 
 #include <Frames/Dialogs/AuthorizationDialog.h>
 #include <Frames/MainMenuFrame.h>
@@ -18,10 +19,11 @@ int main(int argc, char *argv[])
     conn->ConnectToHost("127.0.0.1", 5911);
 
     NetworkRequest request;
-    request.RequestType = QString("GetInfo").toUtf8();
-    request.Data = QString("Hello Qt client").toUtf8();
+    request.jsonrpc = "2.0";
+    request.method = "rpc.version";
 
-    //conn->SendRequest(request);
+    conn->SendRequest(&request);
+
 
     CMainWindow w;
     w.show();

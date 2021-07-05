@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_NetworkRequest_t {
-    QByteArrayData data[4];
-    char stringdata0[41];
+    QByteArrayData data[6];
+    char stringdata0[49];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,13 +32,15 @@ struct qt_meta_stringdata_NetworkRequest_t {
 static const qt_meta_stringdata_NetworkRequest_t qt_meta_stringdata_NetworkRequest = {
     {
 QT_MOC_LITERAL(0, 0, 14), // "NetworkRequest"
-QT_MOC_LITERAL(1, 15, 11), // "RequestType"
-QT_MOC_LITERAL(2, 27, 8), // "QDomNode"
-QT_MOC_LITERAL(3, 36, 4) // "Data"
+QT_MOC_LITERAL(1, 15, 7), // "jsonrpc"
+QT_MOC_LITERAL(2, 23, 8), // "QDomNode"
+QT_MOC_LITERAL(3, 32, 6), // "method"
+QT_MOC_LITERAL(4, 39, 6), // "params"
+QT_MOC_LITERAL(5, 46, 2) // "id"
 
     },
-    "NetworkRequest\0RequestType\0QDomNode\0"
-    "Data"
+    "NetworkRequest\0jsonrpc\0QDomNode\0method\0"
+    "params\0id"
 };
 #undef QT_MOC_LITERAL
 
@@ -49,7 +51,7 @@ static const uint qt_meta_data_NetworkRequest[] = {
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
-       4,   14, // properties
+       8,   14, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        4,       // flags
@@ -60,6 +62,10 @@ static const uint qt_meta_data_NetworkRequest[] = {
        1, 0x80000000 | 2, 0x0009500b,
        3, QMetaType::QJsonValue, 0x00095003,
        3, 0x80000000 | 2, 0x0009500b,
+       4, QMetaType::QJsonValue, 0x00095003,
+       4, 0x80000000 | 2, 0x0009500b,
+       5, QMetaType::QJsonValue, 0x00095003,
+       5, 0x80000000 | 2, 0x0009500b,
 
        0        // eod
 };
@@ -69,6 +75,8 @@ void NetworkRequest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
     if (_c == QMetaObject::RegisterPropertyMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+        case 7:
+        case 5:
         case 3:
         case 1:
             *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QDomNode >(); break;
@@ -81,10 +89,14 @@ void NetworkRequest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
-        case 0: *reinterpret_cast< QJsonValue*>(_v) = _t->get_json_RequestType(); break;
-        case 1: *reinterpret_cast< QDomNode*>(_v) = _t->get_xml_RequestType(); break;
-        case 2: *reinterpret_cast< QJsonValue*>(_v) = _t->get_json_Data(); break;
-        case 3: *reinterpret_cast< QDomNode*>(_v) = _t->get_xml_Data(); break;
+        case 0: *reinterpret_cast< QJsonValue*>(_v) = _t->get_json_jsonrpc(); break;
+        case 1: *reinterpret_cast< QDomNode*>(_v) = _t->get_xml_jsonrpc(); break;
+        case 2: *reinterpret_cast< QJsonValue*>(_v) = _t->get_json_method(); break;
+        case 3: *reinterpret_cast< QDomNode*>(_v) = _t->get_xml_method(); break;
+        case 4: *reinterpret_cast< QJsonValue*>(_v) = _t->get_json_params(); break;
+        case 5: *reinterpret_cast< QDomNode*>(_v) = _t->get_xml_params(); break;
+        case 6: *reinterpret_cast< QJsonValue*>(_v) = _t->get_json_id(); break;
+        case 7: *reinterpret_cast< QDomNode*>(_v) = _t->get_xml_id(); break;
         default: break;
         }
     } else if (_c == QMetaObject::WriteProperty) {
@@ -92,10 +104,14 @@ void NetworkRequest::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
-        case 0: _t->set_json_RequestType(*reinterpret_cast< QJsonValue*>(_v)); break;
-        case 1: _t->set_xml_RequestType(*reinterpret_cast< QDomNode*>(_v)); break;
-        case 2: _t->set_json_Data(*reinterpret_cast< QJsonValue*>(_v)); break;
-        case 3: _t->set_xml_Data(*reinterpret_cast< QDomNode*>(_v)); break;
+        case 0: _t->set_json_jsonrpc(*reinterpret_cast< QJsonValue*>(_v)); break;
+        case 1: _t->set_xml_jsonrpc(*reinterpret_cast< QDomNode*>(_v)); break;
+        case 2: _t->set_json_method(*reinterpret_cast< QJsonValue*>(_v)); break;
+        case 3: _t->set_xml_method(*reinterpret_cast< QDomNode*>(_v)); break;
+        case 4: _t->set_json_params(*reinterpret_cast< QJsonValue*>(_v)); break;
+        case 5: _t->set_xml_params(*reinterpret_cast< QDomNode*>(_v)); break;
+        case 6: _t->set_json_id(*reinterpret_cast< QJsonValue*>(_v)); break;
+        case 7: _t->set_xml_id(*reinterpret_cast< QDomNode*>(_v)); break;
         default: break;
         }
     } else if (_c == QMetaObject::ResetProperty) {

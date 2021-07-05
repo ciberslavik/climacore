@@ -77,6 +77,8 @@ SOURCES       = ../QtClimaClient/Frames/Dialogs/AuthorizationDialog.cpp \
 		moc_NetworkReply.cpp \
 		moc_NetworkRequest.cpp \
 		moc_ReplyUserList.cpp \
+		moc_Request.cpp \
+		moc_RequestParams.cpp \
 		moc_RequestUserList.cpp \
 		moc_Session.cpp \
 		moc_DefaultFrameFactory.cpp \
@@ -110,6 +112,8 @@ OBJECTS       = AuthorizationDialog.o \
 		moc_NetworkReply.o \
 		moc_NetworkRequest.o \
 		moc_ReplyUserList.o \
+		moc_Request.o \
+		moc_RequestParams.o \
 		moc_RequestUserList.o \
 		moc_Session.o \
 		moc_DefaultFrameFactory.o \
@@ -310,6 +314,8 @@ DIST          = ../../../Qt/5.9.9/gcc_64/mkspecs/features/spec_pre.prf \
 		../QtClimaClient/Network/NetworkReply.h \
 		../QtClimaClient/Network/NetworkRequest.h \
 		../QtClimaClient/Network/ReplyUserList.h \
+		../QtClimaClient/Network/Request.h \
+		../QtClimaClient/Network/RequestParams.h \
 		../QtClimaClient/Network/RequestUserList.h \
 		../QtClimaClient/Network/Session.h \
 		../QtClimaClient/Services/DefaultFrameFactory.h \
@@ -731,7 +737,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.9.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../QtClimaClient/Frames/Dialogs/AuthorizationDialog.h ../QtClimaClient/Frames/FrameBase.h ../QtClimaClient/Frames/IFrameFactory.h ../QtClimaClient/Frames/MainMenuFrame.h ../QtClimaClient/Frames/SystemStateFrame.h ../QtClimaClient/Frames/VentelationStateFrame.h ../QtClimaClient/MainWindow.h ../QtClimaClient/Models/Authorization/User.h ../QtClimaClient/Models/LivestockState.h ../QtClimaClient/Network/AuthRequest.h ../QtClimaClient/Network/ClientConnection.h ../QtClimaClient/Network/NetworkReply.h ../QtClimaClient/Network/NetworkRequest.h ../QtClimaClient/Network/ReplyUserList.h ../QtClimaClient/Network/RequestUserList.h ../QtClimaClient/Network/Session.h ../QtClimaClient/Services/DefaultFrameFactory.h ../QtClimaClient/Services/FrameManager.h ../QtClimaClient/Services/FrameName.h ../QtClimaClient/Services/QSerializer.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../QtClimaClient/Frames/Dialogs/AuthorizationDialog.h ../QtClimaClient/Frames/FrameBase.h ../QtClimaClient/Frames/IFrameFactory.h ../QtClimaClient/Frames/MainMenuFrame.h ../QtClimaClient/Frames/SystemStateFrame.h ../QtClimaClient/Frames/VentelationStateFrame.h ../QtClimaClient/MainWindow.h ../QtClimaClient/Models/Authorization/User.h ../QtClimaClient/Models/LivestockState.h ../QtClimaClient/Network/AuthRequest.h ../QtClimaClient/Network/ClientConnection.h ../QtClimaClient/Network/NetworkReply.h ../QtClimaClient/Network/NetworkRequest.h ../QtClimaClient/Network/ReplyUserList.h ../QtClimaClient/Network/Request.h ../QtClimaClient/Network/RequestParams.h ../QtClimaClient/Network/RequestUserList.h ../QtClimaClient/Network/Session.h ../QtClimaClient/Services/DefaultFrameFactory.h ../QtClimaClient/Services/FrameManager.h ../QtClimaClient/Services/FrameName.h ../QtClimaClient/Services/QSerializer.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../QtClimaClient/Frames/Dialogs/AuthorizationDialog.cpp ../QtClimaClient/Frames/FrameBase.cpp ../QtClimaClient/Frames/MainMenuFrame.cpp ../QtClimaClient/Frames/SystemStateFrame.cpp ../QtClimaClient/Frames/VentelationStateFrame.cpp ../QtClimaClient/Models/Authorization/User.cpp ../QtClimaClient/Models/LivestockState.cpp ../QtClimaClient/Network/ClientConnection.cpp ../QtClimaClient/Network/ReplyUserList.cpp ../QtClimaClient/Network/RequestUserList.cpp ../QtClimaClient/Network/Session.cpp ../QtClimaClient/Services/DefaultFrameFactory.cpp ../QtClimaClient/Services/FrameManager.cpp ../QtClimaClient/main.cpp ../QtClimaClient/MainWindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../QtClimaClient/Frames/Dialogs/AuthorizationDialog.ui ../QtClimaClient/Frames/MainMenuFrame.ui ../QtClimaClient/Frames/SystemStateFrame.ui ../QtClimaClient/Frames/VentelationStateFrame.ui ../QtClimaClient/MainWindow.ui $(DISTDIR)/
 
@@ -765,9 +771,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../Qt/5.9.9/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h ../../../Qt/5.9.9/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_AuthorizationDialog.cpp moc_FrameBase.cpp moc_MainMenuFrame.cpp moc_SystemStateFrame.cpp moc_VentelationStateFrame.cpp moc_MainWindow.cpp moc_User.cpp moc_LivestockState.cpp moc_AuthRequest.cpp moc_ClientConnection.cpp moc_NetworkReply.cpp moc_NetworkRequest.cpp moc_ReplyUserList.cpp moc_RequestUserList.cpp moc_Session.cpp moc_DefaultFrameFactory.cpp moc_FrameManager.cpp moc_QSerializer.cpp
+compiler_moc_header_make_all: moc_AuthorizationDialog.cpp moc_FrameBase.cpp moc_MainMenuFrame.cpp moc_SystemStateFrame.cpp moc_VentelationStateFrame.cpp moc_MainWindow.cpp moc_User.cpp moc_LivestockState.cpp moc_AuthRequest.cpp moc_ClientConnection.cpp moc_NetworkReply.cpp moc_NetworkRequest.cpp moc_ReplyUserList.cpp moc_Request.cpp moc_RequestParams.cpp moc_RequestUserList.cpp moc_Session.cpp moc_DefaultFrameFactory.cpp moc_FrameManager.cpp moc_QSerializer.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_AuthorizationDialog.cpp moc_FrameBase.cpp moc_MainMenuFrame.cpp moc_SystemStateFrame.cpp moc_VentelationStateFrame.cpp moc_MainWindow.cpp moc_User.cpp moc_LivestockState.cpp moc_AuthRequest.cpp moc_ClientConnection.cpp moc_NetworkReply.cpp moc_NetworkRequest.cpp moc_ReplyUserList.cpp moc_RequestUserList.cpp moc_Session.cpp moc_DefaultFrameFactory.cpp moc_FrameManager.cpp moc_QSerializer.cpp
+	-$(DEL_FILE) moc_AuthorizationDialog.cpp moc_FrameBase.cpp moc_MainMenuFrame.cpp moc_SystemStateFrame.cpp moc_VentelationStateFrame.cpp moc_MainWindow.cpp moc_User.cpp moc_LivestockState.cpp moc_AuthRequest.cpp moc_ClientConnection.cpp moc_NetworkReply.cpp moc_NetworkRequest.cpp moc_ReplyUserList.cpp moc_Request.cpp moc_RequestParams.cpp moc_RequestUserList.cpp moc_Session.cpp moc_DefaultFrameFactory.cpp moc_FrameManager.cpp moc_QSerializer.cpp
 moc_AuthorizationDialog.cpp: ../../../Qt/5.9.9/gcc_64/include/QtWidgets/QDialog \
 		../../../Qt/5.9.9/gcc_64/include/QtWidgets/qdialog.h \
 		../../../Qt/5.9.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -869,6 +875,8 @@ moc_AuthorizationDialog.cpp: ../../../Qt/5.9.9/gcc_64/include/QtWidgets/QDialog 
 		../../../Qt/5.9.9/gcc_64/include/QtCore/qfiledevice.h \
 		../../../Qt/5.9.9/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.9.9/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QCryptographicHash \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcryptographichash.h \
 		../QtClimaClient/Network/ClientConnection.h \
 		../QtClimaClient/Network/NetworkReply.h \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QObject \
@@ -893,6 +901,7 @@ moc_AuthorizationDialog.cpp: ../../../Qt/5.9.9/gcc_64/include/QtWidgets/QDialog 
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QDebug \
 		../QtClimaClient/Network/NetworkRequest.h \
+		../QtClimaClient/Network/RequestParams.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -1745,6 +1754,7 @@ moc_ClientConnection.cpp: ../QtClimaClient/Network/NetworkReply.h \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QDebug \
 		../QtClimaClient/Network/NetworkRequest.h \
+		../QtClimaClient/Network/RequestParams.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -1922,6 +1932,7 @@ moc_NetworkRequest.cpp: ../../../Qt/5.9.9/gcc_64/include/QtCore/QObject \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaObject \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QDebug \
+		../QtClimaClient/Network/RequestParams.h \
 		../QtClimaClient/Network/NetworkRequest.h \
 		moc_predefs.h \
 		../../../Qt/5.9.9/gcc_64/bin/moc
@@ -2013,6 +2024,178 @@ moc_ReplyUserList.cpp: ../QtClimaClient/Services/QSerializer.h \
 		moc_predefs.h \
 		../../../Qt/5.9.9/gcc_64/bin/moc
 	/home/ciber/Qt/5.9.9/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/ciber/Qt/5.9.9/gcc_64/mkspecs/linux-g++ -I/home/ciber/ClimaProject/QtClient/QtClimaClient -I/home/ciber/Qt/5.9.9/gcc_64/include -I/home/ciber/Qt/5.9.9/gcc_64/include/QtWidgets -I/home/ciber/Qt/5.9.9/gcc_64/include/QtGui -I/home/ciber/Qt/5.9.9/gcc_64/include/QtNetwork -I/home/ciber/Qt/5.9.9/gcc_64/include/QtXml -I/home/ciber/Qt/5.9.9/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../QtClimaClient/Network/ReplyUserList.h -o moc_ReplyUserList.cpp
+
+moc_Request.cpp: ../../../Qt/5.9.9/gcc_64/include/QtCore/QObject \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qobject.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qflags.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qstring.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qchar.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qlist.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qpair.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qobject_impl.h \
+		../QtClimaClient/Services/QSerializer.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QJsonObject \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qjsonobject.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qjsonvalue.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QJsonDocument \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qjsondocument.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QJsonArray \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qjsonarray.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QJsonValue \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/QDomDocument \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/qdom.h \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/qtxmlglobal.h \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/qtxml-config.h \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/QDomElement \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qmap.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qhash.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qvector.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qset.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaProperty \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qmetaobject.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaObject \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaType \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QDebug \
+		../QtClimaClient/Network/Request.h \
+		moc_predefs.h \
+		../../../Qt/5.9.9/gcc_64/bin/moc
+	/home/ciber/Qt/5.9.9/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/ciber/Qt/5.9.9/gcc_64/mkspecs/linux-g++ -I/home/ciber/ClimaProject/QtClient/QtClimaClient -I/home/ciber/Qt/5.9.9/gcc_64/include -I/home/ciber/Qt/5.9.9/gcc_64/include/QtWidgets -I/home/ciber/Qt/5.9.9/gcc_64/include/QtGui -I/home/ciber/Qt/5.9.9/gcc_64/include/QtNetwork -I/home/ciber/Qt/5.9.9/gcc_64/include/QtXml -I/home/ciber/Qt/5.9.9/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../QtClimaClient/Network/Request.h -o moc_Request.cpp
+
+moc_RequestParams.cpp: ../../../Qt/5.9.9/gcc_64/include/QtCore/QObject \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qobject.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qflags.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qstring.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qchar.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qlist.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qpair.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qobject_impl.h \
+		../QtClimaClient/Services/QSerializer.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QJsonObject \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qjsonobject.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qjsonvalue.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QJsonDocument \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qjsondocument.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QJsonArray \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qjsonarray.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QJsonValue \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/QDomDocument \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/qdom.h \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/qtxmlglobal.h \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/qtxml-config.h \
+		../../../Qt/5.9.9/gcc_64/include/QtXml/QDomElement \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qmap.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qhash.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qvector.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qset.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaProperty \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qmetaobject.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaObject \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaType \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QDebug \
+		../QtClimaClient/Network/RequestParams.h \
+		moc_predefs.h \
+		../../../Qt/5.9.9/gcc_64/bin/moc
+	/home/ciber/Qt/5.9.9/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/ciber/Qt/5.9.9/gcc_64/mkspecs/linux-g++ -I/home/ciber/ClimaProject/QtClient/QtClimaClient -I/home/ciber/Qt/5.9.9/gcc_64/include -I/home/ciber/Qt/5.9.9/gcc_64/include/QtWidgets -I/home/ciber/Qt/5.9.9/gcc_64/include/QtGui -I/home/ciber/Qt/5.9.9/gcc_64/include/QtNetwork -I/home/ciber/Qt/5.9.9/gcc_64/include/QtXml -I/home/ciber/Qt/5.9.9/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../QtClimaClient/Network/RequestParams.h -o moc_RequestParams.cpp
 
 moc_RequestUserList.cpp: ../QtClimaClient/Services/QSerializer.h \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QJsonObject \
@@ -2603,6 +2786,8 @@ AuthorizationDialog.o: ../QtClimaClient/Frames/Dialogs/AuthorizationDialog.cpp .
 		../../../Qt/5.9.9/gcc_64/include/QtCore/qfiledevice.h \
 		../../../Qt/5.9.9/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.9.9/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QCryptographicHash \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcryptographichash.h \
 		../QtClimaClient/Network/ClientConnection.h \
 		../QtClimaClient/Network/NetworkReply.h \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QObject \
@@ -2627,6 +2812,7 @@ AuthorizationDialog.o: ../QtClimaClient/Frames/Dialogs/AuthorizationDialog.cpp .
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QDebug \
 		../QtClimaClient/Network/NetworkRequest.h \
+		../QtClimaClient/Network/RequestParams.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -3369,6 +3555,7 @@ ClientConnection.o: ../QtClimaClient/Network/ClientConnection.cpp ../QtClimaClie
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QDebug \
 		../QtClimaClient/Network/NetworkRequest.h \
+		../QtClimaClient/Network/RequestParams.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtnetworkglobal.h \
@@ -3880,14 +4067,18 @@ main.o: ../QtClimaClient/main.cpp ../QtClimaClient/MainWindow.h \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.9.9/gcc_64/include/QtCore/QDebug \
 		../QtClimaClient/Network/NetworkRequest.h \
+		../QtClimaClient/Network/RequestParams.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/QTcpSocket \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtcpsocket.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtnetworkglobal.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qtnetwork-config.h \
 		../../../Qt/5.9.9/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../QtClimaClient/Network/Request.h \
 		../QtClimaClient/Frames/Dialogs/AuthorizationDialog.h \
 		../../../Qt/5.9.9/gcc_64/include/QtWidgets/QDialog \
 		../../../Qt/5.9.9/gcc_64/include/QtWidgets/qdialog.h \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/QCryptographicHash \
+		../../../Qt/5.9.9/gcc_64/include/QtCore/qcryptographichash.h \
 		../QtClimaClient/Network/ReplyUserList.h \
 		../QtClimaClient/Models/Authorization/User.h \
 		../QtClimaClient/Frames/MainMenuFrame.h \
@@ -4082,6 +4273,12 @@ moc_NetworkRequest.o: moc_NetworkRequest.cpp
 
 moc_ReplyUserList.o: moc_ReplyUserList.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ReplyUserList.o moc_ReplyUserList.cpp
+
+moc_Request.o: moc_Request.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Request.o moc_Request.cpp
+
+moc_RequestParams.o: moc_RequestParams.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_RequestParams.o moc_RequestParams.cpp
 
 moc_RequestUserList.o: moc_RequestUserList.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_RequestUserList.o moc_RequestUserList.cpp
