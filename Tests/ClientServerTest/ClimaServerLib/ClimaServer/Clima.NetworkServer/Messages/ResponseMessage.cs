@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 namespace Clima.NetworkServer.Messages
 {
     [DataContract]
-    public abstract class ResponseMessage
+    public abstract class ResponseMessage:IMessage
     {
         public abstract string Version { get; }
 

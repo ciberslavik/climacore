@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 namespace Clima.NetworkServer.Messages
 {
     [DataContract]
-    public class RequestMessage
+    public class RequestMessage:IMessage
     {
         [DataMember(Name = "jsonrpc", EmitDefaultValue = true)]
         public string Version => "2.0";

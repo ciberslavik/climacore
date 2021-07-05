@@ -1,7 +1,11 @@
+using System;
 using System.IO;
+using Clima.NetworkServer.Exceptions;
 using Clima.NetworkServer.Messages;
+using Clima.NetworkServer.Serialization.Newtonsoft.Internal;
 using Clima.NetworkServer.Services;
 using Newtonsoft.Json;
+using JsonReaderException = Newtonsoft.Json.JsonReaderException;
 
 namespace Clima.NetworkServer.Serialization.Newtonsoft
 {
@@ -20,7 +24,115 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
 
         public IMessage Deserialize(string data, IMessageTypeProvider typeProvider, IMessageNameProvider nameProvider)
         {
-            throw new System.NotImplementedException();
+            using (var sr = new StreamReader(data ?? string.Empty))
+            {
+                var preview = default(GenericMessage);
+                try
+                {
+                    preview = (GenericMessage)JsonSerializer.Deserialize(sr, typeof(GenericMessage));
+                }
+                catch (JsonReaderException)
+                {
+                    
+                }
+                if (preview == null || !preview.IsValid)
+                {
+                    throw new InvalidRequestException(data)
+                    {
+                        MessageId = preview?.Id,
+                    };
+                }
+
+                var name = preview.Name;
+                var isRequest = name != null;
+                if (name == null)
+                {
+                    // server cannot handle a response message
+                    if (nameProvider == null)
+                    {
+                        throw new InvalidRequestException(data)
+                        {
+                            MessageId = preview.Id,
+                        };
+                    }
+
+                    // invalid request id
+                    name = nameProvider.TryGetMessageName(preview.Id);
+                    if (name == null)
+                    {
+                        throw new InvalidRequestException(name)
+                        {
+                            MessageId = preview.Id,
+                        };
+                    }
+                }
+                try
+                {
+                    // deserialize request or response message
+                    if (isRequest)
+                    {
+                        return DeserializeRequest(data, name, preview.Id, typeProvider);
+                    }
+
+                    return DeserializeResponse(data, name, preview.Id, preview.Error, typeProvider);
+                }
+                catch (JsonServicesException ex)
+                {
+                    // make sure MessageId is reported
+                    if (ex.MessageId == null)
+                    {
+                        ex.MessageId = preview.Id;
+                    }
+
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidRequestException(data, ex)
+                    {
+                        MessageId = preview.Id,
+                    };
+                }
+            }
+        }
+        
+        private RequestMessage DeserializeRequest(string data, string name, string id, IMessageTypeProvider typeProvider)
+        {
+            using (var sr = new StringReader(data))
+            {
+                // get the message request type
+                var type = typeProvider.GetRequestType(name);
+                var msgType = typeof(RequestMsg<>).MakeGenericType(new[] { type });
+
+                // deserialize the strong-typed message
+                var reqMsg = (IRequestMessage)JsonSerializer.Deserialize(sr, msgType);
+                return new RequestMessage
+                {
+                    Name = name,
+                    Parameters = reqMsg.Parameters,
+                    Id = id,
+                };
+            }
+        }
+
+        public ResponseMessage DeserializeResponse(string data, string name, string id, Error error, IMessageTypeProvider typeProvider)
+        {
+            using (var sr = new StringReader(data))
+            {
+                // pre-deserialize to get the bulk of the message
+                var type = typeProvider.GetResponseType(name);
+
+                // handle void messages
+                if (type == typeof(void))
+                {
+                    return ResponseMessage.Create(null, error, id);
+                }
+
+                // deserialize the strong-typed message
+                var msgType = typeof(ResponseMsg<>).MakeGenericType(new[] { type });
+                var respMsg = (IResponseMessage)JsonSerializer.Deserialize(sr, msgType);
+                return ResponseMessage.Create(respMsg.Result, error, id);
+            }
         }
     }
 }
