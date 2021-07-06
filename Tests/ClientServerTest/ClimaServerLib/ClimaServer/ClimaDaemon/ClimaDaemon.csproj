@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>ConsoleServer</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Communication\Clima.NetworkServer.Transport.TcpSocket\Clima.NetworkServer.Transport.TcpSocket.csproj" />
+      <ProjectReference Include="..\Communication\Clima.NetworkServer\Clima.NetworkServer.csproj" />
+      <ProjectReference Include="..\CoreImplementatins\Clima.Serialization.Newtonsoft\Clima.Serialization.Newtonsoft.csproj" />
+      <ProjectReference Include="..\Core\Clima.Basics\Clima.Basics.csproj" />
+    </ItemGroup>
+
+</Project>

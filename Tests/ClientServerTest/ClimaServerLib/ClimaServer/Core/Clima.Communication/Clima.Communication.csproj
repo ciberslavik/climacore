@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Communication\Clima.NetworkServer\Clima.NetworkServer.csproj" />
+      <ProjectReference Include="..\Clima.Basics\Clima.Basics.csproj" />
+      <ProjectReference Include="..\Clima.Core\Clima.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Exceptions" />
+    </ItemGroup>
+
+</Project>
