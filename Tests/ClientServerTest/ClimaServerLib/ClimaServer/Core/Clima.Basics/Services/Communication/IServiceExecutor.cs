@@ -7,6 +7,7 @@ namespace Clima.NetworkServer.Services
         object Execute(string method, object parameters);
         object Execute(string service, string method, object parameters);
         
-        void RegisterHandler(string name, Func<object, object> execute);
+        void RegisterHandler(string method, Func<object, object> execute);
+        void RegisterHandler(string service, string method, Func<object, object> execute);
     }
 }
