@@ -8,6 +8,9 @@ namespace Clima.Basics.Services.Communication.Messages
     {
         [DataMember(Name = "jsonrpc", EmitDefaultValue = true)]
         public override string Version => "2.0";
+        
+        [DataMember(Name = "service", EmitDefaultValue = true)]
+        public override string Service { get; set; }
 
         [IgnoreDataMember]
         public override object Result { get; set; }

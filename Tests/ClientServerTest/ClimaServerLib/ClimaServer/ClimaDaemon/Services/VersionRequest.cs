@@ -1,7 +1,7 @@
 using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 
-namespace ConsoleServer
+namespace ConsoleServer.Services
 {
     public class VersionRequest:IReturn<VersionResponse>,ICustomName
     {

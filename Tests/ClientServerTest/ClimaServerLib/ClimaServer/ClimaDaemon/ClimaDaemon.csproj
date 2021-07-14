@@ -10,7 +10,10 @@
       <ProjectReference Include="..\Communication\Clima.NetworkServer.Transport.TcpSocket\Clima.NetworkServer.Transport.TcpSocket.csproj" />
       <ProjectReference Include="..\Communication\Clima.NetworkServer\Clima.NetworkServer.csproj" />
       <ProjectReference Include="..\CoreImplementatins\Clima.Serialization.Newtonsoft\Clima.Serialization.Newtonsoft.csproj" />
+      <ProjectReference Include="..\CoreImplementations\Clima.Communication\Clima.Communication.csproj" />
+      <ProjectReference Include="..\CoreImplementations\Clima.Serialization.Newtonsoft\Clima.Serialization.Newtonsoft.csproj" />
       <ProjectReference Include="..\Core\Clima.Basics\Clima.Basics.csproj" />
+      <ProjectReference Include="..\Core\Clima.Communication\Clima.Communication.csproj" />
     </ItemGroup>
 
 </Project>

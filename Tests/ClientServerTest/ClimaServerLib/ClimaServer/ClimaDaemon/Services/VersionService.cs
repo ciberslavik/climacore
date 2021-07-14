@@ -1,4 +1,4 @@
-namespace ConsoleServer
+namespace ConsoleServer.Services
 {
     public class VersionService
     {

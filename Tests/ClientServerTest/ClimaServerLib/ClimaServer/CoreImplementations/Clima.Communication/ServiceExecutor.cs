@@ -26,7 +26,7 @@ namespace Clima.Communication
         public object Execute(string method, object parameters)
         {
             // execute the requested service
-            if (RegisteredHandlers.TryGetValue("", out var service))
+            if (RegisteredHandlers.TryGetValue("root", out var service))
             {
                 if(service.TryGetValue(method, out var handler))
                     return handler(parameters);
@@ -37,15 +37,27 @@ namespace Clima.Communication
 
         public void RegisterHandler(string method, Func<object, object> execute)
         {
-            RegisteredHandlers[""][method ?? throw new ArgumentNullException(nameof(method))] =
+            if (!RegisteredHandlers.ContainsKey("root"))
+                RegisteredHandlers.TryAdd("root", new ConcurrentDictionary<string, Func<object, object>>());
+            
+            RegisteredHandlers["root"][method ?? throw new ArgumentNullException(nameof(method))] =
                 execute ?? throw new ArgumentNullException(nameof(execute));
+            
+            Console.WriteLine($"Registered service: root, method: {method}");
         }
         
-        public void RegisterHandler(string service,string method, Func<object, object> execute)
+        public void RegisterHandler(string service, string method, Func<object, object> execute)
         {
-            RegisteredHandlers[service ?? throw new ArgumentNullException(nameof(service))]
-                    [method ?? throw new ArgumentNullException(nameof(method))] =
+            if (string.IsNullOrEmpty(service))
+                throw new ArgumentNullException(nameof(service));
+            
+            if (!RegisteredHandlers.ContainsKey(service))
+                RegisteredHandlers.TryAdd(service, new ConcurrentDictionary<string, Func<object, object>>());
+            
+            RegisteredHandlers[service][method ?? throw new ArgumentNullException(nameof(method))] =
                 execute ?? throw new ArgumentNullException(nameof(execute));
+            
+            Console.WriteLine($"Registered service: {service}, method: {method}");
         }
     }
 }

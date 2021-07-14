@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Clima.Basics
+namespace Clima.Services.Devices
 {
     public class Class1
     {

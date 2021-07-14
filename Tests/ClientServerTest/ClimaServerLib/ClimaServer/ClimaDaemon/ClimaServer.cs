@@ -1,11 +1,14 @@
 
+using Clima.Basics.Services;
 using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
+using Clima.Communication;
 using Clima.NetworkServer;
 using Clima.NetworkServer.Services;
 using Clima.NetworkServer.Transport;
 using Clima.NetworkServer.Transport.TcpSocket;
 using Clima.Serialization.Newtonsoft;
+using ConsoleServer.Services;
 
 namespace ConsoleServer
 {
@@ -22,7 +25,7 @@ namespace ConsoleServer
             _serializer = new NetworkSerializer();
             _tcpServer = new TcpSocketServer(TcpServerConfig.CreateDefault());
             _typeProvider = new MessageTypeProvider();
-            _executor = new ServiceExecutor();
+            _executor = new ServiceExecutor(default(IServiceProvider));
             _executor.RegisterHandler(VersionRequest.MessageName, param =>
             {
                 return new VersionService().Execute((VersionRequest) param);

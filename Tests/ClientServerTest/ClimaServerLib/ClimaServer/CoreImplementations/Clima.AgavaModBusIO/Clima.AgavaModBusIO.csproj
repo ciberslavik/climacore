@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Clima.Basics\Clima.Basics.csproj" />
+    <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    
+    <PackageReference Include="NModbus" Version="3.0.62" />
+    <PackageReference Include="NModbus.Serial" Version="3.0.62" />
+    <PackageReference Include="System.IO.Ports" Version="6.0.0-preview.4.21253.7" />
+  </ItemGroup>
+
+  
+</Project>

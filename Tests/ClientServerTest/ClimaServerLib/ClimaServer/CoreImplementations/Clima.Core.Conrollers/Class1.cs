@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Clima.ServiceContainer.CastleWindsor
+namespace Clima.Core.Conrollers.Ventilation
 {
     public class Class1
     {
