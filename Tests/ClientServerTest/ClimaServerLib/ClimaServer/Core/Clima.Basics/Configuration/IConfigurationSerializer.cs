@@ -4,5 +4,7 @@
     {
         string Serialize(object value);
         T Deserialize<T>(string data);
+        
+        string DataExtension { get; }
     }
 }

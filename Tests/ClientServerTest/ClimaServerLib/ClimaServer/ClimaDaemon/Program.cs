@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using Clima.ServiceContainer.CastleWindsor;
 
 namespace ConsoleServer
 {
@@ -7,14 +8,10 @@ namespace ConsoleServer
     {
         static void Main(string[] args)
         {
-            ClimaServer server = new ClimaServer();
-
-            server.Start();
+            ApplicationBuilder builder = new ApplicationBuilder();
+            builder.Initialize();
             
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
-
-            server.Stop();
+            builder.Run();
         }
     }
 }

@@ -1,20 +1,9 @@
 
-using Clima.Basics.Services;
-using Clima.Basics.Services.Communication;
-using Clima.Basics.Services.Communication.Messages;
-using Clima.Communication;
-using Clima.NetworkServer;
-using Clima.NetworkServer.Services;
-using Clima.NetworkServer.Transport;
-using Clima.NetworkServer.Transport.TcpSocket;
-using Clima.Serialization.Newtonsoft;
-using ConsoleServer.Services;
-
 namespace ConsoleServer
 {
     public class ClimaServer
     {
-        private IServer _tcpServer;
+        /*private IServer _tcpServer;
         private JsonServer _server;
         private INetworkSerializer _serializer;
         private IMessageTypeProvider _typeProvider;
@@ -43,6 +32,6 @@ namespace ConsoleServer
         public void Stop()
         {
             _tcpServer.Stop();
-        }
+        }*/
     }
 }

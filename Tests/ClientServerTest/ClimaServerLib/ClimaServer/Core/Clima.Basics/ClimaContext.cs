@@ -1,17 +1,20 @@
 ﻿using System;
 using Clima.Basics.Configuration;
+using Clima.Basics.Services;
 using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
 namespace Clima.Core
 {
-    public class AppContext
+    public class ClimaContext
     {
         private static readonly object _lock = new object();
-        private static AppContext _instance;
-
+        private static ClimaContext _instance;
+        private static bool _exitSignal;
+        private static object _exitLocker = new object();
+        
         private readonly IServiceProvider _serviceProvider;
 
-        private AppContext(IServiceProvider serviceProvider)
+        private ClimaContext(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -24,13 +27,13 @@ namespace Clima.Core
                 {
                     if (_instance == null)
                     {
-                        _instance = new AppContext(serviceProvider);
+                        _instance = new ClimaContext(serviceProvider);
                     }
                 }
             }
         }
 
-        public static AppContext Current
+        public static ClimaContext Current
         {
             get
             {
@@ -43,7 +46,14 @@ namespace Clima.Core
 
         public IConfigurationStorage ConfigurationStorage => 
             _serviceProvider.Resolve<IConfigurationStorage>();
-        
-        
+
+        public IFileSystem FileSystem => 
+            _serviceProvider.Resolve<IFileSystem>();
+
+        public static bool ExitSignal
+        {
+            get { return _exitSignal; }
+            set { _exitSignal = value; }
+        }
     }
 }

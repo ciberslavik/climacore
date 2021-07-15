@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Conrollers", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Devices", "CoreImplementations\Clima.Core.Devices\Clima.Core.Devices.csproj", "{FFB9725A-FBD8-4FA8-9A5F-34F05D5B7CBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Configuration.FileSystem", "CoreImplementations\Clima.Configuration.FileSystem\Clima.Configuration.FileSystem.csproj", "{317A55E3-CCDA-4393-B821-4A05CD0ACAFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{FFB9725A-FBD8-4FA8-9A5F-34F05D5B7CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFB9725A-FBD8-4FA8-9A5F-34F05D5B7CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFB9725A-FBD8-4FA8-9A5F-34F05D5B7CBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{317A55E3-CCDA-4393-B821-4A05CD0ACAFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{317A55E3-CCDA-4393-B821-4A05CD0ACAFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{317A55E3-CCDA-4393-B821-4A05CD0ACAFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{317A55E3-CCDA-4393-B821-4A05CD0ACAFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C429A04A-B373-48BC-A352-B5EF01615975} = {8DDBF612-E4D4-45E3-82C1-81F596E00A2C}
@@ -98,5 +104,6 @@ Global
 		{EAFC042A-ED51-47F2-A4CF-EB423E6553AD} = {CA8F4360-59DA-477A-9FE6-BEB77A2C0D00}
 		{80EA422E-11A3-4EB0-AC94-CF038BB2BACA} = {CA8F4360-59DA-477A-9FE6-BEB77A2C0D00}
 		{FFB9725A-FBD8-4FA8-9A5F-34F05D5B7CBC} = {CA8F4360-59DA-477A-9FE6-BEB77A2C0D00}
+		{317A55E3-CCDA-4393-B821-4A05CD0ACAFF} = {CA8F4360-59DA-477A-9FE6-BEB77A2C0D00}
 	EndGlobalSection
 EndGlobal

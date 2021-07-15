@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      
+      <ProjectReference Include="..\CoreImplementations\Clima.ServiceContainer.CastleWindsor\Clima.ServiceContainer.CastleWindsor.csproj" />
     </ItemGroup>
 
 </Project>

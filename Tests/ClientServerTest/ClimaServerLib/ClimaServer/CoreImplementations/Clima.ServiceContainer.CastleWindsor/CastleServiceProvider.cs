@@ -6,11 +6,11 @@ namespace Clima.ServiceContainer.CastleWindsor
 {
     public class CastleServiceProvider:IServiceProvider
     {
-        private IWindsorContainer _container;
+        private readonly IWindsorContainer _container;
 
-        public CastleServiceProvider()
+        public CastleServiceProvider(IWindsorContainer container)
         {
-            _container = new WindsorContainer();
+            _container = container;
         }
         public T Resolve<T>()
         {

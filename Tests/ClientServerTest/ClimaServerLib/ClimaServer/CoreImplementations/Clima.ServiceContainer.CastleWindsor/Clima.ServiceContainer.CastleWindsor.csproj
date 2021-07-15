@@ -6,14 +6,15 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Clima.Basics\Clima.Basics.csproj" />
+      <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />
+      <ProjectReference Include="..\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj" />
+      <ProjectReference Include="..\Clima.Configuration.FileSystem\Clima.Configuration.FileSystem.csproj" />
+      <ProjectReference Include="..\Clima.Core.Devices\Clima.Core.Devices.csproj" />
+      <ProjectReference Include="..\Clima.Serialization.Newtonsoft\Clima.Serialization.Newtonsoft.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Castle.Windsor" Version="5.1.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Installers" />
     </ItemGroup>
 
 </Project>
