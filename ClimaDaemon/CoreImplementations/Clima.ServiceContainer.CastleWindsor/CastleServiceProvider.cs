@@ -14,7 +14,7 @@ namespace Clima.ServiceContainer.CastleWindsor
         }
         public T Resolve<T>()
         {
-            throw new NotImplementedException();
+            return _container.Resolve<T>();
         }
 
         public void InitializeService(IServiceInitializer initializer)

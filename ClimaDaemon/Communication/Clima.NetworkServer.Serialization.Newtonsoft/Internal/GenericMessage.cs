@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using Clima.Basics.Services.Communication.Messages;
 using Clima.NetworkServer.Messages;
 
 namespace Clima.NetworkServer.Serialization.Newtonsoft.Internal

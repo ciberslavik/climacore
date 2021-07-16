@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using Clima.Basics.Services.Communication;
+using Clima.Basics.Services.Communication.Messages;
 using Clima.NetworkServer.Exceptions;
 using Clima.NetworkServer.Messages;
 using Clima.NetworkServer.Serialization.Newtonsoft.Internal;
@@ -9,7 +11,7 @@ using JsonReaderException = Newtonsoft.Json.JsonReaderException;
 
 namespace Clima.NetworkServer.Serialization.Newtonsoft
 {
-    public class Serializer:INetworkSerializer
+    public class JsonNetworkSerializer:INetworkSerializer
     {
         private JsonSerializer JsonSerializer { get; set; } = JsonSerializer.Create();
         
@@ -108,7 +110,7 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
                 var reqMsg = (IRequestMessage)JsonSerializer.Deserialize(sr, msgType);
                 return new RequestMessage
                 {
-                    Name = name,
+                    Service = name,
                     Parameters = reqMsg.Parameters,
                     Id = id,
                 };

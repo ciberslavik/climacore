@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Communication\Clima.NetworkServer.Serialization.Newtonsoft\Clima.NetworkServer.Serialization.Newtonsoft.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Basics\Clima.Basics.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />
       <ProjectReference Include="..\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj" />
