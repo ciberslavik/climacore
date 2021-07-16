@@ -9,7 +9,7 @@ namespace Clima.Core.Devices.Configuration
         {
         }
 
-        public List<MonitoredRelayConfig> MonitoredRelays { get; } = new List<MonitoredRelayConfig>();
+        public Dictionary<string, MonitoredRelayConfig> MonitoredRelays { get; } = new Dictionary<string, MonitoredRelayConfig>();
         public string ConfigurationName => "DeviceProvider";
     }
 }

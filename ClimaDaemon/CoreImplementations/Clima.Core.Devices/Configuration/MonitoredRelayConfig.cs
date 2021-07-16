@@ -21,5 +21,12 @@
         public string MonitorPinName { get; set; }
         public int StateChangeTimeout { get; set; }
         public int MonitorTimeout { get; set; }
+        public ActiveLevel EnableLevel { get; set; }
+        public ActiveLevel MonitorLevel { get; set; }
+    }
+    public enum ActiveLevel
+    {
+        High,
+        Low
     }
 }

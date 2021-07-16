@@ -28,7 +28,21 @@ namespace Clima.Core.Devices
 
         public IRelay GetRelay(string relayName)
         {
-            throw new System.NotImplementedException();
+            if (_relays.ContainsKey(relayName))
+            {
+                return _relays[relayName];
+            }
+            else if (_config.MonitoredRelays.ContainsKey(relayName))
+            {
+                var relay = new MonitoredRelay(new DefaultTimer());
+                relay.Configuration = _config.MonitoredRelays[relayName];
+                
+                return relay;
+            }
+            else
+            {
+                throw new KeyNotFoundException(relayName);
+            }
         }
 
         public IFrequencyConverter GetFrequencyConverter(string converterName)

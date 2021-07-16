@@ -6,7 +6,9 @@ namespace Clima.Core.Devices
 {
     public interface IRelay
     {
-        void SetState(bool state);
-        bool State { get; }
+        void On();
+        void Off();
+        bool RelayIsOn { get; }
+        
     }
 }

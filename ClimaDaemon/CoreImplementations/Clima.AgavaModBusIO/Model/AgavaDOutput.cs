@@ -6,7 +6,7 @@ namespace Clima.AgavaModBusIO.Model
     public class AgavaDOutput :AgavaPinBase, IDiscreteOutput
     {
         private bool _state;
-
+        private bool _prevState;
         internal AgavaDOutput(byte moduleId, int pinNumberInModule)
         {
             _pinNumberInModule = pinNumberInModule;
@@ -21,7 +21,12 @@ namespace Clima.AgavaModBusIO.Model
 
         public void SetState(bool state, bool queued)
         {
-            throw new System.NotImplementedException();
+            if (_state != state)
+            {
+                _prevState = _state;
+                _state = state;
+                OnPinStateChanged(new DiscretePinStateChangedEventArgs(this, _prevState, _state));
+            }
         }
 
         protected virtual void OnPinStateChanged(DiscretePinStateChangedEventArgs ea)

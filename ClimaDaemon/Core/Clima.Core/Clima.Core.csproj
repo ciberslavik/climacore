@@ -8,8 +8,4 @@
       <ProjectReference Include="..\Clima.Basics\Clima.Basics.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Exceptions" />
-    </ItemGroup>
-
 </Project>
