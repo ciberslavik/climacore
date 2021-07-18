@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Clima.Core;
@@ -34,7 +35,7 @@ namespace Clima.ServiceContainer.CastleWindsor
         {
             while (!ClimaContext.ExitSignal)
             {
-                
+                Thread.Sleep(500);
             }
         }
     }

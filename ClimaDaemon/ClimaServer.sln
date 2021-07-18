@@ -1,38 +1,45 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimaDaemon", "ClimaDaemon\ClimaDaemon.csproj", "{114D4E96-028A-4717-9642-3EC7DD5DD83B}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimaDaemon", "ClimaDaemon\ClimaDaemon.csproj", "{114D4E96-028A-4717-9642-3EC7DD5DD83B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{8DDBF612-E4D4-45E3-82C1-81F596E00A2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Basics", "Core\Clima.Basics\Clima.Basics.csproj", "{C429A04A-B373-48BC-A352-B5EF01615975}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Basics", "Core\Clima.Basics\Clima.Basics.csproj", "{C429A04A-B373-48BC-A352-B5EF01615975}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Implementations", "Implementations", "{CA8F4360-59DA-477A-9FE6-BEB77A2C0D00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core", "Core\Clima.Core\Clima.Core.csproj", "{2AA104BC-2183-4728-8301-76DBA300DC94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Core", "Core\Clima.Core\Clima.Core.csproj", "{2AA104BC-2183-4728-8301-76DBA300DC94}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Communication", "Communication", "{097481DE-74BF-4033-92CC-4CD24774B69E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.NetworkServer", "Communication\Clima.NetworkServer\Clima.NetworkServer.csproj", "{A5DD8A72-1840-4223-8368-233D7B63AA7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.NetworkServer", "Communication\Clima.NetworkServer\Clima.NetworkServer.csproj", "{A5DD8A72-1840-4223-8368-233D7B63AA7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.NetworkServer.Transport.TcpSocket", "Communication\Clima.NetworkServer.Transport.TcpSocket\Clima.NetworkServer.Transport.TcpSocket.csproj", "{8DAF9D43-8335-4D54-BC82-1472BAAD6946}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.NetworkServer.Transport.TcpSocket", "Communication\Clima.NetworkServer.Transport.TcpSocket\Clima.NetworkServer.Transport.TcpSocket.csproj", "{8DAF9D43-8335-4D54-BC82-1472BAAD6946}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.AgavaModBusIO", "CoreImplementations\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj", "{340D403F-D6E9-4124-97D9-9979C66362A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.AgavaModBusIO", "CoreImplementations\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj", "{340D403F-D6E9-4124-97D9-9979C66362A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Communication", "CoreImplementations\Clima.Communication\Clima.Communication.csproj", "{C93BBF22-C40D-47FE-B2B2-7840B6C0C3D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Communication", "CoreImplementations\Clima.Communication\Clima.Communication.csproj", "{C93BBF22-C40D-47FE-B2B2-7840B6C0C3D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Serialization.Newtonsoft", "CoreImplementations\Clima.Serialization.Newtonsoft\Clima.Serialization.Newtonsoft.csproj", "{3D2E6AC7-6050-4B6B-B69B-F01FC5B8A81E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Serialization.Newtonsoft", "CoreImplementations\Clima.Serialization.Newtonsoft\Clima.Serialization.Newtonsoft.csproj", "{3D2E6AC7-6050-4B6B-B69B-F01FC5B8A81E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.ServiceContainer.CastleWindsor", "CoreImplementations\Clima.ServiceContainer.CastleWindsor\Clima.ServiceContainer.CastleWindsor.csproj", "{65EEAE3E-99AE-44D2-861F-05CBAE1A91E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.ServiceContainer.CastleWindsor", "CoreImplementations\Clima.ServiceContainer.CastleWindsor\Clima.ServiceContainer.CastleWindsor.csproj", "{65EEAE3E-99AE-44D2-861F-05CBAE1A91E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Services.Devices", "CoreImplementations\Clima.Services.Devices\Clima.Services.Devices.csproj", "{EAFC042A-ED51-47F2-A4CF-EB423E6553AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Services.Devices", "CoreImplementations\Clima.Services.Devices\Clima.Services.Devices.csproj", "{EAFC042A-ED51-47F2-A4CF-EB423E6553AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Conrollers", "CoreImplementations\Clima.Core.Conrollers\Clima.Core.Conrollers.csproj", "{80EA422E-11A3-4EB0-AC94-CF038BB2BACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Core.Conrollers", "CoreImplementations\Clima.Core.Conrollers\Clima.Core.Conrollers.csproj", "{80EA422E-11A3-4EB0-AC94-CF038BB2BACA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Devices", "CoreImplementations\Clima.Core.Devices\Clima.Core.Devices.csproj", "{FFB9725A-FBD8-4FA8-9A5F-34F05D5B7CBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Core.Devices", "CoreImplementations\Clima.Core.Devices\Clima.Core.Devices.csproj", "{FFB9725A-FBD8-4FA8-9A5F-34F05D5B7CBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Configuration.FileSystem", "CoreImplementations\Clima.Configuration.FileSystem\Clima.Configuration.FileSystem.csproj", "{317A55E3-CCDA-4393-B821-4A05CD0ACAFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Configuration.FileSystem", "CoreImplementations\Clima.Configuration.FileSystem\Clima.Configuration.FileSystem.csproj", "{317A55E3-CCDA-4393-B821-4A05CD0ACAFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.NetworkServer.Serialization.Newtonsoft", "Communication\Clima.NetworkServer.Serialization.Newtonsoft\Clima.NetworkServer.Serialization.Newtonsoft.csproj", "{A37850AD-DF24-4EAE-91C4-119471E8DD79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.NetworkServer.Serialization.Newtonsoft", "Communication\Clima.NetworkServer.Serialization.Newtonsoft\Clima.NetworkServer.Serialization.Newtonsoft.csproj", "{A37850AD-DF24-4EAE-91C4-119471E8DD79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Tests", "Tests\Clima.Core.Tests\Clima.Core.Tests.csproj", "{AE31BC5D-9287-4BB4-83C0-A5E230E5B604}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +103,13 @@ Global
 		{A37850AD-DF24-4EAE-91C4-119471E8DD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A37850AD-DF24-4EAE-91C4-119471E8DD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A37850AD-DF24-4EAE-91C4-119471E8DD79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE31BC5D-9287-4BB4-83C0-A5E230E5B604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE31BC5D-9287-4BB4-83C0-A5E230E5B604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE31BC5D-9287-4BB4-83C0-A5E230E5B604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE31BC5D-9287-4BB4-83C0-A5E230E5B604}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C429A04A-B373-48BC-A352-B5EF01615975} = {8DDBF612-E4D4-45E3-82C1-81F596E00A2C}
@@ -112,5 +126,9 @@ Global
 		{FFB9725A-FBD8-4FA8-9A5F-34F05D5B7CBC} = {CA8F4360-59DA-477A-9FE6-BEB77A2C0D00}
 		{317A55E3-CCDA-4393-B821-4A05CD0ACAFF} = {CA8F4360-59DA-477A-9FE6-BEB77A2C0D00}
 		{A37850AD-DF24-4EAE-91C4-119471E8DD79} = {097481DE-74BF-4033-92CC-4CD24774B69E}
+		{AE31BC5D-9287-4BB4-83C0-A5E230E5B604} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E8C0318C-3AF4-4615-9360-4283C4059C31}
 	EndGlobalSection
 EndGlobal

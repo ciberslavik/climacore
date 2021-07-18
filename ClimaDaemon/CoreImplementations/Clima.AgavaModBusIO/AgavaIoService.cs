@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using Clima.AgavaModBusIO.Configuration;
@@ -48,12 +49,22 @@ namespace Clima.AgavaModBusIO
             _port.BaudRate = _config.Baudrate;
             
             Console.WriteLine($"Starting Modbus server on port:{_config.PortName}");
-            
+
             try
             {
                 _port.Open();
             }
             catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e);
+                throw new IOServiceException(e.Message);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e);
+                throw new IOServiceException(e.Message);
+            }
+            catch (ArgumentException e)
             {
                 Console.WriteLine(e);
                 throw new IOServiceException(e.Message);

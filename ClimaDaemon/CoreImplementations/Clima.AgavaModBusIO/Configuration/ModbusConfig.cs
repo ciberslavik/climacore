@@ -1,4 +1,5 @@
 ﻿using Clima.Basics.Configuration;
+using System.Runtime.InteropServices;
 
 namespace Clima.AgavaModBusIO.Configuration
 {
@@ -6,9 +7,19 @@ namespace Clima.AgavaModBusIO.Configuration
     {
         public static ModbusConfig CreateDefault()
         {
-            return new ModbusConfig()
+            string portName = "";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                PortName = "/dev/ttyUSB1",
+                portName = "/dev/ttyUSB1";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                portName = "COM2";
+            }
+
+                return new ModbusConfig()
+            {
+                PortName = portName,
                 Baudrate = 115200,
                 ResponseTimeout = 300,
                 IOProcessorCycleTime = 100,
