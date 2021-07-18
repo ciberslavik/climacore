@@ -1,21 +1,18 @@
 {
   "format": 1,
   "restore": {
-    "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj": {}
+    "E:\\Projects\\ClimaCore\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj": {}
   },
   "projects": {
-    "E:\\ClimaProject\\Clima.DataModel\\Clima.DataModel.csproj": {
+    "E:\\Projects\\ClimaCore\\Clima.DataModel\\Clima.DataModel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ClimaProject\\Clima.DataModel\\Clima.DataModel.csproj",
+        "projectUniqueName": "E:\\Projects\\ClimaCore\\Clima.DataModel\\Clima.DataModel.csproj",
         "projectName": "Clima.DataModel",
-        "projectPath": "E:\\ClimaProject\\Clima.DataModel\\Clima.DataModel.csproj",
+        "projectPath": "E:\\Projects\\ClimaCore\\Clima.DataModel\\Clima.DataModel.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\ClimaProject\\Clima.DataModel\\obj\\",
+        "outputPath": "E:\\Projects\\ClimaCore\\Clima.DataModel\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -57,22 +54,19 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
+    "E:\\Projects\\ClimaCore\\Clima.Services\\Clima.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj",
+        "projectUniqueName": "E:\\Projects\\ClimaCore\\Clima.Services\\Clima.Services.csproj",
         "projectName": "Clima.Services",
-        "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj",
+        "projectPath": "E:\\Projects\\ClimaCore\\Clima.Services\\Clima.Services.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\ClimaProject\\Clima.Services\\obj\\",
+        "outputPath": "E:\\Projects\\ClimaCore\\Clima.Services\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -88,8 +82,8 @@
           "netstandard2.1": {
             "targetAlias": "netstandard2.1",
             "projectReferences": {
-              "E:\\ClimaProject\\Clima.DataModel\\Clima.DataModel.csproj": {
-                "projectPath": "E:\\ClimaProject\\Clima.DataModel\\Clima.DataModel.csproj"
+              "E:\\Projects\\ClimaCore\\Clima.DataModel\\Clima.DataModel.csproj": {
+                "projectPath": "E:\\Projects\\ClimaCore\\Clima.DataModel\\Clima.DataModel.csproj"
               }
             }
           }
@@ -118,22 +112,19 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj": {
+    "E:\\Projects\\ClimaCore\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
+        "projectUniqueName": "E:\\Projects\\ClimaCore\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
         "projectName": "Clima.GrpcServer",
-        "projectPath": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
+        "projectPath": "E:\\Projects\\ClimaCore\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\obj\\",
+        "outputPath": "E:\\Projects\\ClimaCore\\Services\\Clima.GrpcServer\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -149,8 +140,8 @@
           "net5.0": {
             "targetAlias": "netcoreapp5.0",
             "projectReferences": {
-              "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
-                "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj"
+              "E:\\Projects\\ClimaCore\\Clima.Services\\Clima.Services.csproj": {
+                "projectPath": "E:\\Projects\\ClimaCore\\Clima.Services\\Clima.Services.csproj"
               }
             }
           }
@@ -181,11 +172,14 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

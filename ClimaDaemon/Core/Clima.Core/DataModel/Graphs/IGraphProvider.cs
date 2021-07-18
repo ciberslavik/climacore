@@ -2,6 +2,6 @@
 {
     public interface IGraphProvider
     {
-        
+        TemperatureGraph GetTemperatureGraph(string graphName);
     }
 }

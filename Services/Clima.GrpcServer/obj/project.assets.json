@@ -663,21 +663,17 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
+      "projectUniqueName": "E:\\Projects\\ClimaCore\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
       "projectName": "Clima.GrpcServer",
-      "projectPath": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
+      "projectPath": "E:\\Projects\\ClimaCore\\Services\\Clima.GrpcServer\\Clima.GrpcServer.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "E:\\ClimaProject\\Services\\Clima.GrpcServer\\obj\\",
+      "outputPath": "E:\\Projects\\ClimaCore\\Services\\Clima.GrpcServer\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -693,8 +689,8 @@
         "net5.0": {
           "targetAlias": "netcoreapp5.0",
           "projectReferences": {
-            "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj": {
-              "projectPath": "E:\\ClimaProject\\Clima.Services\\Clima.Services.csproj"
+            "E:\\Projects\\ClimaCore\\Clima.Services\\Clima.Services.csproj": {
+              "projectPath": "E:\\Projects\\ClimaCore\\Clima.Services\\Clima.Services.csproj"
             }
           }
         }
@@ -725,11 +721,14 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

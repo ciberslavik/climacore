@@ -1,21 +1,18 @@
 {
   "format": 1,
   "restore": {
-    "E:\\ClimaProject\\TestGrpcClient\\TestGrpcClient.csproj": {}
+    "E:\\Projects\\ClimaCore\\TestGrpcClient\\TestGrpcClient.csproj": {}
   },
   "projects": {
-    "E:\\ClimaProject\\TestGrpcClient\\TestGrpcClient.csproj": {
+    "E:\\Projects\\ClimaCore\\TestGrpcClient\\TestGrpcClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ClimaProject\\TestGrpcClient\\TestGrpcClient.csproj",
+        "projectUniqueName": "E:\\Projects\\ClimaCore\\TestGrpcClient\\TestGrpcClient.csproj",
         "projectName": "TestGrpcClient",
-        "projectPath": "E:\\ClimaProject\\TestGrpcClient\\TestGrpcClient.csproj",
+        "projectPath": "E:\\Projects\\ClimaCore\\TestGrpcClient\\TestGrpcClient.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\ClimaProject\\TestGrpcClient\\obj\\",
+        "outputPath": "E:\\Projects\\ClimaCore\\TestGrpcClient\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -85,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

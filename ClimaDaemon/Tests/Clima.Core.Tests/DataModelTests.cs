@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace Clima.Core.Tests
 {
-    public class Tests
+    public class DataModelTests
     {
         private IConfigurationSerializer _serializer;
         [SetUp]
@@ -16,7 +16,7 @@ namespace Clima.Core.Tests
         }
 
         [Test]
-        public void Test1()
+        public void TemperatureGraph_Serialize_Deserialize_Test()
         {
             TemperatureGraph graph = new TemperatureGraph();
             graph.AddPoint(new TemperatureGraphPiont());
