@@ -12,6 +12,12 @@ namespace Clima.AgavaModBusIO.Model
             _moduleID = moduleId;
             _pins = new IOPinCollection();
             _pins.AnalogOutputChanged += OnAnalogOutputChanged;
+            _pins.DiscreteOutputChanged += OnDiscreteOutputChanged;
+        }
+
+        private void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
+        {
+            throw new NotImplementedException();
         }
 
         public event AnalogPinValueChangedEventHandler AnalogOutputChanged;
@@ -117,6 +123,7 @@ namespace Clima.AgavaModBusIO.Model
         {
             var pinName = $"AO:{_moduleID}:{mAoCount}";
             var pin = new AgavaAOutput(_moduleID, mAoCount);
+            
             pin.PinName = pinName;
             _pins.AddAnalogOutput(pinName, pin);
         }

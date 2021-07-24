@@ -6,8 +6,9 @@
         {
         }
         public RequestType RequestType { get; set; }
-        public int ModuleID { get; set; }
-        public int RegisterAddress { get; set; }
+        public byte ModuleID { get; set; }
+        public ushort RegisterAddress { get; set; }
+        public ushort DataCount { get; set; }
         public object[] Data { get; set; }
     }
 }

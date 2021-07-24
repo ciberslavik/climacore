@@ -1,3 +1,4 @@
+using System;
 using Clima.Core.IO;
 
 namespace Clima.AgavaModBusIO.Model
@@ -21,6 +22,8 @@ namespace Clima.AgavaModBusIO.Model
                 bool prevState = _state;
                 _state = state;
                 var eventargs = new DiscretePinStateChangedEventArgs(this, prevState, _state);
+                OnPinStateChanged(eventargs);
+                Console.WriteLine($"Pin: {PinName} to {_state}");
             }
         }
         public event DiscretePinStateChangedEventHandler PinStateChanged;

@@ -30,6 +30,7 @@ namespace Clima.AgavaModBusIO.Model
 
             double prevValue = _value;
             _value = value;
+            IsModified = true;
             OnValueChanged(new AnalogPinValueChangedEventArgs(this, prevValue, _value));
         }
 
@@ -40,5 +41,7 @@ namespace Clima.AgavaModBusIO.Model
 
         public override PinType PinType => PinType.Analog;
         public override PinDir Direction => PinDir.Output;
+        
+        internal bool IsModified { get; set; }
     }
 }
