@@ -84,6 +84,8 @@ namespace Clima.AgavaModBusIO
             Console.WriteLine("Create modbus worker.");
             
             _worker = new AgavaWorker(_modules, _master);
+            _worker.DiscreteCycleDevider = _config.DiscreteReadCycleDevider;
+            _worker.AnalogCycleDevider = _config.AnalogReadCycleDevider;
             
             Console.WriteLine("IO System  initialization complete");
             IsInit = true;
@@ -99,7 +101,8 @@ namespace Clima.AgavaModBusIO
         }
         public void Stop()
         {
-
+            if(_worker.IsRunning)
+                _worker.StopWorker();
         }
 
         public bool IsInit { get; private set; }

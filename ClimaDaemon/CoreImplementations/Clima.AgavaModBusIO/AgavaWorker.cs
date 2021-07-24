@@ -37,7 +37,8 @@ namespace Clima.AgavaModBusIO
                 case RequestType.ReadHoldingRegisters:
                     if (reply.RegisterAddress == 2003)
                     {
-                        //Console.WriteLine($"Module: {reply.ModuleID} Status: {reply.Data}");
+                        var module = _modules[reply.ModuleID];
+                        
                     }
                     break;
                 case RequestType.ReadInputRegisters:
@@ -51,7 +52,7 @@ namespace Clima.AgavaModBusIO
                     }
                     else if (CheckAnalogInAddres(reply.ModuleID,reply.RegisterAddress) )
                     {
-                        string data;
+                        PrintData(reply.Data);
                         
                     }
                     break;
@@ -96,7 +97,7 @@ namespace Clima.AgavaModBusIO
 
             _isRunning = true;
             _cycleCounter = 0;
-            _cycleTimer = new Timer(TimerCallback,null,100,CycleTime);
+            _cycleTimer = new Timer(TimerCallback, null, 100, CycleTime);
             Console.WriteLine("AGAVA IO Worker started");
         }
 
@@ -126,6 +127,7 @@ namespace Clima.AgavaModBusIO
         public int DiscreteCycleDevider { get; set; } = 1;
         public int AnalogCycleDevider { get; set; } = 10;
 
+        public bool IsRunning => _isRunning;
         #endregion Public properties
         #region Private mothods
 
@@ -184,6 +186,7 @@ namespace Clima.AgavaModBusIO
                                 var readAnalogRequest = new AgavaRequest();
                                 readAnalogRequest.ModuleID = pin.ModuleId;
                                 readAnalogRequest.RegisterAddress = pin.RegAddress;
+                                readAnalogRequest.DataCount = 2;
                                 readAnalogRequest.RequestType = RequestType.ReadInputRegisters;
                                 EnqueueRequest(readAnalogRequest);
                             }
@@ -230,6 +233,7 @@ namespace Clima.AgavaModBusIO
 
         private void ProcessRequest(AgavaRequest request)
         {
+            request.Print();
             AgavaReply reply = new AgavaReply();
             bool isRead = false;
             switch (request.RequestType)
@@ -325,7 +329,17 @@ namespace Clima.AgavaModBusIO
             }
         }
 
-        
+        private void PrintData(object[] Data)
+        {
+            ushort[] data = Data.Select(d => (ushort) d).ToArray();
+            string printStr = "Data:";
+            foreach (var d in data)
+            {
+                printStr += $"{d:X}, ";
+            }
+            
+            Console.WriteLine(printStr);
+        }
         #endregion Private mothods
     }
 }

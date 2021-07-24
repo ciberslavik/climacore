@@ -1,4 +1,6 @@
-﻿namespace Clima.AgavaModBusIO
+﻿using System;
+
+namespace Clima.AgavaModBusIO
 {
     public enum RequestType : byte
     {
@@ -20,6 +22,15 @@
         public byte ModuleID { get; set; }
         public ushort RegisterAddress { get; set; }
         public ushort DataCount { get; set; }
-        public object[] Data { get; set; } 
+        public object[] Data { get; set; }
+
+        public void Print()
+        {
+            Console.WriteLine($"Request:\r\n" +
+                              $"  Module:{ModuleID}\r\n" +
+                              $"  ReagAddress:{RegisterAddress}\r\n" +
+                              $"  RequestType:{RequestType}" +
+                              $"  DataCount:{DataCount}");
+        }
     }
 }
