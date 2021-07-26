@@ -1,14 +1,10 @@
-﻿using Clima.Core.IO;
+﻿using Clima.Core.Devices.Configuration;
+using Clima.Core.IO;
 
 namespace Clima.Core.Devices
 {
-    public class FrequencyConverter:IFrequencyConverter
+    public class ThyristorConverter:IFrequencyConverter
     {
-        public FrequencyConverter()
-        {
-        }
-
-
         public void Start()
         {
             throw new System.NotImplementedException();
@@ -21,12 +17,12 @@ namespace Clima.Core.Devices
 
         public void SetPower(double power)
         {
-            throw new System.NotImplementedException();
+            AnalogPin.SetValue(power);
         }
 
         public double Power { get; }
-        internal IDiscreteOutput EnablePin { get; set; }
-        internal IDiscreteInput AlarmPin { get; set; }
+        
+        internal FrequencyConverterConfig Configuration { get; set; }
         internal IAnalogOutput AnalogPin { get; set; }
     }
 }

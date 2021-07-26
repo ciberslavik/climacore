@@ -3,8 +3,8 @@
     public enum AgavaAnalogInType : ushort    
     {
         Voltage_0_10V = 0,
-        Current_0_20mA,
         Current_4_20mA,
+        Current_0_20mA,
         Current_0_5mA,
         Resistance,
         TR_Pt100,
@@ -29,8 +29,8 @@
     public enum AgavaAnalogOutType : ushort
     {
         Voltage_0_10V = 0,
-        Current_0_20mA,
         Current_4_20mA,
+        Current_0_20mA,
         Current_0_5mA
     }
 }

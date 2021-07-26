@@ -2,6 +2,7 @@
 {
     public interface IFanFactory
     {
-        IAnalogFan GetAnalogFan();
+        IAnalogFan GetAnalogFan(int fanId);
+        IDiscreteFan GetDiscreteFan(int fanId);
     }
 }

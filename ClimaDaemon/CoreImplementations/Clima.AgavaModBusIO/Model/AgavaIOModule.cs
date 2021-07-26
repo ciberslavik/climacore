@@ -1,5 +1,6 @@
 ﻿using System;
 using Clima.Core.IO;
+using NModbus;
 
 namespace Clima.AgavaModBusIO.Model
 {
@@ -41,62 +42,62 @@ namespace Clima.AgavaModBusIO.Model
                     case AgavaSubModuleType.DO:
                         for (int p = 0; p < 4; p++)
                         {
-                            mDoCount++;
                             module.CreateDiscrOut(mDoCount);
+                            mDoCount++;
                         }
                         break;
                     case AgavaSubModuleType.SYM:
                         for (int p = 0; p < 2; p++)
                         {
-                            mDoCount++;
                             module.CreateDiscrOut(mDoCount);
+                            mDoCount++;
                         }
                         break;
                     case AgavaSubModuleType.R:
                         for (int p = 0; p < 2; p++)
                         {
-                            mDoCount++;
                             module.CreateDiscrOut(mDoCount);
+                            mDoCount++;
                         }
                         break;
                     case AgavaSubModuleType.AI:
                         for (int p = 0; p < 4; p++)
                         {
-                            mAiCount++;
                             module.CreateAnalogIn(mAiCount);
+                            mAiCount++;
                         }
                         break;
                     case AgavaSubModuleType.AIO:
                         for (int p = 0; p < 2; p++)
                         {
-                            mAiCount++;
                             module.CreateAnalogIn(mAiCount);
+                            mAiCount++;
                         }
                         for (int p = 0; p < 2; p++)
                         {
-                            mAoCount++;
                             module.CreateAnalogOut(mAoCount);
+                            mAoCount++;
                         }
                         break;
                     case AgavaSubModuleType.DI:
                         for (int p = 0; p < 4; p++)
                         {
-                            mDiCount++;
                             module.CreateDiscrIn(mDiCount);
+                            mDiCount++;
                         }
                         break;
                     case AgavaSubModuleType.TMP:
                         for (int p = 0; p < 2; p++)
                         {
-                            mAiCount++;
                             module.CreateAnalogIn(mAiCount);
+                            mAiCount++;
                         }
                         break;
                     case AgavaSubModuleType.DO6:
                         for (int p = 0; p < 6; p++)
                         {
-                            mDoCount++;
                             module.CreateDiscrOut(mDoCount);
+                            mDoCount++;
                         }
                         break;
                     case AgavaSubModuleType.ENI:
@@ -105,8 +106,6 @@ namespace Clima.AgavaModBusIO.Model
                         throw new ArgumentOutOfRangeException();
                 }
             }
-
-
             return module;
         }
 
@@ -132,6 +131,7 @@ namespace Clima.AgavaModBusIO.Model
         {
             var pinName = $"AI:{_moduleID}:{mAiCount}";
             var pin = new AgavaAInput(_moduleID, mAiCount);
+            
             pin.PinName = pinName;
             _pins.AddAnalogInput(pinName, pin);
         }
@@ -182,7 +182,7 @@ namespace Clima.AgavaModBusIO.Model
             {
                 for (int j = 0; j < (sizeof(ushort) * 8); j++)
                 {
-                    string pinName = $"DI:{_moduleID}:{(j + (i * 16))+1}";
+                    string pinName = $"DI:{_moduleID}:{(j + (i * 16))}";
                     if(GetPinByName(pinName) is AgavaDInput pin)
                     {
                         if ((data[i] & (1 << j)) > 0)
@@ -204,7 +204,7 @@ namespace Clima.AgavaModBusIO.Model
             bool[] regBuffer = new bool[_pins.DiscreteOutputs.Count];
             for (int pinIndex = 0; pinIndex < _pins.DiscreteOutputs.Count; pinIndex++)
             {
-                regBuffer[pinIndex] = _pins.DiscreteOutputs[$"DO:{_moduleID}:{pinIndex + 1}"].State;
+                regBuffer[pinIndex] = _pins.DiscreteOutputs[$"DO:{_moduleID}:{pinIndex}"].State;
             }
 
 

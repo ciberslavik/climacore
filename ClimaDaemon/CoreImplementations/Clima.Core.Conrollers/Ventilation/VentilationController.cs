@@ -5,20 +5,30 @@ namespace Clima.Core.Conrollers.Ventilation.Ventilation
 {
     public class VentilationController:IVentilationController
     {
-        private List<Fan> _fans;
+        private List<IFan> _fans;
         
         public VentilationController()
         {
         }
 
 
-        public IEnumerable<Fan> Fans { get; }
-        public void AddFan(Fan fan)
+        public void Start()
         {
             throw new System.NotImplementedException();
         }
 
-        public void RemoveFan(Fan fan)
+        public void Stop()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IList<IFan> Fans { get; }
+        public void AddFan(IFan fan)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveFan(IFan fan)
         {
             throw new System.NotImplementedException();
         }

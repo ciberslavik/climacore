@@ -6,7 +6,7 @@ namespace Clima.Core.Controllers.Ventilation
     {
         void Start();
         void Stop();
-
+        int FanId { get; set; }
         string FanName { get; set; }
         bool Disabled { get; set; }
         bool Hermetise { get; set; }

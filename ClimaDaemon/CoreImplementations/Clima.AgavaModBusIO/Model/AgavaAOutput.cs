@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel;
 using Clima.Core.IO;
 
 namespace Clima.AgavaModBusIO.Model
@@ -43,5 +45,41 @@ namespace Clima.AgavaModBusIO.Model
         public override PinDir Direction => PinDir.Output;
         
         internal bool IsModified { get; set; }
+        internal bool IsPinTypeChanged { get; }
+
+        internal AgavaRequest GetWriteValueRequest()
+        {
+            var request = new AgavaRequest();
+            request.ModuleID = _moduleId;
+            request.RegisterAddress = _regAddress;
+            request.RequestType = RequestType.WriteMultipleRegisters;
+            var buff = BitConverter.GetBytes(_value);
+            var outBuff = new ushort[buff.Length / 2];
+            
+            Buffer.BlockCopy(buff, 0, outBuff, 0, buff.Length);
+            
+            return request;
+        }
+
+        internal AgavaRequest GetReadValueRequest()
+        {
+            var request = new AgavaRequest();
+
+            return request;
+        }
+        internal AgavaRequest GetWritePinTypeRequest()
+        {
+            var request = new AgavaRequest();
+            
+            return request;
+        }
+        internal AgavaRequest GetReadPinTypeRequest()
+        {
+            var request = new AgavaRequest();
+            request.ModuleID = _moduleId;
+            return request;
+        }
+        
+        internal AgavaAnalogOutType OutputType { get; set; }
     }
 }

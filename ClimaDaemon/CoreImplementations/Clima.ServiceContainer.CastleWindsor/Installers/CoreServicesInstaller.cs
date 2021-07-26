@@ -2,6 +2,8 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Clima.AgavaModBusIO;
+using Clima.Core.Conrollers.Ventilation.Ventilation;
+using Clima.Core.Controllers.Ventilation;
 using Clima.Core.Devices;
 using Clima.Core.IO;
 
@@ -24,6 +26,14 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                 Component
                     .For<IDeviceProvider>()
                     .ImplementedBy<CoreDeviceProvider>()
+                    .LifestyleSingleton(),
+                Component
+                    .For<IFanFactory>()
+                    .ImplementedBy<FanFactory>()
+                    .LifestyleSingleton(),
+                Component
+                    .For<IVentilationController>()
+                    .ImplementedBy<VentilationController>()
                     .LifestyleSingleton());
 
 

@@ -14,13 +14,18 @@ namespace Clima.Core.Devices
         
         private Dictionary<string, IRelay> _relays;
         private Dictionary<string, IFrequencyConverter> _fcs;
-        public CoreDeviceProvider(IConfigurationStorage configStorage, IIOService ioService)
+        public CoreDeviceProvider(IIOService ioService)
         {
-            _configStorage = configStorage ?? throw new ArgumentNullException(nameof(configStorage));
+            _configStorage = ClimaContext.Current.ConfigurationStorage;
             _ioService = ioService ?? throw new ArgumentNullException(nameof(ioService));
-
-            _config = _configStorage.GetConfig<DeviceProviderConfig>("DeviceProvider");
             
+            if(_configStorage.Exist(DeviceProviderConfig.FileName))
+                _config = _configStorage.GetConfig<DeviceProviderConfig>(DeviceProviderConfig.FileName);
+            else
+            {
+                _config = DeviceProviderConfig.CreateDefault();
+                _configStorage.RegisterConfig(DeviceProviderConfig.FileName, _config);
+            }
             _relays = new Dictionary<string, IRelay>();
             _fcs = new Dictionary<string, IFrequencyConverter>();
         }
@@ -47,7 +52,35 @@ namespace Clima.Core.Devices
 
         public IFrequencyConverter GetFrequencyConverter(string converterName)
         {
-            throw new System.NotImplementedException();
+            if (_fcs.ContainsKey(converterName))
+                return _fcs[converterName];
+
+            if (_config.FrequencyConverters.ContainsKey(converterName))
+            {
+                var converterConfig = _config.FrequencyConverters[converterName];
+
+                IFrequencyConverter converter = default;
+                if (converterConfig.ConverterType == ConverterType.Frequency)
+                {
+                    var dev = new FrequencyConverter();
+                    dev.EnablePin = _ioService.Pins.DiscreteOutputs[converterConfig.EnablePinName];
+                    dev.AlarmPin = _ioService.Pins.DiscreteInputs[converterConfig.AlarmPinName];
+                    dev.AnalogPin = _ioService.Pins.AnalogOutputs[converterConfig.AnalogPinName];
+
+                    converter = dev;
+                }
+                else if (converterConfig.ConverterType == ConverterType.Thyristor)
+                {
+                    var dev = new ThyristorConverter();
+                    dev.Configuration = converterConfig;
+                    dev.AnalogPin = _ioService.Pins.AnalogOutputs[converterConfig.AnalogPinName];
+
+                    converter = dev;
+                }
+                return converter;
+            }
+
+            throw new KeyNotFoundException(converterName);
         }
     }
 }

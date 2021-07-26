@@ -3,6 +3,7 @@ using System.Threading;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Clima.Core;
+using Clima.Core.Controllers.Ventilation;
 using Clima.ServiceContainer.CastleWindsor.Installers;
 using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
@@ -25,10 +26,17 @@ namespace Clima.ServiceContainer.CastleWindsor
             
             _container.Install(new BasicsInstaller());
             _container.Install(new CoreServicesInstaller());
+
             
             
             ClimaContext.InitContext(_serviceProvider);
             ClimaContext.ExitSignal = false;
+            
+            var fanFactory = _container.Resolve<IFanFactory>();
+
+            var fan = fanFactory.GetAnalogFan(0);
+            
+            fan.Start();
         }
 
         public void Run()

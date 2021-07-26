@@ -4,9 +4,11 @@ namespace Clima.Core.Controllers.Ventilation
 {
     public interface IVentilationController
     {
-        IEnumerable<Fan> Fans { get; }
-        void AddFan(Fan fan);
-        void RemoveFan(Fan fan);
+        void Start();
+        void Stop();
+        IList<IFan> Fans { get; }
+        void AddFan(IFan fan);
+        void RemoveFan(IFan fan);
         void SetPerformance(double performance);
     }
 }

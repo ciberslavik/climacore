@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Clima.AgavaModBusIO.Model;
+using Clima.AgavaModBusIO.Transport;
 using Clima.Core.IO;
 using NModbus;
 
@@ -14,7 +15,7 @@ namespace Clima.AgavaModBusIO
         #region Private fields
 
         private readonly Dictionary<byte, AgavaIOModule> _modules;
-        private readonly IModbusSerialMaster _master;
+        private readonly IAgavaMaster _master;
         private static object _queueLocker = new object();
         private static Queue<AgavaRequest> _requestQueue;
         private Timer _cycleTimer;
@@ -31,8 +32,6 @@ namespace Clima.AgavaModBusIO
             switch (reply.RequestType)
             {
                 case RequestType.ReadCoils:
-                    break;
-                case RequestType.ReadDiscreteInputs:
                     break;
                 case RequestType.ReadHoldingRegisters:
                     if (reply.RegisterAddress == 2003)
@@ -72,7 +71,7 @@ namespace Clima.AgavaModBusIO
         #endregion Events
         #region Public Methods
         
-        public AgavaWorker(Dictionary<byte, AgavaIOModule> modules, IModbusSerialMaster master)
+        public AgavaWorker(Dictionary<byte, AgavaIOModule> modules, IAgavaMaster master)
         {
             _modules = modules;
             _master = master;
@@ -149,7 +148,7 @@ namespace Clima.AgavaModBusIO
             {
                 if (_requestQueue.Count > 0)
                 {
-                    ProcessRequest(_requestQueue.Dequeue());
+                    _master.WriteRequest(_requestQueue.Dequeue());
                 }    
             }
             
@@ -230,76 +229,6 @@ namespace Clima.AgavaModBusIO
 
             return null;
         }
-
-        private void ProcessRequest(AgavaRequest request)
-        {
-            request.Print();
-            AgavaReply reply = new AgavaReply();
-            bool isRead = false;
-            switch (request.RequestType)
-            {
-                case RequestType.ReadCoils:
-                    reply.Data = _master.ReadCoils(
-                        request.ModuleID,
-                        request.RegisterAddress,
-                        request.DataCount)
-                        .Select(b => (object) b).ToArray();
-                    isRead = true;
-                    break;
-                case RequestType.ReadDiscreteInputs:
-                    reply.Data = _master.ReadInputs(
-                            request.ModuleID,
-                            request.RegisterAddress,
-                            request.DataCount)
-                        .Select(b => (object) b).ToArray();
-                    isRead = true;
-                    break;
-                case RequestType.ReadHoldingRegisters:
-                    reply.Data = _master.ReadHoldingRegisters(
-                            request.ModuleID,
-                            request.RegisterAddress,
-                            request.DataCount)
-                        .Select(b => (object) b).ToArray();
-                    isRead = true;
-                    break;
-                case RequestType.ReadInputRegisters:
-                    reply.Data = _master.ReadInputRegisters(
-                            request.ModuleID,
-                            request.RegisterAddress,
-                            request.DataCount)
-                        .Select(b => (object) b).ToArray();
-                    isRead = true;
-                    break;
-                case RequestType.WriteSingleCoil:
-                    _master.WriteSingleCoil(request.ModuleID,request.RegisterAddress,(bool)request.Data[0]);
-                    isRead = false;
-                    break;
-                case RequestType.WriteSingleRegister:
-                    _master.WriteSingleRegister(request.ModuleID,request.RegisterAddress,(ushort)request.Data[0]);
-                    isRead = false;
-                    break;
-                case RequestType.WriteMultipleCoils:
-                    _master.WriteMultipleCoils(request.ModuleID, request.RegisterAddress, request.Data.Select(b=>(bool)b).ToArray());
-                    isRead = false;
-                    break;
-                case RequestType.WriteMultipleRegisters:
-                    _master.WriteMultipleRegisters(request.ModuleID, request.RegisterAddress, request.Data.Select(b=>(ushort)b).ToArray());
-                    isRead = false;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            if (isRead)
-            {
-                reply.ModuleID = request.ModuleID;
-                reply.RegisterAddress = request.RegisterAddress;
-                reply.RequestType = request.RequestType;
-                
-                OnReplyReceived(reply);
-            }
-        }
-
         private void ProcessDiscreteOutputs()
         {
             foreach (var module in _modules.Values.ToList())
@@ -311,7 +240,7 @@ namespace Clima.AgavaModBusIO
                     request.ModuleID = module.ModuleId;
                     request.RegisterAddress = 10000;
                     request.DataCount = (ushort)doRegister.Length;
-                    request.Data = doRegister.Select(b => (object) b).ToArray();
+                    request.Data = doRegister;
                     
                     EnqueueRequest(request);
                 }
@@ -329,7 +258,7 @@ namespace Clima.AgavaModBusIO
             }
         }
 
-        private void PrintData(object[] Data)
+        private void PrintData(ushort[] Data)
         {
             ushort[] data = Data.Select(d => (ushort) d).ToArray();
             string printStr = "Data:";

@@ -5,6 +5,7 @@ using System.IO.Ports;
 using System.Linq;
 using Clima.AgavaModBusIO.Configuration;
 using Clima.AgavaModBusIO.Model;
+using Clima.AgavaModBusIO.Transport;
 using Clima.Basics.Configuration;
 using Clima.Core.IO;
 using NModbus;
@@ -18,10 +19,12 @@ namespace Clima.AgavaModBusIO
         private readonly IConfigurationStorage _configStorage;
         private ModbusConfig _config;
         private SerialPort _port;
-        private IModbusSerialMaster _master;
+        private IAgavaMaster _master;
         private IOPinCollection _pins;
         private AgavaWorker _worker;
         private Dictionary<byte, AgavaIOModule> _modules;
+        private byte _moduleScanCounter;
+        private int _stopScanAddres;
         public AgavaIoService(IConfigurationStorage configStorage)
         {
             _configStorage = configStorage;
@@ -69,14 +72,11 @@ namespace Clima.AgavaModBusIO
                 Console.WriteLine(e);
                 throw new IOServiceException(e.Message);
             }
+
+            _master = new AgavaModbusRTUMaster(_port);
             
-            
-            var factory = new ModbusFactory();
-            var transport = factory.CreateRtuTransport(_port);
-            transport.ReadTimeout = _config.ResponseTimeout;
-            transport.WriteTimeout = _config.ResponseTimeout;
-            
-            _master = factory.CreateMaster(transport);
+            _master.ReadTimeout = _config.ResponseTimeout;
+            _master.WriteTimeout = _config.ResponseTimeout;
             
             Console.WriteLine("Start scanning IO bus.");
             ScanBus(1, 5);
@@ -109,31 +109,75 @@ namespace Clima.AgavaModBusIO
 
         private void ScanBus(byte startAddress, int endAddress)
         {
-            for (byte i = startAddress; i <= endAddress; i++)
+            
+            _master.ReplyReceived+= MasterOnReplyReceived;
+            _moduleScanCounter = 1;
+            
+            _stopScanAddres = endAddress;
+            ScanModule(_moduleScanCounter);
+
+            BuildPinsCollection();
+        }
+
+        private void ScanModule(byte moduleId)
+        {
+            Console.WriteLine($"Start scanning address:{moduleId}");
+            var request = AgavaRequest.ReadHoldingRegisterRequest(moduleId, 2017, 6);
+            _master.WriteRequest(request);
+        }
+        private void MasterOnReplyReceived(object sender, ReplyReceivedEventArgs ea)
+        {
+            var reply = ea.Reply;
+            if (reply.RequestType == RequestType.ReadHoldingRegisters && reply.RegisterAddress == 2017)
             {
-                try
+                if (!reply.ReplyTimeout)
                 {
-                    Console.WriteLine($"Scan address:{i}");
-                    
-                    byte addr = BitConverter.GetBytes(i)[0];
-                    ushort[] value = _master.ReadHoldingRegisters(addr, 2017, 6);
-                    string signatureStr = $"Module:{i} signature:";
-                    foreach (var mod in value)
+                    var signature = "Module signature: ";
+                    foreach (var d in reply.Data)
                     {
-                        signatureStr += $"{mod:X}";
+                        signature += $"{d:X}";
                     }
-                    Console.WriteLine(signatureStr);
-                    var module = AgavaIOModule.CreateModule(i, value);
-                    module.AnalogOutputChanged+= ModuleOnAnalogOutputChanged;
-                    _modules.Add(i, module);
+                    Console.WriteLine(signature);
+                    _modules.Add(_moduleScanCounter,AgavaIOModule.CreateModule(_moduleScanCounter, reply.Data));
                 }
-                catch (TimeoutException)
+                else
                 {
-                    Console.WriteLine($"Address:{i} is free.");
+                    Console.WriteLine($" Address:{reply.ModuleID} timeout...");
+                }
+                _moduleScanCounter++;
+                if(_moduleScanCounter > _stopScanAddres)
+                    return;
+                
+                ScanModule(_moduleScanCounter);
+            }
+        }
+
+        private void BuildPinsCollection()
+        {
+            foreach (var module in _modules.Values)
+            {
+                foreach (var ain in module.Pins.AnalogInputs.Values)
+                {
+                    _pins.AnalogInputs.Add(ain.PinName, ain);
+                }
+
+                foreach (var aout in module.Pins.AnalogOutputs.Values)
+                {
+                    _pins.AnalogOutputs.Add(aout.PinName,aout);
+                }
+
+                foreach (var din in module.Pins.DiscreteInputs.Values)
+                {
+                    _pins.DiscreteInputs.Add(din.PinName,din);
+                }
+
+                foreach (var dout in module.Pins.DiscreteOutputs.Values)
+                {
+                    _pins.DiscreteOutputs.Add(dout.PinName,dout);
                 }
             }
         }
-        
+
         private void ModuleOnAnalogOutputChanged(AnalogPinValueChangedEventArgs ea)
         {
             if (ea.Pin is AgavaAOutput pin)
@@ -144,7 +188,7 @@ namespace Clima.AgavaModBusIO
                 request.RegisterAddress = pin.RegAddress;
                 request.DataCount = 2;
                 //TODO
-                request.Data = new ushort[2].Select(b => (object)b).ToArray();
+                request.Data = new ushort[2];
                 
                 _worker.EnqueueRequest(request);
             }
