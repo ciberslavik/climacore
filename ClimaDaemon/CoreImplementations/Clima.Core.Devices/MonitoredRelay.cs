@@ -22,6 +22,8 @@ namespace Clima.Core.Devices
 
         private readonly ITimer _monitorTimer;
         private RelayState _state;
+        private IDiscreteInput _monitorPin;
+        private IDiscreteOutput _enablePin;
 
         public MonitoredRelay(ITimer timer)
         {
@@ -61,9 +63,22 @@ namespace Clima.Core.Devices
 
         public MonitoredRelayConfig Configuration { get; set; }
 
-        public IDiscreteInput MonitorPin { get; set; }
+        public IDiscreteInput MonitorPin
+        {
+            get => _monitorPin;
+            set
+            {
+                _monitorPin = value;
+                if(_monitorPin != null)
+                    _monitorPin.PinStateChanged += MonitorPinOnPinStateChanged;
+            }
+        }
 
-        public IDiscreteOutput EnablePin { get; set; }
+        public IDiscreteOutput EnablePin
+        {
+            get => _enablePin;
+            set => _enablePin = value;
+        }
 
         public bool RelayIsOn
         {

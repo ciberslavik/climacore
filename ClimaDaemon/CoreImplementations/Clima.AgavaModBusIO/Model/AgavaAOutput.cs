@@ -47,6 +47,7 @@ namespace Clima.AgavaModBusIO.Model
         internal bool IsModified { get; set; }
         internal bool IsPinTypeChanged { get; }
 
+        
         internal AgavaRequest GetWriteValueRequest()
         {
             var request = new AgavaRequest();

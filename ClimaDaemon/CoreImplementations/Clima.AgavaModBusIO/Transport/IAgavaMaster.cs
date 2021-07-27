@@ -1,9 +1,13 @@
-﻿namespace Clima.AgavaModBusIO.Transport
+﻿using System.Threading.Tasks;
+
+namespace Clima.AgavaModBusIO.Transport
 {
     
     public interface IAgavaMaster
     {
-        void WriteRequest(AgavaRequest request);
+        AgavaReply WriteRequest(AgavaRequest request);
+
+        Task<AgavaReply> WriteRequestAsync(AgavaRequest request);
         event ReplyReceivedEventHandler ReplyReceived;
         
         int ReadTimeout { get; set; }

@@ -1,10 +1,12 @@
+using System;
+using Clima.Core;
 using Clima.Core.IO;
 
 namespace Clima.AgavaModBusIO.Model
 {
-    public class AgavaAInput:AgavaPinBase, IAnalogInput
+    public class AgavaAInput : AgavaPinBase, IAnalogInput
     {
-        
+
         private AgavaAnalogInType _inputType;
         private IAnalogValueConverter _valueConverter;
         private double _value;
@@ -13,8 +15,10 @@ namespace Clima.AgavaModBusIO.Model
         public AgavaAInput(byte moduleAddress, int pinNumberInModule)
         {
             ModuleId = moduleAddress;
-            RegAddress = (ushort)((pinNumberInModule) * 2);
+            PinNumberInModule = pinNumberInModule;
+            RegAddress = (ushort) ((pinNumberInModule) * 2);
         }
+
         public AgavaAnalogInType InputType
         {
             get => _inputType;
@@ -40,5 +44,19 @@ namespace Clima.AgavaModBusIO.Model
 
         public override PinType PinType => PinType.Analog;
         public override PinDir Direction => PinDir.Input;
+
+        public void SetRawValue(in float value)
+        {
+            if (ValueConverter != null)
+            {
+                var newValue = ValueConverter.ConvertTo(value);
+                if (!newValue.Equals(_value))
+                {
+                    var prevValue = _value;
+                    _value = newValue;
+                    OnValueChanged(new AnalogPinValueChangedEventArgs(this,prevValue, _value));
+                }
+            }
+        }
     }
 }

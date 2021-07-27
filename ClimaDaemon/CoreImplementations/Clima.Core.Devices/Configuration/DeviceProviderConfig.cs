@@ -5,8 +5,8 @@ namespace Clima.Core.Devices.Configuration
 {
     public class DeviceProviderConfig:IConfigurationItem
     {
-        private readonly Dictionary<string, MonitoredRelayConfig> _monitoredRelays = new();
-        private readonly Dictionary<string, FrequencyConverterConfig> _frequencyConverters = new();
+        private readonly Dictionary<string, MonitoredRelayConfig> _monitoredRelays = new Dictionary<string, MonitoredRelayConfig>();
+        private readonly Dictionary<string, FrequencyConverterConfig> _frequencyConverters = new Dictionary<string, FrequencyConverterConfig>();
 
         public DeviceProviderConfig()
         {
@@ -38,7 +38,8 @@ namespace Clima.Core.Devices.Configuration
                 var relay = new MonitoredRelayConfig();
                 var relayName = $"REL:{i}";
                 relay.RelayName = relayName;
-                
+                relay.ControlPinName = $"DO:2:{i}";
+                relay.MonitorPinName = $"DI:2:{i}";
                 config._monitoredRelays.Add(relayName, relay);
             }
             return config;

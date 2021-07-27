@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Threading;
+using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Clima.Basics.Services;
 using Clima.Core;
 using Clima.Core.Controllers.Ventilation;
+using Clima.Core.Devices;
+using Clima.Logger.Console;
 using Clima.ServiceContainer.CastleWindsor.Installers;
 using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
@@ -21,22 +25,26 @@ namespace Clima.ServiceContainer.CastleWindsor
         public void Initialize()
         {
             _container = new WindsorContainer();
-            _serviceProvider = new CastleServiceProvider(_container);
-            _container.Register(Component.For<IServiceProvider>().Instance(_serviceProvider));
+            //Register logger
+            _container.Register(Component.For<ISystemLogger>().ImplementedBy<ConsoleSystemLogger>());
+            
             
             _container.Install(new BasicsInstaller());
             _container.Install(new CoreServicesInstaller());
 
-            
+            _serviceProvider = new CastleServiceProvider(_container);
+            _container.Register(Component.For<IServiceProvider>().Instance(_serviceProvider));
+
             
             ClimaContext.InitContext(_serviceProvider);
             ClimaContext.ExitSignal = false;
             
-            var fanFactory = _container.Resolve<IFanFactory>();
+            var devProvider = _container.Resolve<IDeviceProvider>();
 
-            var fan = fanFactory.GetAnalogFan(0);
+            var relay = devProvider.GetRelay("REL:0");
             
-            fan.Start();
+            
+            relay.On();
         }
 
         public void Run()

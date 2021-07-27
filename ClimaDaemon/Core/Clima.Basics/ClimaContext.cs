@@ -17,6 +17,7 @@ namespace Clima.Core
         private ClimaContext(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            Logger = _serviceProvider.Resolve<ISystemLogger>();
         }
 
         public static void InitContext(IServiceProvider serviceProvider)
@@ -50,6 +51,7 @@ namespace Clima.Core
         public IFileSystem FileSystem => 
             _serviceProvider.Resolve<IFileSystem>();
 
+        public ISystemLogger Logger { get; private set; }
         public static bool ExitSignal
         {
             get { return _exitSignal; }

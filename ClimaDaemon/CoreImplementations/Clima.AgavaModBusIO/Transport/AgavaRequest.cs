@@ -58,5 +58,11 @@ namespace Clima.AgavaModBusIO
 
             return request;
         }
+        public static AgavaRequest WriteHoldingRegisterRequest(byte moduleId, ushort regAddress, ushort[] data)
+        {
+            var request = CreateRequest(moduleId, regAddress, 1,
+                RequestType.WriteMultipleRegisters, data);
+            return request;
+        }
     }
 }

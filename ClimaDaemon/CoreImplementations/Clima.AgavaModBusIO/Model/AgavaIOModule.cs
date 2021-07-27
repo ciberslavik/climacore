@@ -18,7 +18,7 @@ namespace Clima.AgavaModBusIO.Model
 
         private void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
         {
-            throw new NotImplementedException();
+            
         }
 
         public event AnalogPinValueChangedEventHandler AnalogOutputChanged;

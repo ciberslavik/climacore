@@ -22,17 +22,13 @@ namespace Clima.AgavaModBusIO.Transport
             
         }
 
-        public async void WriteRequest(AgavaRequest request)
+        public AgavaReply WriteRequest(AgavaRequest request)
         {
-
-            bool isRead = false;
-            Task ioTask;
+            AgavaReply reply = new AgavaReply(request);
             switch (request.RequestType)
             {
                 case RequestType.ReadCoils:
-                    ioTask = new Task(() =>
                     {
-                        AgavaReply reply = new AgavaReply(request);
                         try
                         {
                             reply.Coils = _master.ReadCoils(request.ModuleID, request.RegisterAddress,
@@ -46,123 +42,113 @@ namespace Clima.AgavaModBusIO.Transport
                         }
 
                         OnReplyReceived(new ReplyReceivedEventArgs(reply));
-                    });
+                    }
                     break;
                 case RequestType.ReadHoldingRegisters:
-                    ioTask = new Task(() =>
+                {
+                    try
                     {
-                        AgavaReply reply = new AgavaReply(request);
-                        try
-                        {
-                            reply.Data = _master.ReadHoldingRegisters(request.ModuleID, request.RegisterAddress,
-                                request.DataCount);
-                            reply.DataCount = (ushort) reply.Data.Length;
-                            reply.ReplyTimeout = false;
-                        }
-                        catch (TimeoutException e)
-                        {
-                            reply.ReplyTimeout = true;
-                        }
+                        reply.Data = _master.ReadHoldingRegisters(request.ModuleID, request.RegisterAddress,
+                            request.DataCount);
+                        reply.DataCount = (ushort) reply.Data.Length;
+                        reply.ReplyTimeout = false;
+                    }
+                    catch (TimeoutException e)
+                    {
+                        reply.ReplyTimeout = true;
+                    }
 
-                        OnReplyReceived(new ReplyReceivedEventArgs(reply));
-                    });
+                    OnReplyReceived(new ReplyReceivedEventArgs(reply));
+                }
                     break;
                 case RequestType.ReadInputRegisters:
-                    ioTask = new Task(() =>
+                {
+                    try
                     {
-                        AgavaReply reply = new AgavaReply(request);
-                        try
-                        {
-                            reply.Data = _master.ReadInputRegisters(request.ModuleID, request.RegisterAddress,
-                                request.DataCount);
-                            reply.DataCount = (ushort) reply.Data.Length;
-                            reply.ReplyTimeout = false;
-                        }
-                        catch (TimeoutException e)
-                        {
-                            reply.ReplyTimeout = true;
-                        }
+                        reply.Data = _master.ReadInputRegisters(request.ModuleID, request.RegisterAddress,
+                            request.DataCount);
+                        reply.DataCount = (ushort) reply.Data.Length;
+                        reply.ReplyTimeout = false;
+                    }
+                    catch (TimeoutException e)
+                    {
+                        reply.ReplyTimeout = true;
+                    }
 
-                        OnReplyReceived(new ReplyReceivedEventArgs(reply));
-                    });
+                    OnReplyReceived(new ReplyReceivedEventArgs(reply));
+                }
                     break;
                 case RequestType.WriteSingleCoil:
-                    ioTask = new Task(() =>
+                {
+                    try
                     {
-                        AgavaReply reply = new AgavaReply(request);
-                        try
-                        {
-                            _master.WriteSingleCoil(request.ModuleID, request.RegisterAddress, request.Data[0] != 0);
-                            reply.ReplyTimeout = false;
-                        }
-                        catch (TimeoutException e)
-                        {
-                            reply.ReplyTimeout = true;
-                        }
+                        _master.WriteSingleCoil(request.ModuleID, request.RegisterAddress, request.Data[0] != 0);
+                        reply.ReplyTimeout = false;
+                    }
+                    catch (TimeoutException e)
+                    {
+                        reply.ReplyTimeout = true;
+                    }
 
-                        OnReplyReceived(new ReplyReceivedEventArgs(reply));
-                    });
+                    OnReplyReceived(new ReplyReceivedEventArgs(reply));
+                }
                     break;
                 case RequestType.WriteSingleRegister:
-                    ioTask = new Task(() =>
+                {
+                    try
                     {
-                        AgavaReply reply = new AgavaReply(request);
-                        try
-                        {
-                            _master.WriteSingleRegister(request.ModuleID, request.RegisterAddress, request.Data[0]);
-                            reply.ReplyTimeout = false;
-                        }
-                        catch (TimeoutException e)
-                        {
-                            reply.ReplyTimeout = true;
-                        }
+                        _master.WriteSingleRegister(request.ModuleID, request.RegisterAddress, request.Data[0]);
+                        reply.ReplyTimeout = false;
+                    }
+                    catch (TimeoutException e)
+                    {
+                        reply.ReplyTimeout = true;
+                    }
 
-                        OnReplyReceived(new ReplyReceivedEventArgs(reply));
-                    });
+                    OnReplyReceived(new ReplyReceivedEventArgs(reply));
+                }
                     break;
                 case RequestType.WriteMultipleCoils:
-                    ioTask = new Task(() =>
+                {
+                    try
                     {
-                        AgavaReply reply = new AgavaReply(request);
-                        try
-                        {
-                            _master.WriteMultipleCoils(request.ModuleID, request.RegisterAddress,
-                                request.Data.Select(d => d != 0).ToArray());
-                            reply.ReplyTimeout = false;
-                        }
-                        catch (TimeoutException e)
-                        {
-                            reply.ReplyTimeout = true;
-                        }
+                        _master.WriteMultipleCoils(request.ModuleID, request.RegisterAddress,
+                            request.Data.Select(d => d != 0).ToArray());
+                        reply.ReplyTimeout = false;
+                    }
+                    catch (TimeoutException e)
+                    {
+                        reply.ReplyTimeout = true;
+                    }
 
-                        OnReplyReceived(new ReplyReceivedEventArgs(reply));
-                    });
+                    OnReplyReceived(new ReplyReceivedEventArgs(reply));
+                }
                     break;
                 case RequestType.WriteMultipleRegisters:
-                    ioTask = new Task(() =>
+                {
+                    try
                     {
-                        AgavaReply reply = new AgavaReply(request);
-                        try
-                        {
-                            _master.WriteMultipleRegisters(request.ModuleID, request.RegisterAddress, request.Data);
-                            reply.ReplyTimeout = false;
-                        }
-                        catch (TimeoutException e)
-                        {
-                            reply.ReplyTimeout = true;
-                        }
+                        _master.WriteMultipleRegisters(request.ModuleID, request.RegisterAddress, request.Data);
+                        reply.ReplyTimeout = false;
+                    }
+                    catch (TimeoutException e)
+                    {
+                        reply.ReplyTimeout = true;
+                    }
 
-                        OnReplyReceived(new ReplyReceivedEventArgs(reply));
-                    });
+                    OnReplyReceived(new ReplyReceivedEventArgs(reply));
+                }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (ioTask != null)
-            { 
-                ioTask.Start();
-            }
+            return reply;
+        }
+
+        public Task<AgavaReply> WriteRequestAsync(AgavaRequest request)
+        {
+            throw new NotImplementedException();
         }
 
         public event ReplyReceivedEventHandler ReplyReceived;

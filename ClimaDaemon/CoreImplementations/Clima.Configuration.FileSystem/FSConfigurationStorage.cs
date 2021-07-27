@@ -21,6 +21,8 @@ namespace Clima.Configuration.FileSystem
             {
                 _fs.CreateDirectory(_fs.ConfigurationPath);
             }
+            
+            _loaded = new Dictionary<string, IConfigurationItem>();
         }
 
 
@@ -46,12 +48,16 @@ namespace Clima.Configuration.FileSystem
 
         public void RegisterConfig<ConfigT>(string name, ConfigT instance) where ConfigT : IConfigurationItem, new()
         {
+            if(_loaded.ContainsKey(name))
+                return;
+            
             string fileName = name + _serializer.DataExtension;
             if (instance != null)
             {
                 string data = _serializer.Serialize(instance);
                 string fullPath = Path.Combine(_fs.ConfigurationPath, fileName);
                 _fs.WriteTextFile(fullPath, data);
+                _loaded.Add(name, instance);
             }
         }
 
@@ -64,6 +70,9 @@ namespace Clima.Configuration.FileSystem
 
         public ConfigT GetConfig<ConfigT>(string name) where ConfigT : IConfigurationItem, new()
         {
+            if (_loaded.ContainsKey(name))
+                return (ConfigT)_loaded[name];
+            
             string filePath = Path.Combine(_fs.ConfigurationPath, (name + _serializer.DataExtension));
             var retValue = default(ConfigT);
             if (_fs.FileExist(filePath))
@@ -72,6 +81,7 @@ namespace Clima.Configuration.FileSystem
                 try
                 {
                     retValue = _serializer.Deserialize<ConfigT>(data);
+                    _loaded.Add(name, retValue);
                 }
                 catch (Exception e)
                 {
@@ -81,6 +91,15 @@ namespace Clima.Configuration.FileSystem
             }
 
             return retValue;
+        }
+
+        private void SaveToFile(IConfigurationItem item, string name)
+        {
+            string fileName = name + _serializer.DataExtension;
+
+            string data = _serializer.Serialize(item);
+            string fullPath = Path.Combine(_fs.ConfigurationPath, fileName);
+            _fs.WriteTextFile(fullPath, data);
         }
 
         public bool Exist<ConfigT>() where ConfigT : IConfigurationItem, new()
@@ -100,7 +119,10 @@ namespace Clima.Configuration.FileSystem
 
         public void Save()
         {
-
+            foreach (var configItem in _loaded)
+            {
+                SaveToFile(configItem.Value, configItem.Key);
+            }
         }
     }
 }
