@@ -1,6 +1,4 @@
-﻿using Clima.Core.Devices;
-
-namespace Clima.Core.Controllers.Ventilation
+﻿namespace Clima.Core.Devices
 {
     public interface IAnalogFan:IFan
     {

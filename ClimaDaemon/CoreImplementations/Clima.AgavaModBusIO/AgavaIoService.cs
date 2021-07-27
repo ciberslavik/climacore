@@ -22,7 +22,6 @@ namespace Clima.AgavaModBusIO
         private ModbusConfig _config;
         private IAgavaMaster _master;
         private IOPinCollection _pins;
-        private AgavaWorker _worker;
         private Dictionary<byte, AgavaIOModule> _modules;
         private Queue<AgavaRequest> _requestQueue;
         private static object _queueLocker = new object();
@@ -65,10 +64,6 @@ namespace Clima.AgavaModBusIO
             
             Console.WriteLine("Create modbus worker.");
             
-            _worker = new AgavaWorker(_modules, _master);
-            _worker.DiscreteCycleDevider = _config.DiscreteReadCycleDevider;
-            _worker.AnalogCycleDevider = _config.AnalogReadCycleDevider;
-            
             Console.WriteLine($"IO System  initialization complete Thread:{Thread.CurrentThread.ManagedThreadId}");
             IsInit = true;
         }
@@ -84,8 +79,7 @@ namespace Clima.AgavaModBusIO
         }
         public void Stop()
         {
-            if(_worker.IsRunning)
-                _worker.StopWorker();
+            
         }
 
         public bool IsInit { get; private set; }
@@ -127,9 +121,16 @@ namespace Clima.AgavaModBusIO
 
                     if (module.IsAnalogModified)
                     {
-                        foreach (var iAnOut in module.Pins.AnalogOutputs.Values)
+                        foreach (var ioutput in module.Pins.AnalogOutputs.Values)
                         {
-                            
+                            var output = ioutput as AgavaAOutput;
+                            if(output is null)
+                                continue;
+                            if (output.IsModified)
+                            {
+                                var request = output.GetWriteValueRequest();
+                                _master.WriteRequest(request);
+                            }
                         }
                     }
 
@@ -199,7 +200,11 @@ namespace Clima.AgavaModBusIO
                     var module = AgavaIOModule.CreateModule(moduleId, response.Data);
                     if (module != null)
                     {
-                        ConfigureModuleAnalog(module);
+                        if(_config.AnalogInputsTypes.Count>0)
+                            ConfigureModuleAnalog(module);
+                        else
+                            ReadModuleAnalogConfig(module);
+                        
                         _modules.Add(moduleId, module);
                     }
                 }

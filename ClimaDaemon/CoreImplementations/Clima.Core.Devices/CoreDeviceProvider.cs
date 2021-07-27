@@ -84,5 +84,15 @@ namespace Clima.Core.Devices
 
             throw new KeyNotFoundException(converterName);
         }
+
+        public IDiscreteFan GetDiscreteFan(string fanName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAnalogFan GetAnalogFan(string fanName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

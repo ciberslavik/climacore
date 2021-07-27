@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <Folder Include="Configuration" />
+      <Folder Include="Ventilation\Configuration" />
     </ItemGroup>
 
 </Project>

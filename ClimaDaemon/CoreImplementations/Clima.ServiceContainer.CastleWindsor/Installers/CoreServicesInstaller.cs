@@ -27,10 +27,7 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                     .For<IDeviceProvider>()
                     .ImplementedBy<CoreDeviceProvider>()
                     .LifestyleSingleton(),
-                Component
-                    .For<IFanFactory>()
-                    .ImplementedBy<FanFactory>()
-                    .LifestyleSingleton(),
+                
                 Component
                     .For<IVentilationController>()
                     .ImplementedBy<VentilationController>()

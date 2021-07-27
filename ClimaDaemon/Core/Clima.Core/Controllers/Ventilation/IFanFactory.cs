@@ -1,4 +1,6 @@
-﻿namespace Clima.Core.Controllers.Ventilation
+﻿using Clima.Core.Devices;
+
+namespace Clima.Core.Controllers.Ventilation
 {
     public interface IFanFactory
     {

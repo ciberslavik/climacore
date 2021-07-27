@@ -1,0 +1,21 @@
+﻿{
+  "$id": "1",
+  "PortName": "COM5",
+  "BaudRate": 115200,
+  "ResponseTimeout": 80,
+  "IOProcessorCycleTime": 300,
+  "DiscreteReadCycleDevider": 5,
+  "AnalogReadCycleDevider": 12,
+  "BusStartAddress": 1,
+  "BusEndAddress": 3,
+  "AnalogInputsTypes": {
+    "$id": "2",
+    "AI:1:0": 1,
+    "AI:1:1": 1
+  },
+  "AnalogOutputTypes": {
+    "$id": "3",
+    "AO:1:0": 1,
+    "AO:1:1": 1
+  }
+}

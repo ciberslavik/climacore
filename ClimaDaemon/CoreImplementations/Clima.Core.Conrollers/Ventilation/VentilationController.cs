@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using Clima.Core.Controllers.Ventilation;
+using Clima.Core.Devices;
 
 namespace Clima.Core.Conrollers.Ventilation.Ventilation
 {
     public class VentilationController:IVentilationController
     {
-        private List<IFan> _fans;
-        
+        private Dictionary<string, IFan> _fans;
+        private bool _isRunning;
         public VentilationController()
         {
+            _fans = new Dictionary<string, IFan>();
         }
 
 
@@ -22,6 +24,8 @@ namespace Clima.Core.Conrollers.Ventilation.Ventilation
             throw new System.NotImplementedException();
         }
 
+        public bool IsRunning => _isRunning;
+        
         public IList<IFan> Fans { get; }
         public void AddFan(IFan fan)
         {
