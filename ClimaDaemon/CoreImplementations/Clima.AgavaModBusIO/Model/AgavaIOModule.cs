@@ -150,6 +150,11 @@ namespace Clima.AgavaModBusIO.Model
         public bool IsAnalogModified => _pins.IsAnalogModified;
         public IOPinCollection Pins => _pins;
 
+        public void AcceptModify()
+        {
+            _pins.AcceptDiscrete();
+            _pins.AcceptAnalog();
+        }
         public IPin GetPinByName(string pinName)
         {
             if (pinName.Contains("DO"))

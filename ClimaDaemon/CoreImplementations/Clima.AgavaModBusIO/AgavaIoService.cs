@@ -10,6 +10,7 @@ using Clima.AgavaModBusIO.Transport;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core.IO;
+using Clima.Core.IO.Converters;
 using NModbus;
 using NModbus.Serial;
 
@@ -62,7 +63,8 @@ namespace Clima.AgavaModBusIO
             
             ScanBus(_config.BusStartAddress, _config.BusEndAddress);
             
-            Console.WriteLine("Create modbus worker.");
+            Log.Debug("Read analogInputs");
+            ReadAnalogInputs();
             
             Console.WriteLine($"IO System  initialization complete Thread:{Thread.CurrentThread.ManagedThreadId}");
             IsInit = true;
@@ -117,6 +119,7 @@ namespace Clima.AgavaModBusIO
                         var request = AgavaRequest.WriteHoldingRegisterRequest(
                                 moduleId, 10000, module.GetDORawData());
                         _master.WriteRequest(request);
+                        module.AcceptModify();
                     }
 
                     if (module.IsAnalogModified)
@@ -149,10 +152,10 @@ namespace Clima.AgavaModBusIO
                             if(ain is null)
                                 continue;
 
-                            var request = AgavaRequest.ReadInputRegisterRequest(moduleId, ain.RegAddress, 2);
+                            var request = AgavaRequest.ReadInputRegisterRequest(moduleId, ain.RegAddress, 1);
                             var response = _master.WriteRequest(request);
-
-                            var value = BufferToFloat(response.Data);
+                            
+                            var value = response.Data[0];//BufferToFloat(response.Data);
                             ain.SetRawValue(value);
                         }
                     }
@@ -160,6 +163,23 @@ namespace Clima.AgavaModBusIO
             }
         }
 
+        private void ReadAnalogInputs()
+        {
+            foreach (var module in _modules.Values)
+            {
+                foreach (var iain in module.Pins.AnalogInputs.Values)
+                {
+                    if (iain is AgavaAInput ain)
+                    {
+                        var request = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, ain.RegAddress, 1);
+                        var response = _master.WriteRequest(request);
+                            
+                        var value = response.Data[0];//BufferToFloat(response.Data);
+                        ain.SetRawValue(value);
+                    }
+                }
+            }
+        }
         private float BufferToFloat(ushort[] buffer)
         {
             byte[] bytes = new byte[4];
@@ -265,6 +285,58 @@ namespace Clima.AgavaModBusIO
                 var request = AgavaRequest.WriteHoldingRegisterRequest(
                     module.ModuleId, regAddress, new ushort[] {inputType});
                 _master.WriteRequest(request);
+
+                switch (_config.AnalogInputsTypes[ain.PinName])
+                {
+                    case AgavaAnalogInType.Voltage_0_10V:
+                        ain.ValueConverter = new VoltageToPercentConverter();
+                        break;
+                    case AgavaAnalogInType.Current_4_20mA:
+                        break;
+                    case AgavaAnalogInType.Current_0_20mA:
+                        break;
+                    case AgavaAnalogInType.Current_0_5mA:
+                        break;
+                    case AgavaAnalogInType.Resistance:
+                        break;
+                    case AgavaAnalogInType.TR_Pt100:
+                        break;
+                    case AgavaAnalogInType.TR_Pt1000:
+                        ain.ValueConverter = new Pt1000ToTemperature();
+                        break;
+                    case AgavaAnalogInType.TR_50M:
+                        break;
+                    case AgavaAnalogInType.TR_100M:
+                        break;
+                    case AgavaAnalogInType.TC_L:
+                        break;
+                    case AgavaAnalogInType.TC_J:
+                        break;
+                    case AgavaAnalogInType.TC_N:
+                        break;
+                    case AgavaAnalogInType.TC_K:
+                        break;
+                    case AgavaAnalogInType.TC_S:
+                        break;
+                    case AgavaAnalogInType.TC_R:
+                        break;
+                    case AgavaAnalogInType.TC_B:
+                        break;
+                    case AgavaAnalogInType.TC_A1:
+                        break;
+                    case AgavaAnalogInType.TC_A2:
+                        break;
+                    case AgavaAnalogInType.TC_A3:
+                        break;
+                    case AgavaAnalogInType.TR_TSP50:
+                        break;
+                    case AgavaAnalogInType.TR_TSP100:
+                        break;
+                    case AgavaAnalogInType.Millivolts:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
             
             foreach (var ioutput in module.Pins.AnalogOutputs.Values)

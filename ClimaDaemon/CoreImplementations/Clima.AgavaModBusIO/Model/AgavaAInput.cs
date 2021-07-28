@@ -16,7 +16,7 @@ namespace Clima.AgavaModBusIO.Model
         {
             ModuleId = moduleAddress;
             PinNumberInModule = pinNumberInModule;
-            RegAddress = (ushort) ((pinNumberInModule) * 2);
+            RegAddress = (ushort) (10004+pinNumberInModule);// + (pinNumberInModule) * 2);
         }
 
         public AgavaAnalogInType InputType

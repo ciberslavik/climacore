@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Clima.Basics.Configuration;
+using Clima.Basics.Services;
 using Clima.Core.Devices.Configuration;
 using Clima.Core.IO;
 
@@ -12,8 +13,9 @@ namespace Clima.Core.Devices
         private readonly IIOService _ioService;
         private DeviceProviderConfig _config;
         
-        private Dictionary<string, IRelay> _relays;
-        private Dictionary<string, IFrequencyConverter> _fcs;
+        private readonly Dictionary<string, IRelay> _relays = new Dictionary<string, IRelay>();
+        private readonly Dictionary<string, IFrequencyConverter> _fcs = new Dictionary<string, IFrequencyConverter>();
+        private readonly Dictionary<string, IServoDrive> _servos = new Dictionary<string, IServoDrive>();
         public CoreDeviceProvider(IIOService ioService)
         {
             _configStorage = ClimaContext.Current.ConfigurationStorage;
@@ -26,8 +28,6 @@ namespace Clima.Core.Devices
                 _config = DeviceProviderConfig.CreateDefault();
                 _configStorage.RegisterConfig(DeviceProviderConfig.FileName, _config);
             }
-            _relays = new Dictionary<string, IRelay>();
-            _fcs = new Dictionary<string, IFrequencyConverter>();
         }
 
 
@@ -51,6 +51,28 @@ namespace Clima.Core.Devices
                 throw new KeyNotFoundException(relayName);
             }
         }
+
+        public IServoDrive GetServo(string servoName)
+        {
+            if (_servos.ContainsKey(servoName))
+                return _servos[servoName];
+
+            if (_config.Servos.ContainsKey(servoName))
+            {
+                var servoConfig = _config.Servos[servoName];
+
+                var servo = new LinearServo();
+                servo.ServoOpenPin = _ioService.Pins.DiscreteOutputs[servoConfig.OpenPinName];
+                servo.ServoClosePin = _ioService.Pins.DiscreteOutputs[servoConfig.ClosePinName];
+                servo.ServoFeedbackPin = _ioService.Pins.AnalogInputs[servoConfig.FeedbackPinName];
+                servo.Logger = Logger;
+                servo.Configuration = servoConfig;
+                return servo;
+            }
+            throw new KeyNotFoundException(servoName);
+        }
+
+        public ISystemLogger Logger { get; set; }
 
         public IFrequencyConverter GetFrequencyConverter(string converterName)
         {

@@ -15,7 +15,7 @@ namespace Clima.Core.Devices
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            OnElapsed();
+            Elapsed?.Invoke(sender);
         }
 
         public void Start()
@@ -35,10 +35,6 @@ namespace Clima.Core.Devices
         }
 
         public event TimerElapsedEventHandler Elapsed;
-
-        protected virtual void OnElapsed()
-        {
-            Elapsed?.Invoke(this);
-        }
+        
     }
 }

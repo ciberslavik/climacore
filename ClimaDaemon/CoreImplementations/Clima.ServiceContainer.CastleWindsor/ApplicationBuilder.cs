@@ -38,13 +38,25 @@ namespace Clima.ServiceContainer.CastleWindsor
             
             ClimaContext.InitContext(_serviceProvider);
             ClimaContext.ExitSignal = false;
-            
-            var devProvider = _container.Resolve<IDeviceProvider>();
 
+
+            var devProvider = _container.Resolve<IDeviceProvider>();
+            
             var relay = devProvider.GetRelay("REL:0");
             
-            
-            relay.On();
+            var relayNotifier = relay as IAlarmNotifier;
+            if (relayNotifier != null)
+            {
+                relayNotifier.AlarmNotify += (s,ea) =>
+                {
+                    ClimaContext.Current.Logger.System($"Sender:{s.GetType().FullName}");
+                    ClimaContext.Current.Logger.System($"Alarm:{ea.Message}");
+                };
+            }
+
+            var servo = devProvider.GetServo("SERVO:0");
+            Thread.Yield();
+            servo.SetPosition(70);
         }
 
         public void Run()

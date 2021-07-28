@@ -5,6 +5,6 @@ namespace Clima.Core.IO
         event DiscretePinStateChangedEventHandler PinStateChanged;
         
         bool State { get; }
-        void SetState(bool state, bool queued);
+        void SetState(bool state, bool queued = true);
     }
 }

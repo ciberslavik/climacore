@@ -6,8 +6,8 @@
       "RelayName": "REL:0",
       "ControlPinName": "DO:2:0",
       "MonitorPinName": "DI:2:0",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 2000,
+      "MonitorTimeout": 2000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -16,8 +16,8 @@
       "RelayName": "REL:1",
       "ControlPinName": "DO:2:1",
       "MonitorPinName": "DI:2:1",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 2000,
+      "MonitorTimeout": 2000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -110,6 +110,17 @@
       "Disabled": false,
       "StartPower": 0.1,
       "StopPower": 0.05
+    }
+  },
+  "Servos": {
+    "SERVO:0": {
+      "$id": "13",
+      "ServoName": "SERVO:0",
+      "OpenPinName": "DO:3:2",
+      "ClosePinName": "DO:3:3",
+      "FeedbackPinName": "AI:1:4",
+      "Accuracy": 0.5,
+	"PreStop": 1
     }
   },
   "ConfigurationName": "DeviceProviderConfig"

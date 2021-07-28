@@ -7,7 +7,7 @@ using Clima.Core.IO;
 
 namespace Clima.Core.Devices
 {
-    public class MonitoredRelay:Device,IRelay
+    public class MonitoredRelay:Device,IRelay,IAlarmNotifier
     {
         private enum RelayState
         {
@@ -30,6 +30,7 @@ namespace Clima.Core.Devices
             MonitorPin = null;
             EnablePin = null;
             _monitorTimer = timer;
+            _monitorTimer.Interval = 1000;
             _monitorTimer.Elapsed += MonitorTimerOnElapsed;
 
             //_monitorTimer.
@@ -102,6 +103,7 @@ namespace Clima.Core.Devices
             }
 
             _state = RelayState.TryOn;
+            _monitorTimer.Interval = Configuration.StateChangeTimeout;
             _monitorTimer.Start();
         }
 
@@ -115,6 +117,7 @@ namespace Clima.Core.Devices
             _state = RelayState.TryOff;
             if (GetMonitorState(MonitorPin.State))
             {
+                _monitorTimer.Interval = Configuration.StateChangeTimeout;
                 _monitorTimer.Start();
             }
             else
@@ -146,6 +149,7 @@ namespace Clima.Core.Devices
 
         private void MonitorPinOnPinStateChanged(DiscretePinStateChangedEventArgs ea)
         {
+            ClimaContext.Current.Logger.Debug($"monitor from:{ea.PrevState} to {ea.NewState}");
             if (_state == RelayState.TryOn)
             {
                 if (GetMonitorState(ea.NewState))
@@ -159,6 +163,7 @@ namespace Clima.Core.Devices
                 if (!GetMonitorState(ea.NewState))
                 {
                     _state = RelayState.Alarm;
+                    
                     OnAlarmNotify($"Рэле {Configuration.RelayName} отключилось во время работы");
                 }
             }
@@ -196,12 +201,23 @@ namespace Clima.Core.Devices
 
             return monitorState;
         }
+        
+        public event AlarmNotifyEventHandler AlarmNotify;
+        public string NotifierName => Configuration.RelayName;
 
-        //public event AlarmNotifyHandler AlarmNotify;
-
-        protected virtual void OnAlarmNotify(string message, [CallerMemberName] string callerName = "")
+        protected virtual void OnAlarmNotify(string message)
         {
-         //   AlarmNotify?.Invoke(new AlarmNotifyEventArgs(message, callerName));
+            SetEnablePinState(false);
+            AlarmNotifyEventArgs ea = new AlarmNotifyEventArgs(message);
+            AlarmNotify?.Invoke(this, ea);
+        }
+
+        private void SetEnablePinState(bool state)
+        {
+            if (Configuration.EnableLevel == ActiveLevel.High)
+                EnablePin.SetState(state, true);
+            else if (Configuration.EnableLevel == ActiveLevel.Low)
+                EnablePin.SetState(!state, true);
         }
     }
 }

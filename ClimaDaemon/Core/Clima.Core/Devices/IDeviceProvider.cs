@@ -8,5 +8,6 @@ namespace Clima.Core.Devices
         IFrequencyConverter GetFrequencyConverter(string converterName);
         IDiscreteFan GetDiscreteFan(string fanName);
         IAnalogFan GetAnalogFan(string fanName);
+        IServoDrive GetServo(string servoName);
     }
 }

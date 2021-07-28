@@ -8,7 +8,7 @@ namespace Clima.Core.Devices.Configuration
         private readonly Dictionary<string, MonitoredRelayConfig> _monitoredRelays = new Dictionary<string, MonitoredRelayConfig>();
         private readonly Dictionary<string, FrequencyConverterConfig> _frequencyConverters = new Dictionary<string, FrequencyConverterConfig>();
         private readonly Dictionary<string, FanConfig> _fans = new Dictionary<string, FanConfig>();
-
+        private readonly Dictionary<string, ServoConfig> _servos = new Dictionary<string, ServoConfig>();
         public DeviceProviderConfig()
         {
         }
@@ -17,7 +17,7 @@ namespace Clima.Core.Devices.Configuration
 
         public Dictionary<string, FrequencyConverterConfig> FrequencyConverters => _frequencyConverters;
         public Dictionary<string, FanConfig> Fans => _fans;
-
+        public Dictionary<string, ServoConfig> Servos => _servos;
         public string ConfigurationName => FileName;
 
         internal static string FileName => "DeviceProviderConfig";
@@ -58,6 +58,7 @@ namespace Clima.Core.Devices.Configuration
             fanConfig.FrequencyConverterName = "FC:0";
             config.Fans.Add(fanConfig.FanName, fanConfig);
             
+            config.Servos.Add("SERVO:0",ServoConfig.CreateDefault(0));
             return config;
         }
     }
