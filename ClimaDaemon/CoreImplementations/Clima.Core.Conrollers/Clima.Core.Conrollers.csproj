@@ -10,9 +10,4 @@
       <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Configuration" />
-      <Folder Include="Ventilation\Configuration" />
-    </ItemGroup>
-
 </Project>

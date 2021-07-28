@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Tests", "Tests\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Logger.Console", "CoreImplementations\Clima.Logger.Console\Clima.Logger.Console.csproj", "{3BBF92E2-8293-415E-9FF8-8AAC64A6DF1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Devices.Tests", "Tests\Clima.Core.Devices.Tests\Clima.Core.Devices.Tests.csproj", "{AD76D753-AF18-467F-A212-5A1744845CCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{3BBF92E2-8293-415E-9FF8-8AAC64A6DF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BBF92E2-8293-415E-9FF8-8AAC64A6DF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BBF92E2-8293-415E-9FF8-8AAC64A6DF1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD76D753-AF18-467F-A212-5A1744845CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD76D753-AF18-467F-A212-5A1744845CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD76D753-AF18-467F-A212-5A1744845CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD76D753-AF18-467F-A212-5A1744845CCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{A37850AD-DF24-4EAE-91C4-119471E8DD79} = {097481DE-74BF-4033-92CC-4CD24774B69E}
 		{AE31BC5D-9287-4BB4-83C0-A5E230E5B604} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
 		{3BBF92E2-8293-415E-9FF8-8AAC64A6DF1D} = {CA8F4360-59DA-477A-9FE6-BEB77A2C0D00}
+		{AD76D753-AF18-467F-A212-5A1744845CCF} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8C0318C-3AF4-4615-9360-4283C4059C31}
