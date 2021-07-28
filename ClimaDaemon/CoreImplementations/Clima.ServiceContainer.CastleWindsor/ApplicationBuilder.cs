@@ -56,7 +56,7 @@ namespace Clima.ServiceContainer.CastleWindsor
 
             var servo = devProvider.GetServo("SERVO:0");
             Thread.Yield();
-            servo.SetPosition(70);
+            servo.SetPosition(40);
         }
 
         public void Run()

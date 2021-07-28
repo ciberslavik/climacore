@@ -39,19 +39,42 @@ namespace Clima.Core.Devices
             
         }
 
+        private double _prevPos;
         public void SetPosition(double position)
         {
             _current = ServoFeedbackPin.Value;
             _target = position;
-            
+            _prevPos = _current;
             if (_current > _target)
             {
-                _controlState = ControlState.Closing;
+                ServoClosePin.SetState(true);
             }
             else if (_current < _target)
             {
-                _controlState = ControlState.Opening;
+                ServoOpenPin.SetState(true);
             }
+            _pulseTimer = new Timer(TestCAllback,null,10000,-1);
+        }
+
+        private void TestCAllback(object? state)
+        {
+            ServoClosePin.SetState(false);
+            ServoOpenPin.SetState(false);
+            Logger.Debug($" moving per second:{(_prevPos - _current)/10} per 10 second{_prevPos - _current}");
+            
+            /*
+            [Debug]ServoFeedbackPinOnValueChanged:Servo value:60,6
+                [Debug]ServoFeedbackPinOnValueChanged:Servo value:59,7
+                [Debug]ServoFeedbackPinOnValueChanged:Servo value:58,9
+                [Debug]ServoFeedbackPinOnValueChanged:Servo value:58,1
+                [Debug]TestCAllback: moving per second:0,9999999999999993 per 10 second9,999999999999993
+                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57,1
+                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57
+                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57,1
+                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57
+                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57,1
+                */
+
         }
 
         public double CurrentPosition => _current;
@@ -70,44 +93,26 @@ namespace Clima.Core.Devices
 
         private void ServoFeedbackPinOnValueChanged(AnalogPinValueChangedEventArgs ea)
         {
-            var minCoarseTarget = _target - Configuration.CoarseAccuracy;
-            var maxCoarseTarget = _target + Configuration.CoarseAccuracy;
-
-        }
-
-        private void OnAnalogReady(IAnalogInput input)
-        {
+            _current = ea.NewValue;
+            /*var minCoarse = _target - Configuration.CoarseAccuracy;
+            var maxCoarse = _target + Configuration.CoarseAccuracy;
+            if (_current >= minCoarse && _current <= maxCoarse)
+            {
+                if (_controlState == ControlState.Closing)
+                {
+                    ServoClosePin.SetState(false);
+                    _controlState = ControlState.FineClosing;
+                }
+                else if (_controlState == ControlState.Opening)
+                {
+                    ServoOpenPin.SetState(false);
+                    _controlState = ControlState.FineOpening;
+                }
+            }*/
             
+            Logger.Debug($"Servo value:{_current}");
         }
-        private void OpenPulse(int pulseTime)
-        {
-            _state.IsOpening = true;
-            _state.ProcessPulse = true;
-            _pulseTimer = new Timer(PrePulseTimeout, null, pulseTime, -1);
-        }
-
-        private void ClosePulse(int pulseTime)
-        {
-            _state.IsOpening = false;
-            _state.ProcessPulse = true;
-            _pulseTimer = new Timer(PrePulseTimeout, null, pulseTime, -1);
-        }
-
-        private void PrePulseTimeout(object o)
-        {
-            if(_state.IsOpening)
-                ServoOpenPin.SetState(true);
-            else
-                ServoClosePin.SetState(true);
-
-            _pulseTimer = new Timer(PulseTimeout, null, 500, -1);
-        }
-        private void PulseTimeout(object o)
-        {
-            _state.ProcessPulse = false;
-            ServoClosePin.SetState(false);
-            ServoOpenPin.SetState(false);
-        }
+        
         internal ISystemLogger Logger { get; set; }
 
         

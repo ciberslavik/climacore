@@ -12,6 +12,7 @@
         public string FeedbackPinName { get; set; }
         public double FineAccuracy { get; set; }
         public double CoarseAccuracy { get; set; }
+        public int FinePulseTime { get; set; }
         public static ServoConfig CreateDefault(int servoNumber)
         {
             var config = new ServoConfig();
@@ -21,7 +22,7 @@
             config.FeedbackPinName = $"AI:1:4";
             config.CoarseAccuracy = 1.5;
             config.FineAccuracy = 0.1;
-            
+            config.FinePulseTime = 500;
             return config;
         }
     }
