@@ -6,8 +6,8 @@
       "RelayName": "REL:0",
       "ControlPinName": "DO:2:0",
       "MonitorPinName": "DI:2:0",
-      "StateChangeTimeout": 2000,
-      "MonitorTimeout": 2000,
+      "StateChangeTimeout": 0,
+      "MonitorTimeout": 0,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -16,8 +16,8 @@
       "RelayName": "REL:1",
       "ControlPinName": "DO:2:1",
       "MonitorPinName": "DI:2:1",
-      "StateChangeTimeout": 2000,
-      "MonitorTimeout": 2000,
+      "StateChangeTimeout": 0,
+      "MonitorTimeout": 0,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -116,12 +116,24 @@
     "SERVO:0": {
       "$id": "13",
       "ServoName": "SERVO:0",
-      "OpenPinName": "DO:3:2",
-      "ClosePinName": "DO:3:3",
+      "OpenPinName": "DO:3:3",
+      "ClosePinName": "DO:3:4",
       "FeedbackPinName": "AI:1:4",
-      "Accuracy": 0.5,
-	"PreStop": 1
+      "FineAccuracy": 0.3,
+      "CoarseAccuracy": 2,
+      "FinePulseTime": 500,
+      "FinePauseTime": 2500,
+      "FullOpen": 90.0,
+      "FullClose": 8.0
     }
+  },
+  "Sensors": {
+    "$id": "14",
+    "FrontTempPinName": "AI:1:0",
+    "RearTempPinName": "AI:1:1",
+    "OutdoorTempPinName": "AI:1:6",
+    "HumidityPinName": "AI:1:2",
+    "PressurePinName": "AI:1:3"
   },
   "ConfigurationName": "DeviceProviderConfig"
 }

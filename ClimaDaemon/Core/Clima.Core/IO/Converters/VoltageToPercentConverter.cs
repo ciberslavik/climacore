@@ -1,4 +1,6 @@
-﻿namespace Clima.Core.IO.Converters
+﻿using System;
+
+namespace Clima.Core.IO.Converters
 {
     public class VoltageToPercentConverter:IAnalogValueConverter
     {

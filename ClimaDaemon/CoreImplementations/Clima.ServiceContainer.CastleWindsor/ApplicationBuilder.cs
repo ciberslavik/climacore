@@ -17,9 +17,17 @@ namespace Clima.ServiceContainer.CastleWindsor
     {
         private IWindsorContainer _container;
         private IServiceProvider _serviceProvider;
+        private IServoDrive _servo;
+        private ISensors _sensors;
         public ApplicationBuilder()
         {
             
+        }
+
+        public ISensors Sensors
+        {
+            get => _sensors;
+            set => _sensors = value;
         }
 
         public void Initialize()
@@ -54,16 +62,26 @@ namespace Clima.ServiceContainer.CastleWindsor
                 };
             }
 
-            var servo = devProvider.GetServo("SERVO:0");
+            _sensors = devProvider.GetSensors();
+            _servo = devProvider.GetServo("SERVO:0");
             Thread.Yield();
-            servo.SetPosition(40);
+            _servo.SetPosition(23.2);
+            
         }
 
+        public void SetValue(double value)
+        {
+            _servo.SetPosition(value);
+        }
         public void Run()
         {
             while (!ClimaContext.ExitSignal)
             {
-                Thread.Sleep(500);
+                var inputLine = Console.ReadLine();
+                if (double.TryParse(inputLine, out var result))
+                {
+                    _servo.SetPosition(result);
+                }
             }
         }
     }

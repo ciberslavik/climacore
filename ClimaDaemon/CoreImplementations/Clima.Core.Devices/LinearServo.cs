@@ -8,8 +8,17 @@ namespace Clima.Core.Devices
 {
     public class LinearServo:IServoDrive
     {
-        
-        private bool _isMoving;
+        private bool __isMoving;
+
+        private bool _isMoving
+        {
+            get=>__isMoving;
+            set
+            {
+                __isMoving = value;
+                Logger.Debug($"IsMoving to:{__isMoving}");
+            }
+        }
         private bool _isFine;
         private bool _isFineClosing;
         private double _targetPos;
@@ -34,12 +43,18 @@ namespace Clima.Core.Devices
         {
             
         }
-
-        private double _prevPos;
         public void SetPosition(double target)
         {
+            if (__isMoving)
+            {
+                _isMoving = false;
+                ServoClosePin.SetState(false);
+                ServoOpenPin.SetState(false);
+                if (_fineTimer != null)
+                    _fineTimer.Dispose();
+            }
             var current = ServoFeedbackPin.Value;
-            
+            Logger.Debug($"Set position:{target}");
             //Check need moving
             if (HitFineWindow(current, target)) 
             {
@@ -49,7 +64,10 @@ namespace Clima.Core.Devices
 
             //Evaluate distance to target, and select Fine or Coarse moving
             var coarseDiff = Configuration.CoarseAccuracy * 3;
-            var currentDiff = (current - target) * -1;
+            
+            var currentDiff = (current - target);
+            if (currentDiff < 0)
+                currentDiff = currentDiff * -1;
             
             if (currentDiff > coarseDiff)
                 MoveCoarse(target);
@@ -65,6 +83,7 @@ namespace Clima.Core.Devices
 
         private void MoveFine(double target)
         {   //Check moving
+            Logger.Debug("Move Fine");
             if(_isMoving)
                 return;
             var current = ServoFeedbackPin.Value;
@@ -84,11 +103,12 @@ namespace Clima.Core.Devices
             _isFine = true;
             _isMoving = true;
             _targetPos = target;
-            _fineTimer = new Timer(FinePauseTimeout, null, Configuration.FinePulseTime, -1);
+            _fineTimer = new Timer(FinePauseTimeout, null, Configuration.FinePauseTime, -1);
         }
 
         internal void MoveCoarse(double target)
         {
+            Logger.Debug("Move Coarse");
             if(_isMoving)
                 return;
             var current = ServoFeedbackPin.Value;
@@ -109,27 +129,6 @@ namespace Clima.Core.Devices
             
         }
 
-        private void TestCAllback(object? state)
-        {
-            /*ServoClosePin.SetState(false);
-            ServoOpenPin.SetState(false);
-            Logger.Debug($" moving per second:{(_prevPos - _current)/10} per 10 second{_prevPos - _current}");
-            */
-            
-            /*
-            [Debug]ServoFeedbackPinOnValueChanged:Servo value:60,6
-                [Debug]ServoFeedbackPinOnValueChanged:Servo value:59,7
-                [Debug]ServoFeedbackPinOnValueChanged:Servo value:58,9
-                [Debug]ServoFeedbackPinOnValueChanged:Servo value:58,1
-                [Debug]TestCAllback: moving per second:0,9999999999999993 per 10 second9,999999999999993
-                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57,1
-                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57
-                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57,1
-                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57
-                [Debug]ServoFeedbackPinOnValueChanged:Servo value:57,1
-                */
-
-        }
         
         public double CurrentPosition => ServoFeedbackPin.Value;
         internal ServoConfig Configuration { get; set; }
@@ -148,6 +147,8 @@ namespace Clima.Core.Devices
         private void ServoFeedbackPinOnValueChanged(AnalogPinValueChangedEventArgs ea)
         {
             var current = ea.NewValue;
+            Logger.Info($"Servo value:{current}");
+            
             if (_isMoving)
             {
                 if (_isFine)
@@ -156,6 +157,7 @@ namespace Clima.Core.Devices
                     {
                         ServoClosePin.SetState(false);
                         ServoOpenPin.SetState(false);
+                        _fineTimer?.Dispose();
                         _isMoving = false;
                     }
                 }
@@ -171,13 +173,32 @@ namespace Clima.Core.Devices
                     }
                 }
             }
-            Logger.Debug($"Servo value:{current}");
+            else
+            {
+                if (!HitFineWindow(current, _targetPos))
+                {
+                    MoveFine(_targetPos);
+                }
+            }
+            
         }
 
         private void FinePauseTimeout(object o)
         {
+            Logger.Debug("Pause timeout");
             if (_isMoving && _isFine)
             {
+                var current = ServoFeedbackPin.Value;
+                int pulseTime = Configuration.FinePulseTime;
+
+                Logger.Debug($"Pulse time:{pulseTime}");
+                
+                if (current > _targetPos)
+                    _isFineClosing = true;
+                else
+                    _isFineClosing = false;
+                
+                
                 if (_isFineClosing)
                 {
                     ServoClosePin.SetState(true);
@@ -187,16 +208,19 @@ namespace Clima.Core.Devices
                     ServoOpenPin.SetState(true);
                 }
 
-                _fineTimer = new Timer(FinePulseTimeout, null, Configuration.FinePulseTime, -1);
+                _fineTimer.Dispose();
+                _fineTimer = new Timer(FinePulseTimeout, null, pulseTime, -1);
             }
         }
 
         private void FinePulseTimeout(object o)
         {
+            Logger.Debug("Pulse timeout");
             var current = ServoFeedbackPin.Value;
             
             if (_isMoving && _isFine)
             {
+                _fineTimer.Dispose();
                 ServoClosePin.SetState(false);
                 ServoOpenPin.SetState(false);
                 
@@ -207,7 +231,12 @@ namespace Clima.Core.Devices
                 }
                 else
                 {
-                    _fineTimer = new Timer(FinePauseTimeout, null, Configuration.FinePulseTime, -1);
+                    if (current > _targetPos)
+                        _isFineClosing = true;
+                    else
+                        _isFineClosing = false;
+                    
+                    _fineTimer = new Timer(FinePauseTimeout, null, Configuration.FinePauseTime, -1);
                 }
             }
         }

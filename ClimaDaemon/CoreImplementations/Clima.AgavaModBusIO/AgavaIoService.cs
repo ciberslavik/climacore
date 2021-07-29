@@ -100,7 +100,7 @@ namespace Clima.AgavaModBusIO
         }
 
         
-        private void CycleFunc(object? state)
+        private void CycleFunc(object state)
         {
             var modules = state as Dictionary<byte, AgavaIOModule>;
             if (modules is null)
@@ -152,10 +152,11 @@ namespace Clima.AgavaModBusIO
                             if(ain is null)
                                 continue;
 
-                            var request = AgavaRequest.ReadInputRegisterRequest(moduleId, ain.RegAddress, 1);
+                            var request = AgavaRequest.ReadInputRegisterRequest(moduleId, ain.RegAddress, 2);
                             var response = _master.WriteRequest(request);
-                            
-                            var value = response.Data[0];//BufferToFloat(response.Data);
+                            Console.Write($"Pin:{ain.PinName} ");
+                            var value = BufferToFloat(response.Data);
+                            Console.WriteLine($" value:{value:F10}");
                             ain.SetRawValue(value);
                         }
                     }
@@ -185,11 +186,49 @@ namespace Clima.AgavaModBusIO
             byte[] bytes = new byte[4];
             byte[] b1 = BitConverter.GetBytes(buffer[0]);
             byte[] b2 = BitConverter.GetBytes(buffer[1]);
+            Console.Write($" buffer:{buffer[0]:X}, {buffer[1]:X}");
             bytes[0] = b1[0];
             bytes[1] = b1[1];
             bytes[2] = b2[0];
             bytes[3] = b2[1];
-            return BitConverter.ToInt32(bytes, 0);
+
+            return BufferToFloat2(bytes);
+        }
+
+        private float BufferToFloat2(byte[] data)
+        {
+            uint fb = BitConverter.ToUInt32(data);
+
+            int sign = (int)((fb >> 31) & 1);
+            int exponent = (int)((fb >> 23) & 0xFF);
+            int mantissa = (int)(fb & 0x7FFFFF);
+
+            float fMantissa;
+            float fSign = sign == 0 ? 1.0f : -1.0f;
+
+            if (exponent != 0)
+            {
+                exponent -= 127;
+                fMantissa = 1.0f + (mantissa / (float)0x800000);
+            }
+            else
+            {
+                if (mantissa != 0)
+                {
+                    // denormal
+                    exponent -= 126;
+                    fMantissa = 1.0f / (float)0x800000;
+                }
+                else
+                {
+                    // +0 and -0 cases
+                    fMantissa = 0;
+                }
+            }
+
+            float fExponent = (float)Math.Pow(2.0, exponent);
+            float ret = fSign * fMantissa * fExponent;
+            return ret;
         }
         private bool CheckModule(byte moduleId)
         {
@@ -220,6 +259,7 @@ namespace Clima.AgavaModBusIO
                     var module = AgavaIOModule.CreateModule(moduleId, response.Data);
                     if (module != null)
                     {
+                        
                         if(_config.AnalogInputsTypes.Count>0)
                             ConfigureModuleAnalog(module);
                         else
@@ -243,7 +283,9 @@ namespace Clima.AgavaModBusIO
                 var regAddress = (ushort)(1200 + ain.PinNumberInModule);
                 var request = AgavaRequest.ReadHoldingRegisterRequest(module.ModuleId, regAddress, 1);
                 var response = _master.WriteRequest(request);
-
+                
+                Console.WriteLine($"Pin:{ain.PinName} type:{response.Data[0]}");
+                
                 var inType = (AgavaAnalogInType) response.Data[0];
                 ain.InputType = inType;
                 if (_config.AnalogInputsTypes.ContainsKey(ain.PinName))

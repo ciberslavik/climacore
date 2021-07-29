@@ -1,9 +1,12 @@
 ﻿using System;
+using Clima.Basics.Services;
+using Clima.Core;
 using Clima.Core.IO;
 using NModbus;
 
 namespace Clima.AgavaModBusIO.Model
 {
+    
     public class AgavaIOModule
     {
         private byte _moduleID;
@@ -14,11 +17,12 @@ namespace Clima.AgavaModBusIO.Model
             _pins = new IOPinCollection();
             _pins.AnalogOutputChanged += OnAnalogOutputChanged;
             _pins.DiscreteOutputChanged += OnDiscreteOutputChanged;
+            
         }
 
         private void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
         {
-            
+            Console.WriteLine($"Discr out in module:{_moduleID} pin:{ea.Pin.PinName} to:{ea.NewState}");
         }
 
         public event AnalogPinValueChangedEventHandler AnalogOutputChanged;
@@ -237,18 +241,6 @@ namespace Clima.AgavaModBusIO.Model
             }
             return byteArr;
         }
-
-        private static bool[] UshortToBoolArray(ushort word)
-        {
-            bool[] buffer = new bool[sizeof(ushort)];
-
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                
-            }
-            return buffer;
-        }
-
         protected virtual void OnAnalogOutputChanged(AnalogPinValueChangedEventArgs ea)
         {
             AnalogOutputChanged?.Invoke(ea);

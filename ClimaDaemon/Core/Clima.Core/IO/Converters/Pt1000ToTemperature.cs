@@ -11,6 +11,7 @@ namespace Clima.Core.IO.Converters
 
         public double ConvertTo(double value)
         {
+            //Console.WriteLine($"PT1000 value:{value:F4}");
             double t;
 
             double A = 3.9083e-3;

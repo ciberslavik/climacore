@@ -18,6 +18,7 @@ namespace Clima.Core.Devices.Configuration
         public Dictionary<string, FrequencyConverterConfig> FrequencyConverters => _frequencyConverters;
         public Dictionary<string, FanConfig> Fans => _fans;
         public Dictionary<string, ServoConfig> Servos => _servos;
+        public SensorsConfig Sensors { get; set; }
         public string ConfigurationName => FileName;
 
         internal static string FileName => "DeviceProviderConfig";
@@ -59,6 +60,8 @@ namespace Clima.Core.Devices.Configuration
             config.Fans.Add(fanConfig.FanName, fanConfig);
             
             config.Servos.Add("SERVO:0",ServoConfig.CreateDefault(0));
+            
+            config.Sensors = SensorsConfig.CreateDefault();
             return config;
         }
     }

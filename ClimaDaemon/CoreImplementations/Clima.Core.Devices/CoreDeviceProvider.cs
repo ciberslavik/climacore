@@ -16,6 +16,7 @@ namespace Clima.Core.Devices
         private readonly Dictionary<string, IRelay> _relays = new Dictionary<string, IRelay>();
         private readonly Dictionary<string, IFrequencyConverter> _fcs = new Dictionary<string, IFrequencyConverter>();
         private readonly Dictionary<string, IServoDrive> _servos = new Dictionary<string, IServoDrive>();
+        private ISensors _sensors;
         public CoreDeviceProvider(IIOService ioService)
         {
             _configStorage = ClimaContext.Current.ConfigurationStorage;
@@ -28,6 +29,8 @@ namespace Clima.Core.Devices
                 _config = DeviceProviderConfig.CreateDefault();
                 _configStorage.RegisterConfig(DeviceProviderConfig.FileName, _config);
             }
+
+            _sensors = null;
         }
 
 
@@ -70,6 +73,23 @@ namespace Clima.Core.Devices
                 return servo;
             }
             throw new KeyNotFoundException(servoName);
+        }
+
+        public ISensors GetSensors()
+        {
+            if (_sensors is null)
+            {
+                var s = new Sensors();
+                s.FrontTempPin = _ioService.Pins.AnalogInputs[_config.Sensors.FrontTempPinName];
+                s.RearTempPin = _ioService.Pins.AnalogInputs[_config.Sensors.RearTempPinName];
+                s.OutdoorTempPin = _ioService.Pins.AnalogInputs[_config.Sensors.OutdoorTempPinName];
+
+                s.HumidityPin = _ioService.Pins.AnalogInputs[_config.Sensors.HumidityPinName];
+                s.PressurePin = _ioService.Pins.AnalogInputs[_config.Sensors.PressurePinName];
+                return s;
+            }
+            else
+                return _sensors;
         }
 
         public ISystemLogger Logger { get; set; }
