@@ -193,6 +193,17 @@ namespace Clima.AgavaModBusIO
             bytes[3] = b2[1];
 
             return BufferToFloat2(bytes);
+            /*Pin:AI:1:0  buffer:FF40, 0 value:0,0000000000
+            Pin:AI:1:1  buffer:FF0B, 0 value:0,0000000000
+            Pin:AI:1:2  buffer:1, 0 value:0,0000000000
+            Pin:AI:1:3  buffer:0, 0 value:0,0000000000
+            Pin:AI:1:4  buffer:0, 0 value:0,0000000000
+            Pin:AI:1:5  buffer:2, 0 value:0,0000000000
+            Pin:AI:1:6  buffer:18, 0 value:0,0000000000
+            Pin:AI:1:7  buffer:40, 0 value:0,0000000000
+            Pin:AI:1:8  buffer:0, 0 value:0,0000000000
+            Pin:AI:1:9  buffer:0, 0 value:0,0000000000*/
+
         }
 
         private float BufferToFloat2(byte[] data)
