@@ -13,7 +13,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         public static TcpServerConfig CreateDefault()
         {
             TcpServerConfig config = new TcpServerConfig();
-            config.HsotName = "127.0.0.1";
+            config.HsotName = "192.168.0.11";
             config.Port = 5911;
             config.MaxClientConnections = 3;
             config.NetworkTimeout = 300;

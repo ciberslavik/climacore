@@ -6,12 +6,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Communication\Clima.NetworkServer\Clima.NetworkServer.csproj" />
-      <ProjectReference Include="..\Clima.Basics\Clima.Basics.csproj" />
-      <ProjectReference Include="..\Clima.Core\Clima.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Exceptions" />
     </ItemGroup>
 
 </Project>

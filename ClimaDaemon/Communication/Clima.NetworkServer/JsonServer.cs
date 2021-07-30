@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Clima.Basics.Services;
 using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 using Clima.NetworkServer.Exceptions;
@@ -11,7 +12,9 @@ using Clima.NetworkServer.Transport;
 
 namespace Clima.NetworkServer
 {
-    public class JsonServer:IDisposable
+    
+
+    public class JsonServer:IDisposable, IJsonServer
     {
         private readonly IServer _server;
         private readonly INetworkSerializer _serializer;
@@ -19,6 +22,7 @@ namespace Clima.NetworkServer
         private readonly IServiceExecutor _executor;
         private readonly ISessionManager _sessionManager;
 
+        public ISystemLogger Logger { get; set; }
         public bool IsDisposed { get; private set; }
 
         public IServer Server => _server;
@@ -51,7 +55,7 @@ namespace Clima.NetworkServer
             try
             {
                 RequestContext.CurrentContextHolder.Value = context;
-
+                Logger.Debug("HandleMessage");
                 request = (RequestMessage) _serializer.Deserialize(e.Data, _messageTypeProvider, null);
                 context.RequestMessage = request;
                 try

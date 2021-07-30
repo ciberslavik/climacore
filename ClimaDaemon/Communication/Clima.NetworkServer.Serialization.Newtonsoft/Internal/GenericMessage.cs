@@ -10,8 +10,11 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft.Internal
         [DataMember(Name = "jsonrpc")]
         public string Version { get; set; }
 
-        [DataMember(Name = "method")]
+        [DataMember(Name = "service")]
         public string Name { get; set; }
+        
+        [DataMember(Name = "method")]
+        public string Method { get; set; }
 
         [DataMember(Name = "error")]
         public Error Error { get; set; }

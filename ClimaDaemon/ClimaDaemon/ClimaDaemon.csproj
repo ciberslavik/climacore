@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Communication\Clima.NetworkServer.Transport.TcpSocket\Clima.NetworkServer.Transport.TcpSocket.csproj" />
+      <ProjectReference Include="..\CoreImplementations\Clima.Communication\Clima.Communication.csproj" />
       <ProjectReference Include="..\CoreImplementations\Clima.ServiceContainer.CastleWindsor\Clima.ServiceContainer.CastleWindsor.csproj" />
     </ItemGroup>
 

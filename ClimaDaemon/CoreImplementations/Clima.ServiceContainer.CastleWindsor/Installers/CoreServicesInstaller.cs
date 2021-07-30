@@ -6,6 +6,7 @@ using Clima.Core.Conrollers.Ventilation.Ventilation;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.Devices;
 using Clima.Core.IO;
+using Clima.Core.Tests;
 
 namespace Clima.ServiceContainer.CastleWindsor.Installers
 {
@@ -19,9 +20,13 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
+                //Component
+                //    .For<IIOService>()
+                //    .ImplementedBy<AgavaIoService>()
+                //    .LifestyleSingleton(),
                 Component
                     .For<IIOService>()
-                    .ImplementedBy<AgavaIoService>()
+                    .ImplementedBy<StubIOService>()
                     .LifestyleSingleton(),
                 Component
                     .For<IDeviceProvider>()

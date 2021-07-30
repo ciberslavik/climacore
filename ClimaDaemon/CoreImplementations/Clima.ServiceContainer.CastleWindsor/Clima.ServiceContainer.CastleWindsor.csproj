@@ -6,9 +6,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Communication\Clima.NetworkServer.Serialization.Newtonsoft\Clima.NetworkServer.Serialization.Newtonsoft.csproj" />
+      <ProjectReference Include="..\..\Communication\Clima.NetworkServer.Transport.TcpSocket\Clima.NetworkServer.Transport.TcpSocket.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Basics\Clima.Basics.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />
+      <ProjectReference Include="..\..\Tests\Clima.Core.Tests\Clima.Core.Tests.csproj" />
       <ProjectReference Include="..\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj" />
+      <ProjectReference Include="..\Clima.Communication\Clima.Communication.csproj" />
       <ProjectReference Include="..\Clima.Configuration.FileSystem\Clima.Configuration.FileSystem.csproj" />
       <ProjectReference Include="..\Clima.Core.Conrollers\Clima.Core.Conrollers.csproj" />
       <ProjectReference Include="..\Clima.Core.Devices\Clima.Core.Devices.csproj" />
