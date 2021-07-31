@@ -16,7 +16,7 @@ namespace Clima.AgavaModBusIO.Model
         {
             ModuleId = moduleAddress;
             PinNumberInModule = pinNumberInModule;
-            RegAddress = (ushort) (pinNumberInModule * 2);
+            RegAddress = (ushort) (10004 + pinNumberInModule);
         }
 
         public AgavaAnalogInType InputType
@@ -45,10 +45,11 @@ namespace Clima.AgavaModBusIO.Model
         public override PinType PinType => PinType.Analog;
         public override PinDir Direction => PinDir.Input;
 
-        public void SetRawValue(in float value)
+        public void SetRawValue(in ushort[] value)
         {
             if (ValueConverter != null)
             {
+                Console.Write($"Pin:{PinName} ");
                 var newValue = ValueConverter.ConvertTo(value);
                 if (!newValue.Equals(_value))
                 {
@@ -58,5 +59,5 @@ namespace Clima.AgavaModBusIO.Model
                 }
             }
         }
-    }
+            }
 }

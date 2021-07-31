@@ -2,7 +2,7 @@
 {
     public interface IAnalogValueConverter
     {
-        double ConvertTo(double value);
-        double ConvertFrom(double value);
+        double ConvertTo(ushort[] value);
+        ushort[] ConvertFrom(double value);
     }
 }

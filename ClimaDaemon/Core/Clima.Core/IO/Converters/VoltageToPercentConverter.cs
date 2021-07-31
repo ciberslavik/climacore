@@ -9,14 +9,18 @@ namespace Clima.Core.IO.Converters
         }
 
 
-        public double ConvertTo(double value)
+        public double ConvertTo(ushort[] value)
         {
-            return value / 100;
+            double va = value[0];
+            
+            Console.WriteLine($"Voltage value:{va/100}");
+            
+            return va / 100;
         }
 
-        public double ConvertFrom(double value)
+        public ushort[] ConvertFrom(double value)
         {
-            return value;
+            return new ushort[2];
         }
     }
 }

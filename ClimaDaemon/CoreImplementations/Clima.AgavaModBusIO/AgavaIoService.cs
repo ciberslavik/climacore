@@ -151,13 +151,11 @@ namespace Clima.AgavaModBusIO
                             var ain = iain as AgavaAInput;
                             if(ain is null)
                                 continue;
-
-                            var request = AgavaRequest.ReadInputRegisterRequest(moduleId, ain.RegAddress, 2);
+                            
+                            Console.Write($"reg:{ain.RegAddress} ");
+                            var request = AgavaRequest.ReadInputRegisterRequest(moduleId, (ushort)(ain.PinNumberInModule * 2), 2);
                             var response = _master.WriteRequest(request);
-                            Console.Write($"Pin:{ain.PinName} ");
-                            var value = BufferToFloat(response.Data);
-                            Console.WriteLine($" value:{value:F10}");
-                            ain.SetRawValue(value);
+                            ain.SetRawValue(response.Data);
                         }
                     }
                 }
@@ -174,9 +172,8 @@ namespace Clima.AgavaModBusIO
                     {
                         var request = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, ain.RegAddress, 1);
                         var response = _master.WriteRequest(request);
-                            
                         var value = response.Data[0];//BufferToFloat(response.Data);
-                        ain.SetRawValue(value);
+                        ain.SetRawValue(response.Data);
                     }
                 }
             }
@@ -353,6 +350,7 @@ namespace Clima.AgavaModBusIO
                     case AgavaAnalogInType.Resistance:
                         break;
                     case AgavaAnalogInType.TR_Pt100:
+                        ain.ValueConverter = new Pt1000ToTemperature();
                         break;
                     case AgavaAnalogInType.TR_Pt1000:
                         ain.ValueConverter = new Pt1000ToTemperature();

@@ -20,14 +20,14 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                //Component
-                //    .For<IIOService>()
-                //    .ImplementedBy<AgavaIoService>()
-                //    .LifestyleSingleton(),
                 Component
                     .For<IIOService>()
-                    .ImplementedBy<StubIOService>()
+                    .ImplementedBy<AgavaIoService>()
                     .LifestyleSingleton(),
+                //Component
+                //    .For<IIOService>()
+                //    .ImplementedBy<StubIOService>()
+                //    .LifestyleSingleton(),
                 Component
                     .For<IDeviceProvider>()
                     .ImplementedBy<CoreDeviceProvider>()
