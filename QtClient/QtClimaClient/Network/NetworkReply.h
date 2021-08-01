@@ -13,8 +13,10 @@ public:
 
     }
 
-    QS_FIELD(QString, RequestType)
-    QS_FIELD(QString, Data)
-
+    QS_FIELD(QString, id)
+    QS_FIELD(QString, jsonrpc)
+    QS_FIELD(QString, service)
+    QS_FIELD(QString, method)
+    QS_FIELD(QString, result);
 };
 

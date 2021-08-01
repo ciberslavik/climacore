@@ -12,22 +12,16 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
 {
     public class CoreServicesInstaller:IWindsorInstaller
     {
-        public CoreServicesInstaller()
+        private bool _isStub;
+        public CoreServicesInstaller(bool stub)
         {
+            _isStub = stub;
         }
 
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component
-                    .For<IIOService>()
-                    .ImplementedBy<AgavaIoService>()
-                    .LifestyleSingleton(),
-                //Component
-                //    .For<IIOService>()
-                //    .ImplementedBy<StubIOService>()
-                //    .LifestyleSingleton(),
                 Component
                     .For<IDeviceProvider>()
                     .ImplementedBy<CoreDeviceProvider>()
@@ -38,6 +32,24 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                     .ImplementedBy<VentilationController>()
                     .LifestyleSingleton());
 
+            if (_isStub)
+            {
+                container.Register(
+                    Component
+                        .For<IIOService>()
+                        .ImplementedBy<StubIOService>()
+                        .LifestyleSingleton());
+
+            }
+            else
+            {
+
+                container.Register(
+                    Component
+                        .For<IIOService>()
+                        .ImplementedBy<AgavaIoService>()
+                        .LifestyleSingleton());
+            }
 
             var ioService = container.Resolve<IIOService>();
             

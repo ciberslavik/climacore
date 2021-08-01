@@ -111,6 +111,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 session.ReceiveBufferSize = _config.ReceiveBufferSize;
                 session.SendBufferSize = _config.SendBufferSize;
                 session.MessageReceived += SessionOnMessageReceived;
+                session.Disconnected += SessionOnDisconnected;
                 try
                 {
                     session.Connect(client.Client);
@@ -127,6 +128,14 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 {
                     ConnectionId = session.ConnectionId
                 });
+            }
+        }
+
+        private void SessionOnDisconnected(object? sender, EventArgs e)
+        {
+            if (sender is TcpSocketSession session)
+            {
+                Console.WriteLine($"Disconnected:{session.ConnectionId}");
             }
         }
 

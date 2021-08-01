@@ -6,9 +6,10 @@ namespace Clima.Basics.Services.Communication.Messages
     public class RequestMessage:IMessage
     {
         [DataMember(Name = "jsonrpc", EmitDefaultValue = true)]
-        public string Version => "2.0";
+        public string Version => "0.1a";
         [DataMember(Name = "service", EmitDefaultValue = true)]
         public string Service { get; set; }
+        
         [DataMember(Name = "method", EmitDefaultValue = true)]
         public string Method { get; set; }
 

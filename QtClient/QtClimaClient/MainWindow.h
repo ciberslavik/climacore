@@ -15,14 +15,16 @@ public:
     CMainWindow(QWidget *parent = nullptr);
     ~CMainWindow();
 
-    void setTitle(const QString &title);
+    void setFrameTitle(const QString &title);
     void setStatus(const QString &status);
 
     QFrame *getMainFrame();
-
+public slots:
+    void updateData();
 private slots:
     void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+
 };

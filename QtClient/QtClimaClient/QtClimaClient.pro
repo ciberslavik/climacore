@@ -9,14 +9,17 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ApplicationWorker.cpp \
     Frames/Dialogs/AuthorizationDialog.cpp \
     Frames/FrameBase.cpp \
     Frames/MainMenuFrame.cpp \
     Frames/SystemStateFrame.cpp \
     Frames/VentelationStateFrame.cpp \
+    GlobalContext.cpp \
     Models/Authorization/User.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
+    Network/GenericServices/SystemStatusService.cpp \
     Network/ReplyUserList.cpp \
     Network/RequestUserList.cpp \
     Network/Session.cpp \
@@ -26,17 +29,23 @@ SOURCES += \
     MainWindow.cpp
 
 HEADERS += \
+    ApplicationWorker.h \
     Frames/Dialogs/AuthorizationDialog.h \
     Frames/FrameBase.h \
     Frames/IFrameFactory.h \
     Frames/MainMenuFrame.h \
     Frames/SystemStateFrame.h \
     Frames/VentelationStateFrame.h \
+    GlobalContext.h \
     MainWindow.h \
     Models/Authorization/User.h \
     Models/LivestockState.h \
+    Models/SensorsData.h \
+    Models/SystemState.h \
     Network/AuthRequest.h \
     Network/ClientConnection.h \
+    Network/GenericServices/SystemStatusService.h \
+    Network/INetworkService.h \
     Network/NetworkReply.h \
     Network/NetworkRequest.h \
     Network/ReplyUserList.h \

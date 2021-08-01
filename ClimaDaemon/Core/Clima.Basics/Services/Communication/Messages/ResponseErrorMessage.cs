@@ -7,10 +7,14 @@ namespace Clima.Basics.Services.Communication.Messages
     public class ResponseErrorMessage:ResponseMessage
     {
         [DataMember(Name = "jsonrpc", EmitDefaultValue = true)]
-        public override string Version => "2.0";
+        public override string Version => "0.1a";
         
         [DataMember(Name = "service", EmitDefaultValue = true)]
         public override string Service { get; set; }
+
+        [DataMember(Name = "method", EmitDefaultValue = true)]
+        public override string MethodName { get; set; }
+        
 
         [IgnoreDataMember]
         public override object Result { get; set; }

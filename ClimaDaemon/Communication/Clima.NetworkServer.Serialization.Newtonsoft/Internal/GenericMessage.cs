@@ -22,7 +22,7 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft.Internal
         [DataMember(Name = "id")]
         public string Id { get; set; }
 
-        public bool IsValid => Version == "2.0" &&
+        public bool IsValid => Version == "0.1a" &&
                                (!string.IsNullOrWhiteSpace(Name) || !string.IsNullOrWhiteSpace(Id)); 
     }
 }

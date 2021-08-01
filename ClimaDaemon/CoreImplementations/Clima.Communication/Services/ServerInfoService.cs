@@ -10,7 +10,7 @@ namespace Clima.Communication.Services
 
         public static string MessageName => "ServerInfo";
 
-        public ServerInfoResponse Execute(ServerInfoRequest request)
+        public ServerInfoResponse GetServerVersion(ServerInfoRequest request)
         {
             return new ServerInfoResponse()
             {

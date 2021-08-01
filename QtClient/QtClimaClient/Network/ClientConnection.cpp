@@ -8,11 +8,13 @@ ClientConnection::ClientConnection(QObject *parent):QObject(parent)
     m_socket = new QTcpSocket(this);
     readBuffer = new QByteArray();
     connect(m_socket, &QIODevice::readyRead, this, &ClientConnection::onReadyRead);
+    connect(m_socket, &QTcpSocket::connected, this, &ClientConnection::socketConnected);
 }
 
 void ClientConnection::ConnectToHost(const QString &host, const int &port)
 {
     m_socket->abort();
+
     m_socket->connectToHost(host, port);
 
 }
@@ -45,19 +47,42 @@ void ClientConnection::onReadyRead()
         if(readStrBuffer.indexOf("<EOF>")>-1)
         {
             QString data = readStrBuffer.left(readStrBuffer.indexOf("<EOF>"));
-            QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit());
-            NetworkReply *reply = new NetworkReply();
-            reply->fromJson(doc.object());
 
-            if(reply->RequestType != "")
-                emit ReplyReceived(*reply);
+            if(data.contains("GetSessionID:"))
+            {
+                int idIndex = data.indexOf(':');
+                QString sessionId = data.right(data.length() - (idIndex + 1));
+                m_connectionId = new QUuid(sessionId);
+                qDebug()<<"Session id:" << sessionId;
+                emit ConnectionEstabilished();
+            }
+            else
+            {
+                qDebug()<< "Reply:" << data;
+                QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit());
+                QJsonObject currentObject = doc.object();
 
+                QJsonObject result = currentObject["result"].toObject();
 
-            qDebug()<< "Read data:" << data;
-            QUuid *id = new QUuid(data);
-            qDebug() << "Session id:"<< id->toString();
+                NetworkReply *reply = new NetworkReply();
+                reply->fromJson(doc.object());
+                reply->result = QJsonDocument(result).toJson(QJsonDocument::Indented);
+                if(reply->result != "")
+                    emit ReplyReceived(*reply);
+
+            }
+            //qDebug()<< "Read data:" << data;
+            //QUuid *id = new QUuid(data);
+            //qDebug() << "Session id:"<< id->toString();
             readStrBuffer = "";
         }
 
     }
+}
+
+void ClientConnection::socketConnected()
+{
+    QString sessionIdRequest = "GetSessionID<EOF>";
+    m_socket->write(sessionIdRequest.toUtf8(),sessionIdRequest.toUtf8().length());
+    m_socket->flush();
 }

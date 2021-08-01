@@ -25,11 +25,13 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         private bool _receiving;
         private bool _sending;
         public event EventHandler Connected;
+        public event EventHandler Disconnected;
         public event EventHandler<MessageEventArgs> MessageReceived; 
         public string ConnectionId => _connectionId;
         public int SendBufferSize { get; set; } = 1024;
         public int ReceiveBufferSize { get; set; } = 1024;
         public bool IsConnected { get; private set; }
+        public bool Estabilished { get; private set; }
         public bool IsSocketDisposed { get; private set; }
         
         public long BytesSent { get; private set; }
@@ -38,6 +40,9 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         public TcpSocketSession()
         {
             _connectionId = Guid.NewGuid().ToString();
+            IsConnected = false;
+            Estabilished = false;
+            
             _sendLock = new object();
         }
         public Session Session
@@ -113,7 +118,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
         protected virtual void OnDisConnected()
         {
-            throw new NotImplementedException();
+            Disconnected?.Invoke(this,new EventArgs());
         }
 
         public virtual long Receive(byte[] buffer) { return Receive(buffer, 0, buffer.Length); }
@@ -356,12 +361,23 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 {
                     str = str.Substring(0, str.IndexOf("<EOF>", StringComparison.Ordinal));
                 }
-                //DataReceivedEventArgs arg = new DataReceivedEventArgs(Id, str);
-                MessageReceived?.Invoke(this,new MessageEventArgs()
+                //Send session id
+                if (str.Contains("GetSessionID"))
                 {
-                    ConnectionId = ConnectionId,
-                    Data = str
-                });
+                    SendString($"GetSessionID:{ConnectionId}");
+                    Console.WriteLine($"Send session id:{ConnectionId}");
+                }
+                else
+                {
+
+                    //DataReceivedEventArgs arg = new DataReceivedEventArgs(Id, str);
+                    MessageReceived?.Invoke(this, new MessageEventArgs()
+                    {
+                        ConnectionId = ConnectionId,
+                        Data = str
+                    });
+                }
+
                 TryReceive();
             }
 

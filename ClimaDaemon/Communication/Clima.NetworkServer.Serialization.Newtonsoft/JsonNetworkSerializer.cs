@@ -45,9 +45,10 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
                     };
                 }
 
-                var name = preview.Name;
-                var isRequest = name != null;
-                if (name == null)
+                var serviceName = preview.Name;
+                var methodName = preview.Method;
+                var isRequest = serviceName != null;
+                if (serviceName == null)
                 {
                     // server cannot handle a response message
                     if (nameProvider == null)
@@ -59,10 +60,10 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
                     }
 
                     // invalid request id
-                    name = nameProvider.TryGetMessageName(preview.Id);
-                    if (name == null)
+                    serviceName = nameProvider.TryGetMessageName(preview.Id);
+                    if (serviceName == null)
                     {
-                        throw new InvalidRequestException(name)
+                        throw new InvalidRequestException(serviceName)
                         {
                             MessageId = preview.Id,
                         };
@@ -73,10 +74,10 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
                     // deserialize request or response message
                     if (isRequest)
                     {
-                        return DeserializeRequest(data, name, preview.Id, typeProvider);
+                        return DeserializeRequest(data, serviceName, methodName, preview.Id, typeProvider);
                     }
 
-                    return DeserializeResponse(data, name, preview.Id, preview.Error, typeProvider);
+                    return DeserializeResponse(data, serviceName, preview.Id, preview.Error, typeProvider);
                 }
                 catch (JsonServicesException ex)
                 {
@@ -98,19 +99,20 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
             }
         }
         
-        private RequestMessage DeserializeRequest(string data, string name, string id, IMessageTypeProvider typeProvider)
+        private RequestMessage DeserializeRequest(string data, string serviceName, string methodName, string id, IMessageTypeProvider typeProvider)
         {
             using (var sr = new StringReader(data))
             {
                 // get the message request type
-                var type = typeProvider.GetRequestType(name);
+                var type = typeProvider.GetRequestType(serviceName);
                 var msgType = typeof(RequestMsg<>).MakeGenericType(new[] { type });
 
                 // deserialize the strong-typed message
                 var reqMsg = (IRequestMessage)JsonSerializer.Deserialize(sr, msgType);
                 return new RequestMessage
                 {
-                    Service = name,
+                    Service = serviceName,
+                    Method = methodName,
                     Parameters = reqMsg.Parameters,
                     Id = id,
                 };

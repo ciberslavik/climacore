@@ -45,31 +45,7 @@ void AuthorizationDialog::on_btnAccept_clicked()
 
 void AuthorizationDialog::onReplyReceived(const NetworkReply &reply)
 {
-    if(reply.RequestType == "RequestUserList")
-    {
-        ReplyUserList list;
-        QJsonDocument doc = QJsonDocument::fromJson(reply.Data.toLocal8Bit());
-        list.fromJson(doc.object());
-        if(list.RequestType=="AllUsers")
-        {
-            if(list.Users.size()>0)
-            {
-                foreach (const User &user, list.Users) {
-                    ui->comboBox->addItem(user.Login);
-                }
-            }
-        }
-        else if(list.RequestType == "SingleUser")
-        {
-            QCryptographicHash *hasher = new QCryptographicHash(QCryptographicHash::Sha256);
-            QString passwd = ui->txtPassword->text();
 
-           QString hash = QString::fromLocal8Bit(hasher->hash(passwd.toUtf8(), QCryptographicHash::Sha256));
-           qDebug() << "Server hash:" << list.SingleUser.PasswordHash;
-           qDebug() << "Client hash:" << hash;
-
-        }
-    }
 }
 
 NetworkRequest *AuthorizationDialog::CreateUserListRequest(QString requestType, QString parameter)

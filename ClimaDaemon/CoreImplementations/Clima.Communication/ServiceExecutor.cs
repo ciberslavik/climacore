@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Exceptions;
 using Clima.NetworkServer.Services;
 using IServiceProvider = Clima.Basics.Services.IServiceProvider;
@@ -18,10 +19,17 @@ namespace Clima.Communication
         private ConcurrentDictionary<string, ConcurrentDictionary<string, Func<object, object>>> RegisteredHandlers { get; } =
             new ConcurrentDictionary<string, ConcurrentDictionary<string, Func<object, object>>>();
 
-        public object Execute(string service, string method, object parameters)
+        public object Execute(string serviceName, string methodName, object parameters)
         {
-            
-            throw new MethodNotFoundException(method);
+            //try getting service
+            if (RegisteredHandlers.TryGetValue(serviceName, out var service))
+            {
+                //try getting method
+                if(service.TryGetValue(methodName, out var handler))
+                    return handler(parameters);
+            }
+
+            throw new MethodNotFoundException(methodName);
         }
         public object Execute(string method, object parameters)
         {

@@ -8,6 +8,7 @@ namespace Clima.Basics.Services.Communication.Messages
     {
         public abstract string Version { get; }
         public abstract string Service { get; set; }
+        public abstract string MethodName { get; set; }
         public abstract object Result { get; set; }
 
         public abstract Error Error { get; set; }

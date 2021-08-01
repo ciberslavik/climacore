@@ -41,6 +41,7 @@ namespace Clima.NetworkServer
             _executor = executor ?? throw new ArgumentNullException(nameof(executor));
             _sessionManager = sessionManager ?? new SessionManagerDefault();
             _server.MessageReceived += HandleServerMessage;
+            
         }
 
         private async void HandleServerMessage(object sender, MessageEventArgs e)
@@ -52,6 +53,7 @@ namespace Clima.NetworkServer
                 Server = this,
                 ConnectionId = e.ConnectionId,
             };
+
             try
             {
                 RequestContext.CurrentContextHolder.Value = context;
@@ -62,7 +64,7 @@ namespace Clima.NetworkServer
                 {
                     Console.WriteLine($"Execute service:{request.Service}");
 
-                    var result = _executor.Execute(request.Method, request.Parameters);
+                    var result = _executor.Execute(request.Service, request.Method, request.Parameters);
                     if (result is Task task)
                     {
                         await task;
@@ -75,9 +77,12 @@ namespace Clima.NetworkServer
                             result = resultProperty.GetValue(task);
                         }
                     }
+
                     response = new ResponseResultMessage()
                     {
                         Id = request.Id,
+                        Service = request.Service,
+                        MethodName = request.Method,
                         Result = result
                     };
                 }
@@ -109,8 +114,9 @@ namespace Clima.NetworkServer
                     }
                 }
             }
+
         }
-        
+
         public event EventHandler<MessageEventArgs> ClientConnected
         {
             add { _server.ClientConnected += value; }

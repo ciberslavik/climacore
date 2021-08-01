@@ -37,8 +37,8 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                     .LifestyleSingleton());
             
             //Create instance of TCP Server by default configuration
-
-            var server = new TcpSocketServer(TcpServerConfig.CreateDefault());
+            var serverConfig = TcpServerConfig.CreateDefault("127.0.0.1", 5911);
+            var server = new TcpSocketServer(serverConfig);
 
             container.Register(
                 Component
@@ -52,7 +52,16 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
             //Clima.Communication.Messages.ServerInfoRequest
             messageTypeProvider.Register(typeof(ServerInfoService).FullName, typeof(ServerInfoRequest),
                 typeof(ServerInfoResponse));
-            
+
+            var serviceExecutor = container.Resolve<IServiceExecutor>();
+            serviceExecutor.RegisterHandler(typeof(ServerInfoService).FullName, "GetServerVersion", p =>
+            {
+                return new ServerInfoResponse()
+                {
+                    Version = "ClimaServer 0.1a"
+                };
+            });
+
         }
     }
 }

@@ -40,7 +40,9 @@ namespace Clima.ServiceContainer.CastleWindsor
             
             
             _container.Install(new BasicsInstaller());
-            _container.Install(new CoreServicesInstaller());
+            
+            //if parameter is true then stub io service else real io service
+            _container.Install(new CoreServicesInstaller(true));
             
             _serviceProvider = new CastleServiceProvider(_container);
             _container.Register(Component.For<IServiceProvider>().Instance(_serviceProvider));
