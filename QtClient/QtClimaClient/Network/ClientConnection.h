@@ -18,7 +18,7 @@ public:
     QUuid *getConnectionId(){return m_connectionId;}
 
 signals:
-    void ReplyReceived(const NetworkReply &reply);
+    void ReplyReceived(NetworkReply *reply);
     void ConnectionEstabilished();
 public slots:
     void SendRequest(NetworkRequest *request);

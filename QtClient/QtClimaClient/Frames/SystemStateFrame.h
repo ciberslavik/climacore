@@ -23,6 +23,8 @@ public:
     }
 private slots:
     void onSystemStateUpdate();
+    void on_pushButton_3_clicked();
+
 private:
     Ui::SystemStateFrame *ui;
     SystemState *m_SystemState;

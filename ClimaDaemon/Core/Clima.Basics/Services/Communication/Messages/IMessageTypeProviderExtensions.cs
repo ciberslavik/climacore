@@ -5,26 +5,25 @@ namespace Clima.Basics.Services.Communication.Messages
 {
     public static class IMessageTypeProviderExtensions
     {
-        public static Type GetRequestType(this IMessageTypeProvider self, string name)
+        public static Type GetRequestType(this IMessageTypeProvider self, string serviceName, string methodName)
         {
-            var result = self.TryGetRequestType(name);
+            var result = self.TryGetRequestType(serviceName, methodName);
             if (result != null)
             {
                 return result;
             }
 
-            throw new MethodNotFoundException(name);
+            throw new MethodNotFoundException(serviceName, methodName);
         }
-
-        public static Type GetResponseType(this IMessageTypeProvider self, string name)
+        public static Type GetResponseType(this IMessageTypeProvider self, string serviceName, string methodName)
         {
-            var result = self.TryGetResponseType(name);
+            var result = self.TryGetResponseType(serviceName, methodName);
             if (result != null)
             {
                 return result;
             }
 
-            throw new MethodNotFoundException(name);
+            throw new MethodNotFoundException(serviceName, methodName);
         }
     }
     

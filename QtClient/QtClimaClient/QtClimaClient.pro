@@ -10,7 +10,6 @@ CONFIG += c++11
 
 SOURCES += \
     ApplicationWorker.cpp \
-    Frames/Dialogs/AuthorizationDialog.cpp \
     Frames/FrameBase.cpp \
     Frames/MainMenuFrame.cpp \
     Frames/SystemStateFrame.cpp \
@@ -19,6 +18,7 @@ SOURCES += \
     Models/Authorization/User.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
+    Network/GenericServices/ServerInfoService.cpp \
     Network/GenericServices/SystemStatusService.cpp \
     Network/ReplyUserList.cpp \
     Network/RequestUserList.cpp \
@@ -30,7 +30,6 @@ SOURCES += \
 
 HEADERS += \
     ApplicationWorker.h \
-    Frames/Dialogs/AuthorizationDialog.h \
     Frames/FrameBase.h \
     Frames/IFrameFactory.h \
     Frames/MainMenuFrame.h \
@@ -44,6 +43,8 @@ HEADERS += \
     Models/SystemState.h \
     Network/AuthRequest.h \
     Network/ClientConnection.h \
+    Network/GenericServices/Messages/ServerInfoRequest.h \
+    Network/GenericServices/ServerInfoService.h \
     Network/GenericServices/SystemStatusService.h \
     Network/INetworkService.h \
     Network/NetworkReply.h \
@@ -59,7 +60,6 @@ HEADERS += \
     Services/QSerializer.h
 
 FORMS += \
-    Frames/Dialogs/AuthorizationDialog.ui \
     Frames/MainMenuFrame.ui \
     Frames/SystemStateFrame.ui \
     Frames/VentelationStateFrame.ui \

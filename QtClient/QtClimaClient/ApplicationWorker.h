@@ -1,8 +1,10 @@
 #pragma once
 
+#include <QMap>
 #include <QObject>
 
 #include <Network/ClientConnection.h>
+#include <Network/INetworkService.h>
 
 class ApplicationWorker : public QObject
 {
@@ -16,15 +18,20 @@ public:
     {
         return _instance;
     }
+
+    void RegisterNetworkService(INetworkService *service);
+    INetworkService *GetNetworkService(const QString &serviceName);
 signals:
 
 private slots:
     void onConnctionEstabilished();
-    void onReplyReceived(const NetworkReply &reply);
+    void onReplyReceived(NetworkReply *reply);
+    void onSendRequest(NetworkRequest *request);
 private:
     ClientConnection *m_connection;
     int m_requestCounter;
 
     static ApplicationWorker *_instance;
+    QMap<QString, INetworkService*> *m_services;
 };
 

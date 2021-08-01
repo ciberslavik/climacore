@@ -1,16 +1,18 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using System;
+using System.Net.Mime;
+using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 using Clima.Communication;
 using Clima.Communication.Messages;
-using Clima.Communication.Services;
 using Clima.NetworkServer;
 using Clima.NetworkServer.Serialization.Newtonsoft;
 using Clima.NetworkServer.Services;
 using Clima.NetworkServer.Transport;
 using Clima.NetworkServer.Transport.TcpSocket;
+using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
 namespace Clima.ServiceContainer.CastleWindsor.Installers
 {
@@ -40,6 +42,7 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
             var serverConfig = TcpServerConfig.CreateDefault("127.0.0.1", 5911);
             var server = new TcpSocketServer(serverConfig);
 
+            
             container.Register(
                 Component
                     .For<IServer>()
@@ -48,20 +51,26 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
 
             server.Start();
 
+
+            container.Register(
+                Classes
+                    .FromAssemblyInDirectory(new AssemblyFilter(Environment.CurrentDirectory))
+                    .BasedOn<INetworkInstaller>()
+                    .WithServiceBase());
+            
+            
             var messageTypeProvider = container.Resolve<IMessageTypeProvider>();
-            //Clima.Communication.Messages.ServerInfoRequest
-            messageTypeProvider.Register(typeof(ServerInfoService).FullName, typeof(ServerInfoRequest),
-                typeof(ServerInfoResponse));
-
             var serviceExecutor = container.Resolve<IServiceExecutor>();
-            serviceExecutor.RegisterHandler(typeof(ServerInfoService).FullName, "GetServerVersion", p =>
+            var serviceProvider = container.Resolve<IServiceProvider>();
+            
+            var installers = container.ResolveAll<INetworkInstaller>();
+            foreach (var instller in installers)
             {
-                return new ServerInfoResponse()
-                {
-                    Version = "ClimaServer 0.1a"
-                };
-            });
-
+                instller.RegisterServices(serviceProvider);
+                instller.RegisterMessages(messageTypeProvider);
+                instller.RegisterHandlers(serviceExecutor, serviceProvider);
+            }
+            
         }
     }
 }

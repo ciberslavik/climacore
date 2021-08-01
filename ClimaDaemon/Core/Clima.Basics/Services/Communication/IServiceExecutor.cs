@@ -9,5 +9,6 @@ namespace Clima.Basics.Services.Communication
         
         void RegisterHandler(string method, Func<object, object> execute);
         void RegisterHandler(string service, string method, Func<object, object> execute);
+        
     }
 }

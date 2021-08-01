@@ -4,18 +4,26 @@
 
 #include <Network/INetworkService.h>
 
-class SystemStatusService : public QObject, public INetworkService
+#include <Models/SensorsData.h>
+#include <Models/SystemState.h>
+
+class SystemStatusService : public INetworkService
 {
     Q_OBJECT
 public:
     explicit SystemStatusService(QObject *parent = nullptr);
-
+    SystemState GetSystemState();
+    SensorsData GetSensors();
 signals:
+
+public slots:
 
 
     // INetworkService interface
 public:
     QString ServiceName(){return "SystemStatusService";}
     QList<QString> Methods();
+    void ProcessReply(NetworkReply *reply);
+
 };
 

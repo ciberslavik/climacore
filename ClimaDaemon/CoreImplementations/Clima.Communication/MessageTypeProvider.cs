@@ -6,39 +6,59 @@ using Clima.Basics.Services.Communication.Messages;
 
 namespace Clima.Communication
 {
+    public class MessageUnit
+    {
+        public ConcurrentDictionary<string, Type> RequestTypes { get; } =
+            new ConcurrentDictionary<string, Type>();
+
+        public ConcurrentDictionary<string, Type> ResponseTypes { get; } =
+            new ConcurrentDictionary<string, Type>();
+    }
     public class MessageTypeProvider:IMessageTypeProvider
     {
         public MessageTypeProvider()
         {
             
         }
-        private ConcurrentDictionary<string, Type> RequestTypes { get; } =
-            new ConcurrentDictionary<string, Type>();
 
-        private ConcurrentDictionary<string, Type> ResponseTypes { get; } =
-            new ConcurrentDictionary<string, Type>();
+        private ConcurrentDictionary<string, MessageUnit> Services { get; } =
+            new ConcurrentDictionary<string, MessageUnit>();
         
-        public void Register(string name, Type requestType, Type responseType = null)
-        {
-            RequestTypes[name] = requestType ?? throw new ArgumentNullException(nameof(requestType));
-            ResponseTypes[name] = responseType ?? TryGetResponseType(name) ?? typeof(void);
-        }
+        
 
-        public virtual Type TryGetRequestType(string name)
+        public void Register(string serviceName, string methodName, Type requestType, Type responseType = null)
         {
-            if (RequestTypes.TryGetValue(name, out var result))
+            
+            if (!Services.ContainsKey(serviceName))
             {
-                return result;
+                Services.TryAdd(serviceName, new MessageUnit());
+            }
+
+            if (Services.TryGetValue(serviceName, out var msgUnit))
+            {
+                msgUnit.RequestTypes[methodName] = requestType ?? throw new ArgumentNullException(nameof(requestType));
+                msgUnit.ResponseTypes[methodName] = responseType;
+            }
+        }
+        
+
+        public Type TryGetRequestType(string serviceName, string methodName)
+        {
+            if (Services.TryGetValue(serviceName, out var msgUnit))
+            {
+                if (msgUnit.RequestTypes.TryGetValue(methodName, out var result))
+                    return result;
             }
 
             return null;
         }
 
-        public Type TryGetResponseType(string name)
+        public Type TryGetResponseType(string serviceName, string methodName)
         {
-            if (ResponseTypes.TryGetValue(name, out var result))
+            if (Services.TryGetValue(serviceName, out var msgUnit))
             {
-                return result;
+                if (msgUnit.ResponseTypes.TryGetValue(methodName, out var result))
+                    return result;
             }
 
             return null;

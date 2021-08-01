@@ -7,9 +7,9 @@
 #include <Network/ClientConnection.h>
 #include <Network/Request.h>
 
-#include <Frames/Dialogs/AuthorizationDialog.h>
 #include <Frames/MainMenuFrame.h>
 #include <Frames/SystemStateFrame.h>
+#include <Network/GenericServices/ServerInfoService.h>
 #include <QMetaType>
 #include <Services/FrameManager.h>
 
@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     //conn->ConnectToHost("192.168.0.11", 5911);
 
 
+    worker->RegisterNetworkService(new ServerInfoService());
 
 
     CMainWindow w;

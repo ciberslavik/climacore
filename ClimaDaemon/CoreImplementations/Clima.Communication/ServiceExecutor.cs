@@ -65,7 +65,7 @@ namespace Clima.Communication
             RegisteredHandlers[service][method ?? throw new ArgumentNullException(nameof(method))] =
                 execute ?? throw new ArgumentNullException(nameof(execute));
             
-            Console.WriteLine($"Registered service: {service}, method: {method}");
+            Console.WriteLine($"Registered network service: {service}, method: {method}");
         }
     }
 }

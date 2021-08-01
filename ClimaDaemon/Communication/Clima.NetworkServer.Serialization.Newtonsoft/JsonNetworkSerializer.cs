@@ -77,7 +77,7 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
                         return DeserializeRequest(data, serviceName, methodName, preview.Id, typeProvider);
                     }
 
-                    return DeserializeResponse(data, serviceName, preview.Id, preview.Error, typeProvider);
+                    return DeserializeResponse(data, serviceName, methodName, preview.Id, preview.Error, typeProvider);
                 }
                 catch (JsonServicesException ex)
                 {
@@ -104,7 +104,7 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
             using (var sr = new StringReader(data))
             {
                 // get the message request type
-                var type = typeProvider.GetRequestType(serviceName);
+                var type = typeProvider.GetRequestType(serviceName, methodName);
                 var msgType = typeof(RequestMsg<>).MakeGenericType(new[] { type });
 
                 // deserialize the strong-typed message
@@ -119,12 +119,12 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
             }
         }
 
-        public ResponseMessage DeserializeResponse(string data, string name, string id, Error error, IMessageTypeProvider typeProvider)
+        public ResponseMessage DeserializeResponse(string data, string serviceName, string methodName, string id, Error error, IMessageTypeProvider typeProvider)
         {
             using (var sr = new StringReader(data))
             {
                 // pre-deserialize to get the bulk of the message
-                var type = typeProvider.GetResponseType(name);
+                var type = typeProvider.GetResponseType(serviceName, methodName);
 
                 // handle void messages
                 if (type == typeof(void))

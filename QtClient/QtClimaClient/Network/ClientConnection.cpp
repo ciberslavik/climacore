@@ -33,7 +33,7 @@ void ClientConnection::SendRequest(NetworkRequest *request)
     {
         QString message = request->toJsonString();
         message = message + "<EOF>";
-
+        qDebug() << "Send Rquest:" << message;
         m_socket->write(message.toUtf8(),message.toUtf8().size());
     }
 }
@@ -68,8 +68,7 @@ void ClientConnection::onReadyRead()
                 reply->fromJson(doc.object());
                 reply->result = QJsonDocument(result).toJson(QJsonDocument::Indented);
                 if(reply->result != "")
-                    emit ReplyReceived(*reply);
-
+                    emit ReplyReceived(reply);
             }
             //qDebug()<< "Read data:" << data;
             //QUuid *id = new QUuid(data);

@@ -1,6 +1,6 @@
 ﻿namespace Clima.Communication.Messages
 {
-    public class ServerInfoResponse
+    public class ServerInfoVersionResponse
     {
         public string Version { get; set; }
     }
