@@ -184,6 +184,7 @@ class QSerializer {
     void fromJson(const QByteArray & data) {
         fromJson(QJsonDocument::fromJson(data).object());
     }
+
 };
 
 #define GET(prefix, name) get_##prefix##_##name

@@ -9,6 +9,7 @@
 
 #include <Frames/MainMenuFrame.h>
 #include <Frames/SystemStateFrame.h>
+#include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
 #include <QMetaType>
 #include <Services/FrameManager.h>
@@ -27,7 +28,7 @@ int main(int argc, char *argv[])
 
 
     worker->RegisterNetworkService(new ServerInfoService());
-
+    worker->RegisterNetworkService(new SensorsService());
 
     CMainWindow w;
     w.show();
@@ -42,7 +43,7 @@ int main(int argc, char *argv[])
     state->setFrontTemperature(12.4);
     state->setOutdoorTemperature(10.4);
 
-    SystemStateFrame *stateFrame = new SystemStateFrame(state);
+    SystemStateFrame *stateFrame = new SystemStateFrame();
 
     FrameManager::instance()->setCurrentFrame(stateFrame);
 

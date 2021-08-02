@@ -28,8 +28,16 @@ namespace Clima.Core.Tests.IOService.Configurations
             for (int i = 0; i < 12; i++)
             {
                 var din = new StubDINConfig();
-                din.PinName = $"DO:2:{i}";
+                din.PinName = $"DI:2:{i}";
                 config.DiscreteInputs.Add(din.PinName, din);
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                var ain = new StubAINConfig();
+                ain.PinName = $"AI:1:{i}";
+                ain.Value = 36.6;
+                config.AnalogInputs.Add(ain.PinName, ain);
             }
             return config;
         }

@@ -3,16 +3,27 @@
 
 #include <ApplicationWorker.h>
 
+#include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
 
-SystemStateFrame::SystemStateFrame(SystemState *systemState, QWidget *parent) :
+SystemStateFrame::SystemStateFrame(QWidget *parent) :
     FrameBase(parent),
-    ui(new Ui::SystemStateFrame),
-    m_SystemState(systemState)
+    ui(new Ui::SystemStateFrame)
 {
     ui->setupUi(this);
     setTitle("Обзор системы");
-    connect(m_SystemState, &SystemState::StateUpdate, this, &SystemStateFrame::onSystemStateUpdate);
+
+
+    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("SensorsService");
+    if(service !=nullptr)
+    {
+        m_sensorsService = dynamic_cast<SensorsService*>(service);
+    }
+    connect(m_sensorsService,&SensorsService::SensorsReceived,this, &SystemStateFrame::onSystemStateUpdate);
+    m_updateTmer = new QTimer();
+    m_updateTmer->setInterval(1000);
+    connect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
+    m_updateTmer->start();
 }
 
 SystemStateFrame::~SystemStateFrame()
@@ -20,24 +31,30 @@ SystemStateFrame::~SystemStateFrame()
     delete ui;
 }
 
-void SystemStateFrame::onSystemStateUpdate()
+void SystemStateFrame::onSystemStateUpdate(SensorsServiceResponse *data)
 {
-    ui->lblFrontTemp->setText(QString::number(m_SystemState->FrontTemperature()));
-    ui->lblRearTemp->setText(QString::number(m_SystemState->RearTemperature()));
-    ui->lblOutdoorTemp->setText(QString::number(m_SystemState->OutdoorTemperature()));
-    ui->lblHumidity->setText(QString::number(m_SystemState->Humidity()));
+    ui->lblFrontTemp->setText(data->FrontTemperature);
+    ui->lblRearTemp->setText(data->RearTemperature);
+    ui->lblOutdoorTemp->setText(data->OutdoorTemperature);
+    ui->lblHumidity->setText(data->Humidity);
+
 }
 
 void SystemStateFrame::on_pushButton_3_clicked()
 {
-    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("ServerInfoService");
+    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("SensorsService");
     if(service !=nullptr)
     {
-        ServerInfoService *serverInfoService = dynamic_cast<ServerInfoService*>(service);
-        if(serverInfoService != nullptr)
+        SensorsService *sensorsService = dynamic_cast<SensorsService*>(service);
+        if(sensorsService != nullptr)
         {
-            serverInfoService->GetServerInfo();
+            sensorsService->GetSensors();
         }
     }
+}
+
+void SystemStateFrame::onTimerElapsed()
+{
+    m_sensorsService->GetSensors();
 }
 

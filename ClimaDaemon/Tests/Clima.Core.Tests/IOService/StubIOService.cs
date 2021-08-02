@@ -21,7 +21,7 @@ namespace Clima.Core.Tests
             else
             {
                 _config = StubIOServiceConfig.CreateDefault();
-                _configStore.RegisterConfig("StubIOService", _config);
+                _configStore.RegisterConfig("StubIOConfig", _config);
             }
             
         }
@@ -35,7 +35,14 @@ namespace Clima.Core.Tests
                 discrOut.PinName = doConfig.PinName;
                 Pins.AddDiscreteOutput(doConfig.PinName, discrOut);
             }
-            
+
+            foreach (var aiConfig in _config.AnalogInputs.Values)
+            {
+                var analogIn = new StubAnalogInput();
+                analogIn.PinName = aiConfig.PinName;
+                analogIn.Value = aiConfig.Value;
+                Pins.AnalogInputs.Add(aiConfig.PinName, analogIn);
+            }
             Console.WriteLine("Stub IO Service initialised");
         }
 

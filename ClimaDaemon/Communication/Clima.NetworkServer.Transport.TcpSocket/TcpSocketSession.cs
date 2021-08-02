@@ -357,9 +357,12 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 BytesReceived += size;
                 
                 string str = Encoding.UTF8.GetString(_receiveBuffer.Data);
+                
                 if (str.Contains("<EOF>"))
                 {
+                    Console.WriteLine($"Received str:{str}");
                     str = str.Substring(0, str.IndexOf("<EOF>", StringComparison.Ordinal));
+                    _receiveBuffer.Clear();
                 }
                 //Send session id
                 if (str.Contains("GetSessionID"))

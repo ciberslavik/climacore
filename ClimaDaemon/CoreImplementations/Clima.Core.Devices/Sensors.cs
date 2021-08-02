@@ -20,6 +20,7 @@ namespace Clima.Core.Devices
             set
             {
                 _frontTempPin = value;
+                FrontTemperature = _frontTempPin.Value;
                 _frontTempPin.ValueChanged += (ea) => { FrontTemperature = ea.NewValue; };
             }
         }
@@ -30,6 +31,7 @@ namespace Clima.Core.Devices
             set
             {
                 _rearTempPin = value;
+                RearTemperature = _rearTempPin.Value;
                 _rearTempPin.ValueChanged += (ea) => { RearTemperature = ea.NewValue;};
             }
         }
@@ -40,6 +42,7 @@ namespace Clima.Core.Devices
             set
             {
                 _outdoorTempPin = value;
+                OutdoorTemperature = _outdoorTempPin.Value;
                 _outdoorTempPin.ValueChanged += (ea) => { OutdoorTemperature = ea.NewValue; };
             }
 
@@ -51,6 +54,7 @@ namespace Clima.Core.Devices
             set
             {
                 _humidityPin = value;
+                Humidity = _humidityPin.Value;
                 _humidityPin.ValueChanged += (ea) => { Humidity = ea.NewValue; };
             }
         }
@@ -61,6 +65,7 @@ namespace Clima.Core.Devices
             set
             {
                 _pressurePin = value;
+                Pressure = _humidityPin.Value;
                 _pressurePin.ValueChanged += (ea) => { Pressure = ea.NewValue; };
             }
         }

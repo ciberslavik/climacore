@@ -55,7 +55,7 @@ public:
     QLabel *label_6;
     QLabel *lblAirPerHead;
     QLabel *label;
-    QProgressBar *progressBar;
+    QProgressBar *barPresure;
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton_2;
     QPushButton *pushButton;
@@ -219,11 +219,11 @@ public:
 
         gridLayout_3->addWidget(label, 5, 0, 1, 1);
 
-        progressBar = new QProgressBar(groupBox_3);
-        progressBar->setObjectName(QStringLiteral("progressBar"));
-        progressBar->setValue(24);
+        barPresure = new QProgressBar(groupBox_3);
+        barPresure->setObjectName(QStringLiteral("barPresure"));
+        barPresure->setValue(24);
 
-        gridLayout_3->addWidget(progressBar, 5, 1, 1, 4);
+        gridLayout_3->addWidget(barPresure, 5, 1, 1, 4);
 
 
         verticalLayout->addWidget(groupBox_3);
@@ -274,7 +274,7 @@ public:
         label_6->setText(QApplication::translate("SystemStateFrame", "TextLabel", Q_NULLPTR));
         lblAirPerHead->setText(QApplication::translate("SystemStateFrame", "TextLabel", Q_NULLPTR));
         label->setText(QApplication::translate("SystemStateFrame", "\320\240\320\260\320\267\321\200\320\265\320\266\320\265\320\275\320\270\320\265", Q_NULLPTR));
-        progressBar->setFormat(QApplication::translate("SystemStateFrame", "%p Pa", Q_NULLPTR));
+        barPresure->setFormat(QApplication::translate("SystemStateFrame", "%p Pa", Q_NULLPTR));
         pushButton_2->setText(QApplication::translate("SystemStateFrame", "\320\222\321\213\320\272\320\273 \321\215\320\272\321\200\320\260\320\275", Q_NULLPTR));
         pushButton->setText(QApplication::translate("SystemStateFrame", "\320\223\320\273\320\260\320\262\320\275\320\276\320\265 \320\274\320\265\320\275\321\216", Q_NULLPTR));
     } // retranslateUi
