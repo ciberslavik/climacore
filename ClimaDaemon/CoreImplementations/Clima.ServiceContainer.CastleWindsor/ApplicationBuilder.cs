@@ -42,7 +42,7 @@ namespace Clima.ServiceContainer.CastleWindsor
             _container.Install(new BasicsInstaller());
             
             //if parameter is true then stub io service else real io service
-            _container.Install(new CoreServicesInstaller(true));
+            _container.Install(new CoreServicesInstaller(false));
             
             _serviceProvider = new CastleServiceProvider(_container);
             _container.Register(Component.For<IServiceProvider>().Instance(_serviceProvider));
@@ -71,7 +71,6 @@ namespace Clima.ServiceContainer.CastleWindsor
 
             //_sensors = devProvider.GetSensors();
             //_servo = devProvider.GetServo("SERVO:0");
-            Thread.Yield();
             //_servo.SetPosition(23.2);
             
         }

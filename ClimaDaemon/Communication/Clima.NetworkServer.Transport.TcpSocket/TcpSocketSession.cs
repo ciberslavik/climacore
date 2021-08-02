@@ -118,6 +118,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
         protected virtual void OnDisConnected()
         {
+            Console.WriteLine($"bytes send:{BytesSent} received:{BytesReceived}");
             Disconnected?.Invoke(this,new EventArgs());
         }
 

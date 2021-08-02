@@ -13,7 +13,7 @@ namespace Clima.Core.IO.Converters
         {
             double va = value[0];
             
-            Console.WriteLine($"Voltage value:{va/100}");
+            //Console.WriteLine($"Voltage value:{va/100}");
             
             return va / 100;
         }

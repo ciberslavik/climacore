@@ -49,15 +49,14 @@ namespace Clima.AgavaModBusIO.Model
         {
             if (ValueConverter != null)
             {
-                Console.Write($"Pin:{PinName} ");
                 var newValue = ValueConverter.ConvertTo(value);
                 if (!newValue.Equals(_value))
                 {
                     var prevValue = _value;
                     _value = newValue;
-                    OnValueChanged(new AnalogPinValueChangedEventArgs(this,prevValue, _value));
+                    OnValueChanged(new AnalogPinValueChangedEventArgs(this, prevValue, _value));
                 }
             }
         }
-            }
+    }
 }

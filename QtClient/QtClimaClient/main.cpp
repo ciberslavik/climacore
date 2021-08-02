@@ -22,10 +22,12 @@ int main(int argc, char *argv[])
     ClientConnection *conn = new ClientConnection(&a);
     ApplicationWorker *worker = new ApplicationWorker(conn,&a);
 
-    conn->ConnectToHost("127.0.0.1", 5911);
+    conn->ConnectToHost("10.0.10.146", 5911);
 
     //conn->ConnectToHost("192.168.0.11", 5911);
 
+    if(!conn->isConnected())
+        return 0;
 
     worker->RegisterNetworkService(new ServerInfoService());
     worker->RegisterNetworkService(new SensorsService());
@@ -48,7 +50,7 @@ int main(int argc, char *argv[])
     FrameManager::instance()->setCurrentFrame(stateFrame);
 
     state->InvokeUpdate();
-   // AuthorizationDialog *dlg = new AuthorizationDialog(conn, &w);
+    // AuthorizationDialog *dlg = new AuthorizationDialog(conn, &w);
 
     //if(dlg->exec()==QDialog::Accepted)
     //{

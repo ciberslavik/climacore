@@ -12,8 +12,7 @@ class SystemStatusService : public INetworkService
     Q_OBJECT
 public:
     explicit SystemStatusService(QObject *parent = nullptr);
-    SystemState GetSystemState();
-    SensorsData GetSensors();
+
 signals:
 
 public slots:

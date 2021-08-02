@@ -22,7 +22,13 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         {
             _config = config;
             _connections = new ConcurrentDictionary<string, IConnection>();
-            IPAddress hostAddress = IPAddress.Parse(_config.HsotName);
+            
+            IPAddress hostAddress;
+            if (_config.HsotName == "")
+                hostAddress = IPAddress.Any;
+            else
+                hostAddress = IPAddress.Parse(_config.HsotName);
+            
             _endPoint = new IPEndPoint(hostAddress, _config.Port);
             
             _listener = new TcpListener(_endPoint);

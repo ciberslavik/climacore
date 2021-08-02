@@ -8,4 +8,8 @@
       <ProjectReference Include="..\Clima.Basics\Clima.Basics.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Network\Messages" />
+    </ItemGroup>
+
 </Project>

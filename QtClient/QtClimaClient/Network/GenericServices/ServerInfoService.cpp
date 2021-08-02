@@ -22,7 +22,7 @@ QString ServerInfoService::ServiceName()
 
 QList<QString> ServerInfoService::Methods()
 {
-
+    return QList<QString>();
 }
 
 void ServerInfoService::ProcessReply(NetworkReply *reply)

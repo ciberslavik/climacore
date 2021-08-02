@@ -20,7 +20,7 @@ namespace Clima.Core.IO.Converters
             //Console.WriteLine($"PT1000 value:{value:F4}");
             if (value.Length >= 2)
             {
-                Console.WriteLine($"vv:{value[0]} {value[1]}");
+                //Console.WriteLine($"vv:{value[0]} {value[1]}");
             }
 
             float va = (float)value[0] ;

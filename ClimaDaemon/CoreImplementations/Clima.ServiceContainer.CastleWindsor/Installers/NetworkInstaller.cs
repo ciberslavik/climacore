@@ -39,7 +39,7 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                     .LifestyleSingleton());
             
             //Create instance of TCP Server by default configuration
-            var serverConfig = TcpServerConfig.CreateDefault("127.0.0.1", 5911);
+            var serverConfig = TcpServerConfig.CreateDefault("", 5911);
             var server = new TcpSocketServer(serverConfig);
 
             

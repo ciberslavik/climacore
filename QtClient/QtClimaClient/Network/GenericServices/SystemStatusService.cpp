@@ -5,19 +5,11 @@ SystemStatusService::SystemStatusService(QObject *parent) : INetworkService(pare
 
 }
 
-SystemState SystemStatusService::GetSystemState()
-{
 
-}
-
-SensorsData SystemStatusService::GetSensors()
-{
-
-}
 
 QList<QString> SystemStatusService::Methods()
 {
-
+    return QList<QString>();
 }
 
 void SystemStatusService::ProcessReply(NetworkReply *reply)

@@ -22,7 +22,7 @@ QString SensorsService::ServiceName()
 
 QList<QString> SensorsService::Methods()
 {
-
+    return QList<QString>();
 }
 
 void SensorsService::ProcessReply(NetworkReply *reply)

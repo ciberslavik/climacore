@@ -144,7 +144,7 @@ namespace Clima.AgavaModBusIO
                         modules[moduleId].SetDIRawData(response.Data);
                     }
 
-                    if (_cycleCounter % _config.AnalogReadCycleDevider == 0)
+                    /*if (_cycleCounter % _config.AnalogReadCycleDevider == 0)
                     {
                         foreach (var iain in modules[moduleId].Pins.AnalogInputs.Values)
                         {
@@ -152,13 +152,18 @@ namespace Clima.AgavaModBusIO
                             if(ain is null)
                                 continue;
                             
-                            Console.Write($"reg:{ain.RegAddress} ");
+                            Console.Write($"reg:{(ain.PinNumberInModule * 2)} ");
                             var request = AgavaRequest.ReadInputRegisterRequest(moduleId, (ushort)(ain.PinNumberInModule * 2), 2);
                             var response = _master.WriteRequest(request);
                             ain.SetRawValue(response.Data);
                         }
-                    }
+                    }*/
                 }
+            }
+
+            if (_cycleCounter % _config.AnalogReadCycleDevider == 0)
+            {
+                ReadAnalogInputs();
             }
         }
 
@@ -170,10 +175,13 @@ namespace Clima.AgavaModBusIO
                 {
                     if (iain is AgavaAInput ain)
                     {
-                        var request = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, ain.RegAddress, 1);
+                        var reg = (ushort) (ain.PinNumberInModule * 2);
+                        
+                        var request = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, reg, 2);
                         var response = _master.WriteRequest(request);
                         var value = response.Data[0];//BufferToFloat(response.Data);
                         ain.SetRawValue(response.Data);
+                        //Console.Write($"reg:{reg} pin:{ain.PinName} val:{BufferToFloat(response.Data)}");
                     }
                 }
             }
