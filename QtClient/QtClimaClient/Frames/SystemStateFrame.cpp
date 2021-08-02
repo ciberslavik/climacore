@@ -1,3 +1,4 @@
+#include "MainMenuFrame.h"
 #include "SystemStateFrame.h"
 #include "ui_SystemStateFrame.h"
 
@@ -56,5 +57,12 @@ void SystemStateFrame::on_pushButton_3_clicked()
 void SystemStateFrame::onTimerElapsed()
 {
     m_sensorsService->GetSensors();
+}
+
+
+void SystemStateFrame::on_pushButton_clicked()
+{
+    MainMenuFrame *mainMenu = new MainMenuFrame();
+    FrameManager::instance()->setCurrentFrame(mainMenu);
 }
 

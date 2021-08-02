@@ -1,4 +1,4 @@
-QT       += core gui network
+QT       += core gui network printsupport
 QT      += xml
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     ApplicationWorker.cpp \
+    Controls/qcustomplot.cpp \
     Frames/FrameBase.cpp \
     Frames/MainMenuFrame.cpp \
     Frames/SystemStateFrame.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
 
 HEADERS += \
     ApplicationWorker.h \
+    Controls/qcustomplot.h \
     Frames/FrameBase.h \
     Frames/IFrameFactory.h \
     Frames/MainMenuFrame.h \

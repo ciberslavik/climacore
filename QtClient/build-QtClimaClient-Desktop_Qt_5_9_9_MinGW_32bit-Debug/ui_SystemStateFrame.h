@@ -233,12 +233,18 @@ public:
         pushButton_2 = new QPushButton(SystemStateFrame);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
         pushButton_2->setMinimumSize(QSize(0, 45));
+        QFont font3;
+        font3.setPointSize(14);
+        font3.setBold(true);
+        font3.setWeight(75);
+        pushButton_2->setFont(font3);
 
         horizontalLayout->addWidget(pushButton_2);
 
         pushButton = new QPushButton(SystemStateFrame);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setMinimumSize(QSize(0, 45));
+        pushButton->setFont(font3);
 
         horizontalLayout->addWidget(pushButton);
 

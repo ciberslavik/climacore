@@ -6,6 +6,7 @@ MainMenuFrame::MainMenuFrame(QWidget *parent) :
     ui(new Ui::MainMenuFrame)
 {
     ui->setupUi(this);
+    setTitle("Главное меню");
 }
 
 MainMenuFrame::~MainMenuFrame()

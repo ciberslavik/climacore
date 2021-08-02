@@ -315,6 +315,13 @@
          <height>45</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Выкл экран</string>
        </property>
@@ -327,6 +334,13 @@
          <width>0</width>
          <height>45</height>
         </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="text">
         <string>Главное меню</string>

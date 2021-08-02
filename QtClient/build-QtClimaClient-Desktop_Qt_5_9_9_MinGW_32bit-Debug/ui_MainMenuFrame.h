@@ -24,7 +24,7 @@ class Ui_MainMenuFrame
 {
 public:
     QGridLayout *gridLayout;
-    QPushButton *pushButton;
+    QPushButton *btnTemperature;
     QPushButton *pushButton_2;
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
@@ -36,13 +36,16 @@ public:
         if (MainMenuFrame->objectName().isEmpty())
             MainMenuFrame->setObjectName(QStringLiteral("MainMenuFrame"));
         MainMenuFrame->resize(674, 424);
+        QFont font;
+        font.setPointSize(14);
+        MainMenuFrame->setFont(font);
         gridLayout = new QGridLayout(MainMenuFrame);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        pushButton = new QPushButton(MainMenuFrame);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setMinimumSize(QSize(0, 65));
+        btnTemperature = new QPushButton(MainMenuFrame);
+        btnTemperature->setObjectName(QStringLiteral("btnTemperature"));
+        btnTemperature->setMinimumSize(QSize(0, 65));
 
-        gridLayout->addWidget(pushButton, 0, 0, 1, 1);
+        gridLayout->addWidget(btnTemperature, 0, 0, 1, 1);
 
         pushButton_2 = new QPushButton(MainMenuFrame);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
@@ -83,9 +86,9 @@ public:
     void retranslateUi(QWidget *MainMenuFrame)
     {
         MainMenuFrame->setWindowTitle(QApplication::translate("MainMenuFrame", "Form", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
-        pushButton_2->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
+        btnTemperature->setText(QApplication::translate("MainMenuFrame", "\320\242\320\265\320\274\320\277\320\265\321\200\320\260\321\202\321\203\321\200\320\260", Q_NULLPTR));
+        pushButton_2->setText(QApplication::translate("MainMenuFrame", "\320\236\321\201\320\262\320\265\321\211\320\265\320\275\320\270\320\265", Q_NULLPTR));
+        pushButton_3->setText(QApplication::translate("MainMenuFrame", "\320\222\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\321\217", Q_NULLPTR));
         pushButton_4->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
         pushButton_5->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
         pushButton_6->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
