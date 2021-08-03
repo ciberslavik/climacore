@@ -19,6 +19,6 @@ namespace ConsoleServer
             Host.CreateDefaultBuilder(args)
                 .UseSystemd()
                 .ConfigureServices((hostContext, services) => { services.AddHostedService<Worker>(); });
-
+        
     }
 }
