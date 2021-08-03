@@ -11,15 +11,15 @@ namespace Clima.FSGrapRepository
         private readonly IGraphProvider<TemperatureGraph> _temperatureProvider;
 
 
-        private TemperatureGraphProviderConfig _tempProviderConfig;
+        //private TemperatureGraphProviderConfig _tempProviderConfig;
         public GraphProviderFactoryFileSystem(IConfigurationStorage configStorgae)
         {
             _configStorgae = configStorgae;
             LoadOrCreateTempGraphProviderConfig(); 
-            var tp = new TemperatureGraphProvider(_tempProviderConfig);
-            tp.SaveNeeded += TpOnSaveNeeded;
+            //var tp = new TemperatureGraphProvider(_tempProviderConfig);
+            //tp.SaveNeeded += TpOnSaveNeeded;
 
-            _temperatureProvider = tp;
+            //_temperatureProvider = tp;
         }
 
         private void TpOnSaveNeeded(object? sender, EventArgs e)
@@ -29,14 +29,14 @@ namespace Clima.FSGrapRepository
 
         protected void LoadOrCreateTempGraphProviderConfig()
         {
-            var configName = TemperatureGraphProviderConfig.FileName;
+            /*var configName = TemperatureGraphProviderConfig.FileName;
             if (!_configStorgae.Exist(configName))
             {
                 var tempProviderConfig = new TemperatureGraphProviderConfig();
                 tempProviderConfig.Graphs.Add("default", new TemperatureGraphConfig());
                 _configStorgae.RegisterConfig<TemperatureGraphProviderConfig>(TemperatureGraphProviderConfig.FileName);
             }
-            _tempProviderConfig = _configStorgae.GetConfig<TemperatureGraphProviderConfig>(configName);
+            _tempProviderConfig = _configStorgae.GetConfig<TemperatureGraphProviderConfig>(configName);*/
         }
 
         public IGraphProvider<TemperatureGraph> TemperatureGraphProvider()

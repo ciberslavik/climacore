@@ -7,6 +7,7 @@ namespace Clima.FSGrapRepository
     public abstract class GraphProviderBase<TGraph, TPoint, TConfig> : IGraphProvider<TGraph> 
         where TGraph:GraphBase<TPoint>
         where TPoint:GraphPointBase
+        where TConfig:IGraphPointConfig<TPoint>
     {
         protected TGraph _currentGraph;
         protected TConfig _config;
@@ -19,11 +20,8 @@ namespace Clima.FSGrapRepository
         {
             if (!(_currentGraph is null))
                 return _currentGraph;
-            else
-            {
-                
-            }
-            
+
+            return null;
         }
 
         public void SetCurrentGraph()

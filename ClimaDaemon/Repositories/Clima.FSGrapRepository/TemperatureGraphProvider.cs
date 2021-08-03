@@ -5,9 +5,9 @@ using Clima.FSGrapRepository.Configuration;
 
 namespace Clima.FSGrapRepository
 {
-    public class TemperatureGraphProvider:IGraphProvider<TemperatureGraph>
-    {
-        private readonly TemperatureGraphProviderConfig _config;
+    //public class TemperatureGraphProvider:IGraphProvider<TemperatureGraph>
+    //{
+        /*private readonly TemperatureGraphProviderConfig _config;
         private TemperatureGraphConfig _currentGraphConfig;
         private TemperatureGraph _currentGraph;
         private Dictionary<string, TemperatureGraph> _loadedGraphs;
@@ -137,6 +137,6 @@ namespace Clima.FSGrapRepository
             }
 
             return config;
-        }
-    }
+        }*/
+   // }
 }

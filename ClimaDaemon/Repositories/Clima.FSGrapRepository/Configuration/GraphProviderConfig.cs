@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Clima.Basics.Configuration;
 
 namespace Clima.FSGrapRepository.Configuration
 {
-    public class GraphProviderConfig<TPointConfig> 
+    public class GraphProviderConfig<TPointConfig> :IConfigurationItem
         where TPointConfig : IGraphPointConfig<TPointConfig>, new()
     {
         private GraphConfig<TPointConfig> _currentGraph;
@@ -12,6 +13,7 @@ namespace Clima.FSGrapRepository.Configuration
             
         }
         public GraphConfig<TPointConfig> CurrentGraph { get; set; }
-        public List<GraphConfig<TPointConfig>> Graphs { get; set; } = new List<GraphConfig<TPointConfig>>();
+        public Dictionary<string, GraphConfig<TPointConfig>> Graphs { get; set; } = new Dictionary<string, GraphConfig<TPointConfig>>();
+        public string ConfigurationName { get; }
     }
 }

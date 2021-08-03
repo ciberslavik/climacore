@@ -1,8 +1,10 @@
+using System;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Configuration.FileSystem;
 using Clima.Core.DataModel.GraphModel;
 using Clima.FSGrapRepository;
+using Clima.FSGrapRepository.Configuration;
 using Clima.Serialization.Newtonsoft;
 using NUnit.Framework;
 
@@ -38,6 +40,56 @@ namespace Clima.FSGraphRepository.Tests
             
             _configurationStorage.Save();
             Assert.Pass();
+        }
+
+        [Test]
+        public void GraphProviderConfig_Test()
+        {
+            IGraphProviderFactory fsProvider = new GraphProviderFactoryFileSystem(_configurationStorage);
+
+            var providerConfig = new GraphProviderConfig<TemperatureGraphPointConfig>();
+
+            var graphConfig = new GraphConfig<TemperatureGraphPointConfig>();
+            graphConfig.Name = "TestGraph";
+            FillGraph(ref graphConfig);
+            var graph2 = new GraphConfig<TemperatureGraphPointConfig>();
+            graph2.Name = "TestGraph2";
+            FillGraph(ref graph2);
+            providerConfig.Graphs.Add("TestGraph", graphConfig);
+            providerConfig.Graphs.Add("TestGraph2", graph2);
+            
+            Console.WriteLine("Unsorted:");
+            foreach (var point in graphConfig.Points)
+            {
+                Console.WriteLine($"   Point day:{point.Day}");
+            }
+            graphConfig.Points.Sort();
+            
+            Console.WriteLine("Sorted:");
+            foreach (var point in graphConfig.Points)
+            {
+                Console.WriteLine($"   Point day:{point.Day}");
+            }
+
+            providerConfig.CurrentGraph = graphConfig;
+
+            _configurationStorage.RegisterConfig(
+                "TemperatureProviderConfig", providerConfig);
+            _configurationStorage.Save();
+            Assert.Pass();
+        }
+
+        private void FillGraph(ref GraphConfig<TemperatureGraphPointConfig> graphConfig)
+        {
+            Random rnd = new Random();
+            for (int i = 0; i < 20; i++)
+            {
+                graphConfig.Points.Add(new TemperatureGraphPointConfig()
+                {
+                    Day = rnd.Next(1, 50),
+                    Temperature = 10
+                });
+            }
         }
     }
 }
