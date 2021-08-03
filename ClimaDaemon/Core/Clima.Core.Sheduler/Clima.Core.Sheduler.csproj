@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Clima.Basics\Clima.Basics.csproj" />
+      <ProjectReference Include="..\Clima.Core\Clima.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DataModel" />
+    </ItemGroup>
+
+</Project>

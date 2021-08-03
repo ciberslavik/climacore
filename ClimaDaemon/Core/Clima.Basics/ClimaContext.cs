@@ -50,12 +50,8 @@ namespace Clima.Core
 
         public IFileSystem FileSystem => 
             _serviceProvider.Resolve<IFileSystem>();
-
+        
         public ISystemLogger Logger { get; private set; }
-        public static bool ExitSignal
-        {
-            get { return _exitSignal; }
-            set { _exitSignal = value; }
-        }
+        
     }
 }

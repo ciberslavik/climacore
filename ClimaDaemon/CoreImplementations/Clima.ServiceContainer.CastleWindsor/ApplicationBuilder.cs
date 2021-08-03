@@ -7,6 +7,7 @@ using Clima.Basics.Services;
 using Clima.Core;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.Devices;
+using Clima.Core.Sheduler;
 using Clima.Logger.Console;
 using Clima.NetworkServer;
 using Clima.ServiceContainer.CastleWindsor.Installers;
@@ -18,26 +19,17 @@ namespace Clima.ServiceContainer.CastleWindsor
     {
         private IWindsorContainer _container;
         private IServiceProvider _serviceProvider;
-        private IServoDrive _servo;
-        private ISensors _sensors;
         private IJsonServer _server;
+        private IClimaSheduler _sheduler;
         public ApplicationBuilder()
         {
             
         }
-
-        public ISensors Sensors
-        {
-            get => _sensors;
-            set => _sensors = value;
-        }
-
         public void Initialize()
         {
             _container = new WindsorContainer();
             //Register logger
             _container.Register(Component.For<ISystemLogger>().ImplementedBy<ConsoleSystemLogger>());
-            
             
             _container.Install(new BasicsInstaller());
             
@@ -49,17 +41,16 @@ namespace Clima.ServiceContainer.CastleWindsor
             
             
             ClimaContext.InitContext(_serviceProvider);
-            ClimaContext.ExitSignal = false;
 
             _container.Install(new NetworkInstaller());
 
             _server = _container.Resolve<IJsonServer>();
             
-           // var devProvider = _container.Resolve<IDeviceProvider>();
+            /*var devProvider = _container.Resolve<IDeviceProvider>();
             
-            //var relay = devProvider.GetRelay("REL:0");
+            var relay = devProvider.GetRelay("REL:0");
             
-            /*var relayNotifier = relay as IAlarmNotifier;
+            var relayNotifier = relay as IAlarmNotifier;
             if (relayNotifier != null)
             {
                 relayNotifier.AlarmNotify += (s,ea) =>
@@ -67,28 +58,17 @@ namespace Clima.ServiceContainer.CastleWindsor
                     ClimaContext.Current.Logger.System($"Sender:{s.GetType().FullName}");
                     ClimaContext.Current.Logger.System($"Alarm:{ea.Message}");
                 };
-            }*/
+            }
 
-            //_sensors = devProvider.GetSensors();
-            //_servo = devProvider.GetServo("SERVO:0");
-            //_servo.SetPosition(23.2);
+            _sensors = devProvider.GetSensors();
+            _servo = devProvider.GetServo("SERVO:0");
+            _servo.SetPosition(23.2);*/
             
         }
 
-        public void SetValue(double value)
-        {
-            _servo.SetPosition(value);
-        }
-        public void Run()
-        {
-            while (!ClimaContext.ExitSignal)
-            {
-                var inputLine = Console.ReadLine();
-                if (double.TryParse(inputLine, out var result))
-                {
-                    _servo.SetPosition(result);
-                }
-            }
+        public async void ProcessSheduler()
+        { 
+            _sheduler.Process();
         }
     }
 }
