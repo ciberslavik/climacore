@@ -1,10 +1,9 @@
 ﻿using System;
 using Clima.Basics.Configuration;
 using Clima.Core.IO;
-using Clima.Core.Tests.IOService;
 using Clima.Core.Tests.IOService.Configurations;
 
-namespace Clima.Core.Tests
+namespace Clima.Core.Tests.IOService
 {
     public class StubIOService:IIOService
     {

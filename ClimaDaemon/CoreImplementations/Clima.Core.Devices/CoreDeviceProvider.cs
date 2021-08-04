@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Clima.Basics;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core.Devices.Configuration;

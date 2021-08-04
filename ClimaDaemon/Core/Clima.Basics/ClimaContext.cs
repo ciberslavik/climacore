@@ -3,7 +3,7 @@ using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
-namespace Clima.Core
+namespace Clima.Basics
 {
     public class ClimaContext
     {

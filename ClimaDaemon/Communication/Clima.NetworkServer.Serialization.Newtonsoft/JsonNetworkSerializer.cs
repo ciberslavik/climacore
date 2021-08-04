@@ -3,7 +3,6 @@ using System.IO;
 using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 using Clima.NetworkServer.Exceptions;
-using Clima.NetworkServer.Messages;
 using Clima.NetworkServer.Serialization.Newtonsoft.Internal;
 using Clima.NetworkServer.Services;
 using Newtonsoft.Json;

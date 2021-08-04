@@ -1,12 +1,12 @@
 ﻿using System;
-using Clima.Basics.Services.Communication.Exceptions;
+using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 
 namespace Clima.NetworkServer.Exceptions
 {
-    public class ExceptionTranslator:IExceptionTranslator
+    public sealed class ExceptionTranslator:IExceptionTranslator
     {
-        public virtual Error Translate(Exception ex, int? code = null, string message = null)
+        public Error Translate(Exception ex, int? code = null, string message = null)
         {
             // don't translate anything by default
             var result = new Error(ex);

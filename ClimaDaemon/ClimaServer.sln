@@ -53,6 +53,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.FSGrapRepository", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.FSGraphRepository.Tests", "Tests\Clima.FSGraphRepository.Tests\Clima.FSGraphRepository.Tests.csproj", "{9A96892D-2C0F-4B8A-886E-4CDC9EA74961}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{F07714C7-5912-4A6A-BE3A-D812891ECA06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "protogen", "Utilities\protogen\protogen.csproj", "{A60D7B88-9E52-4F6C-801E-4F4C95DE61BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +143,10 @@ Global
 		{9A96892D-2C0F-4B8A-886E-4CDC9EA74961}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A96892D-2C0F-4B8A-886E-4CDC9EA74961}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A96892D-2C0F-4B8A-886E-4CDC9EA74961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A60D7B88-9E52-4F6C-801E-4F4C95DE61BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A60D7B88-9E52-4F6C-801E-4F4C95DE61BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A60D7B88-9E52-4F6C-801E-4F4C95DE61BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A60D7B88-9E52-4F6C-801E-4F4C95DE61BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +172,7 @@ Global
 		{B5A3A921-5E63-4578-B91B-67A45D554383} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
 		{ADEE2C9F-C656-4978-B39D-6AD52DA92558} = {95E95B63-A53C-4E7D-9E8A-56E1344541FD}
 		{9A96892D-2C0F-4B8A-886E-4CDC9EA74961} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
+		{A60D7B88-9E52-4F6C-801E-4F4C95DE61BF} = {F07714C7-5912-4A6A-BE3A-D812891ECA06}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8C0318C-3AF4-4615-9360-4283C4059C31}

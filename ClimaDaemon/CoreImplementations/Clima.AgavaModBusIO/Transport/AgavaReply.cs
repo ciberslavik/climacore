@@ -1,4 +1,4 @@
-﻿namespace Clima.AgavaModBusIO
+﻿namespace Clima.AgavaModBusIO.Transport
 {
     public class AgavaReply
     {

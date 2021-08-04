@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Clima.Basics.Services;
 using Clima.Core.DataModel.GraphModel;
+using Clima.Core.Exceptions;
 using Clima.Core.Network.Messages;
+using Clima.NetworkServer.Exceptions;
 
 namespace Clima.Core.Network.Services
 {
@@ -26,7 +29,18 @@ namespace Clima.Core.Network.Services
 
         public TemperatureGraphResponse GetTemperatureGraph(GetGraphRequest<TemperatureGraphResponse> request)
         {
-            return new TemperatureGraphResponse();
+            if (string.IsNullOrEmpty(request.GraphKey))
+                throw new InvalidRequestException("Get temperature graph key is null");
+            var tGraph = _providerFactory.TemperatureGraphProvider().GetGraph(request.GraphKey);
+            if (tGraph is null)
+                throw new KeyNotFoundException(
+                    $"key: {request.GraphKey} not contains in temperature graph repository");
+            
+            
+            var response = new TemperatureGraphResponse();
+            response.Info = tGraph.Info;
+            response.Points = new List<ValueByDayPoint>(tGraph.Points);
+            return response;
         }
     }
 }

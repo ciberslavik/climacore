@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using Clima.Basics;
 using Clima.Basics.Configuration;
 using Clima.Core.Devices.Configuration;
 using Clima.Core.Exceptions;

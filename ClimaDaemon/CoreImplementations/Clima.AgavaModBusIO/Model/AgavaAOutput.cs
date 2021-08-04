@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using Clima.AgavaModBusIO.Transport;
 using Clima.Core.IO;
 
 namespace Clima.AgavaModBusIO.Model

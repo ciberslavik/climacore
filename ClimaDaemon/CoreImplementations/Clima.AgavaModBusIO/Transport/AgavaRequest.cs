@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Clima.AgavaModBusIO
+namespace Clima.AgavaModBusIO.Transport
 {
     public enum RequestType : byte
     {

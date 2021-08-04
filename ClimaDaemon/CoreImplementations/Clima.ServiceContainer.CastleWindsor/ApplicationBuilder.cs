@@ -3,6 +3,7 @@ using System.Threading;
 using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Clima.Basics;
 using Clima.Basics.Services;
 using Clima.Core;
 using Clima.Core.Controllers.Ventilation;
@@ -34,7 +35,7 @@ namespace Clima.ServiceContainer.CastleWindsor
             _container.Install(new BasicsInstaller());
             
             //if parameter is true then stub io service else real io service
-            _container.Install(new CoreServicesInstaller(false));
+            _container.Install(new CoreServicesInstaller(true));
             
             _serviceProvider = new CastleServiceProvider(_container);
             _container.Register(Component.For<IServiceProvider>().Instance(_serviceProvider));

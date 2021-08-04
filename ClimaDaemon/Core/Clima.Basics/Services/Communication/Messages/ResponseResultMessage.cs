@@ -1,7 +1,6 @@
 using System.Runtime.Serialization;
-using Clima.Basics.Services.Communication.Messages;
 
-namespace Clima.NetworkServer.Messages
+namespace Clima.Basics.Services.Communication.Messages
 {
     [DataContract]
     public class ResponseResultMessage:ResponseMessage

@@ -1,8 +1,6 @@
-﻿using Clima.Core.Controllers.Ventilation;
-using Clima.Core.Devices;
-using Clima.Core.Devices.Configuration;
+﻿using Clima.Core.Devices.Configuration;
 
-namespace Clima.Core.Conrollers.Ventilation.Ventilation
+namespace Clima.Core.Devices
 {
     public class AnalogFan:IAnalogFan
     {

@@ -19,6 +19,7 @@ SOURCES += \
     Models/Authorization/User.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
+    Network/GenericServices/GraphService.cpp \
     Network/GenericServices/SensorsService.cpp \
     Network/GenericServices/ServerInfoService.cpp \
     Network/GenericServices/SystemStatusService.cpp \
@@ -46,6 +47,8 @@ HEADERS += \
     Models/SystemState.h \
     Network/AuthRequest.h \
     Network/ClientConnection.h \
+    Network/GenericServices/GraphService.h \
+    Network/GenericServices/Messages/GraphInfosResponce.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \

@@ -6,8 +6,6 @@ using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Exceptions;
 using Clima.Basics.Services.Communication.Messages;
 using Clima.NetworkServer.Exceptions;
-using Clima.NetworkServer.Messages;
-
 using Clima.NetworkServer.Services;
 using Clima.NetworkServer.Sessions;
 using Clima.NetworkServer.Transport;

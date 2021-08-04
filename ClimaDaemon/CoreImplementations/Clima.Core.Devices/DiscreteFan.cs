@@ -1,7 +1,4 @@
-﻿using Clima.Core.Controllers.Ventilation;
-using Clima.Core.Devices;
-
-namespace Clima.Core.Conrollers.Ventilation.Ventilation
+﻿namespace Clima.Core.Devices
 {
     public class DiscreteFan:IDiscreteFan
     {

@@ -2,11 +2,12 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Clima.AgavaModBusIO;
-using Clima.Core.Conrollers.Ventilation.Ventilation;
+using Clima.Core.Conrollers.Ventilation;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.Devices;
 using Clima.Core.IO;
 using Clima.Core.Tests;
+using Clima.Core.Tests.IOService;
 
 namespace Clima.ServiceContainer.CastleWindsor.Installers
 {
