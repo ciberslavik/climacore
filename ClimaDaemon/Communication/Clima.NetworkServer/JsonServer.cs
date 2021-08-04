@@ -1,7 +1,9 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Clima.Basics.Services;
 using Clima.Basics.Services.Communication;
+using Clima.Basics.Services.Communication.Exceptions;
 using Clima.Basics.Services.Communication.Messages;
 using Clima.NetworkServer.Exceptions;
 using Clima.NetworkServer.Messages;
@@ -21,10 +23,10 @@ namespace Clima.NetworkServer
         private readonly IMessageTypeProvider _messageTypeProvider;
         private readonly IServiceExecutor _executor;
         private readonly ISessionManager _sessionManager;
-
+        public event EventHandler<ThreadExceptionEventArgs> UnhandledException;
         public ISystemLogger Logger { get; set; }
         public bool IsDisposed { get; private set; }
-
+        public IExceptionTranslator ExceptionTranslator { get; }
         public IServer Server => _server;
         public object SessionManager => _sessionManager;
 
@@ -33,7 +35,8 @@ namespace Clima.NetworkServer
             INetworkSerializer serializer,
             IMessageTypeProvider messageTypeProvider,
             IServiceExecutor executor,
-            ISessionManager sessionManager = null)
+            ISessionManager sessionManager = null,
+            IExceptionTranslator exceptionTranslator = null)
         {
             _server = server ?? throw new ArgumentNullException(nameof(server));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -41,7 +44,7 @@ namespace Clima.NetworkServer
             _executor = executor ?? throw new ArgumentNullException(nameof(executor));
             _sessionManager = sessionManager ?? new SessionManagerDefault();
             _server.MessageReceived += HandleServerMessage;
-            
+            ExceptionTranslator = exceptionTranslator ?? new ExceptionTranslator();
         }
 
         private async void HandleServerMessage(object sender, MessageEventArgs e)
@@ -88,14 +91,42 @@ namespace Clima.NetworkServer
                 }
                 catch (JsonServicesException exception)
                 {
-                    Console.WriteLine(exception);
-                    throw;
+                    response = new ResponseErrorMessage
+                    {
+                        Id = request.Id,
+                        Error = ExceptionTranslator.Translate(exception),
+                    };
+                }
+                catch (Exception exception)
+                {
+                    // error executing the service
+                    response = new ResponseErrorMessage
+                    {
+                        Id = request.Id,
+                        Error = ExceptionTranslator.Translate(exception,
+                            InternalErrorException.ErrorCode,
+                            "Internal server error: " + exception.Message),
+                    };
                 }
             }
-            catch (Exception exception)
+            catch (JsonServicesException ex)
             {
-                Console.WriteLine(exception);
-                throw;
+                // report known error code
+                response = new ResponseErrorMessage
+                {
+                    Id = ex.MessageId,
+                    Error = ExceptionTranslator.Translate(ex),
+                };
+            }
+            catch (Exception ex)
+            {
+                // deserialization error
+                response = new ResponseErrorMessage
+                {
+                    Error = ExceptionTranslator.Translate(ex,
+                        ParseErrorException.ErrorCode,
+                        "Parse error: " + ex.Message),
+                };
             }
             finally
             {
@@ -109,8 +140,9 @@ namespace Clima.NetworkServer
                     }
                     catch (Exception exception)
                     {
-                        Console.WriteLine(exception);
-                        throw;
+                        // report exceptions
+                        var eargs = new ThreadExceptionEventArgs(exception);
+                        UnhandledException?.Invoke(this, eargs);
                     }
                 }
             }

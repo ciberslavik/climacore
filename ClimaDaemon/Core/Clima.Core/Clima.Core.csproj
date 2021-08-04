@@ -5,11 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Communication\Clima.NetworkServer\Clima.NetworkServer.csproj" />
       <ProjectReference Include="..\Clima.Basics\Clima.Basics.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Network\Messages" />
     </ItemGroup>
 
 </Project>

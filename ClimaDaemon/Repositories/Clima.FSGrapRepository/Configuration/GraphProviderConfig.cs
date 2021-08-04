@@ -6,13 +6,12 @@ namespace Clima.FSGrapRepository.Configuration
     public class GraphProviderConfig<TPointConfig> :IConfigurationItem
         where TPointConfig : IGraphPointConfig<TPointConfig>, new()
     {
-        private GraphConfig<TPointConfig> _currentGraph;
-        
+
         public GraphProviderConfig()
         {
             
         }
-        public GraphConfig<TPointConfig> CurrentGraph { get; set; }
+        public string CurrentGraph { get; set; }
         public Dictionary<string, GraphConfig<TPointConfig>> Graphs { get; set; } = new Dictionary<string, GraphConfig<TPointConfig>>();
         public string ConfigurationName { get; }
     }

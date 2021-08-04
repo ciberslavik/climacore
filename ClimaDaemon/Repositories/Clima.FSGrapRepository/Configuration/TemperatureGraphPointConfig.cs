@@ -7,6 +7,11 @@ namespace Clima.FSGrapRepository.Configuration
         public TemperatureGraphPointConfig()
         {
         }
+        public TemperatureGraphPointConfig(int day,float temperature)
+        {
+            Day = day;
+            Temperature = temperature;
+        }
         public int Day { get; set; }
         public float Temperature { get; set; }
 
@@ -25,7 +30,7 @@ namespace Clima.FSGrapRepository.Configuration
 
         public int CompareTo(IGraphPointConfig<TemperatureGraphPointConfig>? other)
         {
-            throw new NotImplementedException();
+            return 1;
         }
     }
 }

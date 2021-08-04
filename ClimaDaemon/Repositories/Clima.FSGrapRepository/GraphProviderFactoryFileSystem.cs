@@ -8,18 +8,18 @@ namespace Clima.FSGrapRepository
     public class GraphProviderFactoryFileSystem:IGraphProviderFactory
     {
         private readonly IConfigurationStorage _configStorgae;
-        private readonly IGraphProvider<TemperatureGraph> _temperatureProvider;
+        private readonly IGraphProvider<TemperatureGraph, ValueByDayPoint> _temperatureProvider;
 
-
+        private GraphProviderConfig<TemperatureGraphPointConfig> _tempProviderConfig;
         //private TemperatureGraphProviderConfig _tempProviderConfig;
         public GraphProviderFactoryFileSystem(IConfigurationStorage configStorgae)
         {
             _configStorgae = configStorgae;
             LoadOrCreateTempGraphProviderConfig(); 
-            //var tp = new TemperatureGraphProvider(_tempProviderConfig);
+            var tp = new TemperatureGraphProvider(_tempProviderConfig);
             //tp.SaveNeeded += TpOnSaveNeeded;
 
-            //_temperatureProvider = tp;
+            _temperatureProvider = tp;
         }
 
         private void TpOnSaveNeeded(object? sender, EventArgs e)
@@ -29,27 +29,26 @@ namespace Clima.FSGrapRepository
 
         protected void LoadOrCreateTempGraphProviderConfig()
         {
-            /*var configName = TemperatureGraphProviderConfig.FileName;
+            var configName = "TemperatureGrapProvider";
             if (!_configStorgae.Exist(configName))
             {
-                var tempProviderConfig = new TemperatureGraphProviderConfig();
-                tempProviderConfig.Graphs.Add("default", new TemperatureGraphConfig());
-                _configStorgae.RegisterConfig<TemperatureGraphProviderConfig>(TemperatureGraphProviderConfig.FileName);
+                var tempProviderConfig = new GraphProviderConfig<TemperatureGraphPointConfig>();
+                _configStorgae.RegisterConfig(configName, tempProviderConfig);
             }
-            _tempProviderConfig = _configStorgae.GetConfig<TemperatureGraphProviderConfig>(configName);*/
+            _tempProviderConfig = _configStorgae.GetConfig<GraphProviderConfig<TemperatureGraphPointConfig>>(configName);
         }
 
-        public IGraphProvider<TemperatureGraph> TemperatureGraphProvider()
+        public IGraphProvider<TemperatureGraph, ValueByDayPoint> TemperatureGraphProvider()
         {
             return _temperatureProvider;
         }
 
-        public IGraphProvider<VentilationMinMaxGraph> VentilationMinMaxGraphProvider()
+        public IGraphProvider<VentilationMinMaxGraph,MinMaxByDayPoint> VentilationMinMaxGraphProvider()
         {
             throw new System.NotImplementedException();
         }
 
-        public IGraphProvider<ValvePerVentilationGraph> ValvePerVentilationGraphProvider()
+        public IGraphProvider<ValvePerVentilationGraph,ValueByValuePoint> ValvePerVentilationGraphProvider()
         {
             throw new System.NotImplementedException();
         }

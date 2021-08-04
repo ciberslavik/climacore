@@ -2,8 +2,8 @@
 {
     public interface IGraphProviderFactory
     {
-        IGraphProvider<TemperatureGraph> TemperatureGraphProvider();
-        IGraphProvider<VentilationMinMaxGraph> VentilationMinMaxGraphProvider();
-        IGraphProvider<ValvePerVentilationGraph> ValvePerVentilationGraphProvider();
+        IGraphProvider<TemperatureGraph, ValueByDayPoint> TemperatureGraphProvider();
+        IGraphProvider<VentilationMinMaxGraph, MinMaxByDayPoint> VentilationMinMaxGraphProvider();
+        IGraphProvider<ValvePerVentilationGraph, ValueByValuePoint> ValvePerVentilationGraphProvider();
     }
 }

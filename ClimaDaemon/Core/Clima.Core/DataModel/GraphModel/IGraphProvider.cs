@@ -2,15 +2,18 @@
 
 namespace Clima.Core.DataModel.GraphModel
 {
-    public interface IGraphProvider<TGraph>
+    public interface IGraphProvider<TGraph, TPoint>
+        where TPoint:GraphPointBase
+        where TGraph:GraphBase<TPoint>
     {
         TGraph GetCurrentGraph();
-        void SetCurrentGraph();
+        void SetCurrentGraph(TGraph graph);
         TGraph GetGraph(string graphName);
-        IEnumerable<GraphInfo> GetGraphInfos();
+        IList<GraphInfo> GetGraphInfos();
 
-        void AddGraph(string graphName, TGraph graph);
-        void RemoveGraph(string graphName);
-        void Save();
+        void AddGraph(TGraph graph);
+        void RemoveGraph(string key);
+
+        TGraph CreateGraph(string key);
     }
 }

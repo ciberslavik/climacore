@@ -49,14 +49,17 @@ namespace Clima.FSGraphRepository.Tests
 
             var providerConfig = new GraphProviderConfig<TemperatureGraphPointConfig>();
 
+            
             var graphConfig = new GraphConfig<TemperatureGraphPointConfig>();
-            graphConfig.Name = "TestGraph";
+            graphConfig.Info.Key = graphConfig.Info.Name = "TestGraph";
             FillGraph(ref graphConfig);
+            providerConfig.Graphs.Add(graphConfig.Info.Key, graphConfig);
+            
+            
             var graph2 = new GraphConfig<TemperatureGraphPointConfig>();
-            graph2.Name = "TestGraph2";
+            graph2.Info.Key = graph2.Info.Name = "TestGraph2";
             FillGraph(ref graph2);
-            providerConfig.Graphs.Add("TestGraph", graphConfig);
-            providerConfig.Graphs.Add("TestGraph2", graph2);
+            providerConfig.Graphs.Add(graph2.Info.Key, graph2);
             
             Console.WriteLine("Unsorted:");
             foreach (var point in graphConfig.Points)
@@ -71,7 +74,7 @@ namespace Clima.FSGraphRepository.Tests
                 Console.WriteLine($"   Point day:{point.Day}");
             }
 
-            providerConfig.CurrentGraph = graphConfig;
+            providerConfig.CurrentGraph = graphConfig.Info.Key;
 
             _configurationStorage.RegisterConfig(
                 "TemperatureProviderConfig", providerConfig);
@@ -79,8 +82,35 @@ namespace Clima.FSGraphRepository.Tests
             Assert.Pass();
         }
 
+        [Test]
+        public void CreateGraph_Test()
+        {
+            IGraphProviderFactory fsProvider = new GraphProviderFactoryFileSystem(_configurationStorage);
+            var tempProvider = fsProvider.TemperatureGraphProvider();
+
+            var graph = tempProvider.CreateGraph("graph0");
+            graph.AddPoint(new ValueByDayPoint(1, 15.5f));
+            _configurationStorage.Save();
+            
+            tempProvider.RemoveGraph("graph0");
+            _configurationStorage.Save();
+            Assert.IsNotNull(graph);
+        }
+
+        [Test]
+        public void RemoveGraph_Test()
+        {
+            IGraphProviderFactory fsProvider = new GraphProviderFactoryFileSystem(_configurationStorage);
+            var tempProvider = fsProvider.TemperatureGraphProvider();
+
+            
+            tempProvider.RemoveGraph("graph0");
+            
+            _configurationStorage.Save();
+        }
         private void FillGraph(ref GraphConfig<TemperatureGraphPointConfig> graphConfig)
         {
+            
             Random rnd = new Random();
             for (int i = 0; i < 20; i++)
             {
