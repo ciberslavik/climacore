@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Serialization;
+using Clima.Basics.Services.Communication.Exceptions;
 
 namespace Clima.Basics.Services.Communication.Messages
 {
@@ -7,10 +8,10 @@ namespace Clima.Basics.Services.Communication.Messages
     {
         public Error(Exception ex = null)
         {
-            /*if (ex is JsonServicesException jx)
+            if (ex is JsonServicesException jx)
             {
                 Code = jx.Code;
-            }*/
+            }
 
             if (ex != null)
             {

@@ -1,11 +1,11 @@
 ﻿using Clima.Basics.Services;
 using Clima.Basics.Services.Communication;
+using Clima.Basics.Services.Communication.Exceptions;
 using Clima.Basics.Services.Communication.Messages;
 using Clima.Core.Network.Messages;
 using Clima.Core.Network.Services;
-using Clima.NetworkServer.Exceptions;
 
-namespace Clima.Core.Network
+namespace GraphProviderServices
 {
     public class CoreNetworkInstaller:INetworkInstaller
     {

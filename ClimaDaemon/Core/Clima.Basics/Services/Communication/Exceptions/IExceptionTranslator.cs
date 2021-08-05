@@ -1,7 +1,7 @@
 ﻿using System;
 using Clima.Basics.Services.Communication.Messages;
 
-namespace Clima.Basics.Services.Communication
+namespace Clima.Basics.Services.Communication.Exceptions
 {
     public interface IExceptionTranslator
     {

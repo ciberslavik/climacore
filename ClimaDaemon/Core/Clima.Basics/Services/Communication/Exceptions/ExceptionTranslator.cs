@@ -1,8 +1,7 @@
 ﻿using System;
-using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 
-namespace Clima.NetworkServer.Exceptions
+namespace Clima.Basics.Services.Communication.Exceptions
 {
     public sealed class ExceptionTranslator:IExceptionTranslator
     {

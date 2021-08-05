@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using Clima.Basics.Services.Communication;
+using Clima.Basics.Services.Communication.Exceptions;
 using Clima.Basics.Services.Communication.Messages;
-using Clima.NetworkServer.Exceptions;
 using Clima.NetworkServer.Serialization.Newtonsoft.Internal;
 using Clima.NetworkServer.Services;
 using Newtonsoft.Json;

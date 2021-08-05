@@ -4,10 +4,12 @@ using Castle.Windsor;
 using Clima.AgavaModBusIO;
 using Clima.Core.Conrollers.Ventilation;
 using Clima.Core.Controllers.Ventilation;
+using Clima.Core.DataModel.GraphModel;
 using Clima.Core.Devices;
 using Clima.Core.IO;
 using Clima.Core.Tests;
 using Clima.Core.Tests.IOService;
+using Clima.FSGrapRepository;
 
 namespace Clima.ServiceContainer.CastleWindsor.Installers
 {
@@ -40,7 +42,6 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                         .For<IIOService>()
                         .ImplementedBy<StubIOService>()
                         .LifestyleSingleton());
-
             }
             else
             {
@@ -56,6 +57,8 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
             
             ioService.Init();
             ioService.Start();
+            
+            
         }
     }
 }

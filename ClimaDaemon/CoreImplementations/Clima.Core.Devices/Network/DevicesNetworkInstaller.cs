@@ -4,7 +4,6 @@ using Clima.Basics.Services.Communication.Exceptions;
 using Clima.Basics.Services.Communication.Messages;
 using Clima.Core.Devices.Network.Messages;
 using Clima.Core.Devices.Network.Services;
-using Clima.NetworkServer.Exceptions;
 
 namespace Clima.Core.Devices.Network
 {

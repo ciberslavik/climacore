@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Clima.NetworkServer.Exceptions
+namespace Clima.Basics.Services.Communication.Exceptions
 {
     public class JsonReaderException:Exception
     {

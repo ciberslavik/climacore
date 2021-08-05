@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Clima.Basics.Services.Communication.Messages;
 
-namespace Clima.NetworkServer.Exceptions
+namespace Clima.Basics.Services.Communication.Exceptions
 {
     public class JsonServicesException:Exception
     {

@@ -12,6 +12,7 @@ using Clima.NetworkServer.Serialization.Newtonsoft;
 using Clima.NetworkServer.Services;
 using Clima.NetworkServer.Transport;
 using Clima.NetworkServer.Transport.TcpSocket;
+using GraphProviderServices;
 using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
 namespace Clima.ServiceContainer.CastleWindsor.Installers
@@ -63,14 +64,15 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
             var serviceExecutor = container.Resolve<IServiceExecutor>();
             var serviceProvider = container.Resolve<IServiceProvider>();
             
+            //GraphProviderService serv = new GraphProviderService(serviceProvider.Resolve<Te>());
             var installers = container.ResolveAll<INetworkInstaller>();
+            
             foreach (var instller in installers)
             {
                 instller.RegisterServices(serviceProvider);
                 instller.RegisterMessages(messageTypeProvider);
                 instller.RegisterHandlers(serviceExecutor, serviceProvider);
             }
-            
         }
     }
 }

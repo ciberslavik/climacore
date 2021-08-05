@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Clima.Basics.Services;
+using Clima.Basics.Services.Communication.Exceptions;
 using Clima.Core.DataModel.GraphModel;
-using Clima.Core.Exceptions;
 using Clima.Core.Network.Messages;
-using Clima.NetworkServer.Exceptions;
+using Clima.Core.Network.Services;
 
-namespace Clima.Core.Network.Services
+namespace GraphProviderServices
 {
     public class GraphProviderService:IGraphProviderService
     {
