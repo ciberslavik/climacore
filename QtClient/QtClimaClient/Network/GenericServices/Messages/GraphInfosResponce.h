@@ -1,10 +1,14 @@
 #pragma once
 
-#include <QSerializer>
+
 #include <QObject>
 
-class GraphInfosResponce : public QSerializer
+#include <Network/NetworkReply.h>
+
+class GraphInfosResponce : public NetworkReply
 {
+    Q_GADGET
+    QS_SERIALIZABLE
 public:
     GraphInfosResponce();
 };
