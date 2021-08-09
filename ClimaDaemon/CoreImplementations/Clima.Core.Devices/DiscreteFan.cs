@@ -1,6 +1,6 @@
 ﻿namespace Clima.Core.Devices
 {
-    public class DiscreteFan:IDiscreteFan
+    public class DiscreteFan : IDiscreteFan
     {
         public DiscreteFan()
         {
@@ -9,7 +9,7 @@
 
         public void Start()
         {
-            if(!FanRelay.RelayIsOn)
+            if (!FanRelay.RelayIsOn)
                 FanRelay.On();
         }
 

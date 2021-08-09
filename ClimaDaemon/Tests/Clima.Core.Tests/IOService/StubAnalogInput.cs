@@ -2,11 +2,11 @@
 
 namespace Clima.Core.Tests.IOService
 {
-    public class StubAnalogInput:IAnalogInput
+    public class StubAnalogInput : IAnalogInput
     {
         public PinType PinType => PinType.Analog;
         public PinDir Direction => PinDir.Input;
-        
+
         public string Description { get; set; }
         public string PinName { get; set; }
         public bool IsModified { get; }

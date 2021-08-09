@@ -11,9 +11,7 @@ using Clima.NetworkServer.Transport;
 
 namespace Clima.NetworkServer
 {
-    
-
-    public class JsonServer:IDisposable, IJsonServer
+    public class JsonServer : IDisposable, IJsonServer
     {
         private readonly IServer _server;
         private readonly INetworkSerializer _serializer;
@@ -37,7 +35,7 @@ namespace Clima.NetworkServer
         {
             _server = server ?? throw new ArgumentNullException(nameof(server));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            _messageTypeProvider = messageTypeProvider?? throw new ArgumentNullException(nameof(messageTypeProvider));
+            _messageTypeProvider = messageTypeProvider ?? throw new ArgumentNullException(nameof(messageTypeProvider));
             _executor = executor ?? throw new ArgumentNullException(nameof(executor));
             _sessionManager = sessionManager ?? new SessionManagerDefault();
             _server.MessageReceived += HandleServerMessage;
@@ -51,7 +49,7 @@ namespace Clima.NetworkServer
             var context = new RequestContext
             {
                 Server = this,
-                ConnectionId = e.ConnectionId,
+                ConnectionId = e.ConnectionId
             };
 
             try
@@ -91,7 +89,7 @@ namespace Clima.NetworkServer
                     response = new ResponseErrorMessage
                     {
                         Id = request.Id,
-                        Error = ExceptionTranslator.Translate(exception),
+                        Error = ExceptionTranslator.Translate(exception)
                     };
                 }
                 catch (Exception exception)
@@ -102,7 +100,7 @@ namespace Clima.NetworkServer
                         Id = request.Id,
                         Error = ExceptionTranslator.Translate(exception,
                             InternalErrorException.ErrorCode,
-                            "Internal server error: " + exception.Message),
+                            "Internal server error: " + exception.Message)
                     };
                 }
             }
@@ -112,7 +110,7 @@ namespace Clima.NetworkServer
                 response = new ResponseErrorMessage
                 {
                     Id = ex.MessageId,
-                    Error = ExceptionTranslator.Translate(ex),
+                    Error = ExceptionTranslator.Translate(ex)
                 };
             }
             catch (Exception ex)
@@ -122,14 +120,13 @@ namespace Clima.NetworkServer
                 {
                     Error = ExceptionTranslator.Translate(ex,
                         ParseErrorException.ErrorCode,
-                        "Parse error: " + ex.Message),
+                        "Parse error: " + ex.Message)
                 };
             }
             finally
             {
                 context.ResponseMessage = response;
                 if (request == null || !request.IsNotification)
-                {
                     try
                     {
                         var data = _serializer.Serialize(response);
@@ -141,22 +138,21 @@ namespace Clima.NetworkServer
                         var eargs = new ThreadExceptionEventArgs(exception);
                         UnhandledException?.Invoke(this, eargs);
                     }
-                }
             }
-
         }
 
         public event EventHandler<MessageEventArgs> ClientConnected
         {
-            add { _server.ClientConnected += value; }
-            remove{ _server.ClientConnected -= value; }
+            add => _server.ClientConnected += value;
+            remove => _server.ClientConnected -= value;
         }
+
         public event EventHandler<MessageEventArgs> ClientDisconnected
         {
-            add { _server.ClientDisconnected += value; }
-            remove{ _server.ClientDisconnected -= value; }
+            add => _server.ClientDisconnected += value;
+            remove => _server.ClientDisconnected -= value;
         }
-        
+
         public void Dispose()
         {
             if (!IsDisposed)

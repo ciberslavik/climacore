@@ -34,11 +34,8 @@ namespace Clima.NetworkServer.Services
             if (props != null)
             {
                 var disposables = props.Values.OfType<IDisposable>().ToArray();
-                foreach (var disposable in disposables)
-                {
-                    disposable.Dispose();
-                }
+                foreach (var disposable in disposables) disposable.Dispose();
             }
-        }           
+        }
     }
 }

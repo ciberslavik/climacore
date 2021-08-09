@@ -2,7 +2,7 @@
 
 namespace Clima.Core.Exceptions
 {
-    public class DeviceNotConfiguredException:Exception
+    public class DeviceNotConfiguredException : Exception
     {
         public DeviceNotConfiguredException()
         {
@@ -10,8 +10,6 @@ namespace Clima.Core.Exceptions
 
         public DeviceNotConfiguredException(string message) : base(message)
         {
-            
         }
-        
     }
 }

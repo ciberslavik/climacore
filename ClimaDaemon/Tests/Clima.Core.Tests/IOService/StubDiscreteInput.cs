@@ -2,7 +2,7 @@
 
 namespace Clima.Core.Tests.IOService
 {
-    public class StubDiscreteInput:IDiscreteInput
+    public class StubDiscreteInput : IDiscreteInput
     {
         public PinType PinType => PinType.Discrete;
         public PinDir Direction => PinDir.Input;

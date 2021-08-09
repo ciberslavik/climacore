@@ -2,8 +2,7 @@
 
 namespace Clima.Communication.Messages
 {
-    public class ServerInfoVersionRequest:IReturn<ServerInfoVersionResponse>
+    public class ServerInfoVersionRequest : IReturn<ServerInfoVersionResponse>
     {
-        
     }
 }

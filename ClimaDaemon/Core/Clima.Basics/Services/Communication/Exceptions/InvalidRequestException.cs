@@ -3,7 +3,7 @@ using Clima.Basics.Services.Communication.Messages;
 
 namespace Clima.Basics.Services.Communication.Exceptions
 {
-    public class InvalidRequestException:JsonServicesException
+    public class InvalidRequestException : JsonServicesException
     {
         public const int ErrorCode = -32600;
 
@@ -28,6 +28,5 @@ namespace Clima.Basics.Services.Communication.Exceptions
         {
             // for unit tests
         }
-        
     }
 }

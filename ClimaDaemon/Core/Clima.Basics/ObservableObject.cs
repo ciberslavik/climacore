@@ -1,19 +1,20 @@
-﻿
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 
 namespace Clima.Basics
 {
-    public class PropertyChangedEventArgs:EventArgs
+    public class PropertyChangedEventArgs : EventArgs
     {
         public PropertyChangedEventArgs(string propertyName)
         {
             PropertyName = propertyName;
         }
+
         public string PropertyName { get; set; }
     }
+
     public delegate void PropertyChangedEventHandler(object sender, PropertyChangedEventArgs ea);
-   
+
     public abstract class ObservableObject
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -27,6 +28,7 @@ namespace Clima.Basics
             OnPropertyChanged(propertyName);
             return true;
         }
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

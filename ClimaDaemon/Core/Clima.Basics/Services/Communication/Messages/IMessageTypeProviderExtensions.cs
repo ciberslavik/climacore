@@ -8,23 +8,17 @@ namespace Clima.Basics.Services.Communication.Messages
         public static Type GetRequestType(this IMessageTypeProvider self, string serviceName, string methodName)
         {
             var result = self.TryGetRequestType(serviceName, methodName);
-            if (result != null)
-            {
-                return result;
-            }
+            if (result != null) return result;
 
             throw new MethodNotFoundException(serviceName, methodName);
         }
+
         public static Type GetResponseType(this IMessageTypeProvider self, string serviceName, string methodName)
         {
             var result = self.TryGetResponseType(serviceName, methodName);
-            if (result != null)
-            {
-                return result;
-            }
+            if (result != null) return result;
 
             throw new MethodNotFoundException(serviceName, methodName);
         }
     }
-    
 }

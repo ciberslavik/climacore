@@ -2,7 +2,7 @@
 
 namespace Clima.Core.Devices
 {
-    public class Sensors:ISensors
+    public class Sensors : ISensors
     {
         private IAnalogInput _frontTempPin;
         private IAnalogInput _rearTempPin;
@@ -32,7 +32,7 @@ namespace Clima.Core.Devices
             {
                 _rearTempPin = value;
                 RearTemperature = _rearTempPin.Value;
-                _rearTempPin.ValueChanged += (ea) => { RearTemperature = ea.NewValue;};
+                _rearTempPin.ValueChanged += (ea) => { RearTemperature = ea.NewValue; };
             }
         }
 
@@ -45,7 +45,6 @@ namespace Clima.Core.Devices
                 OutdoorTemperature = _outdoorTempPin.Value;
                 _outdoorTempPin.ValueChanged += (ea) => { OutdoorTemperature = ea.NewValue; };
             }
-
         }
 
         internal IAnalogInput HumidityPin
@@ -71,9 +70,9 @@ namespace Clima.Core.Devices
         }
 
         public double FrontTemperature { get; private set; }
-        public double RearTemperature { get; private set;}
-        public double OutdoorTemperature { get; private set;}
-        public double Humidity { get; private set;}
-        public double Pressure { get; private set;}
+        public double RearTemperature { get; private set; }
+        public double OutdoorTemperature { get; private set; }
+        public double Humidity { get; private set; }
+        public double Pressure { get; private set; }
     }
 }

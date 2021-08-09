@@ -9,15 +9,10 @@ namespace Clima.AgavaModBusIO.Configuration
     {
         public static ModbusConfig CreateDefault()
         {
-            string portName = "";
+            var portName = "";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
                 portName = "/dev/ttyUSB1";
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                portName = "COM2";
-            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) portName = "COM2";
 
             return new ModbusConfig()
             {
@@ -50,6 +45,5 @@ namespace Clima.AgavaModBusIO.Configuration
 
         public Dictionary<string, AgavaAnalogInType> AnalogInputsTypes { get; set; }
         public Dictionary<string, AgavaAnalogOutType> AnalogOutputTypes { get; set; }
-        
-}
+    }
 }

@@ -14,25 +14,20 @@ namespace Clima.Communication
         public ConcurrentDictionary<string, Type> ResponseTypes { get; } =
             new ConcurrentDictionary<string, Type>();
     }
-    public class MessageTypeProvider:IMessageTypeProvider
+
+    public class MessageTypeProvider : IMessageTypeProvider
     {
         public MessageTypeProvider()
         {
-            
         }
 
         private ConcurrentDictionary<string, MessageUnit> Services { get; } =
             new ConcurrentDictionary<string, MessageUnit>();
-        
-        
+
 
         public void Register(string serviceName, string methodName, Type requestType, Type responseType = null)
         {
-            
-            if (!Services.ContainsKey(serviceName))
-            {
-                Services.TryAdd(serviceName, new MessageUnit());
-            }
+            if (!Services.ContainsKey(serviceName)) Services.TryAdd(serviceName, new MessageUnit());
 
             if (Services.TryGetValue(serviceName, out var msgUnit))
             {
@@ -40,15 +35,13 @@ namespace Clima.Communication
                 msgUnit.ResponseTypes[methodName] = responseType;
             }
         }
-        
+
 
         public Type TryGetRequestType(string serviceName, string methodName)
         {
             if (Services.TryGetValue(serviceName, out var msgUnit))
-            {
                 if (msgUnit.RequestTypes.TryGetValue(methodName, out var result))
                     return result;
-            }
 
             return null;
         }
@@ -56,13 +49,12 @@ namespace Clima.Communication
         public Type TryGetResponseType(string serviceName, string methodName)
         {
             if (Services.TryGetValue(serviceName, out var msgUnit))
-            {
                 if (msgUnit.ResponseTypes.TryGetValue(methodName, out var result))
                     return result;
-            }
 
             return null;
         }
+
         public virtual string IReturnVoidInterfaceName { get; set; } = "IReturnVoid";
 
         public virtual string IReturnInterfaceName { get; set; } = "IReturn`1";
@@ -73,27 +65,18 @@ namespace Clima.Communication
             var retTypes =
                 from inter in requestType.GetTypeInfo().GetInterfaces()
                 where
-                    (inter.Name == IReturnVoidInterfaceName && !inter.IsGenericType) ||
-                    (inter.Name == IReturnInterfaceName && inter.IsGenericType)
+                    inter.Name == IReturnVoidInterfaceName && !inter.IsGenericType ||
+                    inter.Name == IReturnInterfaceName && inter.IsGenericType
                 select inter;
 
             var retType = retTypes.FirstOrDefault();
-            if (retType == null)
-            {
-                return null;
-            }
+            if (retType == null) return null;
 
-            if (retType.Name == IReturnVoidInterfaceName)
-            {
-                return typeof(void);
-            }
+            if (retType.Name == IReturnVoidInterfaceName) return typeof(void);
 
-            if (retType.IsGenericType)
-            {
-                return retType.GetGenericArguments().Single();
-            }
+            if (retType.IsGenericType) return retType.GetGenericArguments().Single();
 
             return null;
-        }            
+        }
     }
 }

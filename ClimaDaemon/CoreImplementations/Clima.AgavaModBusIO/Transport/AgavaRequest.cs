@@ -12,11 +12,13 @@ namespace Clima.AgavaModBusIO.Transport
         WriteMultipleCoils = 0x0F,
         WriteMultipleRegisters = 0x10
     }
+
     public class AgavaRequest
     {
         public AgavaRequest()
         {
         }
+
         public RequestType RequestType { get; set; }
         public byte ModuleID { get; set; }
         public ushort RegisterAddress { get; set; }
@@ -32,7 +34,8 @@ namespace Clima.AgavaModBusIO.Transport
                               $"  DataCount:{DataCount}");
         }
 
-        private static AgavaRequest CreateRequest(byte moduleId, ushort regAddress, ushort dataCount, RequestType requestType, ushort[] data)
+        private static AgavaRequest CreateRequest(byte moduleId, ushort regAddress, ushort dataCount,
+            RequestType requestType, ushort[] data)
         {
             var request = new AgavaRequest();
             request.ModuleID = moduleId;
@@ -42,22 +45,25 @@ namespace Clima.AgavaModBusIO.Transport
             request.Data = data;
             return request;
         }
+
         public static AgavaRequest ReadInputRegisterRequest(byte moduleId, ushort regAddress, ushort dataCount)
         {
             var request = CreateRequest(moduleId, regAddress, dataCount,
-                RequestType.ReadInputRegisters,null);
+                RequestType.ReadInputRegisters, null);
             request.RequestType = RequestType.ReadInputRegisters;
 
             return request;
         }
+
         public static AgavaRequest ReadHoldingRegisterRequest(byte moduleId, ushort regAddress, ushort dataCount)
         {
             var request = CreateRequest(moduleId, regAddress, dataCount,
-                RequestType.ReadInputRegisters,null);
+                RequestType.ReadInputRegisters, null);
             request.RequestType = RequestType.ReadHoldingRegisters;
 
             return request;
         }
+
         public static AgavaRequest WriteHoldingRegisterRequest(byte moduleId, ushort regAddress, ushort[] data)
         {
             var request = CreateRequest(moduleId, regAddress, 1,

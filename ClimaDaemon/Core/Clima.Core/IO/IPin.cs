@@ -5,15 +5,17 @@ namespace Clima.Core.IO
         Discrete,
         Analog
     }
+
     public enum PinDir
     {
         Input,
         Output
     }
+
     public interface IPin
     {
-        PinType PinType{get;}
-        PinDir Direction{get;}
+        PinType PinType { get; }
+        PinDir Direction { get; }
         string Description { get; set; }
         string PinName { get; set; }
         public bool IsModified { get; }

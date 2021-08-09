@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Clima.NetworkServer.Transport
 {
-    public interface IServer:IDisposable
+    public interface IServer : IDisposable
     {
         void Start();
         void Stop();
@@ -14,6 +14,5 @@ namespace Clima.NetworkServer.Transport
         event EventHandler<MessageEventArgs> ClientDisconnected;
         IConnection TryGetConnection(string connectionId);
         IEnumerable<IConnection> Connections { get; }
-        
     }
 }

@@ -3,6 +3,6 @@
     public class StubDOUTConfig
     {
         public string PinName { get; set; }
-                public int PinNumberInModule { get; set; }
+        public int PinNumberInModule { get; set; }
     }
 }

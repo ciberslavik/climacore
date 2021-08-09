@@ -2,8 +2,7 @@
 
 namespace Clima.Core.Devices.Network.Messages
 {
-    public class SensorsServiceReadRequest:IReturn<SensorsServiceReadResponse>
+    public class SensorsServiceReadRequest : IReturn<SensorsServiceReadResponse>
     {
-        
     }
 }

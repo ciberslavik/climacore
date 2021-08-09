@@ -13,6 +13,7 @@
             RequestType = request.RequestType;
             DataCount = request.DataCount;
         }
+
         public RequestType RequestType { get; set; }
         public byte ModuleID { get; set; }
         public ushort RegisterAddress { get; set; }

@@ -2,12 +2,10 @@
 
 namespace Clima.Core.Network.Messages
 {
-    public class GraphInfosRequest:IReturn<GraphInfosResponse>
+    public class GraphInfosRequest : IReturn<GraphInfosResponse>
     {
         public GraphInfosRequest()
         {
         }
-
-        
     }
 }

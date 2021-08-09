@@ -9,22 +9,27 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         private byte[] _data;
         private long _size;
         private long _offset;
+
         /// <summary>
         /// Is the buffer empty?
         /// </summary>
-        public bool IsEmpty => (_data == null) || (_size == 0);
+        public bool IsEmpty => _data == null || _size == 0;
+
         /// <summary>
         /// Bytes memory buffer
         /// </summary>
         public byte[] Data => _data;
+
         /// <summary>
         /// Bytes memory buffer capacity
         /// </summary>
         public long Capacity => _data.Length;
+
         /// <summary>
         /// Bytes memory buffer size
         /// </summary>
         public long Size => _size;
+
         /// <summary>
         /// Bytes memory buffer offset
         /// </summary>
@@ -34,19 +39,36 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         /// Buffer indexer operator
         /// </summary>
         public byte this[int index] => _data[index];
-        
+
         /// <summary>
         /// Initialize a new expandable buffer with zero capacity
         /// </summary>
-        public Buffer() { _data = new byte[0]; _size = 0; _offset = 0; }
+        public Buffer()
+        {
+            _data = new byte[0];
+            _size = 0;
+            _offset = 0;
+        }
+
         /// <summary>
         /// Initialize a new expandable buffer with the given capacity
         /// </summary>
-        public Buffer(long capacity) { _data = new byte[capacity]; _size = 0; _offset = 0; }
+        public Buffer(long capacity)
+        {
+            _data = new byte[capacity];
+            _size = 0;
+            _offset = 0;
+        }
+
         /// <summary>
         /// Initialize a new expandable buffer with the given data
         /// </summary>
-        public Buffer(byte[] data) { _data = data; _size = data.Length; _offset = 0; }
+        public Buffer(byte[] data)
+        {
+            _data = data;
+            _size = data.Length;
+            _offset = 0;
+        }
 
         #region Memory buffer methods
 
@@ -70,11 +92,11 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         /// </summary>
         public string ExtractString(long offset, long size)
         {
-            Debug.Assert(((offset + size) <= Size), "Invalid offset & size!");
-            if ((offset + size) > Size)
+            Debug.Assert(offset + size <= Size, "Invalid offset & size!");
+            if (offset + size > Size)
                 throw new ArgumentException("Invalid offset & size!", nameof(offset));
 
-            return Encoding.UTF8.GetString(_data, (int)offset, (int)size);
+            return Encoding.UTF8.GetString(_data, (int) offset, (int) size);
         }
 
         /// <summary>
@@ -82,14 +104,16 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         /// </summary>
         public void Remove(long offset, long size)
         {
-            Debug.Assert(((offset + size) <= Size), "Invalid offset & size!");
-            if ((offset + size) > Size)
+            Debug.Assert(offset + size <= Size, "Invalid offset & size!");
+            if (offset + size > Size)
                 throw new ArgumentException("Invalid offset & size!", nameof(offset));
 
             Array.Copy(_data, offset + size, _data, offset, _size - size - offset);
             _size -= size;
-            if (_offset >= (offset + size))
+            if (_offset >= offset + size)
+            {
                 _offset -= size;
+            }
             else if (_offset >= offset)
             {
                 _offset -= _offset - offset;
@@ -103,13 +127,13 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         /// </summary>
         public void Reserve(long capacity)
         {
-            Debug.Assert((capacity >= 0), "Invalid reserve capacity!");
+            Debug.Assert(capacity >= 0, "Invalid reserve capacity!");
             if (capacity < 0)
                 throw new ArgumentException("Invalid reserve capacity!", nameof(capacity));
 
             if (capacity > Capacity)
             {
-                byte[] data = new byte[Math.Max(capacity, 2 * Capacity)];
+                var data = new byte[Math.Max(capacity, 2 * Capacity)];
                 Array.Copy(_data, 0, data, 0, _size);
                 _data = data;
             }
@@ -125,9 +149,16 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         }
 
         // Shift the current buffer offset
-        public void Shift(long offset) { _offset += offset; }
+        public void Shift(long offset)
+        {
+            _offset += offset;
+        }
+
         // Unshift the current buffer offset
-        public void Unshift(long offset) { _offset -= offset; }
+        public void Unshift(long offset)
+        {
+            _offset -= offset;
+        }
 
         #endregion
 
@@ -169,12 +200,11 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         public long Append(string text)
         {
             Reserve(_size + Encoding.UTF8.GetMaxByteCount(text.Length));
-            long result = Encoding.UTF8.GetBytes(text, 0, text.Length, _data, (int)_size);
+            long result = Encoding.UTF8.GetBytes(text, 0, text.Length, _data, (int) _size);
             _size += result;
             return result;
         }
 
         #endregion
-                          
     }
 }

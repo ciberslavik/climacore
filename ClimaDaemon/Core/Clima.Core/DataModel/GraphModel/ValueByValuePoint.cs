@@ -1,6 +1,6 @@
 ﻿namespace Clima.Core.DataModel.GraphModel
 {
-    public class ValueByValuePoint:GraphPointBase
+    public class ValueByValuePoint : GraphPointBase
     {
         public ValueByValuePoint()
         {

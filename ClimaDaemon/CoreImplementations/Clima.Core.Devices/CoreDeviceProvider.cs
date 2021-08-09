@@ -8,23 +8,26 @@ using Clima.Core.IO;
 
 namespace Clima.Core.Devices
 {
-    public class CoreDeviceProvider:IDeviceProvider
+    public class CoreDeviceProvider : IDeviceProvider
     {
         private readonly IConfigurationStorage _configStorage;
         private readonly IIOService _ioService;
         private DeviceProviderConfig _config;
-        
+
         private readonly Dictionary<string, IRelay> _relays = new Dictionary<string, IRelay>();
         private readonly Dictionary<string, IFrequencyConverter> _fcs = new Dictionary<string, IFrequencyConverter>();
         private readonly Dictionary<string, IServoDrive> _servos = new Dictionary<string, IServoDrive>();
         private ISensors _sensors;
+
         public CoreDeviceProvider(IIOService ioService)
         {
             _configStorage = ClimaContext.Current.ConfigurationStorage;
             _ioService = ioService ?? throw new ArgumentNullException(nameof(ioService));
-            
-            if(_configStorage.Exist(DeviceProviderConfig.FileName))
+
+            if (_configStorage.Exist(DeviceProviderConfig.FileName))
+            {
                 _config = _configStorage.GetConfig<DeviceProviderConfig>(DeviceProviderConfig.FileName);
+            }
             else
             {
                 _config = DeviceProviderConfig.CreateDefault();
@@ -73,6 +76,7 @@ namespace Clima.Core.Devices
                 servo.Configuration = servoConfig;
                 return servo;
             }
+
             throw new KeyNotFoundException(servoName);
         }
 
@@ -90,7 +94,9 @@ namespace Clima.Core.Devices
                 return s;
             }
             else
+            {
                 return _sensors;
+            }
         }
 
         public ISystemLogger Logger { get; set; }
@@ -122,6 +128,7 @@ namespace Clima.Core.Devices
 
                     converter = dev;
                 }
+
                 return converter;
             }
 

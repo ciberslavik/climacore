@@ -3,16 +3,21 @@ using Clima.Basics.Configuration;
 
 namespace Clima.Core.Devices.Configuration
 {
-    public class DeviceProviderConfig:IConfigurationItem
+    public class DeviceProviderConfig : IConfigurationItem
     {
-        private readonly Dictionary<string, MonitoredRelayConfig> _monitoredRelays = new Dictionary<string, MonitoredRelayConfig>();
-        private readonly Dictionary<string, FrequencyConverterConfig> _frequencyConverters = new Dictionary<string, FrequencyConverterConfig>();
+        private readonly Dictionary<string, MonitoredRelayConfig> _monitoredRelays =
+            new Dictionary<string, MonitoredRelayConfig>();
+
+        private readonly Dictionary<string, FrequencyConverterConfig> _frequencyConverters =
+            new Dictionary<string, FrequencyConverterConfig>();
+
         private readonly Dictionary<string, FanConfig> _fans = new Dictionary<string, FanConfig>();
         private readonly Dictionary<string, ServoConfig> _servos = new Dictionary<string, ServoConfig>();
+
         public DeviceProviderConfig()
         {
         }
-        
+
         public Dictionary<string, MonitoredRelayConfig> MonitoredRelays => _monitoredRelays;
 
         public Dictionary<string, FrequencyConverterConfig> FrequencyConverters => _frequencyConverters;
@@ -26,17 +31,18 @@ namespace Clima.Core.Devices.Configuration
         internal static DeviceProviderConfig CreateDefault()
         {
             var config = new DeviceProviderConfig();
-            for (int i = 0; i < 2; i++)
+            for (var i = 0; i < 2; i++)
             {
                 var converter = new FrequencyConverterConfig();
                 var convName = $"FC:{i}";
                 converter.ConverterName = convName;
                 converter.AnalogPinName = $"AO:1:{i}";
                 converter.ConverterType = ConverterType.Thyristor;
-                
+
                 config._frequencyConverters.Add(convName, converter);
             }
-            for (int i = 0; i < 8; i++)
+
+            for (var i = 0; i < 8; i++)
             {
                 var relay = new MonitoredRelayConfig();
                 var relayName = $"REL:{i}";
@@ -54,13 +60,13 @@ namespace Clima.Core.Devices.Configuration
             fanConfig.Performance = 15000;
             fanConfig.StartPower = 0.1;
             fanConfig.StopPower = 0.05;
-            
+
             fanConfig.FanType = FanType.Analog;
             fanConfig.FrequencyConverterName = "FC:0";
             config.Fans.Add(fanConfig.FanName, fanConfig);
-            
-            config.Servos.Add("SERVO:0",ServoConfig.CreateDefault(0));
-            
+
+            config.Servos.Add("SERVO:0", ServoConfig.CreateDefault(0));
+
             config.Sensors = SensorsConfig.CreateDefault();
             return config;
         }

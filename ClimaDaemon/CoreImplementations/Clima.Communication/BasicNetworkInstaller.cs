@@ -10,38 +10,13 @@ using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
 namespace Clima.Communication
 {
-    public class BasicNetworkInstaller:INetworkInstaller
+    public class BasicNetworkInstaller : INetworkInstaller
     {
         public ISystemLogger Logger { get; set; }
-        public void RegisterServices(IServiceProvider provider)
-        {
-            Logger.Debug("BasicNetworkInstaller");
-            provider.Register<IServerInfoService, ServerInfoService>();
-        }
 
-        public void RegisterMessages(IMessageTypeProvider messageProvider)
+        public void InstallServices(INetworkServiceRegistrator registrator)
         {
-            messageProvider.Register(
-                nameof(ServerInfoService), 
-                nameof(ServerInfoService.GetServerVersion),
-                typeof(ServerInfoVersionRequest),
-                typeof(ServerInfoVersionResponse));
-        }
-
-        public void RegisterHandlers(IServiceExecutor serviceExecutor, IServiceProvider provider)
-        {
-            serviceExecutor.RegisterHandler(
-                nameof(ServerInfoService),
-                nameof(ServerInfoService.GetServerVersion),
-                p =>
-                {
-                    if (p is ServerInfoVersionRequest request)
-                    {
-                        return provider.Resolve<IServerInfoService>().GetServerVersion(request);
-                    }
-
-                    throw new InvalidRequestException($"Request is not a {nameof(ServerInfoVersionRequest)}");
-                });
+            registrator.RegisterNetworkService<ServerInfoService>();
         }
     }
 }

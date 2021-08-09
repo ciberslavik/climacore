@@ -22,31 +22,32 @@ namespace Clima.ServiceContainer.CastleWindsor
         private IServiceProvider _serviceProvider;
         private IJsonServer _server;
         private IClimaSheduler _sheduler;
+
         public ApplicationBuilder()
         {
-            
         }
+
         public void Initialize()
         {
             _container = new WindsorContainer();
             //Register logger
             _container.Register(Component.For<ISystemLogger>().ImplementedBy<ConsoleSystemLogger>());
-            
+
             _container.Install(new BasicsInstaller());
-            
+
             //if parameter is true then stub io service else real io service
             _container.Install(new CoreServicesInstaller(true));
-            
+
             _serviceProvider = new CastleServiceProvider(_container);
             _container.Register(Component.For<IServiceProvider>().Instance(_serviceProvider));
-            
-            
+
+
             ClimaContext.InitContext(_serviceProvider);
 
             _container.Install(new NetworkInstaller());
 
             _server = _container.Resolve<IJsonServer>();
-            
+
             /*var devProvider = _container.Resolve<IDeviceProvider>();
             
             var relay = devProvider.GetRelay("REL:0");
@@ -64,11 +65,10 @@ namespace Clima.ServiceContainer.CastleWindsor
             _sensors = devProvider.GetSensors();
             _servo = devProvider.GetServo("SERVO:0");
             _servo.SetPosition(23.2);*/
-            
         }
 
         public async void ProcessSheduler()
-        { 
+        {
             _sheduler.Process();
         }
     }

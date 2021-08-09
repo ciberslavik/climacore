@@ -6,7 +6,6 @@ namespace Clima.AgavaModBusIO.Model
 {
     public class AgavaAInput : AgavaPinBase, IAnalogInput
     {
-
         private AgavaAnalogInType _inputType;
         private IAnalogValueConverter _valueConverter;
         private double _value;

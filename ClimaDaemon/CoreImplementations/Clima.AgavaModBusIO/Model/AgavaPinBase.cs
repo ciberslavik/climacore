@@ -3,19 +3,18 @@ using Clima.Core.IO;
 
 namespace Clima.AgavaModBusIO.Model
 {
-    public abstract class AgavaPinBase:IPin
+    public abstract class AgavaPinBase : IPin
     {
         private string _description;
         private string _pinName;
         protected bool _isModified;
-        
+
         protected byte _moduleId;
         protected ushort _regAddress;
         protected int _pinNumberInModule;
 
         protected AgavaPinBase()
         {
-            
         }
 
 
@@ -35,7 +34,6 @@ namespace Clima.AgavaModBusIO.Model
             set => _pinName = value;
         }
 
-        
 
         public virtual bool IsModified => _isModified;
 

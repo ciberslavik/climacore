@@ -3,7 +3,7 @@ using Clima.Core.IO;
 
 namespace Clima.Core.Devices
 {
-    public class ThyristorConverter:IFrequencyConverter
+    public class ThyristorConverter : IFrequencyConverter
     {
         public void Start()
         {
@@ -21,7 +21,7 @@ namespace Clima.Core.Devices
         }
 
         public double Power { get; }
-        
+
         internal FrequencyConverterConfig Configuration { get; set; }
         internal IAnalogOutput AnalogPin { get; set; }
     }

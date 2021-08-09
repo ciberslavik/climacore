@@ -3,7 +3,8 @@
 namespace Clima.Core.IO
 {
     public delegate void AnalogPinValueChangedEventHandler(AnalogPinValueChangedEventArgs ea);
-    public class AnalogPinValueChangedEventArgs:EventArgs
+
+    public class AnalogPinValueChangedEventArgs : EventArgs
     {
         private IPin _pin;
         private double _prevValue;

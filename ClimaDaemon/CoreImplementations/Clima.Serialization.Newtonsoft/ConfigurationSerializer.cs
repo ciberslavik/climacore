@@ -4,9 +4,10 @@ using Newtonsoft.Json;
 
 namespace Clima.Serialization.Newtonsoft
 {
-    public class ConfigurationSerializer:IConfigurationSerializer
+    public class ConfigurationSerializer : IConfigurationSerializer
     {
         private JsonSerializerSettings Settings;
+
         public ConfigurationSerializer()
         {
             Settings = new JsonSerializerSettings()

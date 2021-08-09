@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Clima.Basics.Services
 {
-    public class DefaultFileSystem:IFileSystem
+    public class DefaultFileSystem : IFileSystem
     {
         public DefaultFileSystem()
         {
@@ -12,6 +12,7 @@ namespace Clima.Basics.Services
             _dataStoragePath = Path.Combine(_appBasePath, "Data");
             _configurationPath = Path.Combine(_dataStoragePath, "Config");
         }
+
         private readonly string _appBasePath;
         private readonly string _dataStoragePath;
         private string _configurationPath;
@@ -26,7 +27,7 @@ namespace Clima.Basics.Services
         {
             return Directory.Exists(path);
         }
-        
+
 
         public bool FileExist(string path)
         {

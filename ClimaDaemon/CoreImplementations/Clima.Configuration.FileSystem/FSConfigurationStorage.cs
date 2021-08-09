@@ -17,11 +17,8 @@ namespace Clima.Configuration.FileSystem
             _serializer = serializer;
             _fs = fs;
 
-            if (!_fs.FolderExist(_fs.ConfigurationPath))
-            {
-                _fs.CreateDirectory(_fs.ConfigurationPath);
-            }
-            
+            if (!_fs.FolderExist(_fs.ConfigurationPath)) _fs.CreateDirectory(_fs.ConfigurationPath);
+
             _loaded = new Dictionary<string, IConfigurationItem>();
         }
 
@@ -42,20 +39,20 @@ namespace Clima.Configuration.FileSystem
 
         public void RegisterConfig<ConfigT>(ConfigT instance) where ConfigT : IConfigurationItem, new()
         {
-            string configName = typeof(ConfigT).FullName;
+            var configName = typeof(ConfigT).FullName;
             RegisterConfig(configName, instance);
         }
 
         public void RegisterConfig<ConfigT>(string name, ConfigT instance) where ConfigT : IConfigurationItem, new()
         {
-            if(_loaded.ContainsKey(name))
+            if (_loaded.ContainsKey(name))
                 return;
-            
-            string fileName = name + _serializer.DataExtension;
+
+            var fileName = name + _serializer.DataExtension;
             if (instance != null)
             {
-                string data = _serializer.Serialize(instance);
-                string fullPath = Path.Combine(_fs.ConfigurationPath, fileName);
+                var data = _serializer.Serialize(instance);
+                var fullPath = Path.Combine(_fs.ConfigurationPath, fileName);
                 _fs.WriteTextFile(fullPath, data);
                 _loaded.Add(name, instance);
             }
@@ -63,7 +60,7 @@ namespace Clima.Configuration.FileSystem
 
         public ConfigT GetConfig<ConfigT>() where ConfigT : IConfigurationItem, new()
         {
-            string configName = typeof(ConfigT).FullName;
+            var configName = typeof(ConfigT).FullName;
 
             return GetConfig<ConfigT>(configName);
         }
@@ -71,13 +68,13 @@ namespace Clima.Configuration.FileSystem
         public ConfigT GetConfig<ConfigT>(string name) where ConfigT : IConfigurationItem, new()
         {
             if (_loaded.ContainsKey(name))
-                return (ConfigT)_loaded[name];
-            
-            string filePath = Path.Combine(_fs.ConfigurationPath, (name + _serializer.DataExtension));
+                return (ConfigT) _loaded[name];
+
+            var filePath = Path.Combine(_fs.ConfigurationPath, name + _serializer.DataExtension);
             var retValue = default(ConfigT);
             if (_fs.FileExist(filePath))
             {
-                string data = _fs.ReadTextFile(filePath);
+                var data = _fs.ReadTextFile(filePath);
                 try
                 {
                     retValue = _serializer.Deserialize<ConfigT>(data);
@@ -95,22 +92,22 @@ namespace Clima.Configuration.FileSystem
 
         private void SaveToFile(IConfigurationItem item, string name)
         {
-            string fileName = name + _serializer.DataExtension;
+            var fileName = name + _serializer.DataExtension;
 
-            string data = _serializer.Serialize(item);
-            string fullPath = Path.Combine(_fs.ConfigurationPath, fileName);
+            var data = _serializer.Serialize(item);
+            var fullPath = Path.Combine(_fs.ConfigurationPath, fileName);
             _fs.WriteTextFile(fullPath, data);
         }
 
         public bool Exist<ConfigT>() where ConfigT : IConfigurationItem, new()
         {
-            string configName = typeof(ConfigT).FullName;
+            var configName = typeof(ConfigT).FullName;
             return Exist(configName);
         }
 
         public bool Exist(string name)
         {
-            string filePath = Path.Combine(_fs.ConfigurationPath, name + _serializer.DataExtension);
+            var filePath = Path.Combine(_fs.ConfigurationPath, name + _serializer.DataExtension);
             if (_fs.FileExist(filePath))
                 return true;
             else
@@ -119,10 +116,7 @@ namespace Clima.Configuration.FileSystem
 
         public void Save()
         {
-            foreach (var configItem in _loaded)
-            {
-                SaveToFile(configItem.Value, configItem.Key);
-            }
+            foreach (var configItem in _loaded) SaveToFile(configItem.Value, configItem.Key);
         }
     }
 }

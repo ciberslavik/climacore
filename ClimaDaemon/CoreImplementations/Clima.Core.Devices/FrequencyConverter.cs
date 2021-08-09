@@ -2,7 +2,7 @@
 
 namespace Clima.Core.Devices
 {
-    public class FrequencyConverter:IFrequencyConverter
+    public class FrequencyConverter : IFrequencyConverter
     {
         public FrequencyConverter()
         {

@@ -9,6 +9,5 @@ namespace Clima.Core.Devices
         void On();
         void Off();
         bool RelayIsOn { get; }
-        
     }
 }

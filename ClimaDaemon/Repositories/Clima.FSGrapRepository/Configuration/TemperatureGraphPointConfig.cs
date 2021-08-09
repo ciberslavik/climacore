@@ -2,16 +2,19 @@
 
 namespace Clima.FSGrapRepository.Configuration
 {
-    public class TemperatureGraphPointConfig:IGraphPointConfig<TemperatureGraphPointConfig>, IComparable<TemperatureGraphPointConfig>
+    public class TemperatureGraphPointConfig : IGraphPointConfig<TemperatureGraphPointConfig>,
+        IComparable<TemperatureGraphPointConfig>
     {
         public TemperatureGraphPointConfig()
         {
         }
-        public TemperatureGraphPointConfig(int day,float temperature)
+
+        public TemperatureGraphPointConfig(int day, float temperature)
         {
             Day = day;
             Temperature = temperature;
         }
+
         public int Day { get; set; }
         public float Temperature { get; set; }
 

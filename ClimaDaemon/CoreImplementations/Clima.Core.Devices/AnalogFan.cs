@@ -2,9 +2,10 @@
 
 namespace Clima.Core.Devices
 {
-    public class AnalogFan:IAnalogFan
+    public class AnalogFan : IAnalogFan
     {
         private FanConfig _config;
+
         internal AnalogFan(FanConfig config)
         {
             _config = config;
@@ -25,9 +26,7 @@ namespace Clima.Core.Devices
 
 
         public double Power { get; set; }
-        
-        public IFrequencyConverter FrequencyConverter { get; set; }
 
-        
+        public IFrequencyConverter FrequencyConverter { get; set; }
     }
 }

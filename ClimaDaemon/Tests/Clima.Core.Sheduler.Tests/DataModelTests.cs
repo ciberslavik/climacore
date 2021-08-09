@@ -9,6 +9,7 @@ namespace Clima.Core.Sheduler.Tests
     public class DataModelTests
     {
         private IConfigurationSerializer _serializer;
+
         [SetUp]
         public void Setup()
         {

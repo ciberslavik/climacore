@@ -2,7 +2,7 @@
 
 namespace Clima.Core.Network.Messages
 {
-    public class GetGraphRequest<TResp>:IReturn<TResp>
+    public class GetGraphRequest<TResp> : IReturn<TResp>
     {
         public GetGraphRequest()
         {

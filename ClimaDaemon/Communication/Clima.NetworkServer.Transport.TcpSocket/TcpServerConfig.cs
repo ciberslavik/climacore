@@ -12,8 +12,8 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
         public static TcpServerConfig CreateDefault(string host, int port)
         {
-            TcpServerConfig config = new TcpServerConfig();
-            
+            var config = new TcpServerConfig();
+
             config.HsotName = host;
             config.Port = port;
             config.MaxClientConnections = 3;

@@ -7,7 +7,7 @@ using NModbus.Serial;
 
 namespace Clima.AgavaModBusIO.Transport
 {
-    public class AgavaModbusRTUMaster:IAgavaMaster
+    public class AgavaModbusRTUMaster : IAgavaMaster
     {
         private IModbusMaster _master;
         public SerialPort Port { get; }
@@ -15,34 +15,33 @@ namespace Clima.AgavaModBusIO.Transport
         public AgavaModbusRTUMaster(SerialPort port)
         {
             Port = port;
-            
+
             var factory = new ModbusFactory();
             var transport = factory.CreateRtuTransport(Port);
             _master = factory.CreateMaster(transport);
-            
         }
 
         public AgavaReply WriteRequest(AgavaRequest request)
         {
-            AgavaReply reply = new AgavaReply(request);
+            var reply = new AgavaReply(request);
             switch (request.RequestType)
             {
                 case RequestType.ReadCoils:
+                {
+                    try
                     {
-                        try
-                        {
-                            reply.Coils = _master.ReadCoils(request.ModuleID, request.RegisterAddress,
-                                request.DataCount);
-                            reply.DataCount = (ushort) reply.Coils.Length;
-                            reply.ReplyTimeout = false;
-                        }
-                        catch (TimeoutException e)
-                        {
-                            reply.ReplyTimeout = true;
-                        }
-
-                        OnReplyReceived(new ReplyReceivedEventArgs(reply));
+                        reply.Coils = _master.ReadCoils(request.ModuleID, request.RegisterAddress,
+                            request.DataCount);
+                        reply.DataCount = (ushort) reply.Coils.Length;
+                        reply.ReplyTimeout = false;
                     }
+                    catch (TimeoutException e)
+                    {
+                        reply.ReplyTimeout = true;
+                    }
+
+                    OnReplyReceived(new ReplyReceivedEventArgs(reply));
+                }
                     break;
                 case RequestType.ReadHoldingRegisters:
                 {
@@ -152,10 +151,16 @@ namespace Clima.AgavaModBusIO.Transport
         }
 
         public event ReplyReceivedEventHandler ReplyReceived;
-        public int ReadTimeout { get=>_master.Transport.ReadTimeout;
+
+        public int ReadTimeout
+        {
+            get => _master.Transport.ReadTimeout;
             set => _master.Transport.ReadTimeout = value;
         }
-        public int WriteTimeout { get=>_master.Transport.WriteTimeout;
+
+        public int WriteTimeout
+        {
+            get => _master.Transport.WriteTimeout;
             set => _master.Transport.WriteTimeout = value;
         }
 

@@ -7,7 +7,7 @@ namespace Clima.Core.IO
         void Stop();
         bool IsInit { get; }
         bool IsRunning { get; }
-        
+
         IOPinCollection Pins { get; }
     }
 }

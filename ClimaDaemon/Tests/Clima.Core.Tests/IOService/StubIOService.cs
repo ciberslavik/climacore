@@ -5,11 +5,11 @@ using Clima.Core.Tests.IOService.Configurations;
 
 namespace Clima.Core.Tests.IOService
 {
-    public class StubIOService:IIOService
+    public class StubIOService : IIOService
     {
         private readonly IConfigurationStorage _configStore;
         private StubIOServiceConfig _config;
-        
+
         public StubIOService(IConfigurationStorage configStore)
         {
             _configStore = configStore;
@@ -22,8 +22,8 @@ namespace Clima.Core.Tests.IOService
                 _config = StubIOServiceConfig.CreateDefault();
                 _configStore.RegisterConfig("StubIOConfig", _config);
             }
-            
         }
+
         public void Init()
         {
             Pins = new IOPinCollection();
@@ -42,6 +42,7 @@ namespace Clima.Core.Tests.IOService
                 analogIn.Value = aiConfig.Value;
                 Pins.AnalogInputs.Add(aiConfig.PinName, analogIn);
             }
+
             Console.WriteLine("Stub IO Service initialised");
         }
 

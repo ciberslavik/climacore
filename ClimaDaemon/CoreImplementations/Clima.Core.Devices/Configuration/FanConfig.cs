@@ -27,6 +27,7 @@
             StartPower = state.StartValue;
             StopPower = state.StopValue;
         }
+
         public FanState CreateFanState()
         {
             var state = new FanState();
