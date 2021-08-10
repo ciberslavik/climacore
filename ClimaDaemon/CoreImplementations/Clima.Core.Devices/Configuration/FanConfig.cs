@@ -12,8 +12,8 @@
         public int FanPriority { get; set; }
         public bool Hermetise { get; set; }
         public bool Disabled { get; set; }
-        public double StartPower { get; set; }
-        public double StopPower { get; set; }
+        public float StartPower { get; set; }
+        public float StopPower { get; set; }
 
         public void LoadFromState(FanState state)
         {

@@ -14,7 +14,7 @@
         public int FansCount { get; set; }
         public int Priority { get; set; }
 
-        public double StartValue { get; set; }
-        public double StopValue { get; set; }
+        public float StartValue { get; set; }
+        public float StopValue { get; set; }
     }
 }

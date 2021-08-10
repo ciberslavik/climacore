@@ -58,8 +58,8 @@ namespace Clima.Core.Devices.Configuration
             fanConfig.FanPriority = 1;
             fanConfig.FansCount = 2;
             fanConfig.Performance = 15000;
-            fanConfig.StartPower = 0.1;
-            fanConfig.StopPower = 0.05;
+            fanConfig.StartPower = 0.1f;
+            fanConfig.StopPower = 0.05f;
 
             fanConfig.FanType = FanType.Analog;
             fanConfig.FrequencyConverterName = "FC:0";

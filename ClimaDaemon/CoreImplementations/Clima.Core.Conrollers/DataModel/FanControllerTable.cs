@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
-namespace Clima.Core.Conrollers.Ventilation
+namespace Clima.Core.Conrollers.Ventilation.DataModel
 {
-    internal class FanControllerTable
+    internal class FanControllerTable:IEnumerable<FanControllerTableItem>
     {
         private List<FanControllerTableItem> _fanTable;
 
@@ -41,6 +42,23 @@ namespace Clima.Core.Conrollers.Ventilation
                 if (item.Priority == priority)
                     return true;
             return false;
+        }
+
+        public IEnumerator<FanControllerTableItem> GetEnumerator()
+        {
+            return _fanTable.GetEnumerator();
+        }
+
+        
+
+        public void Dispose()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

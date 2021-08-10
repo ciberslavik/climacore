@@ -349,3 +349,11 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /ClimaProject.sln
+
+#JsonServer Project directory
+/INFO/JsonServices-master/
+/INFO/worker/
+
+#QtClient build directories
+/QtClient/build*
+

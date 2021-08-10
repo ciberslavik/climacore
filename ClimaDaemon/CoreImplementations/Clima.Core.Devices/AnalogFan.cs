@@ -1,4 +1,5 @@
-﻿using Clima.Core.Devices.Configuration;
+﻿using System;
+using Clima.Core.Devices.Configuration;
 
 namespace Clima.Core.Devices
 {
@@ -15,11 +16,12 @@ namespace Clima.Core.Devices
         public void Start()
         {
             FrequencyConverter.SetPower(50);
+           
         }
 
         public void Stop()
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine($"Fan:{State.FanId} stopped.");
         }
 
         public FanState State => _config.CreateFanState();
@@ -28,5 +30,9 @@ namespace Clima.Core.Devices
         public double Power { get; set; }
 
         public IFrequencyConverter FrequencyConverter { get; set; }
+        public int CompareTo(IFan? other)
+        {
+            return State.Priority - other.State.Priority;
+        }
     }
 }
