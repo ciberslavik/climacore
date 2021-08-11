@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -24,6 +23,8 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
         private bool _receiving;
         private bool _sending;
+
+        private WatchDog _WD;
         public event EventHandler Connected;
         public event EventHandler Disconnected;
         public event EventHandler<MessageEventArgs> MessageReceived;
@@ -44,7 +45,9 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             Estabilished = false;
 
             _sendLock = new object();
+            
         }
+        
 
         public Session Session
         {
@@ -74,7 +77,17 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             IsConnected = true;
             Connected?.Invoke(this, new EventArgs());
+            _WD = new WatchDog();
+            _WD.Alarm+= WDOnAlarm;
             TryReceive();
+        }
+
+        private void WDOnAlarm(object? sender, EventArgs e)
+        {
+            if (IsConnected)
+            {
+                Console.WriteLine($"Session:{_session.SessionId} closed on watch dog");
+            }
         }
 
         public bool Disconnect()
@@ -107,6 +120,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             }
             catch (ObjectDisposedException)
             {
+                Console.WriteLine($"Object disposed");
             }
 
             IsConnected = false;
@@ -177,6 +191,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 {
                     _receiving = true;
                     _receiveEventArg.SetBuffer(_receiveBuffer.Data, 0, (int) _receiveBuffer.Capacity);
+                    
                     if (!_socket.ReceiveAsync(_receiveEventArg))
                         process = ProcessReceive(_receiveEventArg);
                 }
@@ -373,36 +388,38 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 return false;
 
             long size = e.BytesTransferred;
-
+            bool eof = false;
             // Received some data from the client
             if (size > 0)
             {
                 // Update statistic
                 BytesReceived += size;
 
-                var str = Encoding.UTF8.GetString(_receiveBuffer.Data);
+                var str = _receiveBuffer.ToString();
 
                 if (str.Contains("<EOF>"))
                 {
+                    _WD.Reset();
                     Console.WriteLine($"Received str:{str}");
                     str = str.Substring(0, str.IndexOf("<EOF>", StringComparison.Ordinal));
+                    
                     _receiveBuffer.Clear();
-                }
-
-                //Send session id
-                if (str.Contains("GetSessionID"))
-                {
-                    SendString($"GetSessionID:{ConnectionId}");
-                    Console.WriteLine($"Send session id:{ConnectionId}");
-                }
-                else
-                {
-                    //DataReceivedEventArgs arg = new DataReceivedEventArgs(Id, str);
-                    MessageReceived?.Invoke(this, new MessageEventArgs()
+                    
+                    //Send session id
+                    if (str.Contains("GetSessionID"))
                     {
-                        ConnectionId = ConnectionId,
-                        Data = str
-                    });
+                        SendString($"GetSessionID:{ConnectionId}");
+                        Console.WriteLine($"Send session id:{ConnectionId}");
+                    }
+                    else
+                    {
+                        //DataReceivedEventArgs arg = new DataReceivedEventArgs(Id, str);
+                        MessageReceived?.Invoke(this, new MessageEventArgs()
+                        {
+                            ConnectionId = ConnectionId,
+                            Data = str
+                        });
+                    }
                 }
 
                 TryReceive();

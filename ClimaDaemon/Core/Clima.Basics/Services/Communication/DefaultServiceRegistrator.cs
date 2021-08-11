@@ -21,45 +21,60 @@ namespace Clima.Basics.Services.Communication
             _serviceExecutor = serviceExecutor;
         }
 
+        public ISystemLogger Logger { get; set; }
+
         public void RegisterNetworkService<TService>() where TService : INetworkService
         {
             var serviceType = typeof(TService);
+            
+            var registerMethod = _serviceProvider.GetType()
+                .GetMethod(nameof(_serviceProvider.RegisterWithoutInterface));
+            if (registerMethod is not null)
+            {
+                registerMethod = registerMethod.MakeGenericMethod(serviceType);
+                registerMethod.Invoke(_serviceProvider, new object[] {Type.Missing});
 
-            foreach (var methodInfo in serviceType.GetMethods())
-                if (methodInfo.GetCustomAttributes(typeof(ServiceMethodAttribute), false).Any())
+
+                foreach (var methodInfo in serviceType.GetMethods())
                 {
-                    var responseType = methodInfo.ReturnType;
-                    var requestType = methodInfo.GetParameters().FirstOrDefault()?.ParameterType;
-
-                    if (requestType is not null)
+                    if (methodInfo.GetCustomAttributes(typeof(ServiceMethodAttribute), false).Any())
                     {
-                        _messageTypeProvider.Register(
-                            serviceType.Name,
-                            methodInfo.Name,
-                            requestType,
-                            responseType);
+                        var responseType = methodInfo.ReturnType;
+                        var requestType = methodInfo.GetParameters().FirstOrDefault()?.ParameterType;
 
-                        var registerMethod = _serviceProvider.GetType()
-                            .GetMethod(nameof(_serviceProvider.RegisterWithoutInterface));
-                        if (registerMethod is not null) registerMethod.MakeGenericMethod(serviceType);
-
-
-                        _serviceExecutor.RegisterHandler(serviceType.Name, methodInfo.Name, (p) =>
+                        if (requestType is not null)
                         {
-                            var resolveMethod = _serviceProvider.GetType().GetMethod(nameof(_serviceProvider.Resolve));
+                            _messageTypeProvider.Register(
+                                serviceType.Name,
+                                methodInfo.Name,
+                                requestType,
+                                responseType);
 
-                            if (resolveMethod is not null)
+                            _serviceExecutor.RegisterHandler(serviceType.Name, methodInfo.Name, (p) =>
                             {
-                                resolveMethod = resolveMethod.MakeGenericMethod(serviceType);
-                                var service = resolveMethod.Invoke(_serviceProvider, null);
-                                if (!(service is null)) return methodInfo.Invoke(service, new[] {p});
-                            }
+                                Logger.Debug($"method handler:{methodInfo.Name}");
+                                var resolveMethod = _serviceProvider.GetType()
+                                    .GetMethod(nameof(_serviceProvider.Resolve));
 
-                            throw new InvalidRequestException(
-                                $"error execute service:{serviceType.Name} method:{methodInfo.Name}");
-                        });
+                                if (resolveMethod is not null)
+                                {
+                                    resolveMethod = resolveMethod.MakeGenericMethod(serviceType);
+                                    var service = resolveMethod.Invoke(_serviceProvider, null);
+                                    if (service is not null)
+                                        return methodInfo.Invoke(service, new[] {p});
+                                    else
+                                    {
+                                        Logger.Debug($"Service:{serviceType.Name} not found");
+                                    }
+                                }
+
+                                throw new InvalidRequestException(
+                                    $"error execute service:{serviceType.Name} method:{methodInfo.Name}");
+                            });
+                        }
                     }
                 }
+            }
         }
     }
 }
