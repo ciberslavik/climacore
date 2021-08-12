@@ -3,18 +3,19 @@ using Clima.Core.IO;
 
 namespace Clima.AgavaModBusIO.Model
 {
-    public class AgavaDOutput :AgavaPinBase, IDiscreteOutput
+    public class AgavaDOutput : AgavaPinBase, IDiscreteOutput
     {
         private bool _state;
         private bool _prevState;
+
         internal AgavaDOutput(byte moduleId, int pinNumberInModule)
         {
             _pinNumberInModule = pinNumberInModule;
-            _regAddress = (ushort)(10000 + (_pinNumberInModule / 16));
+            _regAddress = (ushort) (10000 + _pinNumberInModule / 16);
             _moduleId = moduleId;
         }
 
-        
+
         public event DiscretePinStateChangedEventHandler PinStateChanged;
 
         public bool State => _state;

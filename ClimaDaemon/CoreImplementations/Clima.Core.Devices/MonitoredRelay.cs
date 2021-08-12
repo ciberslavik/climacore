@@ -8,7 +8,7 @@ using Clima.Core.IO;
 
 namespace Clima.Core.Devices
 {
-    public class MonitoredRelay:Device,IRelay,IAlarmNotifier
+    public class MonitoredRelay : Device, IRelay, IAlarmNotifier
     {
         private enum RelayState
         {
@@ -71,7 +71,7 @@ namespace Clima.Core.Devices
             set
             {
                 _monitorPin = value;
-                if(_monitorPin != null)
+                if (_monitorPin != null)
                     _monitorPin.PinStateChanged += MonitorPinOnPinStateChanged;
             }
         }
@@ -112,7 +112,7 @@ namespace Clima.Core.Devices
         {
             if (Configuration.EnableLevel == ActiveLevel.High)
                 EnablePin.SetState(false, true);
-            else if (Configuration.EnableLevel == ActiveLevel.Low) 
+            else if (Configuration.EnableLevel == ActiveLevel.Low)
                 EnablePin.SetState(true, true);
 
             _state = RelayState.TryOff;
@@ -164,7 +164,7 @@ namespace Clima.Core.Devices
                 if (!GetMonitorState(ea.NewState))
                 {
                     _state = RelayState.Alarm;
-                    
+
                     OnAlarmNotify($"Рэле {Configuration.RelayName} отключилось во время работы");
                 }
             }
@@ -202,14 +202,14 @@ namespace Clima.Core.Devices
 
             return monitorState;
         }
-        
+
         public event AlarmNotifyEventHandler AlarmNotify;
         public string NotifierName => Configuration.RelayName;
 
         protected virtual void OnAlarmNotify(string message)
         {
             SetEnablePinState(false);
-            AlarmNotifyEventArgs ea = new AlarmNotifyEventArgs(message);
+            var ea = new AlarmNotifyEventArgs(message);
             AlarmNotify?.Invoke(this, ea);
         }
 

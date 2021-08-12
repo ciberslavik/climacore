@@ -2,7 +2,7 @@
 
 namespace Clima.NetworkServer.Sessions
 {
-    public class SessionManagerDefault:ISessionManager
+    public class SessionManagerDefault : ISessionManager
     {
         public SessionManagerDefault()
         {

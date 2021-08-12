@@ -2,6 +2,5 @@
 {
     public interface INetworkService
     {
-        string ServiceName { get; }
     }
 }

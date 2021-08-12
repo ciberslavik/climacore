@@ -2,12 +2,10 @@
 
 namespace Clima.Core.Exceptions
 {
-    public class GraphProviderException:Exception
+    public class GraphProviderException : Exception
     {
-        public GraphProviderException(string message=""):base(message)
+        public GraphProviderException(string message = "") : base(message)
         {
         }
-        
-        
     }
 }

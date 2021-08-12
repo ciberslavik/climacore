@@ -12,7 +12,7 @@ class ClientConnection:public QObject
     Q_OBJECT
 public:
     explicit ClientConnection(QObject *parent = nullptr);
-    void ConnectToHost(const QString &host, const int &port, const int &waitTimeout = 500);
+    void ConnectToHost(const QString &host, const int &port, const int &waitTimeout = 5000);
     void Disconnect();
     bool isConnected(){return m_socket->isOpen();}
     QUuid *getConnectionId(){return m_connectionId;}
@@ -32,4 +32,5 @@ private:
     QByteArray *readBuffer;
     bool m_connected;
     QUuid *m_connectionId;
+    int request_counter;
 };

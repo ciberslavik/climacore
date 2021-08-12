@@ -2,7 +2,7 @@ using System.Timers;
 
 namespace Clima.Core.Devices
 {
-    public class DefaultTimer:ITimer
+    public class DefaultTimer : ITimer
     {
         private Timer _timer;
 
@@ -35,6 +35,5 @@ namespace Clima.Core.Devices
         }
 
         public event TimerElapsedEventHandler Elapsed;
-        
     }
 }

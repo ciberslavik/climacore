@@ -4,9 +4,13 @@
     {
         T Resolve<T>();
 
-        void Register<TService, TImpl>(string name = "") 
-            where TService: class
-            where TImpl: TService;
+        void Register<TService, TImpl>(string name = "")
+            where TService : class
+            where TImpl : TService;
+
+        void RegisterWithoutInterface<TImpl>(string name = "")
+            where TImpl : class;
+
         void InitializeService(IServiceInitializer initializer);
     }
 }

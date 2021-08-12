@@ -6,13 +6,13 @@ using Clima.FSGrapRepository.Configuration;
 
 namespace Clima.FSGrapRepository
 {
-    public abstract class GraphProviderBase<TGraph, TPoint, TConfigPoint> : IGraphProvider<TGraph, TPoint> 
-        where TGraph:GraphBase<TPoint>, new()
-        where TPoint:GraphPointBase, new()
-        where TConfigPoint:IGraphPointConfig<TConfigPoint>, new()
+    public abstract class GraphProviderBase<TGraph, TPoint, TConfigPoint> : IGraphProvider<TGraph, TPoint>
+        where TGraph : GraphBase<TPoint>, new()
+        where TPoint : GraphPointBase, new()
+        where TConfigPoint : IGraphPointConfig<TConfigPoint>, new()
     {
         protected readonly GraphProviderConfig<TConfigPoint> ProviderConfig;
-        
+
         private TGraph _currentGraph;
         private GraphConfig<TConfigPoint> _currentGraphConfig = new GraphConfig<TConfigPoint>();
         private Dictionary<string, TGraph> _loadedGraphs = new Dictionary<string, TGraph>();
@@ -21,9 +21,10 @@ namespace Clima.FSGrapRepository
         {
             ProviderConfig = config;
         }
+
         public TGraph GetCurrentGraph()
         {
-            if (!(_currentGraph is null))    //return current graph
+            if (!(_currentGraph is null)) //return current graph
                 return _currentGraph;
 
             if (!(_currentGraphConfig is null)) //create from config set current and return current
@@ -33,24 +34,18 @@ namespace Clima.FSGrapRepository
                 _loadedGraphs.Add(graph.Info.Name, graph);
                 _currentGraph = graph;
             }
-            
+
             return null;
         }
 
         public void SetCurrentGraph(TGraph graph)
         {
-            if (!Equals(_currentGraph, graph))
-            {
-                _currentGraph = graph;
-            }
+            if (!Equals(_currentGraph, graph)) _currentGraph = graph;
         }
 
         public TGraph GetGraph(string graphName)
         {
-            if (_loadedGraphs.ContainsKey(graphName))
-            {
-                return _loadedGraphs[graphName];
-            }
+            if (_loadedGraphs.ContainsKey(graphName)) return _loadedGraphs[graphName];
 
             if (ProviderConfig.Graphs.ContainsKey(graphName))
             {
@@ -58,35 +53,33 @@ namespace Clima.FSGrapRepository
 
                 return CreateFromConfig(graphConfig);
             }
+
             throw new GraphProviderException($"Graph:{graphName} not found in repository");
         }
 
         public IList<GraphInfo> GetGraphInfos()
         {
             var infos = new List<GraphInfo>();
-            foreach (var graphConfig in ProviderConfig.Graphs.Values)
-            {
-                infos.Add(graphConfig.Info);
-            }
+            foreach (var graphConfig in ProviderConfig.Graphs.Values) infos.Add(graphConfig.Info);
             return infos;
         }
 
         public virtual void AddGraph(TGraph graph)
         {
-            if(string.IsNullOrEmpty(graph.Info.Key))
-                throw new GraphNotConfiguredException(nameof(graph.Info.Key),"Property is null or empty");
+            if (string.IsNullOrEmpty(graph.Info.Key))
+                throw new GraphNotConfiguredException(nameof(graph.Info.Key), "Property is null or empty");
             var key = graph.Info.Key;
-            
-            if(ProviderConfig.Graphs.ContainsKey(key))
+
+            if (ProviderConfig.Graphs.ContainsKey(key))
                 return;
 
             var graphConfig = new GraphConfig<TConfigPoint>();
             PopulateConfigFromGraph(ref graphConfig, graph);
-            
+
             ProviderConfig.Graphs.Add(key, graphConfig);
-            
+
             _loadedGraphs.Add(key, graph);
-            graph.GraphModified+= GraphOnGraphModified;
+            graph.GraphModified += GraphOnGraphModified;
         }
 
         private void GraphOnGraphModified(object? sender, EventArgs e)
@@ -111,32 +104,31 @@ namespace Clima.FSGrapRepository
 
             if (ProviderConfig.Graphs.ContainsKey(key))
                 ProviderConfig.Graphs.Remove(key);
-            
         }
 
         public virtual TGraph CreateGraph(string key)
         {
-            if(ProviderConfig.Graphs.ContainsKey(key))
+            if (ProviderConfig.Graphs.ContainsKey(key))
                 throw new GraphProviderException($"this key:{key} already exist.");
-            
+
             var graph = new TGraph();
             graph.Info.Key = key;
             graph.Info.Name = key;
             graph.Info.CreationTime = DateTime.Now;
             graph.Info.ModifiedTime = DateTime.Now;
             graph.GraphModified += GraphOnGraphModified;
-            
+
             var config = new GraphConfig<TConfigPoint>();
             PopulateConfigFromGraph(ref config, graph);
-            
+
             _loadedGraphs.Add(key, graph);
             ProviderConfig.Graphs.Add(key, config);
             return graph;
         }
 
         protected abstract TGraph CreateFromConfig(GraphConfig<TConfigPoint> config);
+
         protected abstract GraphConfig<TConfigPoint> PopulateConfigFromGraph(
             ref GraphConfig<TConfigPoint> config, TGraph graph);
-        
     }
 }

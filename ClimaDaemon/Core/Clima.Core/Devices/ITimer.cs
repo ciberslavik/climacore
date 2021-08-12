@@ -1,6 +1,7 @@
 namespace Clima.Core.Devices
 {
     public delegate void TimerElapsedEventHandler(object sender);
+
     public interface ITimer
     {
         void Start();

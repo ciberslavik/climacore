@@ -3,7 +3,8 @@
 namespace Clima.Core.Devices
 {
     public delegate void AlarmNotifyEventHandler(object sender, AlarmNotifyEventArgs ea);
-    public class AlarmNotifyEventArgs:EventArgs
+
+    public class AlarmNotifyEventArgs : EventArgs
     {
         private string _message;
 

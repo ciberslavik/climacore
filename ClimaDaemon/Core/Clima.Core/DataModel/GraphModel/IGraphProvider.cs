@@ -3,8 +3,8 @@
 namespace Clima.Core.DataModel.GraphModel
 {
     public interface IGraphProvider<TGraph, TPoint>
-        where TPoint:GraphPointBase
-        where TGraph:GraphBase<TPoint>
+        where TPoint : GraphPointBase
+        where TGraph : GraphBase<TPoint>
     {
         TGraph GetCurrentGraph();
         void SetCurrentGraph(TGraph graph);

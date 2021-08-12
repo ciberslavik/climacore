@@ -16,6 +16,7 @@
         public int FinePauseTime { get; set; }
         public double FullOpen { get; set; }
         public double FullClose { get; set; }
+
         public static ServoConfig CreateDefault(int servoNumber)
         {
             var config = new ServoConfig();

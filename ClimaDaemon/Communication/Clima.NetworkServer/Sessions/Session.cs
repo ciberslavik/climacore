@@ -18,6 +18,6 @@ namespace Clima.NetworkServer.Sessions
 
         public DateTimeOffset Timestamp { get; set; } = DateTimeOffset.Now;
 
-        public IIdentity CurrentUser { get; internal set; } 
+        public IIdentity CurrentUser { get; internal set; }
     }
 }

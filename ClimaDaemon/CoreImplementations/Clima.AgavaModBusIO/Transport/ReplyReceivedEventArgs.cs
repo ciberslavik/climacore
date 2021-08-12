@@ -3,7 +3,8 @@
 namespace Clima.AgavaModBusIO.Transport
 {
     public delegate void ReplyReceivedEventHandler(object sender, ReplyReceivedEventArgs ea);
-    public class ReplyReceivedEventArgs:EventArgs
+
+    public class ReplyReceivedEventArgs : EventArgs
     {
         private AgavaReply _reply;
 
@@ -11,10 +12,12 @@ namespace Clima.AgavaModBusIO.Transport
         {
             _reply = new AgavaReply();
         }
+
         public ReplyReceivedEventArgs(AgavaReply reply)
         {
             _reply = reply;
         }
+
         public AgavaReply Reply
         {
             get => _reply;

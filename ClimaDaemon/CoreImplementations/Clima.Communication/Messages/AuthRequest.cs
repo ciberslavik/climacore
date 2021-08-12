@@ -2,12 +2,10 @@
 
 namespace Clima.Communication.Messages
 {
-    public class AuthRequest:IReturn<AuthResponse>
+    public class AuthRequest : IReturn<AuthResponse>
     {
         public AuthRequest()
         {
         }
-
-        
     }
 }

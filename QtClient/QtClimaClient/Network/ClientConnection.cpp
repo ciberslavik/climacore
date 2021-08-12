@@ -92,7 +92,11 @@ void ClientConnection::ConnectToHost(const QString &host, const int &port, const
     {
         qApp->processEvents();
         if(m_socket->state() == QAbstractSocket::ConnectedState)
+        {
+            m_connected = true;
+            request_counter = 0;
             return;
+        }
     }
     while(myTimer.elapsed() < waitTimeout);
 
@@ -113,10 +117,13 @@ void ClientConnection::SendRequest(NetworkRequest *request)
 {
     if(m_socket->isOpen())
     {
+        request_counter++;
+        request->id = request_counter;
         QString message = request->toJsonString();
         message = message + "<EOF>";
         qDebug() << "Send Rquest:" << message;
         m_socket->write(message.toUtf8(),message.toUtf8().size());
+        m_socket->flush();
     }
 }
 

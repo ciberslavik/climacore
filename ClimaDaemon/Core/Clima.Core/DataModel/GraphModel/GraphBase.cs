@@ -11,11 +11,13 @@ namespace Clima.Core.DataModel.GraphModel
         {
             _points = new List<TPoint>();
         }
-        event EventHandler PointModified;
+
+        private event EventHandler PointModified;
         public event EventHandler GraphModified;
 
         public GraphInfo Info { get; set; } = new GraphInfo();
         public IList<TPoint> Points => _points;
+
         public virtual void AddPoint(TPoint point)
         {
             if (!_points.Contains(point))
@@ -25,25 +27,25 @@ namespace Clima.Core.DataModel.GraphModel
                 OnGraphModified();
             }
         }
+
         public virtual void RemovePoint(TPoint point)
         {
             if (_points.Contains(point))
             {
-                
                 point.Modified -= PointOnModified;
                 _points.Remove(point);
                 OnGraphModified();
             }
         }
+
         protected virtual void OnGraphModified()
         {
             GraphModified?.Invoke(this, EventArgs.Empty);
         }
-        
+
         private void PointOnModified(object? sender, EventArgs e)
         {
             PointModified?.Invoke(sender, e);
         }
-        
     }
 }

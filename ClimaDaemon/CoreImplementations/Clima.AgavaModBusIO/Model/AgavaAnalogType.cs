@@ -1,6 +1,6 @@
 ﻿namespace Clima.AgavaModBusIO.Model
 {
-    public enum AgavaAnalogInType : ushort    
+    public enum AgavaAnalogInType : ushort
     {
         Voltage_0_10V = 0,
         Current_4_20mA,

@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -7,7 +6,7 @@ using Clima.NetworkServer.Sessions;
 
 namespace Clima.NetworkServer.Transport.TcpSocket
 {
-    public class TcpSocketSession:IConnection
+    public class TcpSocketSession : IConnection
     {
         private string _connectionId;
         private Session _session;
@@ -16,35 +15,40 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         private object _sendLock;
         private Buffer _receiveBuffer;
         private SocketAsyncEventArgs _receiveEventArg;
-        
+
         private Buffer _sendBufferMain;
         private Buffer _sendBufferFlush;
         private SocketAsyncEventArgs _sendEventArg;
         private long _sendBufferFlushOffset;
-        
+
         private bool _receiving;
         private bool _sending;
+
+        private WatchDog _WD;
         public event EventHandler Connected;
         public event EventHandler Disconnected;
-        public event EventHandler<MessageEventArgs> MessageReceived; 
+        public event EventHandler<MessageEventArgs> MessageReceived;
         public string ConnectionId => _connectionId;
         public int SendBufferSize { get; set; } = 1024;
         public int ReceiveBufferSize { get; set; } = 1024;
         public bool IsConnected { get; private set; }
         public bool Estabilished { get; private set; }
         public bool IsSocketDisposed { get; private set; }
-        
+
         public long BytesSent { get; private set; }
         public long BytesReceived { get; private set; }
-        
+
         public TcpSocketSession()
         {
             _connectionId = Guid.NewGuid().ToString();
             IsConnected = false;
             Estabilished = false;
-            
+
             _sendLock = new object();
+            
         }
+        
+
         public Session Session
         {
             get => _session;
@@ -57,7 +61,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             _receiveBuffer = new Buffer();
             _receiveBuffer.Reserve(ReceiveBufferSize);
-            
+
             _sendBufferMain = new Buffer();
             _sendBufferMain.Reserve(SendBufferSize);
             _sendBufferFlush = new Buffer();
@@ -72,10 +76,20 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             BytesReceived = 0;
 
             IsConnected = true;
-            Connected?.Invoke(this,new EventArgs());    
+            Connected?.Invoke(this, new EventArgs());
+            _WD = new WatchDog();
+            _WD.Alarm+= WDOnAlarm;
             TryReceive();
         }
-        
+
+        private void WDOnAlarm(object? sender, EventArgs e)
+        {
+            if (IsConnected)
+            {
+                Console.WriteLine($"Session:{_session.SessionId} closed on watch dog");
+            }
+        }
+
         public bool Disconnect()
         {
             if (!IsConnected)
@@ -83,33 +97,36 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             _receiveEventArg.Completed -= OnAsyncCompleted;
             _sendEventArg.Completed -= OnAsyncCompleted;
-            
+
             try
             {
                 try
                 {
-                    _socket.Shutdown((SocketShutdown.Both));
+                    _socket.Shutdown(SocketShutdown.Both);
                 }
                 catch (SocketException e)
                 {
                     Console.WriteLine(e);
                     throw;
                 }
-                
+
                 _socket.Close();
                 _socket.Dispose();
-                
+
                 _receiveEventArg.Dispose();
                 _sendEventArg.Dispose();
 
                 IsSocketDisposed = true;
             }
-            catch (ObjectDisposedException){}
+            catch (ObjectDisposedException)
+            {
+                Console.WriteLine($"Object disposed");
+            }
 
             IsConnected = false;
             _receiving = false;
             _sending = false;
-            
+
             OnDisConnected();
 
             //_server.UnregisterSession(Id);
@@ -119,10 +136,14 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         protected virtual void OnDisConnected()
         {
             Console.WriteLine($"bytes send:{BytesSent} received:{BytesReceived}");
-            Disconnected?.Invoke(this,new EventArgs());
+            Disconnected?.Invoke(this, new EventArgs());
         }
 
-        public virtual long Receive(byte[] buffer) { return Receive(buffer, 0, buffer.Length); }
+        public virtual long Receive(byte[] buffer)
+        {
+            return Receive(buffer, 0, buffer.Length);
+        }
+
         public virtual long Receive(byte[] buffer, long offset, long size)
         {
             if (!IsConnected)
@@ -132,7 +153,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 return 0;
 
             // Receive data from the client
-            long received = _socket.Receive(buffer, (int)offset, (int)size, SocketFlags.None, out SocketError ec);
+            long received = _socket.Receive(buffer, (int) offset, (int) size, SocketFlags.None, out var ec);
             if (received > 0)
             {
                 // Update statistic
@@ -154,21 +175,23 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             return received;
         }
+
         private void TryReceive()
         {
-            if(_receiving)
+            if (_receiving)
                 return;
-            
-            if(!IsConnected)
+
+            if (!IsConnected)
                 return;
-            bool process = true;
+            var process = true;
             while (process)
             {
                 process = false;
                 try
                 {
                     _receiving = true;
-                    _receiveEventArg.SetBuffer(_receiveBuffer.Data, 0, (int)_receiveBuffer.Capacity);
+                    _receiveEventArg.SetBuffer(_receiveBuffer.Data, 0, (int) _receiveBuffer.Capacity);
+                    
                     if (!_socket.ReceiveAsync(_receiveEventArg))
                         process = ProcessReceive(_receiveEventArg);
                 }
@@ -179,8 +202,12 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 }
             }
         }
-        
-        public virtual long Send(byte[] buffer) { return Send(buffer, 0, buffer.Length); }
+
+        public virtual long Send(byte[] buffer)
+        {
+            return Send(buffer, 0, buffer.Length);
+        }
+
         public virtual long Send(byte[] buffer, long offset, long size)
         {
             if (!IsConnected)
@@ -189,11 +216,9 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             if (size == 0)
                 return 0;
 
-            
-            
-            
+
             // Sent data to the client
-            long sent = _socket.Send(buffer, (int)offset, (int)size, SocketFlags.None, out SocketError ec);
+            long sent = _socket.Send(buffer, (int) offset, (int) size, SocketFlags.None, out var ec);
             if (sent > 0)
             {
                 // Update statistic
@@ -215,11 +240,12 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             return sent;
         }
-/// <summary>
-/// Sending string data with end <EOF> and encoding UTF8
-/// </summary>
-/// <param name="text">data to send</param>
-/// <returns>sended bytes</returns>
+
+        /// <summary>
+        /// Sending string data with end <EOF> and encoding UTF8
+        /// </summary>
+        /// <param name="text">data to send</param>
+        /// <returns>sended bytes</returns>
         public virtual long SendString(string text)
         {
             return Send(Encoding.UTF8.GetBytes(text + "<EOF>"));
@@ -230,7 +256,12 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         {
             return SendAsync(Encoding.UTF8.GetBytes(text + "<EOF>"));
         }
-        public virtual bool SendAsync(byte[] buffer) { return SendAsync(buffer, 0, buffer.Length); }
+
+        public virtual bool SendAsync(byte[] buffer)
+        {
+            return SendAsync(buffer, 0, buffer.Length);
+        }
+
         public virtual bool SendAsync(byte[] buffer, long offset, long size)
         {
             if (!IsConnected)
@@ -242,7 +273,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             lock (_sendLock)
             {
                 // Check the send buffer limit
-                if (((_sendBufferMain.Size + size) > SendBufferSize) && (SendBufferSize > 0))
+                if (_sendBufferMain.Size + size > SendBufferSize && SendBufferSize > 0)
                 {
                     SendError(SocketError.NoBufferSpaceAvailable);
                     return false;
@@ -266,13 +297,14 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             return true;
         }
+
         private void TrySend()
         {
             if (!IsConnected)
                 return;
 
-            bool empty = false;
-            bool process = true;
+            var empty = false;
+            var process = true;
 
             while (process)
             {
@@ -302,7 +334,9 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                         }
                     }
                     else
+                    {
                         return;
+                    }
                 }
 
                 // Call the empty send buffer handler
@@ -316,14 +350,17 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 try
                 {
                     // Async write with the write handler
-                    _sendEventArg.SetBuffer(_sendBufferFlush.Data, (int)_sendBufferFlushOffset, (int)(_sendBufferFlush.Size - _sendBufferFlushOffset));
+                    _sendEventArg.SetBuffer(_sendBufferFlush.Data, (int) _sendBufferFlushOffset,
+                        (int) (_sendBufferFlush.Size - _sendBufferFlushOffset));
                     if (!_socket.SendAsync(_sendEventArg))
                         process = ProcessSend(_sendEventArg);
                 }
-                catch (ObjectDisposedException) {}
+                catch (ObjectDisposedException)
+                {
+                }
             }
         }
-        
+
         private void OnAsyncCompleted(object sender, SocketAsyncEventArgs e)
         {
             if (IsSocketDisposed)
@@ -342,44 +379,47 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                     break;
                 default:
                     throw new ArgumentException("The last operation completed on the socket was not a receive or send");
-            }      
+            }
         }
+
         private bool ProcessReceive(SocketAsyncEventArgs e)
         {
             if (!IsConnected)
                 return false;
 
             long size = e.BytesTransferred;
-
+            bool eof = false;
             // Received some data from the client
             if (size > 0)
             {
                 // Update statistic
                 BytesReceived += size;
-                
-                string str = Encoding.UTF8.GetString(_receiveBuffer.Data);
-                
+
+                var str = _receiveBuffer.ExtractString(0, size);
+
                 if (str.Contains("<EOF>"))
                 {
+                    _WD.Reset();
                     Console.WriteLine($"Received str:{str}");
                     str = str.Substring(0, str.IndexOf("<EOF>", StringComparison.Ordinal));
+                    
                     _receiveBuffer.Clear();
-                }
-                //Send session id
-                if (str.Contains("GetSessionID"))
-                {
-                    SendString($"GetSessionID:{ConnectionId}");
-                    Console.WriteLine($"Send session id:{ConnectionId}");
-                }
-                else
-                {
-
-                    //DataReceivedEventArgs arg = new DataReceivedEventArgs(Id, str);
-                    MessageReceived?.Invoke(this, new MessageEventArgs()
+                    
+                    //Send session id
+                    if (str.Contains("GetSessionID"))
                     {
-                        ConnectionId = ConnectionId,
-                        Data = str
-                    });
+                        SendString($"GetSessionID:{ConnectionId}");
+                        Console.WriteLine($"Send session id:{ConnectionId}");
+                    }
+                    else
+                    {
+                        //DataReceivedEventArgs arg = new DataReceivedEventArgs(Id, str);
+                        MessageReceived?.Invoke(this, new MessageEventArgs()
+                        {
+                            ConnectionId = ConnectionId,
+                            Data = str
+                        });
+                    }
                 }
 
                 TryReceive();
@@ -403,6 +443,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             return false;
         }
+
         private bool ProcessSend(SocketAsyncEventArgs e)
         {
             if (!IsConnected)
@@ -435,25 +476,28 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             // Try to send again if the session is valid
             if (e.SocketError == SocketError.Success)
+            {
                 return true;
+            }
             else
             {
                 SendError(e.SocketError);
                 Disconnect();
                 return false;
             }
-        }    
+        }
+
         private void SendError(SocketError error)
         {
             // Skip disconnect errors
-            if ((error == SocketError.ConnectionAborted) ||
-                (error == SocketError.ConnectionRefused) ||
-                (error == SocketError.ConnectionReset) ||
-                (error == SocketError.OperationAborted) ||
-                (error == SocketError.Shutdown))
+            if (error == SocketError.ConnectionAborted ||
+                error == SocketError.ConnectionRefused ||
+                error == SocketError.ConnectionReset ||
+                error == SocketError.OperationAborted ||
+                error == SocketError.Shutdown)
                 return;
 
             //OnError(error);
-        }       
+        }
     }
 }

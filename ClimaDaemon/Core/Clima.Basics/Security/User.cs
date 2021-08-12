@@ -3,7 +3,7 @@ using System.Security.Principal;
 
 namespace Clima.Basics.Security
 {
-    public class User:IIdentity
+    public class User : IIdentity
     {
         private readonly string? _authenticationType;
         private readonly bool _isAuthenticated;

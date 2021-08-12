@@ -1,10 +1,9 @@
 ﻿using System;
-using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 
-namespace Clima.NetworkServer.Exceptions
+namespace Clima.Basics.Services.Communication.Exceptions
 {
-    public sealed class ExceptionTranslator:IExceptionTranslator
+    public sealed class ExceptionTranslator : IExceptionTranslator
     {
         public Error Translate(Exception ex, int? code = null, string message = null)
         {
@@ -13,19 +12,11 @@ namespace Clima.NetworkServer.Exceptions
 
             // set default error code if not specified
             if (code.HasValue)
-            {
                 result.Code = code.Value;
-            }
-            else if (result.Code == 0)
-            {
-                result.Code = InternalErrorException.ErrorCode;
-            }
+            else if (result.Code == 0) result.Code = InternalErrorException.ErrorCode;
 
             // override error message if needed
-            if (message != null)
-            {
-                result.Message = message;
-            }
+            if (message != null) result.Message = message;
 
             return result;
         }

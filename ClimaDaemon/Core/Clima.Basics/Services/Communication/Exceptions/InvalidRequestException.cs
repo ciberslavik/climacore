@@ -1,9 +1,9 @@
 ﻿using System;
 using Clima.Basics.Services.Communication.Messages;
 
-namespace Clima.NetworkServer.Exceptions
+namespace Clima.Basics.Services.Communication.Exceptions
 {
-    public class InvalidRequestException:JsonServicesException
+    public class InvalidRequestException : JsonServicesException
     {
         public const int ErrorCode = -32600;
 
@@ -28,6 +28,5 @@ namespace Clima.NetworkServer.Exceptions
         {
             // for unit tests
         }
-        
     }
 }

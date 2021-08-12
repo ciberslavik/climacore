@@ -2,7 +2,7 @@
 
 namespace Clima.Core.Tests.IOService
 {
-    public class StubDiscreteOutput:IDiscreteOutput
+    public class StubDiscreteOutput : IDiscreteOutput
     {
         public PinType PinType => PinType.Discrete;
         public PinDir Direction => PinDir.Output;
@@ -11,6 +11,7 @@ namespace Clima.Core.Tests.IOService
         public bool IsModified { get; }
         public event DiscretePinStateChangedEventHandler PinStateChanged;
         public bool State { get; }
+
         public void SetState(bool state, bool queued = true)
         {
             throw new System.NotImplementedException();

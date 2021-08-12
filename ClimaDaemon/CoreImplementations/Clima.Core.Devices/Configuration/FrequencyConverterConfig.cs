@@ -5,9 +5,10 @@
         public FrequencyConverterConfig()
         {
         }
+
         public ConverterType ConverterType { get; set; }
         public string ConverterName { get; set; }
-        
+
         public string EnablePinName { get; set; }
         public string AlarmPinName { get; set; }
         public string AnalogPinName { get; set; }

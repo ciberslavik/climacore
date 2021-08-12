@@ -2,7 +2,7 @@
 
 namespace Clima.Communication
 {
-    public class MessageNameProvider:IMessageNameProvider
+    public class MessageNameProvider : IMessageNameProvider
     {
         public string TryGetMessageName(string messageId)
         {

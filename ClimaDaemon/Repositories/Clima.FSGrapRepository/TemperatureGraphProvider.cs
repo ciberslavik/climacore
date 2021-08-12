@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using Clima.Core.DataModel.GraphModel;
 using Clima.FSGrapRepository.Configuration;
 
@@ -10,18 +9,17 @@ namespace Clima.FSGrapRepository
     {
         public TemperatureGraphProvider(GraphProviderConfig<TemperatureGraphPointConfig> config) : base(config)
         {
-            
         }
+
         protected override TemperatureGraph CreateFromConfig(GraphConfig<TemperatureGraphPointConfig> config)
         {
-            var graph = new TemperatureGraph();
-            graph.Info = config.Info;
-
-            foreach (var pointConfig in config.Points)
+            var graph = new TemperatureGraph()
             {
-                var point = new ValueByDayPoint(pointConfig.Day, pointConfig.Temperature);
-                graph.Points.Add(point);
-            }
+                Info = config.Info
+            };
+
+            foreach (var point in config.Points.Select(pointConfig =>
+                new ValueByDayPoint(pointConfig.Day, pointConfig.Temperature))) graph.Points.Add(point);
 
             return graph;
         }
@@ -39,6 +37,5 @@ namespace Clima.FSGrapRepository
 
             return config;
         }
-        
     }
 }

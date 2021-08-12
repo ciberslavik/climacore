@@ -19,10 +19,10 @@ class FrameManager : public QObject
     FrameBase *m_CurrentFrame;
 
     QStack<FrameBase*> m_FrameHistory;
-    QVBoxLayout frameLayout;
+    QVBoxLayout *frameLayout;
 public:
     explicit FrameManager(CMainWindow *mainWindow, QObject *parent = nullptr);
-
+    virtual ~FrameManager();
     FrameManager(FrameManager &other) = delete;
     void operator=(const FrameManager &) = delete;
 

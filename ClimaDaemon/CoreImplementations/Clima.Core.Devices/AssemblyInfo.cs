@@ -1,4 +1,3 @@
-﻿
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("Clima.Core.Devices.Tests")]
+[assembly: InternalsVisibleTo("Clima.Core.Devices.Tests")]

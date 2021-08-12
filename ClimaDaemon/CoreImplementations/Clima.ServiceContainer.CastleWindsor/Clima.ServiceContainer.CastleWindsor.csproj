@@ -9,6 +9,7 @@
       <ProjectReference Include="..\..\Communication\Clima.NetworkServer.Transport.TcpSocket\Clima.NetworkServer.Transport.TcpSocket.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Basics\Clima.Basics.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />
+      <ProjectReference Include="..\..\Repositories\Clima.FSGrapRepository\Clima.FSGrapRepository.csproj" />
       <ProjectReference Include="..\..\Tests\Clima.Core.Tests\Clima.Core.Tests.csproj" />
       <ProjectReference Include="..\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj" />
       <ProjectReference Include="..\Clima.Communication\Clima.Communication.csproj" />
@@ -17,6 +18,7 @@
       <ProjectReference Include="..\Clima.Core.Devices\Clima.Core.Devices.csproj" />
       <ProjectReference Include="..\Clima.Logger.Console\Clima.Logger.Console.csproj" />
       <ProjectReference Include="..\Clima.Serialization.Newtonsoft\Clima.Serialization.Newtonsoft.csproj" />
+      <ProjectReference Include="..\NetworkServices\GraphProviderServices\GraphProviderServices.csproj" />
     </ItemGroup>
 
     <ItemGroup>

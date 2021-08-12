@@ -11,7 +11,7 @@ namespace Clima.Basics
         private static ClimaContext _instance;
         private static bool _exitSignal;
         private static object _exitLocker = new object();
-        
+
         private readonly IServiceProvider _serviceProvider;
 
         private ClimaContext(IServiceProvider serviceProvider)
@@ -23,15 +23,10 @@ namespace Clima.Basics
         public static void InitContext(IServiceProvider serviceProvider)
         {
             if (_instance == null)
-            {
                 lock (_lock)
                 {
-                    if (_instance == null)
-                    {
-                        _instance = new ClimaContext(serviceProvider);
-                    }
+                    if (_instance == null) _instance = new ClimaContext(serviceProvider);
                 }
-            }
         }
 
         public static ClimaContext Current
@@ -45,13 +40,12 @@ namespace Clima.Basics
             }
         }
 
-        public IConfigurationStorage ConfigurationStorage => 
+        public IConfigurationStorage ConfigurationStorage =>
             _serviceProvider.Resolve<IConfigurationStorage>();
 
-        public IFileSystem FileSystem => 
+        public IFileSystem FileSystem =>
             _serviceProvider.Resolve<IFileSystem>();
-        
+
         public ISystemLogger Logger { get; private set; }
-        
     }
 }

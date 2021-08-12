@@ -1,13 +1,13 @@
 ﻿using System;
 using Clima.Basics.Services;
 using console = System.Console;
+
 namespace Clima.Logger.Console
 {
-    public class ConsoleSystemLogger: ISystemLogger
+    public class ConsoleSystemLogger : ISystemLogger
     {
         public void Debug(string message, string callerName = "")
         {
-            
             console.WriteLine($"[Debug]{callerName}:{message}");
         }
 

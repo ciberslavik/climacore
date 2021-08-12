@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Clima.Basics.Services.Communication.Messages;
 
-namespace Clima.NetworkServer.Exceptions
+namespace Clima.Basics.Services.Communication.Exceptions
 {
-    public class JsonServicesException:Exception
+    public class JsonServicesException : Exception
     {
         public JsonServicesException(int code, string message, Exception innerException = null)
             : base(message, innerException)
@@ -32,7 +32,7 @@ namespace Clima.NetworkServer.Exceptions
             return types.ToDictionary(t =>
             {
                 var errorCodeConstant = t.GetField(nameof(JsonServicesException));
-                return (int)errorCodeConstant.GetValue(null);
+                return (int) errorCodeConstant.GetValue(null);
             }, t => t);
         }
 
@@ -40,7 +40,7 @@ namespace Clima.NetworkServer.Exceptions
         {
             if (ExceptionTypes.TryGetValue(error.Code, out var type))
             {
-                var result = (JsonServicesException)Activator.CreateInstance(type, new object[] { error });
+                var result = (JsonServicesException) Activator.CreateInstance(type, new object[] {error});
                 result.MessageId = messageId;
                 return result;
             }
@@ -48,7 +48,7 @@ namespace Clima.NetworkServer.Exceptions
             return new JsonServicesException(error.Code, error.Message)
             {
                 Details = error.Data,
-                MessageId = messageId,
+                MessageId = messageId
             };
         }
 
@@ -56,36 +56,30 @@ namespace Clima.NetworkServer.Exceptions
 
         public int Code
         {
-            get { return Data[CodeKey] != null ? Convert.ToInt32(Data[CodeKey]) : 0; }
-            set { Data[CodeKey] = value; }
+            get => Data[CodeKey] != null ? Convert.ToInt32(Data[CodeKey]) : 0;
+            set => Data[CodeKey] = value;
         }
 
         private const string MessageIdKey = nameof(JsonServicesException) + "." + nameof(MessageId);
 
         public string MessageId
         {
-            get { return Data[MessageIdKey] as string; }
-            set { Data[MessageIdKey] = value; }
+            get => Data[MessageIdKey] as string;
+            set => Data[MessageIdKey] = value;
         }
 
         private const string DetailsKey = nameof(JsonServicesException) + "." + nameof(Details);
 
         public object Details
         {
-            get { return Data[DetailsKey]; }
+            get => Data[DetailsKey];
             set
             {
                 if (value == null || value.GetType().IsSerializable)
-                {
                     Data[DetailsKey] = value;
-                }
                 else
-                {
                     Data[DetailsKey] = value.ToString();
-                }
             }
         }
-
-        
     }
 }

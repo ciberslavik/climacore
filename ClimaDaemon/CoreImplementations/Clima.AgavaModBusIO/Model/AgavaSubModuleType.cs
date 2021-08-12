@@ -2,7 +2,7 @@ using System;
 
 namespace Clima.AgavaModBusIO.Model
 {
-    internal enum AgavaSubModuleType:ushort
+    internal enum AgavaSubModuleType : ushort
     {
         None = 0x00,
         DO = 0x01,

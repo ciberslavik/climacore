@@ -3,13 +3,14 @@
 namespace Clima.Core.IO
 {
     public delegate void AnalogPinValueChangedEventHandler(AnalogPinValueChangedEventArgs ea);
-    public class AnalogPinValueChangedEventArgs:EventArgs
+
+    public class AnalogPinValueChangedEventArgs : EventArgs
     {
         private IPin _pin;
-        private double _prevValue;
-        private double _newValue;
+        private float _prevValue;
+        private float _newValue;
 
-        public AnalogPinValueChangedEventArgs(IPin pin, double prevValue, double newValue)
+        public AnalogPinValueChangedEventArgs(IPin pin, float prevValue, float newValue)
         {
             _pin = pin;
             _prevValue = prevValue;
@@ -19,8 +20,8 @@ namespace Clima.Core.IO
 
         public IPin Pin => _pin;
 
-        public double PrevValue => _prevValue;
+        public float PrevValue => _prevValue;
 
-        public double NewValue => _newValue;
+        public float NewValue => _newValue;
     }
 }

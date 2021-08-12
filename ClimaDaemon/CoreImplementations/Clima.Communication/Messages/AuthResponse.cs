@@ -7,7 +7,5 @@ namespace Clima.Communication.Messages
         public AuthResponse()
         {
         }
-
-        
     }
 }

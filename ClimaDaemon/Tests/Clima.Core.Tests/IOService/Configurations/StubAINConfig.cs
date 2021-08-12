@@ -4,6 +4,6 @@
     {
         public string PinName { get; set; }
         public int PinNumberInModule { get; set; }
-        public double Value { get; set; }
+        public float Value { get; set; }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Globalization;
 using Clima.Basics.Services;
+using Clima.Basics.Services.Communication;
 using Clima.Core.Devices.Network.Messages;
 
 namespace Clima.Core.Devices.Network.Services
 {
-    public class SensorsService:ISensorsService
+    public class SensorsService : ISensorsService, INetworkService
     {
         private readonly IDeviceProvider _deviceProvider;
         private ISensors _sensors;
@@ -16,6 +17,7 @@ namespace Clima.Core.Devices.Network.Services
             _sensors = _deviceProvider.GetSensors();
         }
 
+        [ServiceMethod]
         public SensorsServiceReadResponse ReadSensors(SensorsServiceReadRequest request)
         {
             Logger.Debug($"Read sensors");

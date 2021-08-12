@@ -16,6 +16,7 @@
             config.MonitorTimeout = 300;
             return config;
         }
+
         public string RelayName { get; set; }
         public string ControlPinName { get; set; }
         public string MonitorPinName { get; set; }
@@ -24,6 +25,7 @@
         public ActiveLevel EnableLevel { get; set; }
         public ActiveLevel MonitorLevel { get; set; }
     }
+
     public enum ActiveLevel
     {
         High,

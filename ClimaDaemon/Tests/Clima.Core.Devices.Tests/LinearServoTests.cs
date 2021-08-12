@@ -13,22 +13,22 @@ namespace Clima.Core.Devices.Tests
         [Test]
         public void Test1()
         {
-            ServoConfig config = ServoConfig.CreateDefault(0);
+            var config = ServoConfig.CreateDefault(0);
 
-            LinearServo servo = new LinearServo();
+            var servo = new LinearServo();
             servo.Configuration = config;
-            
-            servo.ProcessPosition(10,12.5);
+
+            servo.ProcessPosition(10, 12.5);
         }
 
         [Test]
         public void CoarseMove_Test()
         {
-            ServoConfig config = ServoConfig.CreateDefault(0);
+            var config = ServoConfig.CreateDefault(0);
 
-            LinearServo servo = new LinearServo();
+            var servo = new LinearServo();
             servo.Configuration = config;
-            
+
             //servo.MoveCoarse();
         }
     }
