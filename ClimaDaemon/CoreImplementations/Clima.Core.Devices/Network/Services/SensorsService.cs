@@ -27,7 +27,7 @@ namespace Clima.Core.Devices.Network.Services
                 RearTemperature = _sensors.RearTemperature.ToString(CultureInfo.InvariantCulture),
                 OutdoorTemperature = _sensors.OutdoorTemperature.ToString(CultureInfo.InvariantCulture),
                 Humidity = _sensors.Humidity.ToString(CultureInfo.InvariantCulture),
-                Presure = _sensors.Pressure.ToString(CultureInfo.InvariantCulture)
+                Pressure = _sensors.Pressure.ToString(CultureInfo.InvariantCulture)
             };
             return response;
         }

@@ -19,6 +19,13 @@ public:
     {
         return "MainMenuFrame";
     }
+private slots:
+    void on_btnVentilationOverview_clicked();
+
+    void on_btnVentilationConfig_clicked();
+
+    void on_btnReturn_clicked();
+
 private:
     Ui::MainMenuFrame *ui;
 };

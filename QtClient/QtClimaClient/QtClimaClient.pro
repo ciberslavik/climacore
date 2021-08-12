@@ -13,8 +13,11 @@ SOURCES += \
     Controls/qcustomplot.cpp \
     Frames/FrameBase.cpp \
     Frames/MainMenuFrame.cpp \
+    Frames/SelectGraphFrame.cpp \
     Frames/SystemStateFrame.cpp \
     Frames/VentelationStateFrame.cpp \
+    Frames/VentilationConfigFrame.cpp \
+    Frames/VentilationOverviewFrame.cpp \
     GlobalContext.cpp \
     Models/Authorization/User.cpp \
     Models/LivestockState.cpp \
@@ -37,8 +40,11 @@ HEADERS += \
     Frames/FrameBase.h \
     Frames/IFrameFactory.h \
     Frames/MainMenuFrame.h \
+    Frames/SelectGraphFrame.h \
     Frames/SystemStateFrame.h \
     Frames/VentelationStateFrame.h \
+    Frames/VentilationConfigFrame.h \
+    Frames/VentilationOverviewFrame.h \
     GlobalContext.h \
     MainWindow.h \
     Models/Authorization/User.h \
@@ -70,8 +76,11 @@ HEADERS += \
 
 FORMS += \
     Frames/MainMenuFrame.ui \
+    Frames/SelectGraphFrame.ui \
     Frames/SystemStateFrame.ui \
     Frames/VentelationStateFrame.ui \
+    Frames/VentilationConfigFrame.ui \
+    Frames/VentilationOverviewFrame.ui \
     MainWindow.ui
 
 # Default rules for deployment.

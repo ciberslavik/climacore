@@ -16,5 +16,7 @@ public:
     QS_FIELD(QString, OutdoorTemperature)
     QS_FIELD(QString, Humidity)
     QS_FIELD(QString, Presure)
+    QS_FIELD(QString, Valve1)
+    QS_FIELD(QString, Valve2)
 };
 

@@ -395,7 +395,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 // Update statistic
                 BytesReceived += size;
 
-                var str = _receiveBuffer.ExtractString(0, size);
+                var str = Encoding.UTF8.GetString(_receiveBuffer.Data);
 
                 if (str.Contains("<EOF>"))
                 {
