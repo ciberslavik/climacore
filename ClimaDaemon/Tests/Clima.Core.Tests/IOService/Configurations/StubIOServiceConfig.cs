@@ -36,7 +36,7 @@ namespace Clima.Core.Tests.IOService.Configurations
             {
                 var ain = new StubAINConfig();
                 ain.PinName = $"AI:1:{i}";
-                ain.Value = 36.6;
+                ain.Value = 36.6f;
                 config.AnalogInputs.Add(ain.PinName, ain);
             }
 

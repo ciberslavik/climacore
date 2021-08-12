@@ -19,7 +19,7 @@ namespace Clima.Core.Devices
             throw new System.NotImplementedException();
         }
 
-        public void SetPower(double power)
+        public void SetPower(float power)
         {
             throw new System.NotImplementedException();
         }

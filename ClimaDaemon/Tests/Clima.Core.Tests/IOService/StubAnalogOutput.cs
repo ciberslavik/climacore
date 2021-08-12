@@ -14,7 +14,7 @@ namespace Clima.Core.Tests.IOService
         public IAnalogValueConverter ValueConverter { get; set; }
         public double Value { get; }
 
-        public void SetValue(double value)
+        public void SetValue(float value)
         {
             throw new System.NotImplementedException();
         }

@@ -2,10 +2,12 @@
 {
     public interface ISensors
     {
-        double FrontTemperature { get; }
-        double RearTemperature { get; }
-        double OutdoorTemperature { get; }
-        double Humidity { get; }
-        double Pressure { get; }
+        float FrontTemperature { get; }
+        float RearTemperature { get; }
+        float OutdoorTemperature { get; }
+        float Humidity { get; }
+        float Pressure { get; }
+        float Valve1 { get; }
+        float Valve2 { get; }
     }
 }

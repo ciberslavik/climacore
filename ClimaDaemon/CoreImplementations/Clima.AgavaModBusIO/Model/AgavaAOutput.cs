@@ -8,7 +8,7 @@ namespace Clima.AgavaModBusIO.Model
     public class AgavaAOutput : AgavaPinBase, IAnalogOutput
     {
         private IAnalogValueConverter _valueConverter;
-        private double _value;
+        private float _value;
 
         public AgavaAOutput(byte moduleAddress, int pinNumberInModule)
         {
@@ -27,7 +27,7 @@ namespace Clima.AgavaModBusIO.Model
 
         public double Value => _value;
 
-        public void SetValue(double value)
+        public void SetValue(float value)
         {
             if (_value.Equals(value))
                 return;

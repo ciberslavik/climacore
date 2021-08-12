@@ -8,8 +8,8 @@ namespace Clima.AgavaModBusIO.Model
     {
         private AgavaAnalogInType _inputType;
         private IAnalogValueConverter _valueConverter;
-        private double _value;
-        private double _rawValue;
+        private float _value;
+        private float _rawValue;
 
         public AgavaAInput(byte moduleAddress, int pinNumberInModule)
         {
@@ -32,7 +32,7 @@ namespace Clima.AgavaModBusIO.Model
             set => _valueConverter = value;
         }
 
-        public double Value => _value;
+        public float Value => _value;
 
         public double RawValue => _rawValue;
 
@@ -52,7 +52,7 @@ namespace Clima.AgavaModBusIO.Model
                 if (!newValue.Equals(_value))
                 {
                     var prevValue = _value;
-                    _value = newValue;
+                    _value = (float)newValue;
                     OnValueChanged(new AnalogPinValueChangedEventArgs(this, prevValue, _value));
                 }
             }

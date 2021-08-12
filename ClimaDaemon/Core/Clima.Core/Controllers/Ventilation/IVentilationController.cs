@@ -11,7 +11,7 @@ namespace Clima.Core.Controllers.Ventilation
         IList<IFan> Fans { get; }
         void AddFan(IFan fan);
         void RemoveFan(IFan fan);
-        void SetPerformance(long performance);
+        void SetPerformance(float performance);
         
         long TotalPerformance { get; }
     }

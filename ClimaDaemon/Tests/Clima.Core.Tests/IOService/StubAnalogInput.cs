@@ -12,7 +12,7 @@ namespace Clima.Core.Tests.IOService
         public bool IsModified { get; }
         public event AnalogPinValueChangedEventHandler ValueChanged;
         public IAnalogValueConverter ValueConverter { get; set; }
-        public double Value { get; set; }
+        public float Value { get; set; }
         public double RawValue { get; }
     }
 }

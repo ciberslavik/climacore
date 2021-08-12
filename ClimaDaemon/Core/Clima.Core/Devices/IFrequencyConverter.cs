@@ -4,7 +4,7 @@
     {
         void Start();
         void Stop();
-        void SetPower(double power);
+        void SetPower(float power);
         double Power { get; }
     }
 }

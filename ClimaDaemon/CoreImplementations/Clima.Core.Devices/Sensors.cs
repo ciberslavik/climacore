@@ -9,6 +9,8 @@ namespace Clima.Core.Devices
         private IAnalogInput _outdoorTempPin;
         private IAnalogInput _humidityPin;
         private IAnalogInput _pressurePin;
+        private IAnalogInput _valve1Pin;
+        private IAnalogInput _valve2Pin;
 
         public Sensors()
         {
@@ -69,10 +71,32 @@ namespace Clima.Core.Devices
             }
         }
 
-        public double FrontTemperature { get; private set; }
-        public double RearTemperature { get; private set; }
-        public double OutdoorTemperature { get; private set; }
-        public double Humidity { get; private set; }
-        public double Pressure { get; private set; }
+        internal IAnalogInput Valve1OSPin
+        {
+            get => _valve1Pin;
+            set
+            {
+                _valve1Pin = value;
+                Valve1 = _valve1Pin.Value;
+                _valve1Pin.ValueChanged += (ea => { Valve1 = ea.NewValue; });
+            }
+        }
+        internal IAnalogInput Valve2OSPin
+        {
+            get => _valve2Pin;
+            set
+            {
+                _valve2Pin = value;
+                Valve2 = _valve2Pin.Value;
+                _valve2Pin.ValueChanged += (ea => { Valve2 = ea.NewValue; });
+            }
+        }
+        public float FrontTemperature { get; private set; }
+        public float RearTemperature { get; private set; }
+        public float OutdoorTemperature { get; private set; }
+        public float Humidity { get; private set; }
+        public float Pressure { get; private set; }
+        public float Valve1 { get; private set;  }
+        public float Valve2 { get; private set;  }
     }
 }

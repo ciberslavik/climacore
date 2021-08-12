@@ -6,6 +6,6 @@ namespace Clima.Core.IO
 
         IAnalogValueConverter ValueConverter { get; set; }
         double Value { get; }
-        void SetValue(double value);
+        void SetValue(float value);
     }
 }

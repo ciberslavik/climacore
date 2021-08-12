@@ -29,8 +29,12 @@ namespace Clima.Core.Controllers.Tests
             Assert.Pass();
         }
 
-        [Test]
-        public void SetPerformance_Test()
+        [TestCase(2000)]
+        [TestCase(15000)]
+        [TestCase(20000)]
+        [TestCase(100000)]
+        [TestCase(200000)]
+        public void SetPerformance_Test(float performance)
         {
             var ventController = new VentilationController();
 
@@ -38,7 +42,7 @@ namespace Clima.Core.Controllers.Tests
 
             ventController.RebuildControllerTable();
             
-            ventController.SetPerformance(100000);
+            ventController.SetPerformance(performance);
             Assert.Pass();
         }
 
@@ -71,8 +75,8 @@ namespace Clima.Core.Controllers.Tests
                     Hermetise = false,
                     Performance = 15000,
                     Priority = i,
-                    StartValue = 0.10f,
-                    StopValue = 0.05f
+                    StartValue = 0.30f,
+                    StopValue = 0.25f
                 };
                 
                 controller.AddFan(discreteFan);
