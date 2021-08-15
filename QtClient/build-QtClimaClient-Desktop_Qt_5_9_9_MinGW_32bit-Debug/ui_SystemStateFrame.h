@@ -58,13 +58,13 @@ public:
     QProgressBar *barPresure;
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton_2;
-    QPushButton *pushButton;
+    QPushButton *btnMainMenu;
 
     void setupUi(QWidget *SystemStateFrame)
     {
         if (SystemStateFrame->objectName().isEmpty())
             SystemStateFrame->setObjectName(QStringLiteral("SystemStateFrame"));
-        SystemStateFrame->resize(669, 416);
+        SystemStateFrame->resize(669, 423);
         verticalLayout = new QVBoxLayout(SystemStateFrame);
         verticalLayout->setSpacing(3);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -241,12 +241,12 @@ public:
 
         horizontalLayout->addWidget(pushButton_2);
 
-        pushButton = new QPushButton(SystemStateFrame);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setMinimumSize(QSize(0, 45));
-        pushButton->setFont(font3);
+        btnMainMenu = new QPushButton(SystemStateFrame);
+        btnMainMenu->setObjectName(QStringLiteral("btnMainMenu"));
+        btnMainMenu->setMinimumSize(QSize(0, 45));
+        btnMainMenu->setFont(font3);
 
-        horizontalLayout->addWidget(pushButton);
+        horizontalLayout->addWidget(btnMainMenu);
 
 
         verticalLayout->addLayout(horizontalLayout);
@@ -282,7 +282,7 @@ public:
         label->setText(QApplication::translate("SystemStateFrame", "\320\240\320\260\320\267\321\200\320\265\320\266\320\265\320\275\320\270\320\265", Q_NULLPTR));
         barPresure->setFormat(QApplication::translate("SystemStateFrame", "%p Pa", Q_NULLPTR));
         pushButton_2->setText(QApplication::translate("SystemStateFrame", "\320\222\321\213\320\272\320\273 \321\215\320\272\321\200\320\260\320\275", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("SystemStateFrame", "\320\223\320\273\320\260\320\262\320\275\320\276\320\265 \320\274\320\265\320\275\321\216", Q_NULLPTR));
+        btnMainMenu->setText(QApplication::translate("SystemStateFrame", "\320\223\320\273\320\260\320\262\320\275\320\276\320\265 \320\274\320\265\320\275\321\216", Q_NULLPTR));
     } // retranslateUi
 
 };

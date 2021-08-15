@@ -6,7 +6,7 @@ using Clima.Core.DataModel.GraphModel;
 using Clima.Core.Network.Messages;
 using Clima.Core.Network.Services;
 
-namespace GraphProviderServices
+namespace GraphProviderService
 {
     public class GraphProviderService : IGraphProviderService, INetworkService
     {
@@ -25,6 +25,7 @@ namespace GraphProviderServices
 
             return new GraphInfosResponse()
             {
+                GraphType = "Temperature",
                 Infos = new List<GraphInfo>(temperatureProvider.GetGraphInfos())
             };
         }
@@ -32,6 +33,7 @@ namespace GraphProviderServices
         [ServiceMethod]
         public TemperatureGraphResponse GetTemperatureGraph(GetGraphRequest<TemperatureGraphResponse> request)
         {
+            
             if (string.IsNullOrEmpty(request.GraphKey))
                 throw new InvalidRequestException("Get temperature graph key is null");
             var tGraph = _providerFactory.TemperatureGraphProvider().GetGraph(request.GraphKey);
@@ -46,6 +48,26 @@ namespace GraphProviderServices
             return response;
         }
 
-        public string ServiceName { get; }
+        public string ServiceName { get; } = "GraphProviderService";
+        
+        [ServiceMethod]
+        public CreateResultRespose CreateGraph(CreateGraphRequest request)
+        {
+            var response = new CreateResultRespose();
+            if (request.GraphType == "Temperature")
+            {
+                Log.Debug($"Create temperature graph:{request.Info.Name}");
+                var tGraphProvider = _providerFactory.TemperatureGraphProvider();
+                var newKey = tGraphProvider.GetValidKey();
+                Log.Debug($"Create temperature graph key:{newKey}");
+            }
+            else if (request.GraphType == "VentilationMinMax")
+            {
+                
+            }
+
+
+            return response;
+        }
     }
 }

@@ -30,6 +30,8 @@ private slots:
     void onTimerElapsed();
     void on_pushButton_clicked();
 
+    void on_btnMainMenu_clicked();
+
 private:
     Ui::SystemStateFrame *ui;
     SensorsService *m_sensorsService;

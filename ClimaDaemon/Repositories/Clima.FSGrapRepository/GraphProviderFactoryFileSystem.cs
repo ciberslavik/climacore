@@ -33,7 +33,20 @@ namespace Clima.FSGrapRepository
             if (!_configStorgae.Exist(configName))
             {
                 var tempProviderConfig = new GraphProviderConfig<TemperatureGraphPointConfig>();
+                tempProviderConfig.ConfigurationName = "DefaultConfig";
+                tempProviderConfig.CurrentGraph = "Default";
+                tempProviderConfig.Graphs.Add("Default", new GraphConfig<TemperatureGraphPointConfig>()
+                {
+                    Info = new GraphInfo()
+                    {
+                        Key="Default",
+                        Name="Default Graph",
+                        CreationTime = DateTime.Now,
+                        ModifiedTime = DateTime.Now
+                    }
+                });
                 _configStorgae.RegisterConfig(configName, tempProviderConfig);
+                _configStorgae.Save();
             }
             _tempProviderConfig = _configStorgae.GetConfig<GraphProviderConfig<TemperatureGraphPointConfig>>(configName);
         }

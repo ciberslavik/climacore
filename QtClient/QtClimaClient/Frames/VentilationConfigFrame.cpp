@@ -22,7 +22,7 @@ QString VentilationConfigFrame::getFrameName()
 
 void VentilationConfigFrame::on_btnSelectGraph_clicked()
 {
-    SelectGraphFrame *selectFrame = new SelectGraphFrame();
-    FrameManager::instance()->setCurrentFrame(selectFrame);
+   // SelectGraphFrame *selectFrame = new SelectGraphFrame();
+    //FrameManager::instance()->setCurrentFrame(selectFrame);
 }
 

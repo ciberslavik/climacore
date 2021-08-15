@@ -8,6 +8,7 @@ namespace Clima.Core.Network.Messages
         {
         }
 
+        public string GraphType { get; set; }
         public string GraphKey { get; set; }
     }
 }

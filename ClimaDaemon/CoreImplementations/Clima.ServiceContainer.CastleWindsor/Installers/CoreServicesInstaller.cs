@@ -52,6 +52,12 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
 
             ioService.Init();
             ioService.Start();
+
+            container.Register(
+                Component
+                    .For<IGraphProviderFactory>()
+                    .ImplementedBy<GraphProviderFactoryFileSystem>()
+                    .LifestyleSingleton());
         }
     }
 }

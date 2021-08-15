@@ -10,16 +10,21 @@ CONFIG += c++11
 
 SOURCES += \
     ApplicationWorker.cpp \
+    Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
     Frames/FrameBase.cpp \
+    Frames/Graphs/GraphEditorFrame.cpp \
     Frames/MainMenuFrame.cpp \
     Frames/SelectGraphFrame.cpp \
     Frames/SystemStateFrame.cpp \
+    Frames/TemperatureOwerviewFrame.cpp \
     Frames/VentelationStateFrame.cpp \
     Frames/VentilationConfigFrame.cpp \
     Frames/VentilationOverviewFrame.cpp \
     GlobalContext.cpp \
     Models/Authorization/User.cpp \
+    Models/Graphs/DayOfValueGraph.cpp \
+    Models/Graphs/GraphBase.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
     Network/GenericServices/GraphService.cpp \
@@ -36,24 +41,31 @@ SOURCES += \
 
 HEADERS += \
     ApplicationWorker.h \
+    Controls/qclickablelineedit.h \
     Controls/qcustomplot.h \
     Frames/FrameBase.h \
+    Frames/Graphs/GraphEditorFrame.h \
     Frames/IFrameFactory.h \
     Frames/MainMenuFrame.h \
     Frames/SelectGraphFrame.h \
     Frames/SystemStateFrame.h \
+    Frames/TemperatureOwerviewFrame.h \
     Frames/VentelationStateFrame.h \
     Frames/VentilationConfigFrame.h \
     Frames/VentilationOverviewFrame.h \
     GlobalContext.h \
     MainWindow.h \
     Models/Authorization/User.h \
+    Models/Graphs/DayOfValueGraph.h \
+    Models/Graphs/GraphBase.h \
+    Models/Graphs/GraphInfo.h \
     Models/LivestockState.h \
     Models/SensorsData.h \
     Models/SystemState.h \
     Network/AuthRequest.h \
     Network/ClientConnection.h \
     Network/GenericServices/GraphService.h \
+    Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
@@ -75,9 +87,12 @@ HEADERS += \
     Services/QSerializer.h
 
 FORMS += \
+    Controls/qclickablelineedit.ui \
+    Frames/Graphs/GraphEditorFrame.ui \
     Frames/MainMenuFrame.ui \
     Frames/SelectGraphFrame.ui \
     Frames/SystemStateFrame.ui \
+    Frames/TemperatureOwerviewFrame.ui \
     Frames/VentelationStateFrame.ui \
     Frames/VentilationConfigFrame.ui \
     Frames/VentilationOverviewFrame.ui \

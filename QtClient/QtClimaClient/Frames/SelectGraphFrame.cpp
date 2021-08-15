@@ -1,7 +1,7 @@
 #include "SelectGraphFrame.h"
 #include "ui_SelectGraphFrame.h"
 
-SelectGraphFrame::SelectGraphFrame(QWidget *parent) :
+SelectGraphFrame::SelectGraphFrame(QList<GraphInfo> *infos, QWidget *parent) :
     FrameBase(parent),
     ui(new Ui::SelectGraphFrame)
 {

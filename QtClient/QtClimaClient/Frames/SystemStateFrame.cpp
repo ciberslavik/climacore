@@ -22,9 +22,9 @@ SystemStateFrame::SystemStateFrame(QWidget *parent) :
     }
     connect(m_sensorsService,&SensorsService::SensorsReceived,this, &SystemStateFrame::onSystemStateUpdate);
     m_updateTmer = new QTimer();
-    m_updateTmer->setInterval(1000);
+    m_updateTmer->setInterval(5000);
     connect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
-    m_updateTmer->start();
+    //m_updateTmer->start();
 }
 
 SystemStateFrame::~SystemStateFrame()
@@ -64,5 +64,13 @@ void SystemStateFrame::on_pushButton_clicked()
 {
     MainMenuFrame *mainMenu = new MainMenuFrame();
     FrameManager::instance()->setCurrentFrame(mainMenu);
+}
+
+
+void SystemStateFrame::on_btnMainMenu_clicked()
+{
+    MainMenuFrame *mainMenu = new MainMenuFrame();
+    FrameManager::instance()->setCurrentFrame(mainMenu);
+
 }
 

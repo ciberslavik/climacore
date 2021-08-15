@@ -15,5 +15,6 @@ namespace Clima.Core.DataModel.GraphModel
         void RemoveGraph(string key);
 
         TGraph CreateGraph(string key);
+        string GetValidKey();
     }
 }

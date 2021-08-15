@@ -15,6 +15,6 @@ namespace Clima.FSGrapRepository.Configuration
         public Dictionary<string, GraphConfig<TPointConfig>> Graphs { get; set; } =
             new Dictionary<string, GraphConfig<TPointConfig>>();
 
-        public string ConfigurationName { get; }
+        public string ConfigurationName { get; set; }
     }
 }

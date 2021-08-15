@@ -9,6 +9,7 @@
 
 #include <Frames/MainMenuFrame.h>
 #include <Frames/SystemStateFrame.h>
+#include <Network/GenericServices/GraphService.h>
 #include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
 #include <QMetaType>
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
 
     worker->RegisterNetworkService(new ServerInfoService());
     worker->RegisterNetworkService(new SensorsService());
+    worker->RegisterNetworkService(new GraphService());
 
     CMainWindow w;
     w.show();

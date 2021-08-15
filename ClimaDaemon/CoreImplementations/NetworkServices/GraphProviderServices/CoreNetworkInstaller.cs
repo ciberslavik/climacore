@@ -16,7 +16,7 @@ namespace GraphProviderServices
 
         public void InstallServices(INetworkServiceRegistrator registrator)
         {
-            registrator.RegisterNetworkService<GraphProviderService>();
+            registrator.RegisterNetworkService<GraphProviderService.GraphProviderService>();
         }
     }
 }

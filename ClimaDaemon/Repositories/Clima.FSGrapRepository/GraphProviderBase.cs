@@ -130,5 +130,20 @@ namespace Clima.FSGrapRepository
 
         protected abstract GraphConfig<TConfigPoint> PopulateConfigFromGraph(
             ref GraphConfig<TConfigPoint> config, TGraph graph);
+
+        public string GetValidKey()
+        {
+            string baseName = "Graph";
+            string retValue = "";
+            for (int i = 0; i < int.MaxValue; i++)
+            {
+                if (!ProviderConfig.Graphs.ContainsKey(baseName + i))
+                {
+                    retValue = baseName + i;
+                    break;
+                }
+            }
+            return retValue;
+        }
     }
 }

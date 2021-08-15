@@ -1,4 +1,5 @@
 #include "MainMenuFrame.h"
+#include "TemperatureOwerviewFrame.h"
 #include "VentilationConfigFrame.h"
 #include "ui_MainMenuFrame.h"
 
@@ -34,5 +35,13 @@ void MainMenuFrame::on_btnVentilationConfig_clicked()
 void MainMenuFrame::on_btnReturn_clicked()
 {
     FrameManager::instance()->PreviousFrame();
+}
+
+
+void MainMenuFrame::on_btnTemperature_clicked()
+{
+     TemperatureOwerviewFrame *tempFrame = new TemperatureOwerviewFrame();
+
+     FrameManager::instance()->setCurrentFrame(tempFrame);
 }
 

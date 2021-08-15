@@ -8,7 +8,7 @@ namespace Clima.Core.Network.Messages
         public GraphInfosResponse()
         {
         }
-
-        public List<GraphInfo> Infos { get; set; }
+        public string GraphType { get; set; }
+        public List<GraphInfo> Infos { get; set; } = new List<GraphInfo>();
     }
 }
