@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/save.png</file>
+        <file>Images/power-button-off.png</file>
+        <file>Images/ok.png</file>
+        <file>Images/info.png</file>
+        <file>Images/icons8-remove-64.png</file>
+        <file>Images/icons8-edit-64.png</file>
+        <file>Images/icons8-double-right-48.png</file>
+        <file>Images/icons8-add-property-50.png</file>
+        <file>Images/gears.png</file>
+        <file>Images/exclamation.png</file>
+        <file>Images/delete.png</file>
+        <file>Images/circled-up.png</file>
+        <file>Images/circled-left.png</file>
+        <file>Images/circled-down.png</file>
+        <file>Images/cancel.png</file>
+        <file>Images/backspace-arrow.png</file>
+        <file>Images/Fan.gif</file>
+        <file>Images/auto.png</file>
+        <file>Images/Industry-Manual-icon.png</file>
+        <file>Images/Industry-Automatic-icon.png</file>
+        <file>Images/cancel-icon.png</file>
+        <file>Images/alert-icon.png</file>
+        <file>Images/line-chart.png</file>
+        <file>Images/remove.png</file>
+        <file>Images/add.png</file>
+    </qresource>
+</RCC>

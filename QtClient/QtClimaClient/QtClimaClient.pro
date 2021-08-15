@@ -12,6 +12,9 @@ SOURCES += \
     ApplicationWorker.cpp \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
+    Frames/Dialogs/MessageDialog.cpp \
+    Frames/Dialogs/inputdigitdialog.cpp \
+    Frames/Dialogs/inputtextdialog.cpp \
     Frames/FrameBase.cpp \
     Frames/Graphs/GraphEditorFrame.cpp \
     Frames/MainMenuFrame.cpp \
@@ -43,6 +46,9 @@ HEADERS += \
     ApplicationWorker.h \
     Controls/qclickablelineedit.h \
     Controls/qcustomplot.h \
+    Frames/Dialogs/MessageDialog.h \
+    Frames/Dialogs/inputdigitdialog.h \
+    Frames/Dialogs/inputtextdialog.h \
     Frames/FrameBase.h \
     Frames/Graphs/GraphEditorFrame.h \
     Frames/IFrameFactory.h \
@@ -88,6 +94,9 @@ HEADERS += \
 
 FORMS += \
     Controls/qclickablelineedit.ui \
+    Frames/Dialogs/MessageDialog.ui \
+    Frames/Dialogs/inputdigitdialog.ui \
+    Frames/Dialogs/inputtextdialog.ui \
     Frames/Graphs/GraphEditorFrame.ui \
     Frames/MainMenuFrame.ui \
     Frames/SelectGraphFrame.ui \
@@ -102,3 +111,38 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    Images/Fan.gif \
+    Images/Industry-Automatic-icon.png \
+    Images/Industry-Manual-icon.png \
+    Images/add.png \
+    Images/alert-icon.png \
+    Images/auto.png \
+    Images/backspace-arrow.png \
+    Images/cancel-icon.png \
+    Images/cancel.png \
+    Images/chicken-128.png \
+    Images/chicken-32.png \
+    Images/circled-down.png \
+    Images/circled-left.png \
+    Images/circled-up.png \
+    Images/delete.png \
+    Images/exclamation.png \
+    Images/fan-off.png \
+    Images/fan-on.png \
+    Images/gears.png \
+    Images/icon-manual-27.jpg \
+    Images/icons8-add-property-50.png \
+    Images/icons8-double-right-48.png \
+    Images/icons8-edit-64.png \
+    Images/icons8-remove-64.png \
+    Images/info.png \
+    Images/line-chart.png \
+    Images/ok.png \
+    Images/power-button-off.png \
+    Images/remove.png \
+    Images/save.png
+
+RESOURCES += \
+    Resources.qrc
