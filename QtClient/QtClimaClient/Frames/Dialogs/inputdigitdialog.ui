@@ -237,8 +237,8 @@
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="../resources.qrc">
-        <normaloff>:/images/backspace-arrow.png</normaloff>:/images/backspace-arrow.png</iconset>
+       <iconset resource="../../Resources.qrc">
+        <normaloff>:/Images/backspace-arrow.png</normaloff>:/Images/backspace-arrow.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -250,7 +250,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -272,8 +272,8 @@
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="../resources.qrc">
-        <normaloff>:/images/ok.png</normaloff>:/images/ok.png</iconset>
+       <iconset resource="../../Resources.qrc">
+        <normaloff>:/Images/ok.png</normaloff>:/Images/ok.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -295,8 +295,8 @@
        <string/>
       </property>
       <property name="icon">
-       <iconset resource="../resources.qrc">
-        <normaloff>:/images/delete.png</normaloff>:/images/delete.png</iconset>
+       <iconset resource="../../Resources.qrc">
+        <normaloff>:/Images/delete.png</normaloff>:/Images/delete.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -310,7 +310,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="../resources.qrc"/>
+  <include location="../../Resources.qrc"/>
  </resources>
  <connections/>
 </ui>
