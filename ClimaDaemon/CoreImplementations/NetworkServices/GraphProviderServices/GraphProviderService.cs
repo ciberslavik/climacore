@@ -51,7 +51,7 @@ namespace GraphProviderService
         public string ServiceName { get; } = "GraphProviderService";
         
         [ServiceMethod]
-        public CreateResultRespose CreateGraph(CreateGraphRequest request)
+        public CreateResultRespose CreateTemperatureGraph(CreateGraphRequest request)
         {
             var response = new CreateResultRespose();
             if (request.GraphType == "Temperature")
@@ -83,9 +83,14 @@ namespace GraphProviderService
             
             return new DefaultResponse();
         }
+        [ServiceMethod]
+        public GraphInfosResponse GetVentilationGraphInfos(GraphInfosRequest request)
+        {
+            throw new System.NotImplementedException();
+        }
 
         [ServiceMethod]
-        public DefaultResponse UpdateTemperatureGraph(UpdateGraphRequest request)
+        public DefaultResponse UpdateTemperatureGraph(UpdateTemperatureGraphRequest request)
         {
             return new DefaultResponse();
         }
