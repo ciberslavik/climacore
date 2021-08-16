@@ -28,6 +28,7 @@ SOURCES += \
     Models/Authorization/User.cpp \
     Models/Graphs/DayOfValueGraph.cpp \
     Models/Graphs/GraphBase.cpp \
+    Models/Graphs/SelectGraphModel.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
     Network/GenericServices/GraphService.cpp \
@@ -39,6 +40,7 @@ SOURCES += \
     Network/Session.cpp \
     Services/DefaultFrameFactory.cpp \
     Services/FrameManager.cpp \
+    TimerPool.cpp \
     main.cpp \
     MainWindow.cpp
 
@@ -65,6 +67,7 @@ HEADERS += \
     Models/Graphs/DayOfValueGraph.h \
     Models/Graphs/GraphBase.h \
     Models/Graphs/GraphInfo.h \
+    Models/Graphs/SelectGraphModel.h \
     Models/LivestockState.h \
     Models/SensorsData.h \
     Models/SystemState.h \
@@ -90,7 +93,8 @@ HEADERS += \
     Services/DefaultFrameFactory.h \
     Services/FrameManager.h \
     Services/FrameName.h \
-    Services/QSerializer.h
+    Services/QSerializer.h \
+    TimerPool.h
 
 FORMS += \
     Controls/qclickablelineedit.ui \

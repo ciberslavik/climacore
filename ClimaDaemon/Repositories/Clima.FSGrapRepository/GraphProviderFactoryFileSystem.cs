@@ -27,6 +27,10 @@ namespace Clima.FSGrapRepository
             _configStorgae.Save();
         }
 
+        public void Save()
+        {
+            _configStorgae.Save();
+        }
         protected void LoadOrCreateTempGraphProviderConfig()
         {
             var configName = "TemperatureGrapProvider";

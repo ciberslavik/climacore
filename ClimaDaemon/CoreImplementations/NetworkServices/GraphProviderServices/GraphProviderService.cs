@@ -56,10 +56,17 @@ namespace GraphProviderService
             var response = new CreateResultRespose();
             if (request.GraphType == "Temperature")
             {
-                Log.Debug($"Create temperature graph:{request.Info.Name}");
                 var tGraphProvider = _providerFactory.TemperatureGraphProvider();
-                var newKey = tGraphProvider.GetValidKey();
+                var newKey = "Temp" + tGraphProvider.GetValidKey();
                 Log.Debug($"Create temperature graph key:{newKey}");
+                var newGraph = tGraphProvider.CreateGraph(newKey);
+                newGraph.Info.Key = request.Info.Key;
+                newGraph.Info.Name = request.Info.Name;
+                newGraph.Info.Description = request.Info.Description;
+                newGraph.Info.CreationTime = request.Info.CreationTime;
+                newGraph.Info.ModifiedTime = request.Info.ModifiedTime;
+                
+                _providerFactory.Save();
             }
             else if (request.GraphType == "VentilationMinMax")
             {
@@ -68,6 +75,19 @@ namespace GraphProviderService
 
 
             return response;
+        }
+
+        [ServiceMethod]
+        public DefaultResponse RemoveTemperatureGraph(RemoveGraphRequest request)
+        {
+            
+            return new DefaultResponse();
+        }
+
+        [ServiceMethod]
+        public DefaultResponse UpdateTemperatureGraph(UpdateGraphRequest request)
+        {
+            return new DefaultResponse();
         }
     }
 }

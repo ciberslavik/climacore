@@ -6,5 +6,6 @@ namespace Clima.Core.Network.Services
     {
         GraphInfosResponse GetTemperatureGraphInfos(GraphInfosRequest request);
         TemperatureGraphResponse GetTemperatureGraph(GetGraphRequest<TemperatureGraphResponse> request);
+        CreateResultRespose CreateGraph(CreateGraphRequest request);
     }
 }

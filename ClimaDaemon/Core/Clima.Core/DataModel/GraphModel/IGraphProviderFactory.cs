@@ -5,5 +5,6 @@
         IGraphProvider<TemperatureGraph, ValueByDayPoint> TemperatureGraphProvider();
         IGraphProvider<VentilationMinMaxGraph, MinMaxByDayPoint> VentilationMinMaxGraphProvider();
         IGraphProvider<ValvePerVentilationGraph, ValueByValuePoint> ValvePerVentilationGraphProvider();
+        void Save();
     }
 }
