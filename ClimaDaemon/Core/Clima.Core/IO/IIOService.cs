@@ -1,10 +1,9 @@
+using Clima.Basics.Services;
+
 namespace Clima.Core.IO
 {
-    public interface IIOService
+    public interface IIOService : IService
     {
-        void Init();
-        void Start();
-        void Stop();
         bool IsInit { get; }
         bool IsRunning { get; }
 

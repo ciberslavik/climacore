@@ -7,9 +7,9 @@ using Clima.Core.Network.Services;
 
 namespace GraphProviderServices
 {
-    public class CoreNetworkInstaller : INetworkInstaller
+    public class GraphNetworkInstaller : INetworkInstaller
     {
-        public CoreNetworkInstaller()
+        public GraphNetworkInstaller()
         {
         }
 

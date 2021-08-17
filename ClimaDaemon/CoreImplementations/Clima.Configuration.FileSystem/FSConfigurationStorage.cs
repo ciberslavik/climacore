@@ -39,7 +39,7 @@ namespace Clima.Configuration.FileSystem
 
         public void RegisterConfig<ConfigT>(ConfigT instance) where ConfigT : IConfigurationItem, new()
         {
-            var configName = typeof(ConfigT).FullName;
+            var configName = typeof(ConfigT).Name;
             RegisterConfig(configName, instance);
         }
 
@@ -60,7 +60,7 @@ namespace Clima.Configuration.FileSystem
 
         public ConfigT GetConfig<ConfigT>() where ConfigT : IConfigurationItem, new()
         {
-            var configName = typeof(ConfigT).FullName;
+            var configName = typeof(ConfigT).Name;
 
             return GetConfig<ConfigT>(configName);
         }

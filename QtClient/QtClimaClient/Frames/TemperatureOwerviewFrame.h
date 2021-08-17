@@ -5,6 +5,8 @@
 #include <ApplicationWorker.h>
 #include <Network/GenericServices/GraphService.h>
 #include <Network/GenericServices/SensorsService.h>
+#include <TimerPool.h>
+
 namespace Ui {
 class TemperatureOwerviewFrame;
 }

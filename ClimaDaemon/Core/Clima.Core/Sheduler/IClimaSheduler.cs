@@ -3,7 +3,7 @@
     public interface IClimaSheduler
     {
         void Process();
-        void SetTemperatureGraph();
+        void SetTemperatureGraph(string graphKey);
         ShedulerStateObject ShedulerState { get; }
     }
 }

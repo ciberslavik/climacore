@@ -2,6 +2,7 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Clima.Basics.Services;
 using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 using Clima.Communication;
@@ -13,8 +14,15 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
 {
     public class NetworkInstaller : IWindsorInstaller
     {
+        private readonly ISystemLogger _logger;
+
+        public NetworkInstaller(ISystemLogger logger)
+        {
+            _logger = logger;
+        }
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            _logger.Info("Register network components");
             container.Register(
                 Component
                     .For<IMessageTypeProvider>()
@@ -36,21 +44,20 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                     .For<INetworkServiceRegistrator>()
                     .ImplementedBy<DefaultServiceRegistrator>()
                     .LifestyleTransient());
-
-            //Create instance of TCP Server by default configuration
-            var serverConfig = TcpServerConfig.CreateDefault("", 5911);
-            var server = new TcpSocketServer(serverConfig);
-
-
-            container.Register(
+            /*container.Register(
                 Component
                     .For<IServer>()
-                    .Instance(server)
-                    .LifestyleSingleton());
+                    .ImplementedBy<TcpSocketServer>()
+                    .LifestyleSingleton());*/
 
-            server.Start();
+            _logger.Info("Register network services");
+            SearchAndRegisterServices(container);
+            
+            _logger.Info("Network services Registered...");
+        }
 
-
+        private void SearchAndRegisterServices(IWindsorContainer container)
+        {
             container.Register(
                 Classes
                     .FromAssemblyInDirectory(new AssemblyFilter(Environment.CurrentDirectory))
@@ -63,7 +70,6 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
             var installers = container.ResolveAll<INetworkInstaller>();
 
             foreach (var installer in installers) installer.InstallServices(serviceRegistrator);
-            Console.WriteLine("Network services initialized...");
         }
     }
 }

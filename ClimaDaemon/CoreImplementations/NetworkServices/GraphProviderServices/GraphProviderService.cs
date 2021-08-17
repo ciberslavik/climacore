@@ -87,11 +87,18 @@ namespace GraphProviderService
                 {RequestName = "UpdateTemperatureGraph", Status = $"OK"};
 
         }
+        
         [ServiceMethod]
         public DefaultResponse RemoveTemperatureGraph(RemoveGraphRequest request)
         {
-            
-            return new DefaultResponse();
+            var tGraphProvider = _providerFactory.TemperatureGraphProvider();
+            if (tGraphProvider.ContainsKey(request.Key))
+            {
+                tGraphProvider.RemoveGraph(request.Key);
+                return new DefaultResponse();
+            }
+
+            return new DefaultResponse($"Key:{request.Key} not contains in storage");
         }
         [ServiceMethod]
         public GraphInfosResponse GetVentilationGraphInfos(GraphInfosRequest request)

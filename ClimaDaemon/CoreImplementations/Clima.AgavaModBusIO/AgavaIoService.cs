@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
@@ -19,7 +20,6 @@ namespace Clima.AgavaModBusIO
 {
     public class AgavaIoService : IIOService
     {
-        private readonly IConfigurationStorage _configStorage;
         private ModbusConfig _config;
         private IAgavaMaster _master;
         private IOPinCollection _pins;
@@ -29,9 +29,8 @@ namespace Clima.AgavaModBusIO
         private Timer _cycleTimer;
         private long _cycleCounter;
 
-        public AgavaIoService(IConfigurationStorage configStorage)
+        public AgavaIoService()
         {
-            _configStorage = configStorage;
             _pins = new IOPinCollection();
             _modules = new Dictionary<byte, AgavaIOModule>();
             _requestQueue = new Queue<AgavaRequest>();
@@ -42,24 +41,21 @@ namespace Clima.AgavaModBusIO
         public IOPinCollection Pins => _pins;
 
 
-        public void Init()
+        public void Init(object config)
         {
-            if (!_configStorage.Exist("ModbusConfig"))
-            {
-                var defaultConfig = ModbusConfig.CreateDefault();
-                _configStorage.RegisterConfig("ModbusConfig", defaultConfig);
-            }
+            if (config is ModbusConfig cnf)
+                _config = cnf;
+            else
+                throw new ArgumentException("Configuration is not a ModbusConfig type", nameof(config));
 
-            _config = _configStorage.GetConfig<ModbusConfig>("ModbusConfig");
-
+            Log.Info("Start initialize IO Service");
             var port = CreatePort();
 
             _master = new AgavaModbusRTUMaster(port);
 
             _master.ReadTimeout = _config.ResponseTimeout;
             _master.WriteTimeout = _config.ResponseTimeout;
-
-            Console.WriteLine("Start scanning IO bus.");
+            
             Log.Debug("Start scanning IO bus.");
 
             ScanBus(_config.BusStartAddress, _config.BusEndAddress);
@@ -67,7 +63,7 @@ namespace Clima.AgavaModBusIO
             Log.Debug("Read analogInputs");
             ReadAnalogInputs();
 
-            Console.WriteLine($"IO System  initialization complete Thread:{Thread.CurrentThread.ManagedThreadId}");
+            Log.Info($"IO System  initialization complete Thread:{Thread.CurrentThread.ManagedThreadId}");
             IsInit = true;
         }
 
@@ -75,7 +71,7 @@ namespace Clima.AgavaModBusIO
         {
             if (IsInit)
             {
-                Console.WriteLine("Starting IO Server.");
+                Log.Info("Starting IO Server.");
                 _cycleCounter = 0;
                 _cycleTimer = new Timer(CycleFunc, _modules, 100, _config.IOProcessorCycleTime);
             }
@@ -84,6 +80,11 @@ namespace Clima.AgavaModBusIO
         public void Stop()
         {
         }
+
+        
+
+        public Type ConfigType => typeof(ModbusConfig);
+        public ServiceState ServiceState { get; private set; }
 
         public bool IsInit { get; private set; }
 
@@ -274,8 +275,6 @@ namespace Clima.AgavaModBusIO
                     }
                 }
             }
-
-            _configStorage.Save();
             BuildPinsCollection();
         }
 

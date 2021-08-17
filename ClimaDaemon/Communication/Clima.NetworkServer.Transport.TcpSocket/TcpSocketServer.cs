@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Clima.Basics.Services;
 
 namespace Clima.NetworkServer.Transport.TcpSocket
 {
@@ -17,26 +18,15 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         private bool _exitSignal;
         private Thread _listenerThread;
         private List<Task> _listenerTasks;
-        private readonly TcpServerConfig _config;
+        private TcpServerConfig _config;
 
-        public TcpSocketServer(TcpServerConfig config)
+        public TcpSocketServer()
         {
-            _config = config;
             _connections = new ConcurrentDictionary<string, IConnection>();
-
-            IPAddress hostAddress;
-            if (_config.HsotName == "")
-                hostAddress = IPAddress.Any;
-            else
-                hostAddress = IPAddress.Parse(_config.HsotName);
-
-            _endPoint = new IPEndPoint(hostAddress, _config.Port);
-
-            _listener = new TcpListener(_endPoint);
             _listenerTasks = new List<Task>();
             _listenerThread = new Thread(ListeningThread);
         }
-
+        public ISystemLogger Log { get; set; }
         public void Start()
         {
             _listenerThread.Start();
@@ -48,6 +38,28 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             _listenerThread.Join();
             IsRunning = false;
         }
+
+        public void Init(object config)
+        {
+            if (config is TcpServerConfig cfg)
+                _config = cfg;
+            else
+                throw new ArgumentException($"Configuration is not a {nameof(TcpServerConfig)} type", nameof(config));
+            
+            Log.Info("Start initialize tcp server");
+            IPAddress hostAddress;
+            if (_config.HsotName == "")
+                hostAddress = IPAddress.Any;
+            else
+                hostAddress = IPAddress.Parse(_config.HsotName);
+
+            _endPoint = new IPEndPoint(hostAddress, _config.Port);
+
+            _listener = new TcpListener(_endPoint);
+        }
+
+        public Type ConfigType => typeof(TcpServerConfig);
+        public ServiceState ServiceState { get; }
 
         public Task SendAsync(string connectionId, string data)
         {

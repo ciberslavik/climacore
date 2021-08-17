@@ -2,8 +2,9 @@
 {
     public class DefaultResponse
     {
-        public DefaultResponse()
+        public DefaultResponse(string status = "OK")
         {
+            Status = status;
         }
 
         public string RequestName { get; set; }

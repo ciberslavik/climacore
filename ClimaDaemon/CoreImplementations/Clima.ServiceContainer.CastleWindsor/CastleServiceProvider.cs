@@ -41,7 +41,8 @@ namespace Clima.ServiceContainer.CastleWindsor
 
         public void RegisterWithoutInterface<TImpl>(string name = "") where TImpl : class
         {
-            Register<TImpl, TImpl>(name);
+            _container.Register(Component.For<TImpl>().LifestyleSingleton());
+            //Register<TImpl, TImpl>(name);
         }
 
         public void InitializeService(IServiceInitializer initializer)

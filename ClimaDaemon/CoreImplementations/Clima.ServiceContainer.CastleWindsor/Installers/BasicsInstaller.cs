@@ -12,13 +12,15 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
 {
     public class BasicsInstaller:IWindsorInstaller
     {
-        public BasicsInstaller()
+        public BasicsInstaller(ISystemLogger logger)
         {
+            Log = logger;
         }
-
+        public ISystemLogger Log { get; private set; }
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            Log.Info("Install basic components");
             container.Register(
                 Component
                     .For<IConfigurationSerializer>()

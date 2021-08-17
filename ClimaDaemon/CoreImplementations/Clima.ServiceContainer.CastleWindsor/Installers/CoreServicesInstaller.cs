@@ -2,6 +2,7 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Clima.AgavaModBusIO;
+using Clima.Basics.Services;
 using Clima.Core.Conrollers.Ventilation;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel.GraphModel;
@@ -15,9 +16,9 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
 {
     public class CoreServicesInstaller : IWindsorInstaller
     {
-        private bool _isStub;
+        private readonly bool _isStub;
 
-        public CoreServicesInstaller(bool stub)
+        public CoreServicesInstaller(bool stub, ISystemLogger logger)
         {
             _isStub = stub;
         }
@@ -33,31 +34,28 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                 Component
                     .For<IVentilationController>()
                     .ImplementedBy<VentilationController>()
+                    .LifestyleSingleton(),
+                Component
+                    .For<IGraphProviderFactory>()
+                    .ImplementedBy<GraphProviderFactoryFileSystem>()
                     .LifestyleSingleton());
 
-            if (_isStub)
+            /*if (_isStub)
+            {
                 container.Register(
                     Component
                         .For<IIOService>()
                         .ImplementedBy<StubIOService>()
                         .LifestyleSingleton());
+            }
             else
+            {
                 container.Register(
                     Component
                         .For<IIOService>()
                         .ImplementedBy<AgavaIoService>()
                         .LifestyleSingleton());
-
-            var ioService = container.Resolve<IIOService>();
-
-            ioService.Init();
-            ioService.Start();
-
-            container.Register(
-                Component
-                    .For<IGraphProviderFactory>()
-                    .ImplementedBy<GraphProviderFactoryFileSystem>()
-                    .LifestyleSingleton());
+            }*/
         }
     }
 }

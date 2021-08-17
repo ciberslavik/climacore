@@ -9,7 +9,7 @@ namespace Clima.Core.Sheduler
             throw new NotImplementedException();
         }
 
-        public void SetTemperatureGraph()
+        public void SetTemperatureGraph(string graphKey)
         {
             throw new NotImplementedException();
         }

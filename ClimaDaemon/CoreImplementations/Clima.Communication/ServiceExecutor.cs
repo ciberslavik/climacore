@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using Clima.Basics.Services;
 using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Exceptions;
 using Clima.NetworkServer.Services;
@@ -15,7 +16,7 @@ namespace Clima.Communication
         {
             this._serviceProvider = _serviceProvider;
         }
-
+        public ISystemLogger Log { get; set; }
         //ServiceName                MethodName     MethodInvoker
         private ConcurrentDictionary<string, ConcurrentDictionary<string, Func<object, object>>> RegisteredHandlers
         {
@@ -51,8 +52,6 @@ namespace Clima.Communication
 
             RegisteredHandlers["root"][method ?? throw new ArgumentNullException(nameof(method))] =
                 execute ?? throw new ArgumentNullException(nameof(execute));
-
-            Console.WriteLine($"Registered service: root, method: {method}");
         }
 
         public void RegisterHandler(string service, string method, Func<object, object> execute)
@@ -65,8 +64,6 @@ namespace Clima.Communication
 
             RegisteredHandlers[service][method ?? throw new ArgumentNullException(nameof(method))] =
                 execute ?? throw new ArgumentNullException(nameof(execute));
-
-            Console.WriteLine($"Registered network service: {service}, method: {method}");
         }
     }
 }

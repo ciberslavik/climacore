@@ -10,7 +10,6 @@ namespace Clima.Core.Devices
 {
     public class CoreDeviceProvider : IDeviceProvider
     {
-        private readonly IConfigurationStorage _configStorage;
         private readonly IIOService _ioService;
         private DeviceProviderConfig _config;
 
@@ -19,21 +18,19 @@ namespace Clima.Core.Devices
         private readonly Dictionary<string, IServoDrive> _servos = new Dictionary<string, IServoDrive>();
         private ISensors _sensors;
 
-        public CoreDeviceProvider(IIOService ioService)
+        public CoreDeviceProvider(IIOService ioService,IConfigurationStorage configStorage)
         {
-            _configStorage = ClimaContext.Current.ConfigurationStorage;
-            _ioService = ioService ?? throw new ArgumentNullException(nameof(ioService));
-
-            if (_configStorage.Exist(DeviceProviderConfig.FileName))
+            _ioService = ioService;
+            if (configStorage.Exist(nameof(DeviceProviderConfig)))
             {
-                _config = _configStorage.GetConfig<DeviceProviderConfig>(DeviceProviderConfig.FileName);
+                _config = configStorage.GetConfig<DeviceProviderConfig>();
             }
             else
             {
-                _config = DeviceProviderConfig.CreateDefault();
-                _configStorage.RegisterConfig(DeviceProviderConfig.FileName, _config);
+                var c = DeviceProviderConfig.CreateDefault();
+                configStorage.RegisterConfig(c);
+                _config = c;
             }
-
             _sensors = null;
         }
 

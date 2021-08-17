@@ -21,20 +21,21 @@ namespace Clima.Basics.Services.Communication
             _serviceExecutor = serviceExecutor;
         }
 
-        public ISystemLogger Logger { get; set; }
+        public ISystemLogger Log { get; set; }
 
         public void RegisterNetworkService<TService>() where TService : INetworkService
         {
             var serviceType = typeof(TService);
-            
             var registerMethod = _serviceProvider.GetType()
                 .GetMethod(nameof(_serviceProvider.RegisterWithoutInterface));
+            
             if (registerMethod is not null)
             {
-                registerMethod = registerMethod.MakeGenericMethod(serviceType);
-                registerMethod.Invoke(_serviceProvider, new object[] {Type.Missing});
-
-
+                //Register network service in DI container
+                registerMethod.MakeGenericMethod(serviceType)
+                    .Invoke(_serviceProvider, new object[] {Type.Missing});
+                string logBuf = $"Register network service: {serviceType.Name}\r\n";
+                //Find methods marked ServiceMethodAttribute
                 foreach (var methodInfo in serviceType.GetMethods())
                 {
                     if (methodInfo.GetCustomAttributes(typeof(ServiceMethodAttribute), false).Any())
@@ -49,10 +50,10 @@ namespace Clima.Basics.Services.Communication
                                 methodInfo.Name,
                                 requestType,
                                 responseType);
-
+                            logBuf += $"            method: [{responseType.Name} {methodInfo.Name}({requestType.Name})]\r\n";
                             _serviceExecutor.RegisterHandler(serviceType.Name, methodInfo.Name, (p) =>
                             {
-                                Logger.Debug($"method handler:{methodInfo.Name}");
+                                Log.Debug($"method handler:{methodInfo.Name}");
                                 var resolveMethod = _serviceProvider.GetType()
                                     .GetMethod(nameof(_serviceProvider.Resolve));
 
@@ -64,7 +65,7 @@ namespace Clima.Basics.Services.Communication
                                         return methodInfo.Invoke(service, new[] {p});
                                     else
                                     {
-                                        Logger.Debug($"Service:{serviceType.Name} not found");
+                                        Log.Debug($"Service:{serviceType.Name} not found");
                                     }
                                 }
 
@@ -74,6 +75,8 @@ namespace Clima.Basics.Services.Communication
                         }
                     }
                 }
+                
+                Log.Info(logBuf);
             }
         }
     }

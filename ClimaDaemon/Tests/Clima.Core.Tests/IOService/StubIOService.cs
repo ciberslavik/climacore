@@ -1,5 +1,6 @@
 ﻿using System;
 using Clima.Basics.Configuration;
+using Clima.Basics.Services;
 using Clima.Core.IO;
 using Clima.Core.Tests.IOService.Configurations;
 
@@ -55,6 +56,14 @@ namespace Clima.Core.Tests.IOService
         {
             Console.WriteLine("Stub IO Service Stopped");
         }
+
+        public void Init(object config)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Type ConfigType { get; }
+        public ServiceState ServiceState { get; }
 
         public bool IsInit { get; }
         public bool IsRunning { get; }

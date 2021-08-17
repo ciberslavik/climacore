@@ -145,5 +145,10 @@ namespace Clima.FSGrapRepository
             }
             return retValue;
         }
+
+        public bool ContainsKey(string key)
+        {
+            return ProviderConfig.Graphs.ContainsKey(key);
+        }
     }
 }

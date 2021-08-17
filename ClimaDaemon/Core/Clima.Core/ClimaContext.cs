@@ -1,9 +1,10 @@
 ﻿using System;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
+using Clima.Core.Devices;
 using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
-namespace Clima.Basics
+namespace Clima.Core
 {
     public class ClimaContext
     {
@@ -47,5 +48,7 @@ namespace Clima.Basics
             _serviceProvider.Resolve<IFileSystem>();
 
         public ISystemLogger Logger { get; private set; }
+        
+        public ISensors Sensors { get; set; }
     }
 }
