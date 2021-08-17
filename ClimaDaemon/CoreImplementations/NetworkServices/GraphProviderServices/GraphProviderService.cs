@@ -47,36 +47,46 @@ namespace GraphProviderService
             response.Points = new List<ValueByDayPoint>(tGraph.Points);
             return response;
         }
+        [ServiceMethod]
+        public TemperatureGraphResponse GetCurrentTemperatureGraph(GetGraphRequest<TemperatureGraphResponse> request)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public string ServiceName { get; } = "GraphProviderService";
-        
+
         [ServiceMethod]
         public CreateResultRespose CreateTemperatureGraph(CreateGraphRequest request)
         {
-            var response = new CreateResultRespose();
-            if (request.GraphType == "Temperature")
-            {
-                var tGraphProvider = _providerFactory.TemperatureGraphProvider();
-                var newKey = "Temp" + tGraphProvider.GetValidKey();
-                Log.Debug($"Create temperature graph key:{newKey}");
-                var newGraph = tGraphProvider.CreateGraph(newKey);
-                newGraph.Info.Key = request.Info.Key;
-                newGraph.Info.Name = request.Info.Name;
-                newGraph.Info.Description = request.Info.Description;
-                newGraph.Info.CreationTime = request.Info.CreationTime;
-                newGraph.Info.ModifiedTime = request.Info.ModifiedTime;
-                
-                _providerFactory.Save();
-            }
-            else if (request.GraphType == "VentilationMinMax")
-            {
-                
-            }
+            var tGraphProvider = _providerFactory.TemperatureGraphProvider();
+            var newKey = "Temp" + tGraphProvider.GetValidKey();
+            Log.Debug($"Create temperature graph key:{newKey}");
+            var newGraph = tGraphProvider.CreateGraph(newKey);
+            newGraph.Info.Key = request.Info.Key;
+            newGraph.Info.Name = request.Info.Name;
+            newGraph.Info.Description = request.Info.Description;
+            newGraph.Info.CreationTime = request.Info.CreationTime;
+            newGraph.Info.ModifiedTime = request.Info.ModifiedTime;
 
-
-            return response;
+            _providerFactory.Save();
+            return new CreateResultRespose();
         }
 
+        [ServiceMethod]
+        public DefaultResponse UpdateTemperatureGraph(UpdateTemperatureGraphRequest request)
+        {
+            var tGraphProvider = _providerFactory.TemperatureGraphProvider();
+            var graph = tGraphProvider.GetGraph(request.GraphKey);
+            if (graph is null)
+            {
+                return new DefaultResponse()
+                    {RequestName = "UpdateTemperatureGraph", Status = $"Graph:{request.GraphKey} not found"};
+            }
+
+            return new DefaultResponse()
+                {RequestName = "UpdateTemperatureGraph", Status = $"OK"};
+
+        }
         [ServiceMethod]
         public DefaultResponse RemoveTemperatureGraph(RemoveGraphRequest request)
         {
@@ -88,11 +98,25 @@ namespace GraphProviderService
         {
             throw new System.NotImplementedException();
         }
-
         [ServiceMethod]
-        public DefaultResponse UpdateTemperatureGraph(UpdateTemperatureGraphRequest request)
+        public VentilationGraphResponse GetVentilationGraph(GetGraphRequest<VentilationGraphResponse> request)
         {
-            return new DefaultResponse();
+            throw new System.NotImplementedException();
+        }
+        [ServiceMethod]
+        public CreateResultRespose CreateVentilationGraph(CreateGraphRequest request)
+        {
+            throw new System.NotImplementedException();
+        }
+        [ServiceMethod]
+        public DefaultResponse RemoveVentilationGraph(RemoveGraphRequest request)
+        {
+            throw new System.NotImplementedException();
+        }
+        [ServiceMethod]
+        public DefaultResponse UpdateVentilationGraph(UpdateVentilationGraphRequest request)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
