@@ -1,4 +1,4 @@
-﻿namespace Clima.Core.Sheduler
+﻿namespace Clima.Core.Scheduler
 {
     public enum ShedulerState
     {

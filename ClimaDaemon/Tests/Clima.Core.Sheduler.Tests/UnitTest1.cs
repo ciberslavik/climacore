@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Clima.Core.Sheduler.Tests
+namespace Clima.Core.Scheduler.Tests
 {
     public class Tests
     {

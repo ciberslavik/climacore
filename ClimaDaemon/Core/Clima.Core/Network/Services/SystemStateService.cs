@@ -1,13 +1,13 @@
 ﻿using Clima.Basics.Services.Communication;
 using Clima.Core.Devices;
 using Clima.Core.Network.Messages;
-using Clima.Core.Sheduler;
+using Clima.Core.Scheduler;
 
 namespace Clima.Core.Network.Services
 {
     public class SystemStateService:INetworkService
     {
-        public SystemStateService(IClimaSheduler sheduler)
+        public SystemStateService(IClimaScheduler scheduler)
         {
             
         }

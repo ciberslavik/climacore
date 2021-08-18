@@ -2,7 +2,7 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Clima.Basics.Services;
-using Clima.Core.Sheduler;
+using Clima.Core.Scheduler;
 
 namespace Clima.ServiceContainer.CastleWindsor.Installers
 {
@@ -16,7 +16,7 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             _logger.Info("Install scheduler components");
-            container.Register(Component.For<IClimaSheduler>().ImplementedBy<ClimaSheduler>());
+            container.Register(Component.For<IClimaScheduler>().ImplementedBy<ClimaScheduler>());
         }
     }
 }

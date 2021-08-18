@@ -2,7 +2,7 @@
 using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 
-namespace Clima.Core.Sheduler.Network
+namespace Clima.Core.Scheduler.Network
 {
     public class ShedulerNetworkInstaller : INetworkInstaller
     {

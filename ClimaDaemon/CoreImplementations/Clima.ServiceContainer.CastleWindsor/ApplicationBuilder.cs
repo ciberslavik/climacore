@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -10,7 +11,7 @@ using Clima.Basics.Services;
 using Clima.Core;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.Devices;
-using Clima.Core.Sheduler;
+using Clima.Core.Scheduler;
 using Clima.Logger;
 using Clima.NetworkServer;
 using Clima.ServiceContainer.CastleWindsor.Installers;
@@ -23,7 +24,7 @@ namespace Clima.ServiceContainer.CastleWindsor
         private IWindsorContainer _container;
         private IServiceProvider _serviceProvider;
         private IJsonServer _server;
-        private IClimaSheduler _sheduler;
+        private IClimaScheduler _sheduler;
         private ISystemLogger _logger;
         public ApplicationBuilder()
         {
@@ -92,9 +93,9 @@ namespace Clima.ServiceContainer.CastleWindsor
                 service.Start();
             }
         }
-        public async void ProcessSheduler()
+        public async void ProcessScheduler()
         {
-            _sheduler.Process();
+            await Task.Factory.StartNew(() => _sheduler.Process());
         }
     }
 }

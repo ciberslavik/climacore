@@ -15,7 +15,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\CoreImplementations\Clima.Serialization.Newtonsoft\Clima.Serialization.Newtonsoft.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Basics\Clima.Basics.csproj" />
-      <ProjectReference Include="..\..\Core\Clima.Core.Sheduler\Clima.Core.Sheduler.csproj" />
+      <ProjectReference Include="..\..\Core\Clima.Core.Scheduler\Clima.Core.Scheduler.csproj" />
     </ItemGroup>
 
 </Project>

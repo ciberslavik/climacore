@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Clima.Core.Sheduler
+namespace Clima.Core.Scheduler
 {
-    public class ClimaSheduler : IClimaSheduler
+    public class ClimaScheduler : IClimaScheduler
     {
-        public void Process()
+        public bool Process()
         {
             throw new NotImplementedException();
         }
@@ -14,6 +14,6 @@ namespace Clima.Core.Sheduler
             throw new NotImplementedException();
         }
 
-        public ShedulerStateObject ShedulerState { get; }
+        public ShedulerStateObject SchedulerState { get; }
     }
 }
