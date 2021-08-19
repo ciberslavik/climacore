@@ -1,7 +1,7 @@
 ﻿using Clima.Basics.Services.Communication;
 using Clima.Core.Network.Messages;
 
-namespace Clima.Core.Conrollers.Ventilation.Network.Messages
+namespace Clima.Core.Controllers.Network.Messages
 {
     public class CreateLightDayRequest:IReturn<DefaultResponse>
     {

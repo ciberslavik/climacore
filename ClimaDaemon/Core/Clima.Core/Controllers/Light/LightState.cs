@@ -2,6 +2,7 @@
 {
     public enum LightState
     {
-        
+        LightOn,
+        LightOff
     }
 }

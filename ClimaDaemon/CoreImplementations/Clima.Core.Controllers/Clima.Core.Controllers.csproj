@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp5.0</TargetFramework>
-        <RootNamespace>Clima.Core.Conrollers</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -4,6 +4,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp5.0</TargetFramework>
         <RootNamespace>ConsoleServer</RootNamespace>
+        <RuntimeIdentifier>linux-arm</RuntimeIdentifier>
     </PropertyGroup>
 
     <ItemGroup>

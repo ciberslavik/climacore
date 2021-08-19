@@ -1,11 +1,12 @@
 ﻿namespace Clima.Core.Alarm
 {
-    public class AlarmConfigBase
+    public abstract class AlarmConfigBase
     {
         public AlarmConfigBase()
         {
         }
 
-        
+        public string Title { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 
@@ -86,7 +87,21 @@ namespace Clima.Configuration.FileSystem
                     throw;
                 }
             }
-
+            else
+            {
+                var configType = typeof(ConfigT);
+                var defaultMI = configType
+                    .GetMethod("CreateDefault", Type.EmptyTypes);
+                if (defaultMI is not null)
+                {
+                    var defConfig = defaultMI.Invoke(null, new object[] { });
+                    if (defConfig is not null)
+                    {
+                        retValue = (ConfigT) defConfig;
+                        RegisterConfig<ConfigT>(configType.Name, retValue);
+                    }
+                }
+            }
             return retValue;
         }
 

@@ -1,6 +1,9 @@
-﻿namespace Clima.Core.Alarm
+﻿using System;
+
+namespace Clima.Core.Alarm
 {
-    public class AlarmNotifyEventArgs
+    public delegate void AlarmNotifyHandler(object sender, AlarmNotifyEventArgs ea);
+    public class AlarmNotifyEventArgs:EventArgs
     {
         public AlarmNotifyEventArgs()
         {

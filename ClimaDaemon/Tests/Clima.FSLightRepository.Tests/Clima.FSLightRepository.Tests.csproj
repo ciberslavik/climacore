@@ -14,4 +14,11 @@
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\CoreImplementations\Clima.Configuration.FileSystem\Clima.Configuration.FileSystem.csproj" />
+      <ProjectReference Include="..\..\CoreImplementations\Clima.Serialization.Newtonsoft\Clima.Serialization.Newtonsoft.csproj" />
+      <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />
+      <ProjectReference Include="..\..\Repositories\Clima.FSLightRepository\Clima.FSLightRepository.csproj" />
+    </ItemGroup>
+
 </Project>

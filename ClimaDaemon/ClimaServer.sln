@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Serialization.Newtons
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.ServiceContainer.CastleWindsor", "CoreImplementations\Clima.ServiceContainer.CastleWindsor\Clima.ServiceContainer.CastleWindsor.csproj", "{65EEAE3E-99AE-44D2-861F-05CBAE1A91E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Core.Conrollers", "CoreImplementations\Clima.Core.Conrollers\Clima.Core.Conrollers.csproj", "{80EA422E-11A3-4EB0-AC94-CF038BB2BACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Core.Controllers", "CoreImplementations\Clima.Core.Controllers\Clima.Core.Controllers.csproj", "{80EA422E-11A3-4EB0-AC94-CF038BB2BACA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clima.Core.Devices", "CoreImplementations\Clima.Core.Devices\Clima.Core.Devices.csproj", "{FFB9725A-FBD8-4FA8-9A5F-34F05D5B7CBC}"
 EndProject
@@ -62,6 +62,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphProviderServices", "CoreImplementations\NetworkServices\GraphProviderServices\GraphProviderServices.csproj", "{7ADEDD07-DEB4-4BEA-BDA4-1C8EC3DC4C99}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Controllers.Tests", "Tests\Clima.Core.Controllers.Tests\Clima.Core.Controllers.Tests.csproj", "{A577C045-D6E4-4788-A60C-888DDD1606A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.FSLightRepository", "Repositories\Clima.FSLightRepository\Clima.FSLightRepository.csproj", "{CE0A4779-2E93-429F-BB46-F96B383BF75D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.FSLightRepository.Tests", "Tests\Clima.FSLightRepository.Tests\Clima.FSLightRepository.Tests.csproj", "{694E5666-87C6-4768-A3D0-3A0ED9177FD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -161,6 +165,14 @@ Global
 		{A577C045-D6E4-4788-A60C-888DDD1606A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A577C045-D6E4-4788-A60C-888DDD1606A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A577C045-D6E4-4788-A60C-888DDD1606A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE0A4779-2E93-429F-BB46-F96B383BF75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE0A4779-2E93-429F-BB46-F96B383BF75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE0A4779-2E93-429F-BB46-F96B383BF75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE0A4779-2E93-429F-BB46-F96B383BF75D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{694E5666-87C6-4768-A3D0-3A0ED9177FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{694E5666-87C6-4768-A3D0-3A0ED9177FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{694E5666-87C6-4768-A3D0-3A0ED9177FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{694E5666-87C6-4768-A3D0-3A0ED9177FD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,6 +202,8 @@ Global
 		{CAEAA2B1-9A10-41D4-A71B-3D5A80D51363} = {CA8F4360-59DA-477A-9FE6-BEB77A2C0D00}
 		{7ADEDD07-DEB4-4BEA-BDA4-1C8EC3DC4C99} = {CAEAA2B1-9A10-41D4-A71B-3D5A80D51363}
 		{A577C045-D6E4-4788-A60C-888DDD1606A6} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
+		{CE0A4779-2E93-429F-BB46-F96B383BF75D} = {95E95B63-A53C-4E7D-9E8A-56E1344541FD}
+		{694E5666-87C6-4768-A3D0-3A0ED9177FD5} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8C0318C-3AF4-4615-9360-4283C4059C31}
