@@ -2,6 +2,7 @@
 #include "MainMenuFrame.h"
 #include "TemperatureOwerviewFrame.h"
 #include "VentilationConfigFrame.h"
+#include "VentilationOverviewFrame.h"
 #include "ui_MainMenuFrame.h"
 
 #include <Services/FrameManager.h>
@@ -22,7 +23,9 @@ MainMenuFrame::~MainMenuFrame()
 
 void MainMenuFrame::on_btnVentilationOverview_clicked()
 {
+    VentilationOverviewFrame *ventFrame = new VentilationOverviewFrame();
 
+    FrameManager::instance()->setCurrentFrame(ventFrame);
 }
 
 

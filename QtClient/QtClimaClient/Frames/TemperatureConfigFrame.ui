@@ -136,7 +136,7 @@
   <customwidget>
    <class>QClickableLineEdit</class>
    <extends>QLineEdit</extends>
-   <header location="global">Controls/QClickableLineEdit.h</header>
+   <header location="global">Controls/qclickablelineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,4 +1,4 @@
-#include "SelectGraphFrame.h"
+#include "Graphs/SelectGraphFrame.h"
 #include "VentilationConfigFrame.h"
 #include "ui_VentilationConfigFrame.h"
 

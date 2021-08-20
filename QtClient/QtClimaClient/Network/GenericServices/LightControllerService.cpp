@@ -5,6 +5,11 @@ LightControllerService::LightControllerService(QObject *parent) : INetworkServic
 
 }
 
+void LightControllerService::GetPresetList()
+{
+
+}
+
 QList<QString> LightControllerService::Methods()
 {
     return QList<QString>();

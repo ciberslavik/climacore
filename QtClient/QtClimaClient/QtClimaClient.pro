@@ -10,6 +10,9 @@ CONFIG += c++11
 
 SOURCES += \
     ApplicationWorker.cpp \
+    Controls/FanModeSwitch.cpp \
+    Controls/FanWidget.cpp \
+    Controls/QClickableLabel.cpp \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
     Frames/Dialogs/MessageDialog.cpp \
@@ -17,9 +20,10 @@ SOURCES += \
     Frames/Dialogs/inputtextdialog.cpp \
     Frames/FrameBase.cpp \
     Frames/Graphs/GraphEditorFrame.cpp \
+    Frames/Graphs/SelectGraphFrame.cpp \
     Frames/LightConfigFrame.cpp \
     Frames/MainMenuFrame.cpp \
-    Frames/SelectGraphFrame.cpp \
+    Frames/SelectLightPresetFrame.cpp \
     Frames/SystemStateFrame.cpp \
     Frames/TemperatureConfigFrame.cpp \
     Frames/TemperatureOwerviewFrame.cpp \
@@ -31,6 +35,7 @@ SOURCES += \
     Models/Graphs/DayOfValueGraph.cpp \
     Models/Graphs/GraphBase.cpp \
     Models/Graphs/SelectGraphModel.cpp \
+    Models/LightTimersModel.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
     Network/GenericServices/GraphService.cpp \
@@ -49,6 +54,10 @@ SOURCES += \
 
 HEADERS += \
     ApplicationWorker.h \
+    Controls/FanControlsEnums.h \
+    Controls/FanModeSwitch.h \
+    Controls/FanWidget.h \
+    Controls/QClickableLabel.h \
     Controls/qclickablelineedit.h \
     Controls/qcustomplot.h \
     Frames/Dialogs/MessageDialog.h \
@@ -56,10 +65,11 @@ HEADERS += \
     Frames/Dialogs/inputtextdialog.h \
     Frames/FrameBase.h \
     Frames/Graphs/GraphEditorFrame.h \
+    Frames/Graphs/SelectGraphFrame.h \
     Frames/IFrameFactory.h \
     Frames/LightConfigFrame.h \
     Frames/MainMenuFrame.h \
-    Frames/SelectGraphFrame.h \
+    Frames/SelectLightPresetFrame.h \
     Frames/SystemStateFrame.h \
     Frames/TemperatureConfigFrame.h \
     Frames/TemperatureOwerviewFrame.h \
@@ -73,6 +83,7 @@ HEADERS += \
     Models/Graphs/GraphBase.h \
     Models/Graphs/GraphInfo.h \
     Models/Graphs/SelectGraphModel.h \
+    Models/LightTimersModel.h \
     Models/LivestockState.h \
     Models/SensorsData.h \
     Models/SystemState.h \
@@ -84,6 +95,7 @@ HEADERS += \
     Network/GenericServices/Messages/DefaultRequest.h \
     Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
+    Network/GenericServices/Messages/LightPressetsResponse.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \
@@ -106,14 +118,16 @@ HEADERS += \
     TimerPool.h
 
 FORMS += \
+    Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
     Frames/Dialogs/MessageDialog.ui \
     Frames/Dialogs/inputdigitdialog.ui \
     Frames/Dialogs/inputtextdialog.ui \
     Frames/Graphs/GraphEditorFrame.ui \
+    Frames/Graphs/SelectGraphFrame.ui \
     Frames/LightConfigFrame.ui \
     Frames/MainMenuFrame.ui \
-    Frames/SelectGraphFrame.ui \
+    Frames/SelectLightPresetFrame.ui \
     Frames/SystemStateFrame.ui \
     Frames/TemperatureConfigFrame.ui \
     Frames/TemperatureOwerviewFrame.ui \
