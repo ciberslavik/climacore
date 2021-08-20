@@ -1,7 +1,6 @@
 #pragma once
 
-#include "FrameBase.h"
-
+#include <Frames/FrameBase.h>
 #include <QWidget>
 
 #include <Models/Graphs/GraphInfo.h>

@@ -298,13 +298,13 @@
   <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
-   <header location="global">Controls/QCustomPlot.h</header>
+   <header location="global">Controls/qcustomplot.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>QClickableLineEdit</class>
    <extends>QLineEdit</extends>
-   <header location="global">Controls/QClickableLineEdit.h</header>
+   <header location="global">Controls/qclickablelineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
