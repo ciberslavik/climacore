@@ -9,7 +9,7 @@ class SelectGraphModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    explicit SelectGraphModel(QObject *parent = nullptr);
+    explicit SelectGraphModel(QList<GraphInfo> infos, QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

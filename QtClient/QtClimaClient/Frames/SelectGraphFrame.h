@@ -18,7 +18,7 @@ class SelectGraphFrame : public FrameBase
     Q_OBJECT
 
 public:
-    explicit SelectGraphFrame(QString graphType, QWidget *parent = nullptr);
+    explicit SelectGraphFrame(QList<GraphInfo> infos, QWidget *parent = nullptr);
     ~SelectGraphFrame();
     QString getFrameName() override;
 private slots:
@@ -27,8 +27,6 @@ private slots:
 private:
     Ui::SelectGraphFrame *ui;
 
-    QList<GraphInfo> *m_infos;
-    GraphService *m_graphService;
     SelectGraphModel *m_graphInfosModel;
 };
 

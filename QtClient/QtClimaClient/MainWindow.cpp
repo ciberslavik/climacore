@@ -8,6 +8,8 @@ CMainWindow::CMainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+
 }
 
 CMainWindow::~CMainWindow()

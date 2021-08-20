@@ -1,7 +1,8 @@
 #include "SelectGraphModel.h"
 
-SelectGraphModel::SelectGraphModel(QObject *parent)
-    : QAbstractItemModel(parent)
+SelectGraphModel::SelectGraphModel(QList<GraphInfo> infos, QObject *parent)
+    : QAbstractItemModel(parent),
+      m_infos(infos)
 {
 }
 
