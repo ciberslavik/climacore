@@ -9,6 +9,6 @@ namespace Clima.Core.Controllers.Network.Messages
         {
         }
         public string PresetName { get; set; }
-        
+        public string Description { get; set; }
     }
 }

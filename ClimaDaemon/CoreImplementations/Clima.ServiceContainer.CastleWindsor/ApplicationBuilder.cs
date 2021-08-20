@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Clima.AgavaModBusIO;
 using Clima.Basics;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.Devices;
+using Clima.Core.IO;
 using Clima.Core.Scheduler;
+using Clima.Core.Tests.IOService;
 using Clima.Logger;
 using Clima.NetworkServer;
 using Clima.ServiceContainer.CastleWindsor.Installers;
@@ -43,9 +47,7 @@ namespace Clima.ServiceContainer.CastleWindsor
             _container.Install(new SchedulerInstaller(_logger));
             _serviceProvider = new CastleServiceProvider(_container);
             _container.Register(Component.For<IServiceProvider>().Instance(_serviceProvider));
-
-
-            ClimaContext.InitContext(_serviceProvider);
+            
 
             _container.Install(new NetworkInstaller(_logger));
             
@@ -56,15 +58,18 @@ namespace Clima.ServiceContainer.CastleWindsor
                     .FromAssemblyInDirectory(new AssemblyFilter(Environment.CurrentDirectory))
                     .BasedOn<IService>()
                     .WithServiceAllInterfaces()
+                    .WithServiceBase()
                     .LifestyleSingleton());
             
             
-            InitializeCoreSevices();
-            
+            InitializeCoreServices();
+            ClimaContext.InitContext(_serviceProvider);
             StartCoreServices();
+
+            var server = _container.Resolve<IJsonServer>();
         }
 
-        private void InitializeCoreSevices()
+        private void InitializeCoreServices()
         {
             _logger.Info("Initialize core services");
             var services = _container.ResolveAll<IService>();
@@ -75,11 +80,23 @@ namespace Clima.ServiceContainer.CastleWindsor
             {
                 foreach (var service in services)
                 {
-
                     var serviceConfig = getConfigMi.MakeGenericMethod(service.ConfigType)
                         .Invoke(configStore, new object[] { });
-
-                    service.Init(serviceConfig);
+                    
+                    if (service.GetType().IsAssignableTo(typeof(AgavaIoService)))
+                    {
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                            service.Init(serviceConfig);
+                    }
+                    else if (service.GetType().IsAssignableTo(typeof(StubIOService)))
+                    {
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                            service.Init(serviceConfig);
+                    }
+                    else
+                    {
+                        service.Init(serviceConfig);
+                    }
                 }
             }
         }
@@ -90,12 +107,19 @@ namespace Clima.ServiceContainer.CastleWindsor
             var services = _container.ResolveAll<IService>();
             foreach (var service in services)
             {
-                service.Start();
+                if (service.GetType().IsAssignableTo(typeof(AgavaIoService)))
+                {
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        service.Start();
+                }
+                else if (service.GetType().IsAssignableTo(typeof(StubIOService)))
+                {
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        service.Start();
+                }
+                else
+                    service.Start();
             }
-        }
-        public async void ProcessScheduler()
-        {
-            await Task.Factory.StartNew(() => _sheduler.Process());
         }
     }
 }

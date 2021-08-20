@@ -5,17 +5,19 @@ using Clima.Core.Scheduler;
 
 namespace Clima.Core.Network.Services
 {
-    public class SystemStateService:INetworkService
+    public class SystemStatusService:INetworkService
     {
-        public SystemStateService(IClimaScheduler scheduler)
+        private readonly ISensors _sensors;
+
+        public SystemStatusService(IClimaScheduler scheduler)
         {
-            
+            _sensors = ClimaContext.Current.Sensors;
         }
 
         [ServiceMethod]
         public ClimatStateResponse GetClimatState(DefaultRequest request)
         {
-            var s = ClimaContext.Current.Sensors;
+            var s = _sensors;
             var response = new ClimatStateResponse()
             {
                 FrontTemperature = s.FrontTemperature,
@@ -27,6 +29,21 @@ namespace Clima.Core.Network.Services
                 MinePosition = s.Valve2
             };
             
+
+            return response;
+        }
+
+        [ServiceMethod]
+        public TemperatureStateResponse GetTemperatureState(DefaultRequest request)
+        {
+            var response = new TemperatureStateResponse()
+            {
+                FrontTemperature = _sensors.FrontTemperature,
+                RearTemperature = _sensors.RearTemperature,
+                OutdoorTemperature = _sensors.OutdoorTemperature,
+                AverageTemperature = 0,
+                
+            };
 
             return response;
         }

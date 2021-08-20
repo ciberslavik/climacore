@@ -7,7 +7,7 @@ namespace Clima.Core.Network
     {
         public void InstallServices(INetworkServiceRegistrator registrator)
         {
-            registrator.RegisterNetworkService<SystemStateService>();
+            registrator.RegisterNetworkService<SystemStatusService>();
         }
     }
 }

@@ -8,7 +8,7 @@ using Clima.Core.Network.Services;
 
 namespace GraphProviderService
 {
-    public class GraphProviderService : IGraphProviderService, INetworkService
+    public class GraphProviderService : INetworkService
     {
         private readonly IGraphProviderFactory _providerFactory;
         public ISystemLogger Log { get; set; }

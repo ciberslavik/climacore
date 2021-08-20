@@ -1,5 +1,5 @@
 #include "ClientConnection.h"
-#include "NetworkReply.h"
+#include "NetworkResponse.h"
 
 #include <QMessageBox>
 #include <QTime>
@@ -153,7 +153,7 @@ void ClientConnection::onReadyRead()
 
                 QJsonObject result = currentObject["result"].toObject();
 
-                NetworkReply *reply = new NetworkReply();
+                NetworkResponse *reply = new NetworkResponse();
                 reply->fromJson(doc.object());
                 reply->result = QJsonDocument(result).toJson(QJsonDocument::Indented);
                 if(reply->result != "")

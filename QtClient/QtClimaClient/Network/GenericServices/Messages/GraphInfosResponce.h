@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QDateTime>
-#include <Network/NetworkReply.h>
+#include <Network/NetworkResponse.h>
 #include <Models/Graphs/GraphInfo.h>
-class GraphInfosResponce : public NetworkReply
+class GraphInfosResponce : public NetworkResponse
 {
     Q_GADGET
     QS_SERIALIZABLE

@@ -3,12 +3,12 @@
 #include <QObject>
 #include <Services/QSerializer.h>
 
-class NetworkReply : public QSerializer
+class NetworkResponse : public QSerializer
 {
     Q_GADGET
     QS_SERIALIZABLE
 public:
-    explicit NetworkReply()
+    explicit NetworkResponse()
     {
 
     }

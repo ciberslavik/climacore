@@ -1,9 +1,11 @@
-﻿namespace Clima.Core.Scheduler
+﻿using Clima.Basics.Services;
+using Clima.Core.DataModel.GraphModel;
+
+namespace Clima.Core.Scheduler
 {
-    public interface IClimaScheduler
+    public interface IClimaScheduler : IService
     {
-        bool Process();
-        void SetTemperatureGraph(string graphKey);
+        void SetTemperatureGraph(GraphBase<ValueByDayPoint> graph);
         ShedulerStateObject SchedulerState { get; }
     }
 }

@@ -1,3 +1,4 @@
+#include "LightConfigFrame.h"
 #include "MainMenuFrame.h"
 #include "TemperatureOwerviewFrame.h"
 #include "VentilationConfigFrame.h"
@@ -15,6 +16,7 @@ MainMenuFrame::MainMenuFrame(QWidget *parent) :
 
 MainMenuFrame::~MainMenuFrame()
 {
+    qDebug()<<"MainMenuFrame deleted";
     delete ui;
 }
 
@@ -43,5 +45,13 @@ void MainMenuFrame::on_btnTemperature_clicked()
      TemperatureOwerviewFrame *tempFrame = new TemperatureOwerviewFrame();
 
      FrameManager::instance()->setCurrentFrame(tempFrame);
+}
+
+
+
+void MainMenuFrame::on_btnLightConfig_clicked()
+{
+    LightConfigFrame *lightFrame = new LightConfigFrame();
+    FrameManager::instance()->setCurrentFrame(lightFrame);
 }
 

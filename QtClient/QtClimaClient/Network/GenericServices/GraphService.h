@@ -19,6 +19,6 @@ signals:
 public:
     QString ServiceName() override;
     QList<QString> Methods() override;
-    void ProcessReply(NetworkReply *reply) override;
+    void ProcessReply(NetworkResponse *reply) override;
 };
 

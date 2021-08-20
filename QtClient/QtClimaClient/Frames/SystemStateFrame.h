@@ -9,6 +9,8 @@
 #include <Services/FrameManager.h>
 #include <Network/GenericServices/SensorsService.h>
 
+#include <Network/GenericServices/SystemStatusService.h>
+
 namespace Ui {
 class SystemStateFrame;
 }
@@ -24,17 +26,17 @@ public:
     {
         return "SystemStateFrame";
     }
+    void closeEvent(QCloseEvent *event) override;
+    void showEvent(QShowEvent *ev)override;
 private slots:
-    void onSystemStateUpdate(SensorsServiceResponse *data);
-    void on_pushButton_3_clicked();
+    void onClimatStateUpdate(ClimatStatusResponse *data);
     void onTimerElapsed();
-    void on_pushButton_clicked();
 
     void on_btnMainMenu_clicked();
 
 private:
     Ui::SystemStateFrame *ui;
-    SensorsService *m_sensorsService;
+    SystemStatusService *m_statusService;
     QTimer *m_updateTmer;
 };
 

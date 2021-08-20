@@ -85,7 +85,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="btnLightConfig">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -106,7 +106,7 @@
       </size>
      </property>
      <property name="text">
-      <string>Назад</string>
+      <string>&lt;&lt; Назад</string>
      </property>
     </widget>
    </item>

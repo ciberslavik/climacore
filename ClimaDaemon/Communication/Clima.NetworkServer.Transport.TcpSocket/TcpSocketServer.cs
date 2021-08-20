@@ -113,7 +113,9 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             }
 
             var removeAtIndex = Task.WaitAny(_listenerTasks.ToArray(), _config.NetworkTimeout);
-            if (removeAtIndex > 0) _listenerTasks.RemoveAt(removeAtIndex);
+            
+            if (removeAtIndex > 0) 
+                _listenerTasks.RemoveAt(removeAtIndex);
         }
 
         private void ProcessConnectionFromClient(TcpClient client)

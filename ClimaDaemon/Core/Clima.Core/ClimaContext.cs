@@ -14,11 +14,13 @@ namespace Clima.Core
         private static object _exitLocker = new object();
 
         private readonly IServiceProvider _serviceProvider;
-
+        
         private ClimaContext(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            var devProvider = _serviceProvider.Resolve<IDeviceProvider>();
             Logger = _serviceProvider.Resolve<ISystemLogger>();
+            Sensors = devProvider.GetSensors();
         }
 
         public static void InitContext(IServiceProvider serviceProvider)
@@ -50,5 +52,7 @@ namespace Clima.Core
         public ISystemLogger Logger { get; private set; }
         
         public ISensors Sensors { get; set; }
+        
+        public string CurrentTemperatureGraphKey { get; }
     }
 }

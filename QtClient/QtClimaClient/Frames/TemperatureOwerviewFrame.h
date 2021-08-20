@@ -5,6 +5,7 @@
 #include <ApplicationWorker.h>
 #include <Network/GenericServices/GraphService.h>
 #include <Network/GenericServices/SensorsService.h>
+#include <Network/GenericServices/SystemStatusService.h>
 #include <TimerPool.h>
 
 namespace Ui {
@@ -21,6 +22,10 @@ public:
 
 private slots:
     void on_btnConfigTemp_clicked();
+    void onUpdateTimeout();
+    void onTempStateRecv(TemperatureStateResponse *response);
+    void on_btnReturn_clicked();
+    void onCorrectionClicked();
 
 private:
     Ui::TemperatureOwerviewFrame *ui;
@@ -28,7 +33,13 @@ private:
     // FrameBase interface
 public:
     QString getFrameName() override;
-    SensorsService *m_sensors;
-    GraphService *m_graphService;
+    SystemStatusService *m_systemStatus;
+    QTimer *m_updateTimer;
+
+
+    // QWidget interface
+protected:
+    void closeEvent(QCloseEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 };
 

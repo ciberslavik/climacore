@@ -25,7 +25,7 @@ signals:
 
 private slots:
     void onConnctionEstabilished();
-    void onReplyReceived(NetworkReply *reply);
+    void onReplyReceived(NetworkResponse *reply);
     void onSendRequest(NetworkRequest *request);
 private:
     ClientConnection *m_connection;

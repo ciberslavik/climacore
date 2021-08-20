@@ -22,27 +22,7 @@
    <item row="0" column="2">
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Фронт</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1" colspan="3">
-    <widget class="QLabel" name="label_11">
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>25</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
+      <string>Тыл</string>
      </property>
     </widget>
    </item>
@@ -54,7 +34,19 @@
     </widget>
    </item>
    <item row="0" column="5">
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="lblOutdoor">
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -63,12 +55,15 @@
       </font>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string>00.8</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
    <item row="1" column="5">
-    <widget class="QClickableLineEdit" name="lineEdit">
+    <widget class="QClickableLineEdit" name="txtCorrection">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -86,7 +81,19 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="lblSetpoint">
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -95,7 +102,10 @@
       </font>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string>00.8</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
@@ -104,6 +114,18 @@
    </item>
    <item row="1" column="3">
     <widget class="QLabel" name="label_13">
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -112,7 +134,10 @@
       </font>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string>00.8</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
@@ -125,12 +150,12 @@
       </size>
      </property>
      <property name="text">
-      <string>Тыл</string>
+      <string>Фронт</string>
      </property>
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="btnReturn">
      <property name="text">
       <string>&lt;&lt;Назад</string>
      </property>
@@ -144,7 +169,19 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="lblFront">
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -153,7 +190,10 @@
       </font>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string>00.8</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
@@ -172,7 +212,19 @@
     </widget>
    </item>
    <item row="0" column="3">
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="lblRear">
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -181,7 +233,10 @@
       </font>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string>00.8</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
@@ -205,6 +260,35 @@
     <widget class="QPushButton" name="btnConfigTemp">
      <property name="text">
       <string>Настройка</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="4">
+    <widget class="QLabel" name="lblGraphName">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>65000</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Graph Name</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>

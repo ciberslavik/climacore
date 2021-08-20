@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NetworkReply.h"
+#include "NetworkResponse.h"
 #include "NetworkRequest.h"
 
 #include <QObject>
@@ -15,7 +15,7 @@ public:
     }
     virtual QString ServiceName() = 0;
     virtual QList<QString> Methods() = 0;
-    virtual void ProcessReply(NetworkReply *reply) = 0;
+    virtual void ProcessReply(NetworkResponse *reply) = 0;
 signals:
     void SendRequest(NetworkRequest *request);
 };

@@ -25,7 +25,7 @@ QList<QString> SensorsService::Methods()
     return QList<QString>();
 }
 
-void SensorsService::ProcessReply(NetworkReply *reply)
+void SensorsService::ProcessReply(NetworkResponse *reply)
 {
     qDebug()<< "SensorsService process reply:" << reply->result;
     SensorsServiceResponse *response = new SensorsServiceResponse();

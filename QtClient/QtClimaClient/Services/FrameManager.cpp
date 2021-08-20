@@ -25,19 +25,33 @@ CMainWindow *FrameManager::MainWindow() const
 
 void FrameManager::setCurrentFrame(FrameBase *frame)
 {
-    if(m_CurrentFrame == nullptr)
-    {
-        m_CurrentFrame = frame;
-    }
-
-    if(m_CurrentFrame != frame)
+    if(m_CurrentFrame != nullptr)
     {
         m_CurrentFrame->close();
         frameLayout->removeWidget(m_CurrentFrame);
         m_FrameHistory.push(m_CurrentFrame);
-        m_CurrentFrame = frame;
     }
 
+    setFrame(frame);
+}
+
+
+void FrameManager::PreviousFrame()
+{
+    if(m_CurrentFrame != nullptr)
+    {
+        m_CurrentFrame->close();
+        frameLayout->removeWidget(m_CurrentFrame);
+        delete m_CurrentFrame;
+
+        FrameBase *prevFrame = m_FrameHistory.pop();
+        setFrame(prevFrame);
+    }
+}
+
+void FrameManager::setFrame(FrameBase *frame)
+{
+    m_CurrentFrame = frame;
 
     frameLayout->addWidget(m_CurrentFrame);
     m_MainWindow->setFrameTitle(m_CurrentFrame->Title());
@@ -45,12 +59,6 @@ void FrameManager::setCurrentFrame(FrameBase *frame)
     m_MainFrame->setLayout(frameLayout);
 
     m_CurrentFrame->show();
-}
-
-
-void FrameManager::PreviousFrame()
-{
-
 }
 
 

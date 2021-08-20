@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NetworkReply.h"
+#include "NetworkResponse.h"
 #include "NetworkRequest.h"
 #include <QApplication>
 #include <QObject>
@@ -18,7 +18,7 @@ public:
     QUuid *getConnectionId(){return m_connectionId;}
 
 signals:
-    void ReplyReceived(NetworkReply *reply);
+    void ReplyReceived(NetworkResponse *reply);
     void ConnectionEstabilished();
 public slots:
     void SendRequest(NetworkRequest *request);

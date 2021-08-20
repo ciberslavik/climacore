@@ -25,7 +25,7 @@ QList<QString> GraphService::Methods()
 
 }
 
-void GraphService::ProcessReply(NetworkReply *reply)
+void GraphService::ProcessReply(NetworkResponse *reply)
 {
     if(reply->service=="GraphProviderService")
     {

@@ -17,9 +17,11 @@ SOURCES += \
     Frames/Dialogs/inputtextdialog.cpp \
     Frames/FrameBase.cpp \
     Frames/Graphs/GraphEditorFrame.cpp \
+    Frames/LightConfigFrame.cpp \
     Frames/MainMenuFrame.cpp \
     Frames/SelectGraphFrame.cpp \
     Frames/SystemStateFrame.cpp \
+    Frames/TemperatureConfigFrame.cpp \
     Frames/TemperatureOwerviewFrame.cpp \
     Frames/VentelationStateFrame.cpp \
     Frames/VentilationConfigFrame.cpp \
@@ -32,6 +34,7 @@ SOURCES += \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
     Network/GenericServices/GraphService.cpp \
+    Network/GenericServices/LightControllerService.cpp \
     Network/GenericServices/SensorsService.cpp \
     Network/GenericServices/ServerInfoService.cpp \
     Network/GenericServices/SystemStatusService.cpp \
@@ -54,9 +57,11 @@ HEADERS += \
     Frames/FrameBase.h \
     Frames/Graphs/GraphEditorFrame.h \
     Frames/IFrameFactory.h \
+    Frames/LightConfigFrame.h \
     Frames/MainMenuFrame.h \
     Frames/SelectGraphFrame.h \
     Frames/SystemStateFrame.h \
+    Frames/TemperatureConfigFrame.h \
     Frames/TemperatureOwerviewFrame.h \
     Frames/VentelationStateFrame.h \
     Frames/VentilationConfigFrame.h \
@@ -74,17 +79,21 @@ HEADERS += \
     Network/AuthRequest.h \
     Network/ClientConnection.h \
     Network/GenericServices/GraphService.h \
+    Network/GenericServices/LightControllerService.h \
+    Network/GenericServices/Messages/ClimatStatusResponse.h \
+    Network/GenericServices/Messages/DefaultRequest.h \
     Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \
+    Network/GenericServices/Messages/TemperatureStateResponse.h \
     Network/GenericServices/SensorsService.h \
     Network/GenericServices/ServerInfoService.h \
     Network/GenericServices/SystemStatusService.h \
     Network/INetworkService.h \
-    Network/NetworkReply.h \
     Network/NetworkRequest.h \
+    Network/NetworkResponse.h \
     Network/ReplyUserList.h \
     Network/Request.h \
     Network/RequestParams.h \
@@ -102,9 +111,11 @@ FORMS += \
     Frames/Dialogs/inputdigitdialog.ui \
     Frames/Dialogs/inputtextdialog.ui \
     Frames/Graphs/GraphEditorFrame.ui \
+    Frames/LightConfigFrame.ui \
     Frames/MainMenuFrame.ui \
     Frames/SelectGraphFrame.ui \
     Frames/SystemStateFrame.ui \
+    Frames/TemperatureConfigFrame.ui \
     Frames/TemperatureOwerviewFrame.ui \
     Frames/VentelationStateFrame.ui \
     Frames/VentilationConfigFrame.ui \

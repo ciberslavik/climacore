@@ -28,6 +28,9 @@ private slots:
 
     void on_btnTemperature_clicked();
 
+
+    void on_btnLightConfig_clicked();
+
 private:
     Ui::MainMenuFrame *ui;
 };

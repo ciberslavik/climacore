@@ -60,7 +60,7 @@ namespace Clima.NetworkServer
                 context.RequestMessage = request;
                 try
                 {
-                    Console.WriteLine($"Execute service:{request.Service}");
+                    Logger.Debug($"Execute service:{request.Service}");
 
                     var result = _executor.Execute(request.Service, request.Method, request.Parameters);
                     if (result is Task task)

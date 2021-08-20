@@ -14,12 +14,6 @@ class FrameManager : public QObject
 {
     Q_OBJECT
 
-    CMainWindow *m_MainWindow;
-    QFrame *m_MainFrame;
-    FrameBase *m_CurrentFrame;
-
-    QStack<FrameBase*> m_FrameHistory;
-    QVBoxLayout *frameLayout;
 public:
     explicit FrameManager(CMainWindow *mainWindow, QObject *parent = nullptr);
     virtual ~FrameManager();
@@ -42,5 +36,13 @@ signals:
 private:
     static FrameManager *_instnce;
 
+    CMainWindow *m_MainWindow;
+    QFrame *m_MainFrame;
+    FrameBase *m_CurrentFrame;
+
+    QStack<FrameBase*> m_FrameHistory;
+    QVBoxLayout *frameLayout;
+
+    void setFrame(FrameBase *frame);
 };
 

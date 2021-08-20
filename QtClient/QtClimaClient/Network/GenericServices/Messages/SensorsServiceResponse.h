@@ -3,9 +3,9 @@
 #include <QObject>
 
 
-#include <Network/NetworkReply.h>
+#include <Network/NetworkResponse.h>
 
-class SensorsServiceResponse:public NetworkReply
+class SensorsServiceResponse:public NetworkResponse
 {
     Q_GADGET
     QS_SERIALIZABLE

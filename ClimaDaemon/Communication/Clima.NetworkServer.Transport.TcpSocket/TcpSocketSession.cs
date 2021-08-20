@@ -400,9 +400,9 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 if (str.Contains("<EOF>"))
                 {
                     _WD.Reset();
-                    Console.WriteLine($"Received str:{str}");
-                    str = str.Substring(0, str.IndexOf("<EOF>", StringComparison.Ordinal));
                     
+                    str = str.Substring(0, str.IndexOf("<EOF>", StringComparison.Ordinal));
+                    Console.WriteLine($"Received str:{str}");
                     _receiveBuffer.Clear();
                     
                     //Send session id

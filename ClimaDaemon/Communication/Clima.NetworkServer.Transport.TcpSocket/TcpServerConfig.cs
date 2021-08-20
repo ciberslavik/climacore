@@ -1,6 +1,8 @@
+using Clima.Basics.Configuration;
+
 namespace Clima.NetworkServer.Transport.TcpSocket
 {
-    public class TcpServerConfig
+    public class TcpServerConfig:IConfigurationItem
     {
         public string HsotName { get; set; }
         public int Port { get; set; }
@@ -10,17 +12,20 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         public int ReceiveBufferSize { get; set; }
         public int NetworkTimeout { get; set; }
 
-        public static TcpServerConfig CreateDefault(string host, int port)
+        public static TcpServerConfig CreateDefault()
         {
             var config = new TcpServerConfig();
 
-            config.HsotName = host;
-            config.Port = port;
+            config.HsotName = "";
+            config.Port = 5911;
             config.MaxClientConnections = 3;
             config.NetworkTimeout = 300;
             config.ReceiveBufferSize = 1024;
             config.SendBufferSize = 1024;
             return config;
         }
+
+        public string ConfigurationName => FileName;
+        public const string FileName = nameof(TcpServerConfig);
     }
 }

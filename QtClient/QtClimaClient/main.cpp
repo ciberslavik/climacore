@@ -3,6 +3,7 @@
 #include <ApplicationWorker.h>
 #include <QApplication>
 #include <QTimer>
+#include <TimerPool.h>
 
 #include <Network/ClientConnection.h>
 #include <Network/Request.h>
@@ -10,6 +11,7 @@
 #include <Frames/MainMenuFrame.h>
 #include <Frames/SystemStateFrame.h>
 #include <Network/GenericServices/GraphService.h>
+#include <Network/GenericServices/LightControllerService.h>
 #include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
 #include <QMetaType>
@@ -32,14 +34,18 @@ int main(int argc, char *argv[])
 
     worker->RegisterNetworkService(new ServerInfoService());
     worker->RegisterNetworkService(new SensorsService());
+    worker->RegisterNetworkService(new SystemStatusService());
     worker->RegisterNetworkService(new GraphService());
+    worker->RegisterNetworkService(new LightControllerService());
 
     CMainWindow w;
+    w.resize(800, 480);
     w.show();
-    QTimer timer(&a);
-    QObject::connect(&timer, &QTimer::timeout, &w, &CMainWindow::updateData);
-    timer.setInterval(1000);
-    timer.start();
+//    QTimer timer(&a);
+//    QObject::connect(&timer, &QTimer::timeout, &w, &CMainWindow::updateData);
+//    timer.setInterval(1000);
+//    timer.start();
+
     FrameManager *frameManager = new FrameManager(&w, &a);
 
     SystemState *state = new SystemState();

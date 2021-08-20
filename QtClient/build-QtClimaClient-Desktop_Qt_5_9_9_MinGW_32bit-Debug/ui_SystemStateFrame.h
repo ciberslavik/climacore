@@ -41,7 +41,6 @@ public:
     QLabel *label_10;
     QLabel *label_2;
     QLabel *lblTempSetpoint;
-    QPushButton *pushButton_3;
     QGroupBox *groupBox_3;
     QGridLayout *gridLayout_3;
     QLabel *label_11;
@@ -142,11 +141,6 @@ public:
         lblTempSetpoint->setFont(font2);
 
         gridLayout_2->addWidget(lblTempSetpoint, 2, 2, 1, 1);
-
-        pushButton_3 = new QPushButton(groupBox_2);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-
-        gridLayout_2->addWidget(pushButton_3, 2, 3, 1, 1);
 
 
         verticalLayout->addWidget(groupBox_2);
@@ -271,7 +265,6 @@ public:
         label_10->setText(QApplication::translate("SystemStateFrame", "\320\222\320\273\320\260\320\266\320\275\320\276\321\201\321\202\321\214", Q_NULLPTR));
         label_2->setText(QApplication::translate("SystemStateFrame", "\320\227\320\260\320\264\320\260\320\275\320\275\320\260\321\217", Q_NULLPTR));
         lblTempSetpoint->setText(QApplication::translate("SystemStateFrame", "10", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("SystemStateFrame", "PushButton", Q_NULLPTR));
         groupBox_3->setTitle(QApplication::translate("SystemStateFrame", "\320\222\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\321\217", Q_NULLPTR));
         label_11->setText(QApplication::translate("SystemStateFrame", "\320\243\320\277\321\200\320\260\320\262\320\273\321\217\320\265\320\274\321\213\320\271", Q_NULLPTR));
         label_14->setText(QApplication::translate("SystemStateFrame", "m<sup>3</sup>h/\320\263\320\276\320\273.", Q_NULLPTR));

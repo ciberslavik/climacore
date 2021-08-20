@@ -45,7 +45,7 @@ void ApplicationWorker::onConnctionEstabilished()
         m_connection->SendRequest(&request);
 }
 
-void ApplicationWorker::onReplyReceived(NetworkReply *reply)
+void ApplicationWorker::onReplyReceived(NetworkResponse *reply)
 {
     qDebug()<<"Service:"<< reply->service << " method:" << reply->method << " rsult:" << reply->result;
     if(m_services->contains(reply->service))

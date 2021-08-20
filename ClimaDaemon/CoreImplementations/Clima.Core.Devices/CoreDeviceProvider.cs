@@ -18,9 +18,9 @@ namespace Clima.Core.Devices
         private readonly Dictionary<string, IServoDrive> _servos = new Dictionary<string, IServoDrive>();
         private ISensors _sensors;
 
-        public CoreDeviceProvider(IIOService ioService,IConfigurationStorage configStorage)
+        public CoreDeviceProvider(IIOServiceFactory ioService,IConfigurationStorage configStorage)
         {
-            _ioService = ioService;
+            _ioService = ioService.Create(true);
             if (configStorage.Exist(nameof(DeviceProviderConfig)))
             {
                 _config = configStorage.GetConfig<DeviceProviderConfig>();

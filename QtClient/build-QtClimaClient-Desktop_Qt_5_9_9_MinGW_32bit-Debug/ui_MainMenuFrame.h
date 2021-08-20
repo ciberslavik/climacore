@@ -29,7 +29,7 @@ public:
     QPushButton *btnVentilationOverview;
     QPushButton *btnVentilationConfig;
     QPushButton *pushButton_5;
-    QPushButton *pushButton_2;
+    QPushButton *btnLightConfig;
     QPushButton *btnReturn;
 
     void setupUi(QWidget *MainMenuFrame)
@@ -72,11 +72,11 @@ public:
 
         gridLayout->addWidget(pushButton_5, 2, 0, 1, 1);
 
-        pushButton_2 = new QPushButton(MainMenuFrame);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setMinimumSize(QSize(0, 65));
+        btnLightConfig = new QPushButton(MainMenuFrame);
+        btnLightConfig->setObjectName(QStringLiteral("btnLightConfig"));
+        btnLightConfig->setMinimumSize(QSize(0, 65));
 
-        gridLayout->addWidget(pushButton_2, 0, 1, 1, 1);
+        gridLayout->addWidget(btnLightConfig, 0, 1, 1, 1);
 
         btnReturn = new QPushButton(MainMenuFrame);
         btnReturn->setObjectName(QStringLiteral("btnReturn"));
@@ -98,7 +98,7 @@ public:
         btnVentilationOverview->setText(QApplication::translate("MainMenuFrame", "\320\236\320\261\320\267\320\276\321\200 \320\262\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\320\270", Q_NULLPTR));
         btnVentilationConfig->setText(QApplication::translate("MainMenuFrame", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \320\262\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\320\270", Q_NULLPTR));
         pushButton_5->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
-        pushButton_2->setText(QApplication::translate("MainMenuFrame", "\320\236\321\201\320\262\320\265\321\211\320\265\320\275\320\270\320\265", Q_NULLPTR));
+        btnLightConfig->setText(QApplication::translate("MainMenuFrame", "\320\236\321\201\320\262\320\265\321\211\320\265\320\275\320\270\320\265", Q_NULLPTR));
         btnReturn->setText(QApplication::translate("MainMenuFrame", "\320\235\320\260\320\267\320\260\320\264", Q_NULLPTR));
     } // retranslateUi
 

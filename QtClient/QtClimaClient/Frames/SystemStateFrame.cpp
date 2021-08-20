@@ -3,6 +3,7 @@
 #include "ui_SystemStateFrame.h"
 
 #include <ApplicationWorker.h>
+#include <TimerPool.h>
 
 #include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
@@ -15,55 +16,53 @@ SystemStateFrame::SystemStateFrame(QWidget *parent) :
     setTitle("Обзор системы");
 
 
-    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("SensorsService");
+    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("SystemStatusService");
     if(service !=nullptr)
     {
-        m_sensorsService = dynamic_cast<SensorsService*>(service);
+        m_statusService = dynamic_cast<SystemStatusService*>(service);
     }
-    connect(m_sensorsService,&SensorsService::SensorsReceived,this, &SystemStateFrame::onSystemStateUpdate);
-    m_updateTmer = new QTimer();
-    m_updateTmer->setInterval(5000);
-    connect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
-    //m_updateTmer->start();
+
+
+    m_updateTmer = TimerPool::instance()->getUpdateTimer();
 }
 
 SystemStateFrame::~SystemStateFrame()
 {
+    disconnect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
     delete ui;
 }
 
-void SystemStateFrame::onSystemStateUpdate(SensorsServiceResponse *data)
+void SystemStateFrame::closeEvent(QCloseEvent *event)
 {
-    ui->lblFrontTemp->setText(data->FrontTemperature);
-    ui->lblRearTemp->setText(data->RearTemperature);
-    ui->lblOutdoorTemp->setText(data->OutdoorTemperature);
-    ui->lblHumidity->setText(data->Humidity);
-
+    disconnect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
+    disconnect(m_statusService,&SystemStatusService::onClimatStatusRecv,this, &SystemStateFrame::onClimatStateUpdate);
+    qDebug()<<"SystemStateFrame close event";
 }
 
-void SystemStateFrame::on_pushButton_3_clicked()
+void SystemStateFrame::showEvent(QShowEvent *ev)
 {
-    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("SensorsService");
-    if(service !=nullptr)
-    {
-        SensorsService *sensorsService = dynamic_cast<SensorsService*>(service);
-        if(sensorsService != nullptr)
-        {
-            sensorsService->GetSensors();
-        }
-    }
+    connect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
+    connect(m_statusService,&SystemStatusService::onClimatStatusRecv,this, &SystemStateFrame::onClimatStateUpdate);
 }
+
+void SystemStateFrame::onClimatStateUpdate(ClimatStatusResponse *data)
+{
+    ui->lblFrontTemp->setText(QString::number(data->FrontTemperature));
+    ui->lblRearTemp->setText(QString::number(data->RearTemperature));
+    ui->lblOutdoorTemp->setText(QString::number(data->OutdoorTemperature));
+    ui->lblHumidity->setText(QString::number(data->Humidity));
+    ui->barPresure->setValue(data->Pressure);
+    ui->barValves->setValue(data->ValvePosition);
+    ui->barMines->setValue(data->MinePosition);
+    ui->barAnalogFan->setValue(data->AnalogFanPower);
+    ui->lblTempSetpoint->setText(QString::number(data->TempSetPoint));
+}
+
+
 
 void SystemStateFrame::onTimerElapsed()
 {
-    m_sensorsService->GetSensors();
-}
-
-
-void SystemStateFrame::on_pushButton_clicked()
-{
-    MainMenuFrame *mainMenu = new MainMenuFrame();
-    FrameManager::instance()->setCurrentFrame(mainMenu);
+    m_statusService->getClimatStatus();
 }
 
 

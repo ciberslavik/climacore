@@ -7,6 +7,9 @@
 #include <Models/SensorsData.h>
 #include <Models/SystemState.h>
 
+#include <Network/GenericServices/Messages/ClimatStatusResponse.h>
+#include <Network/GenericServices/Messages/TemperatureStateResponse.h>
+
 class SystemStatusService : public INetworkService
 {
     Q_OBJECT
@@ -14,15 +17,16 @@ public:
     explicit SystemStatusService(QObject *parent = nullptr);
 
 signals:
-
+    void onClimatStatusRecv(ClimatStatusResponse *response);
+    void onTemperatureStatusRecv(TemperatureStateResponse *response);
 public slots:
-
-
+    void getClimatStatus();
+    void getTemperatureStatus();
     // INetworkService interface
 public:
     QString ServiceName(){return "SystemStatusService";}
     QList<QString> Methods();
-    void ProcessReply(NetworkReply *reply);
+    void ProcessReply(NetworkResponse *reply);
 
 };
 
