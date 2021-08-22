@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>642</width>
+    <width>641</width>
     <height>381</height>
    </rect>
   </property>
@@ -19,8 +19,75 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="2">
+    <widget class="QPushButton" name="btnEdit">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Изменить</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QPushButton" name="btnReturn">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Назад</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../../Resources.qrc">
+       <normaloff>:/Images/icons8-u-turn-to-left-50.png</normaloff>:/Images/icons8-u-turn-to-left-50.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QPushButton" name="btnDelete">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Удалить</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="5">
-    <widget class="QCustomPlot" name="widget" native="true">
+    <widget class="QCustomPlot" name="plot" native="true">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -29,92 +96,138 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="4">
-    <widget class="QPushButton" name="btnDown">
+   <item row="3" column="1">
+    <widget class="QPushButton" name="btnAdd">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
-       <width>60</width>
-       <height>16777215</height>
+       <width>16777215</width>
+       <height>50</height>
       </size>
      </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset resource="../Resources.qrc">
-       <normaloff>:/Images/circled-down.png</normaloff>:/Images/circled-down.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QPushButton" name="pushButton">
      <property name="text">
       <string>Добавить</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="4">
-    <widget class="QPushButton" name="pushButton_4">
-     <property name="text">
-      <string>Выбрать</string>
+   <item row="1" column="0" colspan="5">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QTableView" name="profilesTable"/>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="btnUp">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../Resources.qrc">
+           <normaloff>:/Images/circled-up.png</normaloff>:/Images/circled-up.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>42</width>
+           <height>42</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnDown">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../Resources.qrc">
+           <normaloff>:/Images/circled-down.png</normaloff>:/Images/circled-down.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>42</width>
+           <height>42</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="4">
+    <widget class="QPushButton" name="btnAccept">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
      </property>
-    </widget>
-   </item>
-   <item row="1" column="0" rowspan="3" colspan="4">
-    <widget class="QListView" name="listView"/>
-   </item>
-   <item row="5" column="3">
-    <widget class="QPushButton" name="pushButton_3">
-     <property name="text">
-      <string>Изменить</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="text">
-      <string>Удалить</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QPushButton" name="btnReturn">
-     <property name="text">
-      <string>&lt;&lt; Назад</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="4">
-    <widget class="QPushButton" name="btnUp">
      <property name="maximumSize">
       <size>
-       <width>60</width>
-       <height>16777215</height>
+       <width>16777215</width>
+       <height>50</height>
       </size>
      </property>
      <property name="text">
-      <string/>
+      <string>ОК</string>
      </property>
      <property name="icon">
-      <iconset resource="../Resources.qrc">
-       <normaloff>:/Images/circled-up.png</normaloff>:/Images/circled-up.png</iconset>
+      <iconset resource="../../Resources.qrc">
+       <normaloff>:/Images/ok.png</normaloff>:/Images/ok.png</iconset>
      </property>
      <property name="iconSize">
       <size>
-       <width>48</width>
-       <height>48</height>
+       <width>32</width>
+       <height>32</height>
       </size>
      </property>
     </widget>
    </item>
-   <item row="4" column="3">
-    <spacer name="verticalSpacer">
+   <item row="2" column="2">
+    <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -137,7 +250,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../Resources.qrc"/>
+  <include location="../../Resources.qrc"/>
  </resources>
  <connections/>
 </ui>

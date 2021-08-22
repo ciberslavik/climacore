@@ -9,7 +9,7 @@ namespace Clima.Core.Network.Messages
         {
         }
 
-        public GraphInfo Info { get; set; } = new GraphInfo();
+        public ProfileInfo Info { get; set; } = new ProfileInfo();
         public List<ValueByDayPoint> Points { get; set; } = new List<ValueByDayPoint>();
     }
 }

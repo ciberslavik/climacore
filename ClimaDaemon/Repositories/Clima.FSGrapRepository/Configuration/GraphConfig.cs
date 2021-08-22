@@ -12,7 +12,7 @@ namespace Clima.FSGrapRepository.Configuration
         {
         }
 
-        public GraphInfo Info { get; set; } = new GraphInfo();
+        public ProfileInfo Info { get; set; } = new ProfileInfo();
 
         public List<TPointConfig> Points
         {

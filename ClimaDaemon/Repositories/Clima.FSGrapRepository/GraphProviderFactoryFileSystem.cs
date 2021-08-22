@@ -41,7 +41,7 @@ namespace Clima.FSGrapRepository
                 tempProviderConfig.CurrentGraph = "Default";
                 tempProviderConfig.Graphs.Add("Default", new GraphConfig<TemperatureGraphPointConfig>()
                 {
-                    Info = new GraphInfo()
+                    Info = new ProfileInfo()
                     {
                         Key="Default",
                         Name="Default Graph",

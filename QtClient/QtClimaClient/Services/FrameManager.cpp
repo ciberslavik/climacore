@@ -2,15 +2,23 @@
 
 FrameManager *FrameManager::_instnce = nullptr;
 
-FrameManager::FrameManager(CMainWindow *mainWindow, QObject *parent)
-    : QObject(parent),
-      m_CurrentFrame(nullptr)
+FrameManager::FrameManager()
+    : QObject(nullptr),
+      m_CurrentFrame(nullptr),
+      m_isInitialized(false)
+{
+
+}
+
+void FrameManager::Initialize(CMainWindow *mainWindow, QObject *parent)
 {
     m_MainWindow = mainWindow;
     m_MainFrame = m_MainWindow->getMainFrame();
     frameLayout = new QVBoxLayout(m_MainFrame);
     frameLayout->setContentsMargins(0,0,0,0);
-    _instnce = this;
+
+    setParent(parent);
+    m_isInitialized = true;
 }
 
 FrameManager::~FrameManager()
@@ -25,6 +33,9 @@ CMainWindow *FrameManager::MainWindow() const
 
 void FrameManager::setCurrentFrame(FrameBase *frame)
 {
+    if(!m_isInitialized)
+        return;
+
     if(m_CurrentFrame != nullptr)
     {
         m_CurrentFrame->close();
@@ -38,6 +49,9 @@ void FrameManager::setCurrentFrame(FrameBase *frame)
 
 void FrameManager::PreviousFrame()
 {
+    if(!m_isInitialized)
+        return;
+
     if(m_CurrentFrame != nullptr)
     {
         m_CurrentFrame->close();

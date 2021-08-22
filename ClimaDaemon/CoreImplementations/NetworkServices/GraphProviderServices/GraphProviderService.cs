@@ -26,7 +26,7 @@ namespace GraphProviderService
             return new GraphInfosResponse()
             {
                 GraphType = "Temperature",
-                Infos = new List<GraphInfo>(temperatureProvider.GetGraphInfos())
+                Infos = new List<ProfileInfo>(temperatureProvider.GetGraphInfos())
             };
         }
 
@@ -56,7 +56,7 @@ namespace GraphProviderService
         public string ServiceName { get; } = "GraphProviderService";
 
         [ServiceMethod]
-        public CreateResultRespose CreateTemperatureGraph(CreateGraphRequest request)
+        public CreateResultRespose CreateTemperatureGraph(CreateProfileRequest request)
         {
             var tGraphProvider = _providerFactory.TemperatureGraphProvider();
             var newKey = "Temp" + tGraphProvider.GetValidKey();
@@ -69,7 +69,7 @@ namespace GraphProviderService
             newGraph.Info.ModifiedTime = request.Info.ModifiedTime;
 
             _providerFactory.Save();
-            return new CreateResultRespose();
+            return new CreateResultRespose() {NewGraphKey = newKey};
         }
 
         [ServiceMethod]
@@ -111,7 +111,7 @@ namespace GraphProviderService
             throw new System.NotImplementedException();
         }
         [ServiceMethod]
-        public CreateResultRespose CreateVentilationGraph(CreateGraphRequest request)
+        public CreateResultRespose CreateVentilationGraph(CreateProfileRequest request)
         {
             throw new System.NotImplementedException();
         }

@@ -9,7 +9,7 @@ namespace Clima.Core.DataModel.GraphModel
         TGraph GetCurrentGraph();
         void SetCurrentGraph(TGraph graph);
         TGraph GetGraph(string graphName);
-        IList<GraphInfo> GetGraphInfos();
+        IList<ProfileInfo> GetGraphInfos();
 
         void AddGraph(TGraph graph);
         void RemoveGraph(string key);

@@ -15,11 +15,12 @@ class FrameManager : public QObject
     Q_OBJECT
 
 public:
-    explicit FrameManager(CMainWindow *mainWindow, QObject *parent = nullptr);
+
     virtual ~FrameManager();
     FrameManager(FrameManager &other) = delete;
     void operator=(const FrameManager &) = delete;
 
+    void Initialize(CMainWindow *mainWindow, QObject *parent = nullptr);
     CMainWindow *MainWindow() const;
 
     void setCurrentFrame(FrameBase *frame);
@@ -28,11 +29,15 @@ public:
 
     static FrameManager *instance()
     {
+        if(_instnce == nullptr)
+            _instnce = new FrameManager();
+
         return _instnce;
     }
 signals:
 
-
+protected:
+    explicit FrameManager();
 private:
     static FrameManager *_instnce;
 
@@ -42,7 +47,7 @@ private:
 
     QStack<FrameBase*> m_FrameHistory;
     QVBoxLayout *frameLayout;
-
+    bool m_isInitialized;
     void setFrame(FrameBase *frame);
 };
 

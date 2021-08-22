@@ -99,7 +99,7 @@ public:
         btnVentilationConfig->setText(QApplication::translate("MainMenuFrame", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \320\262\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\320\270", Q_NULLPTR));
         pushButton_5->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
         btnLightConfig->setText(QApplication::translate("MainMenuFrame", "\320\236\321\201\320\262\320\265\321\211\320\265\320\275\320\270\320\265", Q_NULLPTR));
-        btnReturn->setText(QApplication::translate("MainMenuFrame", "\320\235\320\260\320\267\320\260\320\264", Q_NULLPTR));
+        btnReturn->setText(QApplication::translate("MainMenuFrame", "<< \320\235\320\260\320\267\320\260\320\264", Q_NULLPTR));
     } // retranslateUi
 
 };

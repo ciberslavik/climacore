@@ -15,7 +15,7 @@ namespace Clima.Core.DataModel.GraphModel
         private event EventHandler PointModified;
         public event EventHandler GraphModified;
 
-        public GraphInfo Info { get; set; } = new GraphInfo();
+        public ProfileInfo Info { get; set; } = new ProfileInfo();
         public IList<TPoint> Points => _points;
 
         public virtual void AddPoint(TPoint point)

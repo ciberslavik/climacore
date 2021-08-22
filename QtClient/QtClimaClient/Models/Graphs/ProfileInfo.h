@@ -4,13 +4,13 @@
 #include <QObject>
 #include <QDateTime>
 
-class GraphInfo : public QSerializer
+class ProfileInfo : public QSerializer
 {
     Q_GADGET
     QS_SERIALIZABLE
 public:
-    GraphInfo(){}
-    virtual ~GraphInfo(){}
+    ProfileInfo(){}
+    virtual ~ProfileInfo(){}
     QS_FIELD(QString, Key)
     QS_FIELD(QString, Name)
     QS_FIELD(QString, Description)

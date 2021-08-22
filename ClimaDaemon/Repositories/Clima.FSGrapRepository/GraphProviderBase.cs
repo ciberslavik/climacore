@@ -57,9 +57,9 @@ namespace Clima.FSGrapRepository
             throw new GraphProviderException($"Graph:{graphName} not found in repository");
         }
 
-        public IList<GraphInfo> GetGraphInfos()
+        public IList<ProfileInfo> GetGraphInfos()
         {
-            var infos = new List<GraphInfo>();
+            var infos = new List<ProfileInfo>();
             foreach (var graphConfig in ProviderConfig.Graphs.Values) infos.Add(graphConfig.Info);
             return infos;
         }

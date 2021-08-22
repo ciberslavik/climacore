@@ -16,6 +16,7 @@ SOURCES += \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
     Frames/Dialogs/MessageDialog.cpp \
+    Frames/Dialogs/SelectProfileDialog.cpp \
     Frames/Dialogs/inputdigitdialog.cpp \
     Frames/Dialogs/inputtextdialog.cpp \
     Frames/FrameBase.cpp \
@@ -27,14 +28,15 @@ SOURCES += \
     Frames/SystemStateFrame.cpp \
     Frames/TemperatureConfigFrame.cpp \
     Frames/TemperatureOwerviewFrame.cpp \
+    Frames/TestModeFrame.cpp \
     Frames/VentelationStateFrame.cpp \
     Frames/VentilationConfigFrame.cpp \
     Frames/VentilationOverviewFrame.cpp \
     GlobalContext.cpp \
     Models/Authorization/User.cpp \
+    Models/Dialogs/ProfileInfoModel.cpp \
     Models/Graphs/DayOfValueGraph.cpp \
     Models/Graphs/GraphBase.cpp \
-    Models/Graphs/SelectGraphModel.cpp \
     Models/LightTimersModel.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
@@ -61,10 +63,12 @@ HEADERS += \
     Controls/qclickablelineedit.h \
     Controls/qcustomplot.h \
     Frames/Dialogs/MessageDialog.h \
+    Frames/Dialogs/SelectProfileDialog.h \
     Frames/Dialogs/inputdigitdialog.h \
     Frames/Dialogs/inputtextdialog.h \
     Frames/FrameBase.h \
     Frames/Graphs/GraphEditorFrame.h \
+    Frames/Graphs/GraphType.h \
     Frames/Graphs/SelectGraphFrame.h \
     Frames/IFrameFactory.h \
     Frames/LightConfigFrame.h \
@@ -73,16 +77,17 @@ HEADERS += \
     Frames/SystemStateFrame.h \
     Frames/TemperatureConfigFrame.h \
     Frames/TemperatureOwerviewFrame.h \
+    Frames/TestModeFrame.h \
     Frames/VentelationStateFrame.h \
     Frames/VentilationConfigFrame.h \
     Frames/VentilationOverviewFrame.h \
     GlobalContext.h \
     MainWindow.h \
     Models/Authorization/User.h \
+    Models/Dialogs/ProfileInfoModel.h \
     Models/Graphs/DayOfValueGraph.h \
     Models/Graphs/GraphBase.h \
-    Models/Graphs/GraphInfo.h \
-    Models/Graphs/SelectGraphModel.h \
+    Models/Graphs/ProfileInfo.h \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
     Models/SensorsData.h \
@@ -92,6 +97,7 @@ HEADERS += \
     Network/GenericServices/GraphService.h \
     Network/GenericServices/LightControllerService.h \
     Network/GenericServices/Messages/ClimatStatusResponse.h \
+    Network/GenericServices/Messages/CreateGraphRequest.h \
     Network/GenericServices/Messages/DefaultRequest.h \
     Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
@@ -121,6 +127,7 @@ FORMS += \
     Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
     Frames/Dialogs/MessageDialog.ui \
+    Frames/Dialogs/SelectProfileDialog.ui \
     Frames/Dialogs/inputdigitdialog.ui \
     Frames/Dialogs/inputtextdialog.ui \
     Frames/Graphs/GraphEditorFrame.ui \
@@ -131,6 +138,7 @@ FORMS += \
     Frames/SystemStateFrame.ui \
     Frames/TemperatureConfigFrame.ui \
     Frames/TemperatureOwerviewFrame.ui \
+    Frames/TestModeFrame.ui \
     Frames/VentelationStateFrame.ui \
     Frames/VentilationConfigFrame.ui \
     Frames/VentilationOverviewFrame.ui \

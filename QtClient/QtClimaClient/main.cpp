@@ -16,7 +16,7 @@
 #include <Network/GenericServices/ServerInfoService.h>
 #include <QMetaType>
 #include <Services/FrameManager.h>
-
+#include <Frames/TestModeFrame.h>
 int main(int argc, char *argv[])
 {
     //qRegisterMetatype<MainMenuFrame*>("MainMenuFrame");
@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
     ClientConnection *conn = new ClientConnection(&a);
     ApplicationWorker *worker = new ApplicationWorker(conn,&a);
 
-    conn->ConnectToHost("10.0.10.146", 5911);
-    //conn->ConnectToHost("127.0.0.1", 5911);
+    //conn->ConnectToHost("10.0.10.146", 5911);
+    conn->ConnectToHost("127.0.0.1", 5911);
     //conn->ConnectToHost("192.168.0.11", 5911);
 
     if(!conn->isConnected())
@@ -46,26 +46,17 @@ int main(int argc, char *argv[])
 //    timer.setInterval(1000);
 //    timer.start();
 
-    FrameManager *frameManager = new FrameManager(&w, &a);
+    FrameManager *frameManager = FrameManager::instance();
+    frameManager->Initialize(&w, &a);
 
-    SystemState *state = new SystemState();
-    state->setFrontTemperature(12.2);
-    state->setFrontTemperature(12.4);
-    state->setOutdoorTemperature(10.4);
-
+    TestModeFrame *testFrame = new TestModeFrame();
     SystemStateFrame *stateFrame = new SystemStateFrame();
 
-    FrameManager::instance()->setCurrentFrame(stateFrame);
+    FrameManager::instance()->setCurrentFrame(testFrame);
 
-    state->InvokeUpdate();
-    // AuthorizationDialog *dlg = new AuthorizationDialog(conn, &w);
 
-    //if(dlg->exec()==QDialog::Accepted)
-    //{
-
-    //}
     int result = a.exec();
 
-    //conn->Disconnect();
+    conn->Disconnect();
     return result;
 }

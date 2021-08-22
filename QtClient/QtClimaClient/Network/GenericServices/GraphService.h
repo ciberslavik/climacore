@@ -4,7 +4,7 @@
 
 #include <Network/INetworkService.h>
 
-#include <Models/Graphs/GraphInfo.h>
+#include <Models/Graphs/ProfileInfo.h>
 
 class GraphService : public INetworkService
 {
@@ -12,8 +12,9 @@ class GraphService : public INetworkService
 public:
     explicit GraphService(QObject *parent = nullptr);
     void TempInfosRequest();
+    void CreateTemperatureProfile(ProfileInfo *info);
 signals:
-    void TempInfosResponse(QList<GraphInfo> *infos);
+    void TempInfosResponse(QList<ProfileInfo> *infos);
 
     // INetworkService interface
 public:

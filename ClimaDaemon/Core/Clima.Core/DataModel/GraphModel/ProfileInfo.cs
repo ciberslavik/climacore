@@ -2,12 +2,11 @@
 
 namespace Clima.Core.DataModel.GraphModel
 {
-    public class GraphInfo
+    public class ProfileInfo
     {
-        public GraphInfo()
+        public ProfileInfo()
         {
         }
-
         public string Key { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
