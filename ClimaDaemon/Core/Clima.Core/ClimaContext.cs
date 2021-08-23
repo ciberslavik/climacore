@@ -53,6 +53,6 @@ namespace Clima.Core
         
         public ISensors Sensors { get; set; }
         
-        public string CurrentTemperatureGraphKey { get; }
+        
     }
 }

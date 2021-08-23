@@ -1,4 +1,7 @@
-﻿namespace Clima.Core.Scheduler
+﻿using System;
+using Clima.Core.DataModel.GraphModel;
+
+namespace Clima.Core.Scheduler
 {
     public class ShedulerStateObject
     {
@@ -11,9 +14,10 @@
         public float TemperatureSetPoint { get; set; }
         public float VentilationMax { get; set; }
         public float VentilationMin { get; set; }
+        public DateTime StartGrowingTime { get; set;}
         
-        public string TemperatureGraphKey { get; set; }
-        public string VentMinMaxGraphKey { get; set; }
+        public GraphBase<ValueByDayPoint> TemperatureGraph { get; set; }
+        public GraphBase<MinMaxByDayPoint> VentilationMinMaxGraph { get; set; }
         
     }
 }
