@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Devices.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Scheduler", "Core\Clima.Core.Scheduler\Clima.Core.Scheduler.csproj", "{610FAC6A-D28F-426E-9340-54BF35B1ED57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Sheduler.Tests", "Tests\Clima.Core.Sheduler.Tests\Clima.Core.Sheduler.Tests.csproj", "{B5A3A921-5E63-4578-B91B-67A45D554383}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.Core.Scheduler.Tests", "Tests\Clima.Core.Scheduler.Tests\Clima.Core.Scheduler.Tests.csproj", "{B5A3A921-5E63-4578-B91B-67A45D554383}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{95E95B63-A53C-4E7D-9E8A-56E1344541FD}"
 EndProject

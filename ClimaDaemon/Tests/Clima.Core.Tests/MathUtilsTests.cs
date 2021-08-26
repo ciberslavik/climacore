@@ -4,9 +4,9 @@ using NUnit.Framework;
 
 namespace Clima.Core.Tests
 {
-    public class MethUtilsTests
+    public class MathUtilsTests
     {
-        public MethUtilsTests()
+        public MathUtilsTests()
         {
         }
 

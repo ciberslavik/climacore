@@ -17,8 +17,11 @@ namespace Clima.Core.Scheduler
         private bool _isRunning;
         private DateTime _startTime;
         private GraphBase<ValueByDayPoint> _temperatureGraph;
-        public ClimaScheduler(IControllerFactory controllerFactory)
+        private GraphBase<MinMaxByDayPoint> _ventilationGraph;
+        private readonly ITimeProvider _time;
+        public ClimaScheduler(IControllerFactory controllerFactory, ITimeProvider timeProvider)
         {
+            _time = timeProvider;
             _controllerFactory = controllerFactory; 
             SchedulerState = new ShedulerStateObject();
         }
@@ -27,9 +30,19 @@ namespace Clima.Core.Scheduler
         
         public void SetTemperatureGraph(GraphBase<ValueByDayPoint> graph)
         {
+            _temperatureGraph = graph;
+        }
+
+        public void SetVentilationGraph(GraphBase<MinMaxByDayPoint> graph)
+        {
+            _ventilationGraph = graph;
+        }
+
+        public void SetValveGraph(GraphBase<ValueByValuePoint> graph)
+        {
             throw new NotImplementedException();
         }
-        
+
         public ShedulerStateObject SchedulerState { get; }
         public void Start()
         {
@@ -52,41 +65,55 @@ namespace Clima.Core.Scheduler
         {
             return 0f;
         }
-        private ValueByDayPoint GetCurrentDayTemperature()
+        internal float GetDayTemperature(int dayNumber)
         {
             //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
             //соседними точками для текущего дня
-            TimeSpan workingTime = DateTime.Now - SchedulerState.StartGrowingTime;
-            int currentDay = workingTime.Days;
+            /*TimeSpan workingTime = DateTime.Now - SchedulerState.StartGrowingTime;
+            int currentDay = workingTime.Days;*/
          
             
-            var smallerNumberCloseToInput = (from n1 in _temperatureGraph.Points
-                where n1.DayNumber <= currentDay
-                orderby n1.DayNumber descending
-                select n1).First();
-
-            var largerNumberCloseToInput = (from n1 in _temperatureGraph.Points
-                where n1.DayNumber > currentDay
-                orderby n1.DayNumber
-                select n1).First();
-
-            int periodDays = largerNumberCloseToInput.DayNumber - smallerNumberCloseToInput.DayNumber;
-            float diff = currentDay - smallerNumberCloseToInput.DayNumber;
-            float temperature = MathUtils.Lerp(
-                largerNumberCloseToInput.Value,
-                smallerNumberCloseToInput.Value,
-                currentDay/periodDays);
             
             var result = new ValueByDayPoint();
-            if (_temperatureGraph.Points.Any(d => d.DayNumber == currentDay))
-                return _temperatureGraph.Points.FirstOrDefault(d => d.DayNumber == currentDay);
+            if (_temperatureGraph.Points.Any(d => d.DayNumber == dayNumber))
+            {
+                ValueByDayPoint? first = null;
+                foreach (var d in _temperatureGraph.Points)
+                {
+                    if (d.DayNumber == dayNumber)
+                    {
+                        first = d;
+                        break;
+                    }
+                }
+
+                return first.Value;
+            }
             else
             {
-                
-                
+                var smallerNumberCloseToInput = (from n1 in _temperatureGraph.Points
+                    where n1.DayNumber < dayNumber
+                    orderby n1.DayNumber descending
+                    select n1).First();
+
+                var largerNumberCloseToInput = (from n1 in _temperatureGraph.Points
+                    where n1.DayNumber > dayNumber
+                    orderby n1.DayNumber
+                    select n1).First();
+
+                int periodDays = largerNumberCloseToInput.DayNumber - smallerNumberCloseToInput.DayNumber;
+                float diff = dayNumber - smallerNumberCloseToInput.DayNumber;
+                float point = diff / periodDays;
+                float temperature = MathUtils.Lerp(
+                    smallerNumberCloseToInput.Value,
+                    largerNumberCloseToInput.Value,
+                    point);
+
+                return temperature;
+
             }
             
-            return result;
+            return 0f;
         }
         public void Stop()
         {

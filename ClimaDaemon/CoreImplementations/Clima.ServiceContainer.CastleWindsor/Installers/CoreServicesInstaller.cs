@@ -4,6 +4,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Clima.AgavaModBusIO;
 using Clima.Basics.Services;
+using Clima.Core;
 using Clima.Core.Conrollers.Ventilation;
 using Clima.Core.Controllers;
 using Clima.Core.Controllers.Light;
@@ -48,7 +49,11 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                 Component
                     .For<IGraphProviderFactory>()
                     .ImplementedBy<GraphProviderFactoryFileSystem>()
-                    .LifestyleSingleton());
+                    .LifestyleSingleton(),
+                Component
+                    .For<ITimeProvider>()
+                    .ImplementedBy<DefaultTimeProvider>()
+                    .LifestyleTransient());
             
             container.AddFacility<TypedFactoryFacility>();
             
