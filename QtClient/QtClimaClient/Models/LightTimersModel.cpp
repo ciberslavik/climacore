@@ -7,7 +7,7 @@ LightTimersModel::LightTimersModel(QObject *parent)
 
 QVariant LightTimersModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    // FIXME: Implement me!
+    return QVariant();
 }
 
 bool LightTimersModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
@@ -69,6 +69,7 @@ bool LightTimersModel::insertRows(int row, int count, const QModelIndex &parent)
     beginInsertRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endInsertRows();
+    return true;
 }
 
 bool LightTimersModel::insertColumns(int column, int count, const QModelIndex &parent)
@@ -76,6 +77,8 @@ bool LightTimersModel::insertColumns(int column, int count, const QModelIndex &p
     beginInsertColumns(parent, column, column + count - 1);
     // FIXME: Implement me!
     endInsertColumns();
+
+    return true;
 }
 
 bool LightTimersModel::removeRows(int row, int count, const QModelIndex &parent)
@@ -83,6 +86,7 @@ bool LightTimersModel::removeRows(int row, int count, const QModelIndex &parent)
     beginRemoveRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endRemoveRows();
+    return true;
 }
 
 bool LightTimersModel::removeColumns(int column, int count, const QModelIndex &parent)
@@ -90,4 +94,5 @@ bool LightTimersModel::removeColumns(int column, int count, const QModelIndex &p
     beginRemoveColumns(parent, column, column + count - 1);
     // FIXME: Implement me!
     endRemoveColumns();
+    return true;
 }

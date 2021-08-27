@@ -11,16 +11,16 @@
 #include <Frames/Graphs/GraphType.h>
 
 namespace Ui {
-class SelectGraphFrame;
+class SelectProfileFrame;
 }
 
-class SelectGraphFrame : public FrameBase
+class SelectProfileFrame : public FrameBase
 {
     Q_OBJECT
 
 public:
-    explicit SelectGraphFrame(QList<ProfileInfo> *infos, GraphType type, QWidget *parent = nullptr);
-    ~SelectGraphFrame();
+    explicit SelectProfileFrame(QList<ProfileInfo> *infos, GraphType type, QWidget *parent = nullptr);
+    ~SelectProfileFrame();
     QString getFrameName() override;
 private slots:
 
@@ -34,14 +34,16 @@ private slots:
     void on_btnAdd_clicked();
 
 private:
-    Ui::SelectGraphFrame *ui;
+    Ui::SelectProfileFrame *ui;
 
     ProfileInfoModel *m_infoModel;
     QItemSelectionModel *m_selection;
 
     void selectRow(int row);
-
+    void loadGraph(const QString &key);
     GraphType m_graphType;
     GraphService *m_graphService;
+
+
 };
 

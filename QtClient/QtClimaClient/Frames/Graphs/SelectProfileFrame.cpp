@@ -1,14 +1,14 @@
-#include "SelectGraphFrame.h"
-#include "ui_SelectGraphFrame.h"
+#include "SelectProfileFrame.h"
+#include "ui_SelectProfileFrame.h"
 
 #include <ApplicationWorker.h>
 #include <QDateTime>
 
 #include <Frames/Dialogs/inputtextdialog.h>
 
-SelectGraphFrame::SelectGraphFrame(QList<ProfileInfo> *infos, GraphType type, QWidget *parent) :
+SelectProfileFrame::SelectProfileFrame(QList<ProfileInfo> *infos, GraphType type, QWidget *parent) :
     FrameBase(parent),
-    ui(new Ui::SelectGraphFrame)
+    ui(new Ui::SelectProfileFrame)
 {
     m_graphType = type;
     ui->setupUi(this);
@@ -17,6 +17,9 @@ SelectGraphFrame::SelectGraphFrame(QList<ProfileInfo> *infos, GraphType type, QW
     m_infoModel = new ProfileInfoModel(infos, this);
 
     ui->profilesTable->setModel(m_infoModel);
+
+    ui->profilesTable->resizeColumnsToContents();
+    ui->profilesTable->resizeRowsToContents();
 
     m_selection = ui->profilesTable->selectionModel();
     selectRow(0);
@@ -28,24 +31,24 @@ SelectGraphFrame::SelectGraphFrame(QList<ProfileInfo> *infos, GraphType type, QW
     }
 }
 
-SelectGraphFrame::~SelectGraphFrame()
+SelectProfileFrame::~SelectProfileFrame()
 {
     delete ui;
 }
 
-QString SelectGraphFrame::getFrameName()
+QString SelectProfileFrame::getFrameName()
 {
-    return "SelectGraphFrame";
+    return "SelectProfileFrame";
 }
 
 
 
-void SelectGraphFrame::on_btnReturn_clicked()
+void SelectProfileFrame::on_btnReturn_clicked()
 {
     FrameManager::instance()->PreviousFrame();
 }
 
-void SelectGraphFrame::selectRow(int row)
+void SelectProfileFrame::selectRow(int row)
 {
     QModelIndex left;
     QModelIndex right;
@@ -58,8 +61,13 @@ void SelectGraphFrame::selectRow(int row)
     m_selection->select(selection, QItemSelectionModel::Select);
 }
 
+void SelectProfileFrame::loadGraph(const QString &key)
+{
 
-void SelectGraphFrame::on_btnUp_clicked()
+}
+
+
+void SelectProfileFrame::on_btnUp_clicked()
 {
     QModelIndexList indexes = m_selection->selectedIndexes();
     int currentIndex = indexes.at(0).row();
@@ -70,7 +78,7 @@ void SelectGraphFrame::on_btnUp_clicked()
 }
 
 
-void SelectGraphFrame::on_btnDown_clicked()
+void SelectProfileFrame::on_btnDown_clicked()
 {
     QModelIndexList indexes = m_selection->selectedIndexes();
     int currentIndex = indexes.at(0).row();
@@ -81,7 +89,7 @@ void SelectGraphFrame::on_btnDown_clicked()
 }
 
 
-void SelectGraphFrame::on_btnAdd_clicked()
+void SelectProfileFrame::on_btnAdd_clicked()
 {
     InputTextDialog *inputDialog = new InputTextDialog();
     if(inputDialog->exec() == QDialog::Accepted)

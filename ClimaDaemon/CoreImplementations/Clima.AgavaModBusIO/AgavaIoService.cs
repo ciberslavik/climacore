@@ -274,6 +274,10 @@ namespace Clima.AgavaModBusIO
                         _modules.Add(moduleId, module);
                     }
                 }
+		else
+		{
+		    Log.Debug($"Address:{moduleId} timeout");
+		}
             }
             BuildPinsCollection();
         }

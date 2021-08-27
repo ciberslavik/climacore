@@ -4,7 +4,7 @@
 #include <Models/Graphs/ProfileInfo.h>
 
 #include <Frames/Dialogs/SelectProfileDialog.h>
-#include <Frames/Graphs/SelectGraphFrame.h>
+#include <Frames/Graphs/SelectProfileFrame.h>
 #include <Services/FrameManager.h>
 
 TestModeFrame::TestModeFrame(QWidget *parent) :
@@ -62,7 +62,7 @@ void TestModeFrame::showEvent(QShowEvent *event)
 
 void TestModeFrame::on_btnSelectGraphTest_clicked()
 {
-    SelectGraphFrame *graphFrame = new SelectGraphFrame(&testData, GraphType::Temperature);
+    SelectProfileFrame *graphFrame = new SelectProfileFrame(&testData, GraphType::Temperature);
 
     FrameManager::instance()->setCurrentFrame(graphFrame);
 }

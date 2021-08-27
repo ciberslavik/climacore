@@ -10,7 +10,10 @@ class GraphInfosResponce : public NetworkResponse
     Q_GADGET
     QS_SERIALIZABLE
 public:
-    GraphInfosResponce();
+    GraphInfosResponce()
+    {
+
+    }
     QS_FIELD(QString, GraphType)
     QS_COLLECTION_OBJECTS(QList, ProfileInfo, Infos)
 };

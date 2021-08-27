@@ -20,8 +20,8 @@ SOURCES += \
     Frames/Dialogs/inputdigitdialog.cpp \
     Frames/Dialogs/inputtextdialog.cpp \
     Frames/FrameBase.cpp \
-    Frames/Graphs/GraphEditorFrame.cpp \
-    Frames/Graphs/SelectGraphFrame.cpp \
+    Frames/Graphs/SelectProfileFrame.cpp \
+    Frames/Graphs/TempProfileEditorFrame.cpp \
     Frames/LightConfigFrame.cpp \
     Frames/MainMenuFrame.cpp \
     Frames/SelectLightPresetFrame.cpp \
@@ -35,8 +35,6 @@ SOURCES += \
     GlobalContext.cpp \
     Models/Authorization/User.cpp \
     Models/Dialogs/ProfileInfoModel.cpp \
-    Models/Graphs/DayOfValueGraph.cpp \
-    Models/Graphs/GraphBase.cpp \
     Models/LightTimersModel.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
@@ -67,9 +65,9 @@ HEADERS += \
     Frames/Dialogs/inputdigitdialog.h \
     Frames/Dialogs/inputtextdialog.h \
     Frames/FrameBase.h \
-    Frames/Graphs/GraphEditorFrame.h \
     Frames/Graphs/GraphType.h \
-    Frames/Graphs/SelectGraphFrame.h \
+    Frames/Graphs/SelectProfileFrame.h \
+    Frames/Graphs/TempProfileEditorFrame.h \
     Frames/IFrameFactory.h \
     Frames/LightConfigFrame.h \
     Frames/MainMenuFrame.h \
@@ -85,9 +83,9 @@ HEADERS += \
     MainWindow.h \
     Models/Authorization/User.h \
     Models/Dialogs/ProfileInfoModel.h \
-    Models/Graphs/DayOfValueGraph.h \
-    Models/Graphs/GraphBase.h \
     Models/Graphs/ProfileInfo.h \
+    Models/Graphs/ValueByDayPoint.h \
+    Models/Graphs/ValueByDayProfile.h \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
     Models/SensorsData.h \
@@ -99,6 +97,8 @@ HEADERS += \
     Network/GenericServices/Messages/ClimatStatusResponse.h \
     Network/GenericServices/Messages/CreateGraphRequest.h \
     Network/GenericServices/Messages/DefaultRequest.h \
+    Network/GenericServices/Messages/GetProfileRequest.h \
+    Network/GenericServices/Messages/GetProfileResponse.h \
     Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
     Network/GenericServices/Messages/LightPressetsResponse.h \
@@ -130,8 +130,8 @@ FORMS += \
     Frames/Dialogs/SelectProfileDialog.ui \
     Frames/Dialogs/inputdigitdialog.ui \
     Frames/Dialogs/inputtextdialog.ui \
-    Frames/Graphs/GraphEditorFrame.ui \
-    Frames/Graphs/SelectGraphFrame.ui \
+    Frames/Graphs/SelectProfileFrame.ui \
+    Frames/Graphs/TempProfileEditorFrame.ui \
     Frames/LightConfigFrame.ui \
     Frames/MainMenuFrame.ui \
     Frames/SelectLightPresetFrame.ui \
