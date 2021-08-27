@@ -2,6 +2,7 @@
 #include "ui_SelectGraphFrame.h"
 
 #include <ApplicationWorker.h>
+#include <QDateTime>
 
 #include <Frames/Dialogs/inputtextdialog.h>
 
@@ -20,7 +21,7 @@ SelectGraphFrame::SelectGraphFrame(QList<ProfileInfo> *infos, GraphType type, QW
     m_selection = ui->profilesTable->selectionModel();
     selectRow(0);
 
-    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("GraphService");
+    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("GraphProviderService");
     if(service !=nullptr)
     {
         m_graphService = dynamic_cast<GraphService*>(service);
@@ -89,7 +90,8 @@ void SelectGraphFrame::on_btnAdd_clicked()
         qDebug() << "Name:" << name;
         ProfileInfo *info = new ProfileInfo();
         info->Name = name;
-
+        info->CreationTime = QDateTime::currentDateTime();
+        info->ModifiedTime = QDateTime::currentDateTime();
         m_graphService->CreateTemperatureProfile(info);
     }
 }

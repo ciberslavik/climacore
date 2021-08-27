@@ -19,9 +19,16 @@ void GraphService::TempInfosRequest()
 
 void GraphService::CreateTemperatureProfile(ProfileInfo *info)
 {
-    CreateGraphRequest *request = new CreateGraphRequest();
-    request->GraphType = (int)GraphType::Temperature;
+    NetworkRequest *request = new NetworkRequest();
+    CreateGraphRequest *createRequest = new CreateGraphRequest();
 
+
+    createRequest->GraphType = (int)GraphType::Temperature;
+    createRequest->Info = *info;
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "CreateTemperatureGraph";
+    request->params = createRequest->toJsonString();
 
     emit SendRequest(request);
 }

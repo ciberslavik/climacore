@@ -11,7 +11,7 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft.Internal
         [DataMember(Name = "service")] public string Name { get; set; }
 
         [DataMember(Name = "method")] public string Method { get; set; }
-
+        [DataMember(Name = "params")] public string Params { get; set; }
         [DataMember(Name = "error")] public Error Error { get; set; }
 
         [DataMember(Name = "id")] public string Id { get; set; }

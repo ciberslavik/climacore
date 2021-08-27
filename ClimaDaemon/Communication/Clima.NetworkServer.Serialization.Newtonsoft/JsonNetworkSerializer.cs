@@ -94,15 +94,34 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
             {
                 // get the message request type
                 var type = typeProvider.GetRequestType(serviceName, methodName);
-                var msgType = typeof(RequestMsg<>).MakeGenericType(new[] {type});
+                var msgType = typeof(RequestMsg<>).MakeGenericType(new[] {typeof(string)});
+                object parameter = null;
+                try
+                {
+                    var reqMsg = (IRequestMessage)JsonSerializer.Deserialize(sr, msgType);
+                    Console.WriteLine(reqMsg.Parameters);
 
+                    using (var paramSr = new StringReader((string)reqMsg.Parameters))
+                    {
+                        var tmpMsg = JsonSerializer.Deserialize(paramSr, type);
+                        if (tmpMsg is not null)
+                        {
+                            parameter = tmpMsg;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
                 // deserialize the strong-typed message
-                var reqMsg = (IRequestMessage) JsonSerializer.Deserialize(sr, msgType);
+                
                 return new RequestMessage
                 {
                     Service = serviceName,
                     Method = methodName,
-                    Parameters = reqMsg.Parameters,
+                    Parameters = parameter,
                     Id = id
                 };
             }

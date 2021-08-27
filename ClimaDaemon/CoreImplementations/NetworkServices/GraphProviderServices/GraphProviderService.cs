@@ -59,10 +59,10 @@ namespace GraphProviderService
         public CreateResultRespose CreateTemperatureGraph(CreateProfileRequest request)
         {
             var tGraphProvider = _providerFactory.TemperatureGraphProvider();
-            var newKey = "Temp" + tGraphProvider.GetValidKey();
+            var newKey = tGraphProvider.GetValidKey();
             Log.Debug($"Create temperature graph key:{newKey}");
             var newGraph = tGraphProvider.CreateGraph(newKey);
-            newGraph.Info.Key = request.Info.Key;
+            
             newGraph.Info.Name = request.Info.Name;
             newGraph.Info.Description = request.Info.Description;
             newGraph.Info.CreationTime = request.Info.CreationTime;
