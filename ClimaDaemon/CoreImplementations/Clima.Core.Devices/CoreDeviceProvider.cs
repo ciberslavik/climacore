@@ -79,6 +79,9 @@ namespace Clima.Core.Devices
 
         public ISensors GetSensors()
         {
+            if (!_ioService.IsInit)
+                return default;
+            
             if (_sensors is null)
             {
                 var s = new Sensors();

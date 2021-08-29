@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Sockets;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core.Devices;
@@ -20,7 +21,7 @@ namespace Clima.Core
             _serviceProvider = serviceProvider;
             var devProvider = _serviceProvider.Resolve<IDeviceProvider>();
             Logger = _serviceProvider.Resolve<ISystemLogger>();
-            Sensors = devProvider.GetSensors();
+            Sensors = default;
         }
 
         public static void InitContext(IServiceProvider serviceProvider)
@@ -30,6 +31,8 @@ namespace Clima.Core
                 {
                     if (_instance == null) _instance = new ClimaContext(serviceProvider);
                 }
+
+            _instance.Sensors = _instance._serviceProvider.Resolve<IDeviceProvider>().GetSensors();
         }
 
         public static ClimaContext Current

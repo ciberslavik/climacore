@@ -19,7 +19,7 @@ namespace GraphProviderService
         }
 
         [ServiceMethod]
-        public GraphInfosResponse GetTemperatureGraphInfos(GraphInfosRequest request)
+        public GraphInfosResponse GetTemperatureProfileInfos(GraphInfosRequest request)
         {
             var temperatureProvider = _providerFactory.TemperatureGraphProvider();
 
@@ -31,24 +31,25 @@ namespace GraphProviderService
         }
 
         [ServiceMethod]
-        public TemperatureGraphResponse GetTemperatureGraph(GetGraphRequest<TemperatureGraphResponse> request)
+        public TemperatureGraphResponse GetTemperatureProfile(GetProfileRequest<TemperatureGraphResponse> request)
         {
             
-            if (string.IsNullOrEmpty(request.GraphKey))
+            if (string.IsNullOrEmpty(request.ProfileKey))
                 throw new InvalidRequestException("Get temperature graph key is null");
-            var tGraph = _providerFactory.TemperatureGraphProvider().GetGraph(request.GraphKey);
+            var tGraph = _providerFactory.TemperatureGraphProvider().GetGraph(request.ProfileKey);
             if (tGraph is null)
                 throw new KeyNotFoundException(
-                    $"key: {request.GraphKey} not contains in temperature graph repository");
+                    $"key: {request.ProfileKey} not contains in temperature graph repository");
 
-
+            Log.Debug($"Get temperature profile request:{request.ProfileKey}");
+            
             var response = new TemperatureGraphResponse();
             response.Info = tGraph.Info;
             response.Points = new List<ValueByDayPoint>(tGraph.Points);
             return response;
         }
         [ServiceMethod]
-        public TemperatureGraphResponse GetCurrentTemperatureGraph(GetGraphRequest<TemperatureGraphResponse> request)
+        public TemperatureGraphResponse GetCurrentTemperatureGraph(GetProfileRequest<TemperatureGraphResponse> request)
         {
             throw new System.NotImplementedException();
         }
@@ -56,7 +57,7 @@ namespace GraphProviderService
         public string ServiceName { get; } = "GraphProviderService";
 
         [ServiceMethod]
-        public CreateResultRespose CreateTemperatureGraph(CreateProfileRequest request)
+        public CreateResultRespose CreateTemperatureProfile(CreateProfileRequest request)
         {
             var tGraphProvider = _providerFactory.TemperatureGraphProvider();
             var newKey = tGraphProvider.GetValidKey();
@@ -73,7 +74,7 @@ namespace GraphProviderService
         }
 
         [ServiceMethod]
-        public DefaultResponse UpdateTemperatureGraph(UpdateTemperatureGraphRequest request)
+        public DefaultResponse UpdateTemperatureProfile(UpdateTemperatureGraphRequest request)
         {
             var tGraphProvider = _providerFactory.TemperatureGraphProvider();
             var graph = tGraphProvider.GetGraph(request.GraphKey);
@@ -89,7 +90,7 @@ namespace GraphProviderService
         }
         
         [ServiceMethod]
-        public DefaultResponse RemoveTemperatureGraph(RemoveGraphRequest request)
+        public DefaultResponse RemoveTemperatureProfile(RemoveGraphRequest request)
         {
             var tGraphProvider = _providerFactory.TemperatureGraphProvider();
             if (tGraphProvider.ContainsKey(request.Key))
@@ -106,7 +107,7 @@ namespace GraphProviderService
             throw new System.NotImplementedException();
         }
         [ServiceMethod]
-        public VentilationGraphResponse GetVentilationGraph(GetGraphRequest<VentilationGraphResponse> request)
+        public VentilationGraphResponse GetVentilationGraph(GetProfileRequest<VentilationGraphResponse> request)
         {
             throw new System.NotImplementedException();
         }

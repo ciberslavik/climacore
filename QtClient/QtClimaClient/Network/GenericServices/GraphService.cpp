@@ -3,7 +3,7 @@
 #include <Network/GenericServices/Messages/GraphInfosRequest.h>
 #include <Network/GenericServices/Messages/CreateGraphRequest.h>
 #include <Network/GenericServices/Messages/GetProfileRequest.h>
-#include <Frames/Graphs/GraphType.h>
+#include <Frames/Graphs/ProfileType.h>
 
 GraphService::GraphService(QObject *parent) : INetworkService(parent)
 {
@@ -24,7 +24,7 @@ void GraphService::CreateTemperatureProfile(ProfileInfo *info)
     CreateGraphRequest *createRequest = new CreateGraphRequest();
 
 
-    createRequest->GraphType = (int)GraphType::Temperature;
+    createRequest->GraphType = (int)ProfileType::Temperature;
     createRequest->Info = *info;
     request->jsonrpc = "0.1a";
     request->service = "GraphProviderService";
@@ -46,6 +46,8 @@ void GraphService::GetTemperatureProfile(const QString &key)
     profileRequest->ProfileKey = key;
 
     request->params = profileRequest->toJsonString();
+
+    emit SendRequest(request);
 }
 
 void GraphService::UpdateTemperatureProfile(ValueByDayProfile profile)
@@ -75,7 +77,7 @@ void GraphService::ProcessReply(NetworkResponse *reply)
 {
     if(reply->service=="GraphProviderService")
     {
-        if(reply->method == "GetTemperatureProfilesInfos")
+        if(reply->method == "GetTemperatureProfileInfos")
         {
             qDebug() << "GetTemperatureProfilesInfos response:" << reply->result;
 
@@ -88,10 +90,10 @@ void GraphService::ProcessReply(NetworkResponse *reply)
         else if(reply->method == "GetTemperatureProfile")
         {
             qDebug() << "GetTemperatureProfile response:" << reply->result;
-            GetProfileResponse *profile = new GetProfileResponse();
+            ValueByDayProfile *profile = new ValueByDayProfile();
             profile->fromJson(reply->result.toUtf8());
 
-            emit TempProfileResponse(&profile->Profile);
+            emit TempProfileResponse(profile);
         }
         else if(reply->method == "GetVentilationProfileInfos")
         {

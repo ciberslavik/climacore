@@ -16,7 +16,9 @@ SOURCES += \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
     Frames/Dialogs/MessageDialog.cpp \
+    Frames/Dialogs/MinMaxByDayEditDialog.cpp \
     Frames/Dialogs/SelectProfileDialog.cpp \
+    Frames/Dialogs/ValueByDayEditDialog.cpp \
     Frames/Dialogs/inputdigitdialog.cpp \
     Frames/Dialogs/inputtextdialog.cpp \
     Frames/FrameBase.cpp \
@@ -35,6 +37,7 @@ SOURCES += \
     GlobalContext.cpp \
     Models/Authorization/User.cpp \
     Models/Dialogs/ProfileInfoModel.cpp \
+    Models/Dialogs/TempProfileModel.cpp \
     Models/LightTimersModel.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
@@ -61,11 +64,13 @@ HEADERS += \
     Controls/qclickablelineedit.h \
     Controls/qcustomplot.h \
     Frames/Dialogs/MessageDialog.h \
+    Frames/Dialogs/MinMaxByDayEditDialog.h \
     Frames/Dialogs/SelectProfileDialog.h \
+    Frames/Dialogs/ValueByDayEditDialog.h \
     Frames/Dialogs/inputdigitdialog.h \
     Frames/Dialogs/inputtextdialog.h \
     Frames/FrameBase.h \
-    Frames/Graphs/GraphType.h \
+    Frames/Graphs/ProfileType.h \
     Frames/Graphs/SelectProfileFrame.h \
     Frames/Graphs/TempProfileEditorFrame.h \
     Frames/IFrameFactory.h \
@@ -83,6 +88,9 @@ HEADERS += \
     MainWindow.h \
     Models/Authorization/User.h \
     Models/Dialogs/ProfileInfoModel.h \
+    Models/Dialogs/TempProfileModel.h \
+    Models/Graphs/MinMaxByDayPoint.h \
+    Models/Graphs/MinMaxByDayProfile.h \
     Models/Graphs/ProfileInfo.h \
     Models/Graphs/ValueByDayPoint.h \
     Models/Graphs/ValueByDayProfile.h \
@@ -127,7 +135,9 @@ FORMS += \
     Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
     Frames/Dialogs/MessageDialog.ui \
+    Frames/Dialogs/MinMaxByDayEditDialog.ui \
     Frames/Dialogs/SelectProfileDialog.ui \
+    Frames/Dialogs/ValueByDayEditDialog.ui \
     Frames/Dialogs/inputdigitdialog.ui \
     Frames/Dialogs/inputtextdialog.ui \
     Frames/Graphs/SelectProfileFrame.ui \

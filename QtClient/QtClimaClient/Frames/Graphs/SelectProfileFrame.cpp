@@ -6,29 +6,38 @@
 
 #include <Frames/Dialogs/inputtextdialog.h>
 
-SelectProfileFrame::SelectProfileFrame(QList<ProfileInfo> *infos, GraphType type, QWidget *parent) :
+SelectProfileFrame::SelectProfileFrame(const ProfileType &profileType, QWidget *parent) :
     FrameBase(parent),
     ui(new Ui::SelectProfileFrame)
 {
-    m_graphType = type;
+    m_profileType = profileType;
     ui->setupUi(this);
     setTitle("Выбор графика");
-
-    m_infoModel = new ProfileInfoModel(infos, this);
-
-    ui->profilesTable->setModel(m_infoModel);
-
-    ui->profilesTable->resizeColumnsToContents();
-    ui->profilesTable->resizeRowsToContents();
-
-    m_selection = ui->profilesTable->selectionModel();
-    selectRow(0);
 
     INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("GraphProviderService");
     if(service !=nullptr)
     {
         m_graphService = dynamic_cast<GraphService*>(service);
     }
+    connect(m_graphService, &GraphService::TempProfileResponse, this, &SelectProfileFrame::TemperatureGraphReceived);
+
+    switch (m_profileType) {
+    case ProfileType::Temperature:
+        m_graphService->GetTempInfos();
+        connect(m_graphService, &GraphService::TempInfosResponse, this, &SelectProfileFrame::ProfileInfosReceived);
+        break;
+    case ProfileType::Ventilation:
+        break;
+    case ProfileType::ValveByVent:
+        break;
+    case ProfileType::MineByVent:
+        break;
+
+
+    }
+    //
+
+
 }
 
 SelectProfileFrame::~SelectProfileFrame()
@@ -39,6 +48,36 @@ SelectProfileFrame::~SelectProfileFrame()
 QString SelectProfileFrame::getFrameName()
 {
     return "SelectProfileFrame";
+}
+
+void SelectProfileFrame::ProfileInfosReceived(QList<ProfileInfo> *infos)
+{
+    m_infoModel = new ProfileInfoModel(infos, this);
+
+    ui->profilesTable->setModel(m_infoModel);
+
+    ui->profilesTable->resizeColumnsToContents();
+    ui->profilesTable->resizeRowsToContents();
+
+    m_selection = ui->profilesTable->selectionModel();
+    selectRow(0);
+}
+
+void SelectProfileFrame::TemperatureGraphReceived(ValueByDayProfile *profile)
+{
+    m_curTempProfile = profile;
+
+
+}
+
+void SelectProfileFrame::on_ProfileEditorCompleted()
+{
+
+}
+
+void SelectProfileFrame::on_ProfileEditorCanceled()
+{
+
 }
 
 
@@ -59,11 +98,33 @@ void SelectProfileFrame::selectRow(int row)
     QItemSelection selection(left, right);
     m_selection->clear();
     m_selection->select(selection, QItemSelectionModel::Select);
+
+    QString key = m_infoModel->infos()->at(row).Key;
+    loadGraph(key);
+
+    switch(m_profileType)
+    {
+    case ProfileType::Temperature:
+        loadTemperatureGraph(key);
+        break;
+    case ProfileType::Ventilation:
+        break;
+    case ProfileType::ValveByVent:
+        break;
+    case ProfileType::MineByVent:
+        break;
+
+    }
 }
 
 void SelectProfileFrame::loadGraph(const QString &key)
 {
 
+}
+
+void SelectProfileFrame::loadTemperatureGraph(const QString &key)
+{
+    m_graphService->GetTemperatureProfile(key);
 }
 
 
@@ -101,6 +162,23 @@ void SelectProfileFrame::on_btnAdd_clicked()
         info->CreationTime = QDateTime::currentDateTime();
         info->ModifiedTime = QDateTime::currentDateTime();
         m_graphService->CreateTemperatureProfile(info);
+    }
+}
+
+
+void SelectProfileFrame::on_btnEdit_clicked()
+{
+    switch(m_profileType)
+    {
+    case ProfileType::Temperature:
+        break;
+    case ProfileType::Ventilation:
+        break;
+    case ProfileType::ValveByVent:
+        break;
+    case ProfileType::MineByVent:
+        break;
+
     }
 }
 

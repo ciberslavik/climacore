@@ -91,18 +91,28 @@ InputTextDialog::InputTextDialog(QWidget *parent) :
     QSignalMapper *mapper = new QSignalMapper(this);
     connect(mapper, SIGNAL(mapped(int)), SLOT(buttonClicked(int)));
 
-    textbox = new QLineEdit(this);
+    QFont fnt = font();
+    fnt.setPointSizeF(14);
 
-    grid->addWidget(textbox,0,0,1,7);
-    int row = 1;
+    lblTitle = new QLabel(this);
+    lblTitle->setText("hdjfhd");
+    lblTitle->setFont(fnt);
+    lblTitle->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    textbox = new QLineEdit(this);
+    textbox->setFont(fnt);
+    grid->addWidget(lblTitle,0,1,1,11);
+    grid->addWidget(textbox,1,1,1,11);
+    int row = 2;
     int column = 1;
+
     grid->addItem(new QSpacerItem(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding),0,0);
     for (int i = 0; i < layoutSize; ++i) {
         if (keyboardLayout[i].key == NEXT_ROW_MARKER) {
             row++;
             column = 0;
 
-            QSpacerItem *spacer = new QSpacerItem(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding);
+            QSpacerItem *spacer = new QSpacerItem(0,10);
+
 
             grid->addItem(spacer, row, column++);
             continue;
@@ -121,7 +131,7 @@ InputTextDialog::InputTextDialog(QWidget *parent) :
 
         if(keyboardLayout[i].key==Qt::Key_Backspace)
         {
-            QIcon *icon = new QIcon(":/images/backspace-arrow.png");
+            QIcon *icon = new QIcon(":/Images/backspace-arrow.png");
             button->setIcon(*icon);
             button->setIconSize(QSize(24,24));
             button->setText("");

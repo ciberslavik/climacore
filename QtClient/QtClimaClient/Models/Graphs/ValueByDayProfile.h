@@ -10,6 +10,8 @@ class ValueByDayProfile : public QSerializer
     Q_GADGET
     QS_SERIALIZABLE
 public:
+        ValueByDayProfile(){}
+    ~ValueByDayProfile(){}
     QS_OBJECT(ProfileInfo, Info)
     QS_COLLECTION_OBJECTS(QList, ValueByDayPoint, Points)
 

@@ -82,16 +82,28 @@ namespace Clima.ServiceContainer.CastleWindsor
                 {
                     var serviceConfig = getConfigMi.MakeGenericMethod(service.ConfigType)
                         .Invoke(configStore, new object[] { });
-                    
+                    _logger.Debug($"Initialize :{service.GetType().Name}");
                     if (service.GetType().IsAssignableTo(typeof(AgavaIoService)))
                     {
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                             service.Init(serviceConfig);
+                        else
+                        {
+                            _container.Kernel.ReleaseComponent(service);
+                            _logger.Debug($"Remove :{service.GetType().Name}");
+                        }
                     }
                     else if (service.GetType().IsAssignableTo(typeof(StubIOService)))
                     {
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
                             service.Init(serviceConfig);
+                            _container.Kernel.ReleaseComponent(service);
+                        }
+                        else
+                        {
+                            _container.Kernel.ReleaseComponent(service);
+                        }
                     }
                     else
                     {

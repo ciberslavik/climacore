@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QLabel>
 
 #define NEXT_ROW_MARKER 0
 namespace Ui {
@@ -30,6 +31,7 @@ private:
     void createKeyboard();
 
     QLineEdit *textbox;
+    QLabel *lblTitle;
 };
 
 #endif // INPUTTEXTDIALOG_H

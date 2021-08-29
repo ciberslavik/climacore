@@ -62,7 +62,7 @@ void TestModeFrame::showEvent(QShowEvent *event)
 
 void TestModeFrame::on_btnSelectGraphTest_clicked()
 {
-    SelectProfileFrame *graphFrame = new SelectProfileFrame(&testData, GraphType::Temperature);
+    SelectProfileFrame *graphFrame = new SelectProfileFrame(ProfileType::Temperature);
 
     FrameManager::instance()->setCurrentFrame(graphFrame);
 }

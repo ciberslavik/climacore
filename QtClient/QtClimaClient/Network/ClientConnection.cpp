@@ -148,7 +148,7 @@ void ClientConnection::onReadyRead()
             else
             {
                 qDebug()<< "Reply:" << data;
-                QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit());
+                QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
                 QJsonObject currentObject = doc.object();
 
                 QJsonObject result = currentObject["result"].toObject();
