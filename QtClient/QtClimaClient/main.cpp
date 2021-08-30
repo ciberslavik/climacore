@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     TestModeFrame *testFrame = new TestModeFrame();
     SystemStateFrame *stateFrame = new SystemStateFrame();
 
-    FrameManager::instance()->setCurrentFrame(testFrame);
+    FrameManager::instance()->setCurrentFrame(stateFrame);
 
 
     int result = a.exec();

@@ -100,10 +100,9 @@ void TemperatureOwerviewFrame::onCorrectionClicked()
     QString prevValue = lineEdit->text();
     InputDigitDialog *dlg = new InputDigitDialog(lineEdit, FrameManager::instance()->MainWindow());
 
-    if(dlg->exec()==QDialog::Accepted)
+    if(dlg->exec() != QDialog::Accepted)
     {
-        return;
+        lineEdit->setText(prevValue);
     }
-    lineEdit->setText(prevValue);
 }
 

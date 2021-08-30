@@ -22,7 +22,7 @@ public:
 private slots:
     void on_btnVentilationOverview_clicked();
 
-    void on_btnVentilationConfig_clicked();
+
 
     void on_btnReturn_clicked();
 
@@ -30,6 +30,8 @@ private slots:
 
 
     void on_btnLightConfig_clicked();
+
+    void on_btnProduction_clicked();
 
 private:
     Ui::MainMenuFrame *ui;

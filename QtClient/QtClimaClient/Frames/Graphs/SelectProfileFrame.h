@@ -52,5 +52,6 @@ private:
     ValueByDayProfile *m_curTempProfile;
     MinMaxByDayProfile *m_curVentProfile;
 
+    TempProfileEditorFrame *m_tempEditor;
 };
 

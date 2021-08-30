@@ -5,6 +5,7 @@
 #include "VentilationOverviewFrame.h"
 #include "ui_MainMenuFrame.h"
 
+
 #include <Services/FrameManager.h>
 
 MainMenuFrame::MainMenuFrame(QWidget *parent) :
@@ -29,12 +30,12 @@ void MainMenuFrame::on_btnVentilationOverview_clicked()
 }
 
 
-void MainMenuFrame::on_btnVentilationConfig_clicked()
-{
-    VentilationConfigFrame *configFrame = new VentilationConfigFrame();
+//void MainMenuFrame::on_btnVentilationConfig_clicked()
+//{
+//    //VentilationConfigFrame *configFrame = new VentilationConfigFrame();
 
-    FrameManager::instance()->setCurrentFrame(configFrame);
-}
+//    //FrameManager::instance()->setCurrentFrame(configFrame);
+//}
 
 
 void MainMenuFrame::on_btnReturn_clicked()
@@ -58,3 +59,8 @@ void MainMenuFrame::on_btnLightConfig_clicked()
     FrameManager::instance()->setCurrentFrame(lightFrame);
 }
 
+
+void MainMenuFrame::on_btnProduction_clicked()
+{
+
+}

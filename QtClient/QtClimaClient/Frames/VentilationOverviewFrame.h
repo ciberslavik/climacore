@@ -25,5 +25,7 @@ protected:
     // FrameBase interface
 public:
     virtual QString getFrameName() override{return "VentilationOverviewFrame";}
+private slots:
+    void on_pushButton_clicked();
 };
 

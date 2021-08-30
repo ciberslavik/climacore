@@ -13,7 +13,7 @@ FanWidget::FanWidget(QWidget *parent) : QWidget(parent)
 
     //label->setText("Test");
     m_fanLabel->setMovie(m_fanMovie);
-    m_fanMovie->start();
+    //m_fanMovie->start();
     m_manualPixmap = QPixmap(":Images/Industry-Manual-icon.png");
     m_autoPixmap = QPixmap(":Images/Industry-Automatic-icon.png");
     m_discardPixmap = QPixmap(":Images/cancel-icon.png");
@@ -140,13 +140,16 @@ void FanWidget::rebuildUI()
         {
             case FanState::Enabled:
                 m_stateBrush = QBrush(Qt::green);
+                m_fanMovie->start();
             break;
             case FanState::Disabled:
                 m_stateBrush = QBrush(Qt::GlobalColor::darkGreen);
+                m_fanMovie->stop();
             break;
             case FanState::Alarm:
                 m_stateBrush = QBrush(Qt::red);
                 m_modeLabel->setPixmap(m_alertPixmap);
+                m_fanMovie->stop();
             break;
         }
     }
