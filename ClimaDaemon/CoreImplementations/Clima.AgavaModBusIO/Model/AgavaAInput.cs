@@ -46,9 +46,11 @@ namespace Clima.AgavaModBusIO.Model
 
         public void SetRawValue(in ushort[] value)
         {
+            
             if (ValueConverter != null)
             {
                 var newValue = ValueConverter.ConvertTo(value);
+                //Console.WriteLine($"{PinName}:{value[0]}:{value[1]} - {newValue}");
                 if (!newValue.Equals(_value))
                 {
                     var prevValue = _value;

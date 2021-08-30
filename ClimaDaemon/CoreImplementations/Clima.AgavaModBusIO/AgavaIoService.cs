@@ -274,11 +274,12 @@ namespace Clima.AgavaModBusIO
                         _modules.Add(moduleId, module);
                     }
                 }
-		else
-		{
-		    Log.Debug($"Address:{moduleId} timeout");
-		}
+                else
+                {
+                    Log.Debug($"Address:{moduleId} timeout");
+                }
             }
+
             BuildPinsCollection();
         }
 
@@ -320,6 +321,7 @@ namespace Clima.AgavaModBusIO
                 else
                     _config.AnalogOutputTypes.Add(aout.PinName, outType);
             }
+            
         }
 
         private void ConfigureModuleAnalog(AgavaIOModule module)
@@ -350,6 +352,7 @@ namespace Clima.AgavaModBusIO
                     case AgavaAnalogInType.Current_0_5mA:
                         break;
                     case AgavaAnalogInType.Resistance:
+                        ain.ValueConverter = new Pt1000ToTemperature();
                         break;
                     case AgavaAnalogInType.TR_Pt100:
                         ain.ValueConverter = new Pt1000ToTemperature();

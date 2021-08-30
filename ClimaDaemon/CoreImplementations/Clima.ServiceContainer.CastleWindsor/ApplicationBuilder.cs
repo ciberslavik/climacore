@@ -7,6 +7,7 @@ using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Clima.AgavaModBusIO;
+using Clima.AgavaModBusIO.Configuration;
 using Clima.Basics;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
@@ -89,9 +90,10 @@ namespace Clima.ServiceContainer.CastleWindsor
                 }
             }
 
-            _container.Register(Component.For<IIOService>().ImplementedBy<StubIOService>().LifestyleSingleton());
-            var ioconfig = configStore.GetConfig<StubIOServiceConfig>();
+            _container.Register(Component.For<IIOService>().ImplementedBy<AgavaIoService>().LifestyleSingleton());
+            var ioconfig = configStore.GetConfig<ModbusConfig>();
             _container.Resolve<IIOService>().Init(ioconfig);
+            configStore.Save();
         }
 
         private void StartCoreServices()
