@@ -6,6 +6,7 @@ namespace Clima.Core.DataModel.GraphModel
     public abstract class GraphBase<TPoint> where TPoint : GraphPointBase
     {
         protected List<TPoint> _points;
+        private ProfileInfo _info = new ProfileInfo();
 
         protected GraphBase()
         {
@@ -15,8 +16,31 @@ namespace Clima.Core.DataModel.GraphModel
         private event EventHandler PointModified;
         public event EventHandler GraphModified;
 
-        public ProfileInfo Info { get; set; } = new ProfileInfo();
-        public IList<TPoint> Points => _points;
+        public ProfileInfo Info
+        {
+            get => _info;
+            set
+            {
+                if (!_info.Equals(value))
+                {
+                    _info = value;
+                    OnGraphModified();
+                }
+            }
+        }
+
+        public List<TPoint> Points
+        {
+            get => _points;
+            set
+            {
+                if (!_points.Equals(value))
+                {
+                    _points = value;
+                    OnGraphModified();
+                }
+            }
+        }
 
         public virtual void AddPoint(TPoint point)
         {

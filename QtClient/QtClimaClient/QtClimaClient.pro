@@ -26,6 +26,7 @@ SOURCES += \
     Frames/Graphs/TempProfileEditorFrame.cpp \
     Frames/LightConfigFrame.cpp \
     Frames/MainMenuFrame.cpp \
+    Frames/ProductionFrame.cpp \
     Frames/SelectLightPresetFrame.cpp \
     Frames/SystemStateFrame.cpp \
     Frames/TemperatureConfigFrame.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
     Frames/IFrameFactory.h \
     Frames/LightConfigFrame.h \
     Frames/MainMenuFrame.h \
+    Frames/ProductionFrame.h \
     Frames/SelectLightPresetFrame.h \
     Frames/SystemStateFrame.h \
     Frames/TemperatureConfigFrame.h \
@@ -114,6 +116,7 @@ HEADERS += \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \
     Network/GenericServices/Messages/TemperatureStateResponse.h \
+    Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
     Network/GenericServices/SensorsService.h \
     Network/GenericServices/ServerInfoService.h \
     Network/GenericServices/SystemStatusService.h \
@@ -144,6 +147,7 @@ FORMS += \
     Frames/Graphs/TempProfileEditorFrame.ui \
     Frames/LightConfigFrame.ui \
     Frames/MainMenuFrame.ui \
+    Frames/ProductionFrame.ui \
     Frames/SelectLightPresetFrame.ui \
     Frames/SystemStateFrame.ui \
     Frames/TemperatureConfigFrame.ui \

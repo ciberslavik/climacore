@@ -50,7 +50,9 @@ namespace Clima.FSGrapRepository
             if (ProviderConfig.Graphs.ContainsKey(graphName))
             {
                 var graphConfig = ProviderConfig.Graphs[graphName];
-
+                var graph = CreateFromConfig(graphConfig);
+                _loadedGraphs.Add(graphName, graph);
+                graph.GraphModified += GraphOnGraphModified;
                 return CreateFromConfig(graphConfig);
             }
 

@@ -77,13 +77,17 @@ namespace GraphProviderService
         public DefaultResponse UpdateTemperatureProfile(UpdateTemperatureGraphRequest request)
         {
             var tGraphProvider = _providerFactory.TemperatureGraphProvider();
-            var graph = tGraphProvider.GetGraph(request.GraphKey);
+            var graph = tGraphProvider.GetGraph(request.Profile.Info.Key);
             if (graph is null)
             {
                 return new DefaultResponse()
-                    {RequestName = "UpdateTemperatureGraph", Status = $"Graph:{request.GraphKey} not found"};
+                    {RequestName = "UpdateTemperatureGraph", Status = $"Graph:{request.Profile.Info.Key} not found"};
             }
 
+            graph.Info = request.Profile.Info;
+            graph.Points = request.Profile.Points;
+            
+            _providerFactory.Save();
             return new DefaultResponse()
                 {RequestName = "UpdateTemperatureGraph", Status = $"OK"};
 

@@ -6,11 +6,17 @@ namespace Clima.Core.Network.Messages
 {
     public class UpdateTemperatureGraphRequest:IReturn<DefaultResponse>
     {
-        public UpdateTemperatureGraphRequest(string graphKey="")
+        public UpdateTemperatureGraphRequest()
         {
-            GraphKey = graphKey;
+            
         }
-        public string GraphKey { get; set; }
+
+        public ValueByDayProfile Profile { get; set; } = new ValueByDayProfile();
+
+    }
+
+    public class ValueByDayProfile
+    {
         public ProfileInfo Info { get; set; } = new ProfileInfo();
         public List<ValueByDayPoint> Points { get; set; } = new List<ValueByDayPoint>();
     }

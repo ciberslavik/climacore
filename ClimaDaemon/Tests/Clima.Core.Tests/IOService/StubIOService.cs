@@ -48,13 +48,14 @@ namespace Clima.Core.Tests.IOService
                 }
 
                 Console.WriteLine("Stub IO Service initialised");
+                IsInit = true;
             }
         }
 
         public Type ConfigType => typeof(StubIOServiceConfig);
         public ServiceState ServiceState { get; }
 
-        public bool IsInit { get; }
+        public bool IsInit { get; private set; }
         public bool IsRunning { get; }
         public IOPinCollection Pins { get; private set; }
     }

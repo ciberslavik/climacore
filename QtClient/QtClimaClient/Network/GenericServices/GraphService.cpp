@@ -3,6 +3,7 @@
 #include <Network/GenericServices/Messages/GraphInfosRequest.h>
 #include <Network/GenericServices/Messages/CreateGraphRequest.h>
 #include <Network/GenericServices/Messages/GetProfileRequest.h>
+#include <Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h>
 #include <Frames/Graphs/ProfileType.h>
 
 GraphService::GraphService(QObject *parent) : INetworkService(parent)
@@ -50,9 +51,19 @@ void GraphService::GetTemperatureProfile(const QString &key)
     emit SendRequest(request);
 }
 
-void GraphService::UpdateTemperatureProfile(ValueByDayProfile profile)
+void GraphService::UpdateTemperatureProfile(ValueByDayProfile *profile)
 {
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "UpdateTemperatureProfile";
 
+    UpdateValueByDayProfileRequest *profileRequest = new UpdateValueByDayProfileRequest();
+    profileRequest->Profile = *profile;
+
+    request->params = profileRequest->toJsonString();
+
+    emit SendRequest(request);
 }
 
 void GraphService::GetVentInfos()

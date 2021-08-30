@@ -21,7 +21,6 @@ namespace Clima.Core
             _serviceProvider = serviceProvider;
             var devProvider = _serviceProvider.Resolve<IDeviceProvider>();
             Logger = _serviceProvider.Resolve<ISystemLogger>();
-            Sensors = default;
         }
 
         public static void InitContext(IServiceProvider serviceProvider)
@@ -31,8 +30,6 @@ namespace Clima.Core
                 {
                     if (_instance == null) _instance = new ClimaContext(serviceProvider);
                 }
-
-            _instance.Sensors = _instance._serviceProvider.Resolve<IDeviceProvider>().GetSensors();
         }
 
         public static ClimaContext Current
@@ -53,9 +50,9 @@ namespace Clima.Core
             _serviceProvider.Resolve<IFileSystem>();
 
         public ISystemLogger Logger { get; private set; }
-        
-        public ISensors Sensors { get; set; }
-        
-        
+
+        public ISensors Sensors => _serviceProvider.Resolve<IDeviceProvider>().GetSensors();
+
+
     }
 }

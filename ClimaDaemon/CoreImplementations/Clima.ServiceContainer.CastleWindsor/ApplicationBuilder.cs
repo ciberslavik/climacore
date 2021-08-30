@@ -16,6 +16,7 @@ using Clima.Core.Devices;
 using Clima.Core.IO;
 using Clima.Core.Scheduler;
 using Clima.Core.Tests.IOService;
+using Clima.Core.Tests.IOService.Configurations;
 using Clima.Logger;
 using Clima.NetworkServer;
 using Clima.ServiceContainer.CastleWindsor.Installers;
@@ -83,55 +84,29 @@ namespace Clima.ServiceContainer.CastleWindsor
                     var serviceConfig = getConfigMi.MakeGenericMethod(service.ConfigType)
                         .Invoke(configStore, new object[] { });
                     _logger.Debug($"Initialize :{service.GetType().Name}");
-                    if (service.GetType().IsAssignableTo(typeof(AgavaIoService)))
-                    {
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                            service.Init(serviceConfig);
-                        else
-                        {
-                            _container.Kernel.ReleaseComponent(service);
-                            _logger.Debug($"Remove :{service.GetType().Name}");
-                        }
-                    }
-                    else if (service.GetType().IsAssignableTo(typeof(StubIOService)))
-                    {
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        {
-                            service.Init(serviceConfig);
-                            _container.Kernel.ReleaseComponent(service);
-                        }
-                        else
-                        {
-                            _container.Kernel.ReleaseComponent(service);
-                        }
-                    }
-                    else
-                    {
-                        service.Init(serviceConfig);
-                    }
+
+                    service.Init(serviceConfig);
                 }
             }
+
+            _container.Register(Component.For<IIOService>().ImplementedBy<StubIOService>().LifestyleSingleton());
+            var ioconfig = configStore.GetConfig<StubIOServiceConfig>();
+            _container.Resolve<IIOService>().Init(ioconfig);
         }
 
         private void StartCoreServices()
         {
             _logger.Info("Starting core services");
+            _container.Resolve<IIOService>().Start();
+            
             var services = _container.ResolveAll<IService>();
             foreach (var service in services)
             {
-                if (service.GetType().IsAssignableTo(typeof(AgavaIoService)))
-                {
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                        service.Start();
-                }
-                else if (service.GetType().IsAssignableTo(typeof(StubIOService)))
-                {
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        service.Start();
-                }
-                else
-                    service.Start();
+
+                service.Start();
             }
+            
+            
         }
     }
 }

@@ -16,7 +16,7 @@ public:
     void GetTempInfos();
     void CreateTemperatureProfile(ProfileInfo *info);
     void GetTemperatureProfile(const QString &key);
-    void UpdateTemperatureProfile(ValueByDayProfile profile);
+    void UpdateTemperatureProfile(ValueByDayProfile *profile);
 
     void GetVentInfos();
     void CreateVentilationProfile(ProfileInfo *info);

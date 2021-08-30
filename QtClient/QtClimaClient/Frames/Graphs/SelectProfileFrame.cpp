@@ -67,12 +67,23 @@ void SelectProfileFrame::TemperatureGraphReceived(ValueByDayProfile *profile)
 {
     m_curTempProfile = profile;
 
+    if(m_needEdit)
+    {
+        m_tempEditor = new TempProfileEditorFrame(m_curTempProfile);
+        connect(m_tempEditor, &TempProfileEditorFrame::editComplete, this, &SelectProfileFrame::on_ProfileEditorCompleted);
+        connect(m_tempEditor, &TempProfileEditorFrame::editCanceled, this, &SelectProfileFrame::on_ProfileEditorCanceled);
+        FrameManager::instance()->setCurrentFrame(m_tempEditor);
+
+
+    }
+
 
 }
 
 void SelectProfileFrame::on_ProfileEditorCompleted()
 {
-
+    m_graphService->UpdateTemperatureProfile(m_curTempProfile);
+    qDebug()<< "Edit accepted";
 }
 
 void SelectProfileFrame::on_ProfileEditorCanceled()
@@ -171,6 +182,12 @@ void SelectProfileFrame::on_btnEdit_clicked()
     switch(m_profileType)
     {
     case ProfileType::Temperature:
+    {
+        m_tempEditor = new TempProfileEditorFrame(m_curTempProfile);
+        connect(m_tempEditor, &TempProfileEditorFrame::editComplete, this, &SelectProfileFrame::on_ProfileEditorCompleted);
+        connect(m_tempEditor, &TempProfileEditorFrame::editCanceled, this, &SelectProfileFrame::on_ProfileEditorCanceled);
+        FrameManager::instance()->setCurrentFrame(m_tempEditor);
+    }
         break;
     case ProfileType::Ventilation:
         break;

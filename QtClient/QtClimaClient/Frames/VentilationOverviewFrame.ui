@@ -10,49 +10,97 @@
     <height>367</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>14</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="FanWidget" name="wFan1" native="true">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>210</y>
-     <width>91</width>
-     <height>111</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="FanWidget" name="wFan1_2" native="true">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>200</y>
-     <width>91</width>
-     <height>111</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="FanWidget" name="wFan1_3" native="true">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>200</y>
-     <width>91</width>
-     <height>111</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="FanWidget" name="wFan1_4" native="true">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>90</y>
-     <width>91</width>
-     <height>111</height>
-    </rect>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="FanWidget" name="wFan1_10" native="true"/>
+     </item>
+     <item>
+      <widget class="FanWidget" name="wFan1_9" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="FanWidget" name="wFan1_6" native="true"/>
+     </item>
+     <item>
+      <widget class="FanWidget" name="wFan1_5" native="true"/>
+     </item>
+     <item>
+      <widget class="FanWidget" name="wFan1" native="true"/>
+     </item>
+     <item>
+      <widget class="FanWidget" name="wFan1_7" native="true"/>
+     </item>
+     <item>
+      <widget class="FanWidget" name="wFan1_8" native="true"/>
+     </item>
+     <item>
+      <widget class="FanWidget" name="wFan1_2" native="true"/>
+     </item>
+     <item>
+      <widget class="FanWidget" name="wFan1_3" native="true"/>
+     </item>
+     <item>
+      <widget class="FanWidget" name="wFan1_4" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QPushButton" name="pushButton">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Назад</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/icons8-u-turn-to-left-50.png</normaloff>:/Images/icons8-u-turn-to-left-50.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <customwidgets>
   <customwidget>
@@ -62,6 +110,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -15,6 +15,12 @@ TempProfileEditorFrame::TempProfileEditorFrame(ValueByDayProfile *profile, QWidg
     ui->table->setModel(m_model);
 
     m_selection = ui->table->selectionModel();
+
+    ui->txtName->setText(profile->Info.Name);
+    ui->txtDescription->setText((profile->Info.Description));
+
+    ui->lblCreationDate->setText(profile->Info.CreationTime.toString("dd.MM.yyyy hh:mm"));
+    ui->lblEditDate->setText(profile->Info.ModifiedTime.toString("dd.MM.yyyy hh:mm"));
 }
 
 TempProfileEditorFrame::~TempProfileEditorFrame()
