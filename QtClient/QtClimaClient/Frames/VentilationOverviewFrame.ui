@@ -19,8 +19,15 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="3">
-    <widget class="QPushButton" name="pushButton_3">
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Управляемый</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QPushButton" name="btnConfigValve">
      <property name="minimumSize">
       <size>
        <width>40</width>
@@ -45,6 +52,88 @@
        <width>32</width>
        <height>32</height>
       </size>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/gears.png</normaloff>:/Images/gears.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="QProgressBar" name="pbValves">
+     <property name="value">
+      <number>24</number>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="4">
+    <layout class="QHBoxLayout" name="layDiscrFans"/>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="lblProfileName">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QPushButton" name="btnConfigMine">
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/gears.png</normaloff>:/Images/gears.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Шахты</string>
      </property>
     </widget>
    </item>
@@ -77,86 +166,12 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="FanWidget" name="wFan1_10" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>70</width>
-         <height>0</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="FanWidget" name="wFan1_9" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>70</width>
-         <height>0</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="3">
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="minimumSize">
-      <size>
-       <width>40</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>40</width>
-       <height>40</height>
-      </size>
-     </property>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_5">
      <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset resource="../Resources.qrc">
-       <normaloff>:/Images/gears.png</normaloff>:/Images/gears.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>32</width>
-       <height>32</height>
-      </size>
+      <string>Клапана</string>
      </property>
     </widget>
-   </item>
-   <item row="5" column="0" colspan="4">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="FanWidget" name="wFan1_6" native="true"/>
-     </item>
-     <item>
-      <widget class="FanWidget" name="wFan1_5" native="true"/>
-     </item>
-     <item>
-      <widget class="FanWidget" name="wFan1" native="true"/>
-     </item>
-     <item>
-      <widget class="FanWidget" name="wFan1_7" native="true"/>
-     </item>
-     <item>
-      <widget class="FanWidget" name="wFan1_8" native="true"/>
-     </item>
-     <item>
-      <widget class="FanWidget" name="wFan1_2" native="true"/>
-     </item>
-     <item>
-      <widget class="FanWidget" name="wFan1_3" native="true"/>
-     </item>
-     <item>
-      <widget class="FanWidget" name="wFan1_4" native="true"/>
-     </item>
-    </layout>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
@@ -171,70 +186,25 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Управляемый</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Шахты</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Клапана</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="1" colspan="2">
-    <widget class="QProgressBar" name="progressBar_3">
+   <item row="1" column="1" colspan="2">
+    <widget class="QProgressBar" name="pbAnalogFan">
      <property name="value">
       <number>24</number>
      </property>
     </widget>
    </item>
    <item row="2" column="1" colspan="2">
-    <widget class="QProgressBar" name="progressBar_2">
+    <widget class="QProgressBar" name="pbMines">
      <property name="value">
       <number>24</number>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="value">
-      <number>24</number>
-     </property>
-    </widget>
+   <item row="4" column="0" colspan="4">
+    <layout class="QHBoxLayout" name="layAnalogFans"/>
    </item>
-   <item row="3" column="3">
-    <widget class="QPushButton" name="pushButton_4">
+   <item row="0" column="3">
+    <widget class="QPushButton" name="btnSelectProfile">
      <property name="minimumSize">
       <size>
        <width>40</width>
@@ -252,7 +222,7 @@
      </property>
      <property name="icon">
       <iconset resource="../Resources.qrc">
-       <normaloff>:/Images/gears.png</normaloff>:/Images/gears.png</iconset>
+       <normaloff>:/Images/line-chart.png</normaloff>:/Images/line-chart.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -262,16 +232,19 @@
      </property>
     </widget>
    </item>
+   <item row="6" column="2">
+    <widget class="QPushButton" name="btnConfigure">
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/icons8-edit-64.png</normaloff>:/Images/icons8-edit-64.png</iconset>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>FanWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">Controls/FanWidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../Resources.qrc"/>
  </resources>

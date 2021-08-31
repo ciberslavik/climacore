@@ -12,6 +12,7 @@ public:
     {
 
     }
+    virtual ~NetworkResponse(){}
 
     QS_FIELD(QString, id)
     QS_FIELD(QString, jsonrpc)

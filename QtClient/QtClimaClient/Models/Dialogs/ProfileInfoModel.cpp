@@ -54,6 +54,11 @@ QVariant ProfileInfoModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+QString ProfileInfoModel::getProfileKey(int rowNumber)
+{
+    return m_infos->at(rowNumber).Key;
+}
+
 int ProfileInfoModel::getRowNumber(const QString &key)
 {
     for(int i = 0; i < m_infos->count(); i++)

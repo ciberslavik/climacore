@@ -19,11 +19,11 @@ namespace Clima.Core.Devices
         {
         }
 
-        public int FanId
+        /*public int FanId
         {
             get => _fanId;
             set => Update(ref _fanId, value);
-        }
+        }*/
 
         public string FanName
         {

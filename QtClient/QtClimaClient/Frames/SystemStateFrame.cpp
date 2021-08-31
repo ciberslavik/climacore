@@ -47,15 +47,15 @@ void SystemStateFrame::showEvent(QShowEvent *ev)
 
 void SystemStateFrame::onClimatStateUpdate(ClimatStatusResponse *data)
 {
-    ui->lblFrontTemp->setText(QString::number(data->FrontTemperature));
-    ui->lblRearTemp->setText(QString::number(data->RearTemperature));
-    ui->lblOutdoorTemp->setText(QString::number(data->OutdoorTemperature));
-    ui->lblHumidity->setText(QString::number(data->Humidity));
+    ui->lblFrontTemp->setText(QString::number(data->FrontTemperature, 'f', 2));
+    ui->lblRearTemp->setText(QString::number(data->RearTemperature, 'f', 2));
+    ui->lblOutdoorTemp->setText(QString::number(data->OutdoorTemperature, 'f', 2));
+    ui->lblHumidity->setText(QString::number(data->Humidity, 'f', 1));
     ui->barPresure->setValue(data->Pressure);
     ui->barValves->setValue(data->ValvePosition);
     ui->barMines->setValue(data->MinePosition);
     ui->barAnalogFan->setValue(data->AnalogFanPower);
-    ui->lblTempSetpoint->setText(QString::number(data->TempSetPoint));
+    ui->lblTempSetpoint->setText(QString::number(data->TempSetPoint, 'f', 2));
 }
 
 

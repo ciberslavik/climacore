@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Clima.Basics.Configuration;
+using Clima.Core.DataModel;
 
 namespace Clima.Core.Devices.Configuration
 {
@@ -11,7 +12,7 @@ namespace Clima.Core.Devices.Configuration
         private readonly Dictionary<string, FrequencyConverterConfig> _frequencyConverters =
             new Dictionary<string, FrequencyConverterConfig>();
 
-        private readonly Dictionary<string, FanConfig> _fans = new Dictionary<string, FanConfig>();
+        private readonly Dictionary<string, FanInfo> _fans = new Dictionary<string, FanInfo>();
         private readonly Dictionary<string, ServoConfig> _servos = new Dictionary<string, ServoConfig>();
 
         public DeviceProviderConfig()
@@ -21,7 +22,7 @@ namespace Clima.Core.Devices.Configuration
         public Dictionary<string, MonitoredRelayConfig> MonitoredRelays => _monitoredRelays;
 
         public Dictionary<string, FrequencyConverterConfig> FrequencyConverters => _frequencyConverters;
-        public Dictionary<string, FanConfig> Fans => _fans;
+        public Dictionary<string, FanInfo> Fans => _fans;
         public Dictionary<string, ServoConfig> Servos => _servos;
         public SensorsConfig Sensors { get; set; }
         public string ConfigurationName => FileName;
@@ -52,17 +53,17 @@ namespace Clima.Core.Devices.Configuration
                 config._monitoredRelays.Add(relayName, relay);
             }
 
-            var fanConfig = new FanConfig();
-            fanConfig.FanId = 0;
-            fanConfig.FanName = "FAN:0";
-            fanConfig.FanPriority = 1;
-            fanConfig.FansCount = 2;
-            fanConfig.Performance = 15000;
-            fanConfig.StartPower = 0.1f;
-            fanConfig.StopPower = 0.05f;
+            var fanConfig = new FanInfo();
 
-            fanConfig.FanType = FanType.Analog;
-            fanConfig.FrequencyConverterName = "FC:0";
+            fanConfig.FanName = "FAN:0";
+            fanConfig.Priority = 1;
+            fanConfig.FanCount = 2;
+            fanConfig.Performance = 15000;
+            fanConfig.StartValue = 0.1f;
+            fanConfig.StopValue = 0.05f;
+
+            fanConfig.IsAnalog = true;
+            fanConfig.RelayName = "FC:0";
             config.Fans.Add(fanConfig.FanName, fanConfig);
 
             config.Servos.Add("SERVO:0", ServoConfig.CreateDefault(0));

@@ -55,9 +55,9 @@ void TemperatureOwerviewFrame::onUpdateTimeout()
 
 void TemperatureOwerviewFrame::onTempStateRecv(TemperatureStateResponse *response)
 {
-    ui->lblFront->setText(QString::number(response->FrontTemperature));
-    ui->lblRear->setText(QString::number(response->RearTemperature));
-    ui->lblOutdoor->setText(QString::number(response->OutdoorTemperature));
+    ui->lblFront->setText(QString::number(response->FrontTemperature, 'f', 2));
+    ui->lblRear->setText(QString::number(response->RearTemperature, 'f', 2));
+    ui->lblOutdoor->setText(QString::number(response->OutdoorTemperature, 'f', 2));
     ui->txtCorrection->setText(QString::number(response->TemperatureCorrection));
 }
 

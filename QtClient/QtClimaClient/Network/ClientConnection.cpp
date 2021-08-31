@@ -156,8 +156,10 @@ void ClientConnection::onReadyRead()
                 NetworkResponse *reply = new NetworkResponse();
                 reply->fromJson(doc.object());
                 reply->result = QJsonDocument(result).toJson(QJsonDocument::Indented);
-                if(reply->result != "")
-                    emit ReplyReceived(reply);
+
+                emit ReplyReceived(reply);
+
+                delete reply;
             }
             //qDebug()<< "Read data:" << data;
             //QUuid *id = new QUuid(data);

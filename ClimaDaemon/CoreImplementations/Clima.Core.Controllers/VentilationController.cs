@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Clima.Basics;
+using Clima.Basics.Services;
 using Clima.Core.Conrollers.Ventilation.DataModel;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.Devices;
@@ -38,6 +39,14 @@ namespace Clima.Core.Conrollers.Ventilation
             if (_isRunning)
                 _isRunning = false;
         }
+
+        public void Init(object config)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Type ConfigType { get; }
+        public ServiceState ServiceState { get; }
 
         public bool IsRunning => _isRunning;
         public long TotalPerformance { get; private set; }

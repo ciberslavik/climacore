@@ -1,15 +1,16 @@
 ﻿using System;
+using Clima.Core.DataModel;
 using Clima.Core.Devices.Configuration;
 
 namespace Clima.Core.Devices
 {
     public class AnalogFan : IAnalogFan
     {
-        private FanConfig _config;
+        //private FanConfig _config;
 
-        internal AnalogFan(FanConfig config)
+        internal AnalogFan()
         {
-            _config = config;
+            //_config = config;
         }
 
 
@@ -21,11 +22,11 @@ namespace Clima.Core.Devices
 
         public void Stop()
         {
-            Console.WriteLine($"Fan:{State.FanId} stopped.");
+            Console.WriteLine($"Fan:{Info.Key} stopped.");
         }
 
-        public FanState State => _config.CreateFanState();
-
+        public FanState State { get; } = new FanState();
+        public FanInfo Info { get; } = new FanInfo();
 
         public double Power { get; set; }
 

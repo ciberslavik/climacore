@@ -199,3 +199,12 @@ void SelectProfileFrame::on_btnEdit_clicked()
     }
 }
 
+
+void SelectProfileFrame::on_btnAccept_clicked()
+{
+    QModelIndexList indexes = m_selection->selectedIndexes();
+    int currentIndex = indexes.at(0).row();
+
+    emit ProfileSelected(m_infoModel->infos()->at(currentIndex));
+}
+

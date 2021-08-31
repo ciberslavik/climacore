@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
+using Clima.Basics.Services;
 using Clima.Core.Devices;
 
 namespace Clima.Core.Controllers.Ventilation
 {
-    public interface IVentilationController
+    public interface IVentilationController:IService
     {
-        void Start();
-        void Stop();
         bool IsRunning { get; }
         IList<IFan> Fans { get; }
         void AddFan(IFan fan);

@@ -14,6 +14,8 @@ void SystemStatusService::getClimatStatus()
     request->method = "GetClimatState";
 
     emit SendRequest(request);
+
+    delete request;
 }
 
 void SystemStatusService::getTemperatureStatus()
@@ -23,6 +25,8 @@ void SystemStatusService::getTemperatureStatus()
     request->method = "GetTemperatureState";
 
     emit SendRequest(request);
+
+    delete request;
 }
 
 
@@ -50,5 +54,7 @@ void SystemStatusService::ProcessReply(NetworkResponse *reply)
 
             emit onTemperatureStatusRecv(temperatureState);
         }
+
+
 }
 

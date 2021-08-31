@@ -1,7 +1,11 @@
 #pragma once
 
 #include <QWidget>
-#include <Frames/FrameBase.h>
+
+#include "Frames/FrameBase.h"
+#include "Services/FrameManager.h"
+#include "Frames/Graphs/SelectProfileFrame.h"
+
 namespace Ui {
 class VentilationOverviewFrame;
 }
@@ -14,8 +18,7 @@ public:
     explicit VentilationOverviewFrame(QWidget *parent = nullptr);
     ~VentilationOverviewFrame();
 
-private:
-    Ui::VentilationOverviewFrame *ui;
+
 
     // QWidget interface
 protected:
@@ -27,5 +30,10 @@ public:
     virtual QString getFrameName() override{return "VentilationOverviewFrame";}
 private slots:
     void on_pushButton_clicked();
+    void on_btnSelectProfile_clicked();
+    void onProfileSelectorComplete(ProfileInfo profileInfo);
+private:
+    Ui::VentilationOverviewFrame *ui;
+    SelectProfileFrame *m_ProfileSelector;
 };
 

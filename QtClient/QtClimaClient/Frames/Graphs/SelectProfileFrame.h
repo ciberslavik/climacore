@@ -24,6 +24,9 @@ public:
     explicit SelectProfileFrame(const ProfileType &profileType, QWidget *parent = nullptr);
     ~SelectProfileFrame();
     QString getFrameName() override;
+
+signals:
+    void ProfileSelected(ProfileInfo profileInfo);
 private slots:
     void ProfileInfosReceived(QList<ProfileInfo> *infos);
     void TemperatureGraphReceived(ValueByDayProfile *profile);
@@ -36,6 +39,8 @@ private slots:
     void on_btnDown_clicked();
     void on_btnAdd_clicked();
     void on_btnEdit_clicked();
+    void on_btnAccept_clicked();
+
 private:
     Ui::SelectProfileFrame *ui;
 

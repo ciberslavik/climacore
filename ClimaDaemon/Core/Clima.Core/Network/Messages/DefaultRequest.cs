@@ -1,4 +1,6 @@
-﻿namespace Clima.Core.Network.Messages
+﻿using Clima.Basics.Services.Communication;
+
+namespace Clima.Core.Network.Messages
 {
     public class DefaultRequest
     {

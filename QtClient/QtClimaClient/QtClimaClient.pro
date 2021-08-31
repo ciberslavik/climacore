@@ -15,6 +15,7 @@ SOURCES += \
     Controls/QClickableLabel.cpp \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
+    Frames/Dialogs/ConfigValveDialog.cpp \
     Frames/Dialogs/MessageDialog.cpp \
     Frames/Dialogs/MinMaxByDayEditDialog.cpp \
     Frames/Dialogs/SelectProfileDialog.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     Controls/QClickableLabel.h \
     Controls/qclickablelineedit.h \
     Controls/qcustomplot.h \
+    Frames/Dialogs/ConfigValveDialog.h \
     Frames/Dialogs/MessageDialog.h \
     Frames/Dialogs/MinMaxByDayEditDialog.h \
     Frames/Dialogs/SelectProfileDialog.h \
@@ -137,6 +139,7 @@ HEADERS += \
 FORMS += \
     Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
+    Frames/Dialogs/ConfigValveDialog.ui \
     Frames/Dialogs/MessageDialog.ui \
     Frames/Dialogs/MinMaxByDayEditDialog.ui \
     Frames/Dialogs/SelectProfileDialog.ui \
