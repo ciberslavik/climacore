@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Clima.Basics;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
+using Clima.Core.DataModel;
 using Clima.Core.Devices.Configuration;
 using Clima.Core.IO;
 
@@ -54,6 +55,26 @@ namespace Clima.Core.Devices
             {
                 throw new KeyNotFoundException(relayName);
             }
+        }
+
+        public List<RelayInfo> GetRelayInfos()
+        {
+            List<RelayInfo> infos = new List<RelayInfo>();
+            foreach (var relayConfig in _config.MonitoredRelays.Values)
+            {
+                bool curState = false;
+                if (_relays.ContainsKey(relayConfig.RelayName))
+                    curState = _relays[relayConfig.RelayName].RelayIsOn;
+                
+                infos.Add(new RelayInfo()
+                {
+                    Key = relayConfig.RelayName,
+                    Name = relayConfig.RelayName,
+                    CurrentState = curState
+                });
+            }
+
+            return infos;
         }
 
         public IServoDrive GetServo(string servoName)

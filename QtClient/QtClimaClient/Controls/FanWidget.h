@@ -11,6 +11,7 @@
 #include <QPoint>
 #include <QWidget>
 #include <QApplication>
+#include <Models/FanState.h>
 
 class FanWidget : public QWidget
 {
@@ -18,12 +19,19 @@ class FanWidget : public QWidget
 public:
 
     explicit FanWidget(QWidget *parent = nullptr);
+    explicit FanWidget(FanState *stateObj, QWidget *parent = nullptr);
     void setFanState(FanStateEnum_t state);
-    void setMode(FanMode_t mode);
+    void setFanMode(FanMode_t mode);
     FanStateEnum fanState();
+    FanMode_t fanMode(){return m_fanMode;}
+    void setIsAnalog(bool isanalog);
+    bool isAnalog();
+
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 signals:
+    void FanModeChanged(FanMode_t newMode);
+    void FanStateChanged(FanStateEnum_t newState);
 private slots:
     void onModeLabelClicked();
     void onModeEditorAccept(FanMode mode);
@@ -32,7 +40,7 @@ private:
     FanStateEnum m_fanState;
     FanMode m_fanMode;
     QMovie *m_fanMovie;
-
+    bool m_isAnalog;
     QLabel *m_fanLabel;
     QClickableLabel *m_modeLabel;
     //Rects
@@ -52,6 +60,7 @@ private:
     QPen m_borderPen;
     QPen m_statePen;
     FanModeSwitch *m_modeEditor;
+    void createUI();
     void rebuildUI();
 };
 

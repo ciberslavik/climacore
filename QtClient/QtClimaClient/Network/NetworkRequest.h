@@ -10,7 +10,9 @@ class NetworkRequest : public QSerializer
     QS_SERIALIZABLE
 public:
     explicit NetworkRequest()
-    {}
+    {
+        jsonrpc = "0.1a";
+    }
     virtual ~NetworkRequest()
     {
 

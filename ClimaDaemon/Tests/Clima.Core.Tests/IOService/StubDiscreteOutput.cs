@@ -11,10 +11,13 @@ namespace Clima.Core.Tests.IOService
         public bool IsModified { get; }
         public event DiscretePinStateChangedEventHandler PinStateChanged;
         public bool State { get; }
-
+        internal StubDiscreteInput MonitorPin { get; set; }
         public void SetState(bool state, bool queued = true)
         {
-            throw new System.NotImplementedException();
+            if (MonitorPin is not null)
+            {
+                MonitorPin.SetState(state);
+            }
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Clima.Core.Devices
         public IRelay FanRelay { get; set; }
         public int CompareTo(IFan? other)
         {
-            return State.Priority - other.State.Priority;
+            return State.Info.Priority - other.State.Info.Priority;
         }
     }
 }

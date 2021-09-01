@@ -11,6 +11,13 @@ class FanState:public QSerializer
     QS_SERIALIZABLE;
 public:
     FanState(){}
+    FanState(const FanState &other)
+    {
+        State = other.State;
+        Mode = other.Mode;
+        Info = other.Info;
+        WorkingTime = other.WorkingTime;
+    }
     virtual ~FanState(){}
 
     QS_FIELD(int, State)

@@ -74,14 +74,21 @@ namespace Clima.ServiceContainer.CastleWindsor
         private void InitializeCoreServices()
         {
             _logger.Info("Initialize core services");
+            
+            CreateIOService();
+            
             var services = _container.ResolveAll<IService>();
             var configStore = _container.Resolve<IConfigurationStorage>();
+            
             var t = typeof(IConfigurationStorage);
             MethodInfo getConfigMi = t.GetMethod(nameof(IConfigurationStorage.GetConfig), Type.EmptyTypes);
             if (getConfigMi is not null)
             {
                 foreach (var service in services)
                 {
+                    if (service.ConfigType is null)
+                        throw new ArgumentNullException($"{service.GetType().Name}.ConfigType", $"Service:{service.GetType().Name} ConfigType is null");
+                    
                     var serviceConfig = getConfigMi.MakeGenericMethod(service.ConfigType)
                         .Invoke(configStore, new object[] { });
                     _logger.Debug($"Initialize :{service.GetType().Name}");
@@ -90,12 +97,30 @@ namespace Clima.ServiceContainer.CastleWindsor
                 }
             }
 
-            _container.Register(Component.For<IIOService>().ImplementedBy<AgavaIoService>().LifestyleSingleton());
-            var ioconfig = configStore.GetConfig<ModbusConfig>();
-            _container.Resolve<IIOService>().Init(ioconfig);
-            configStore.Save();
+            
         }
 
+        private void CreateIOService()
+        {
+            var configStore = _container.Resolve<IConfigurationStorage>();
+            IConfigurationItem ioconfig = default;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                _container.Register(Component.For<IIOService>().ImplementedBy<AgavaIoService>().LifestyleSingleton());
+                ioconfig = configStore.GetConfig<ModbusConfig>();
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                _container.Register(Component.For<IIOService>().ImplementedBy<StubIOService>().LifestyleSingleton());
+                ioconfig = configStore.GetConfig<StubIOServiceConfig>();
+            }
+
+            if (ioconfig is not null)
+            {
+                _container.Resolve<IIOService>().Init(ioconfig);
+            }
+            configStore.Save();
+        }
         private void StartCoreServices()
         {
             _logger.Info("Starting core services");

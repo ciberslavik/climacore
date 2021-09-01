@@ -14,6 +14,7 @@
 #include <Network/GenericServices/LightControllerService.h>
 #include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
+#include <Network/GenericServices/VentilationService.h>
 #include <QMetaType>
 #include <Services/FrameManager.h>
 #include <Frames/TestModeFrame.h>
@@ -37,6 +38,7 @@ int main(int argc, char *argv[])
     worker->RegisterNetworkService(new SystemStatusService());
     worker->RegisterNetworkService(new GraphService());
     worker->RegisterNetworkService(new LightControllerService());
+    worker->RegisterNetworkService(new VentilationService());
 
     CMainWindow w;
     w.resize(800, 480);

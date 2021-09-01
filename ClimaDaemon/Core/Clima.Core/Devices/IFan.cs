@@ -8,6 +8,5 @@ namespace Clima.Core.Devices
         void Start();
         void Stop();
         FanState State { get; }
-        FanInfo Info { get; }
     }
 }

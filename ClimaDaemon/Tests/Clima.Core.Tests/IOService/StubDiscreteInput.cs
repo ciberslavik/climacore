@@ -10,6 +10,11 @@ namespace Clima.Core.Tests.IOService
         public string PinName { get; set; }
         public bool IsModified { get; }
         public event DiscretePinStateChangedEventHandler PinStateChanged;
-        public bool State { get; }
+        public bool State { get; private set; }
+
+        internal void SetState(bool state)
+        {
+            State = state;
+        }
     }
 }

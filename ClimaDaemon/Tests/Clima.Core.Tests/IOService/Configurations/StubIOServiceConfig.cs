@@ -29,6 +29,7 @@ namespace Clima.Core.Tests.IOService.Configurations
             {
                 var din = new StubDINConfig();
                 din.PinName = $"DI:2:{i}";
+                
                 config.DiscreteInputs.Add(din.PinName, din);
             }
 

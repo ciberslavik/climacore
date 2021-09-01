@@ -1,4 +1,5 @@
 ﻿using System;
+using Castle.Core.Internal;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core.IO;
@@ -32,10 +33,20 @@ namespace Clima.Core.Tests.IOService
             _config = config as StubIOServiceConfig;
             if (_config is not null)
             {
+                foreach (var diConfig in _config.DiscreteInputs.Values)
+                {
+                    var di = new StubDiscreteInput();
+                    di.PinName = diConfig.PinName;
+                    Pins.AddDiscreteInput(diConfig.PinName, di);
+                }
                 foreach (var doConfig in _config.DiscreteOutputs.Values)
                 {
                     var discrOut = new StubDiscreteOutput();
                     discrOut.PinName = doConfig.PinName;
+                    
+                    if(!doConfig.MonitorPinName.IsNullOrEmpty())
+                        discrOut.MonitorPin = (StubDiscreteInput)Pins.DiscreteInputs[doConfig.MonitorPinName];
+                    
                     Pins.AddDiscreteOutput(doConfig.PinName, discrOut);
                 }
 

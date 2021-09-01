@@ -1,4 +1,5 @@
-﻿using Clima.Core.Devices;
+﻿using Clima.Core.DataModel;
+using Clima.Core.Devices;
 
 namespace Clima.Core.Controllers.Network.Messages
 {

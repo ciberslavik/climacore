@@ -36,5 +36,7 @@ private:
     ValueByDayProfile *m_profile;
     TempProfileModel *m_model;
     QItemSelectionModel *m_selection;
+
+
 };
 

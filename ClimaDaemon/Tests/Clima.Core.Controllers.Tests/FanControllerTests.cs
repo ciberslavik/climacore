@@ -1,4 +1,5 @@
 using Clima.Core.Conrollers.Ventilation;
+using Clima.Core.DataModel;
 using Clima.Core.Devices;
 using Moq;
 using NSubstitute;
@@ -19,8 +20,8 @@ namespace Clima.Core.Controllers.Tests
         [Test]
         public void FillAndRebuildTable_Test()
         {
-            
-            var ventController = new VentilationController();
+            var devProvider = Mock.Of<IDeviceProvider>();
+            var ventController = new VentilationController(devProvider);
             
             FillController(ref ventController);
             
@@ -36,7 +37,8 @@ namespace Clima.Core.Controllers.Tests
         [TestCase(200000)]
         public void SetPerformance_Test(float performance)
         {
-            var ventController = new VentilationController();
+            var devProvider = Mock.Of<IDeviceProvider>();
+            var ventController = new VentilationController(devProvider);
 
             FillController(ref ventController);
 
@@ -51,15 +53,17 @@ namespace Clima.Core.Controllers.Tests
             var analogFan = new StubAnalogFan();
             analogFan.State = new FanState()
             {
-                Disabled = false,
-                FanId = 1,
-                FanName = "Analog fan1",
-                FansCount = 2,
-                Hermetise = false,
-                Performance = 15000,
-                Priority = 1,
-                StartValue = 0.10f,
-                StopValue = 0.05f
+                Info = new FanInfo(){
+                    Key = "1",
+                    FanName = "Analog fan1",
+                    FanCount = 2,
+                    Hermetise = false,
+                    Performance = 15000,
+                    Priority = 1,
+                    StartValue = 0.10f,
+                    StopValue = 0.05f,
+                    IsAnalog = true
+                }
             };
             controller.AddFan(analogFan);
 
@@ -68,15 +72,18 @@ namespace Clima.Core.Controllers.Tests
                 var discreteFan = new StubDiscreteFan();
                 discreteFan.State = new FanState()
                 {
-                    Disabled = false,
-                    FanId = i,
+                    Info = new FanInfo(){
+                    
+                    Key = $"DFAN:{i}",
                     FanName = "Discrete fan1",
-                    FansCount = 2,
+                    FanCount = 2,
                     Hermetise = false,
                     Performance = 15000,
                     Priority = i,
                     StartValue = 0.30f,
-                    StopValue = 0.25f
+                    StopValue = 0.25f,
+                    IsAnalog = false
+                    }
                 };
                 
                 controller.AddFan(discreteFan);

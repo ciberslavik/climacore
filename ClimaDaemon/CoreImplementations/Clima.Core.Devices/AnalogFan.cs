@@ -22,18 +22,17 @@ namespace Clima.Core.Devices
 
         public void Stop()
         {
-            Console.WriteLine($"Fan:{Info.Key} stopped.");
+            Console.WriteLine($"Fan:{State.Info.Key} stopped.");
         }
 
         public FanState State { get; } = new FanState();
-        public FanInfo Info { get; } = new FanInfo();
-
+        
         public double Power { get; set; }
 
         public IFrequencyConverter FrequencyConverter { get; set; }
         public int CompareTo(IFan? other)
         {
-            return State.Priority - other.State.Priority;
+            return State.Info.Priority - other.State.Info.Priority;
         }
     }
 }

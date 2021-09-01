@@ -16,6 +16,7 @@ SOURCES += \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
     Frames/Dialogs/ConfigValveDialog.cpp \
+    Frames/Dialogs/EditFanDialog.cpp \
     Frames/Dialogs/LivestockOperationDialog.cpp \
     Frames/Dialogs/MessageDialog.cpp \
     Frames/Dialogs/MinMaxByDayEditDialog.cpp \
@@ -44,6 +45,7 @@ SOURCES += \
     Models/LightTimersModel.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
+    Network/GenericServices/DeviceProviderService.cpp \
     Network/GenericServices/GraphService.cpp \
     Network/GenericServices/LightControllerService.cpp \
     Network/GenericServices/ProductionService.cpp \
@@ -62,6 +64,7 @@ SOURCES += \
 
 HEADERS += \
     ApplicationWorker.h \
+    Frames/Dialogs/EditFanDialog.h \
     Models/FanControlsEnums.h \
     Controls/FanModeSwitch.h \
     Controls/FanWidget.h \
@@ -111,6 +114,7 @@ HEADERS += \
     Models/SystemState.h \
     Network/AuthRequest.h \
     Network/ClientConnection.h \
+    Network/GenericServices/DeviceProviderService.h \
     Network/GenericServices/GraphService.h \
     Network/GenericServices/LightControllerService.h \
     Network/GenericServices/Messages/ClimatStatusResponse.h \
@@ -150,6 +154,7 @@ FORMS += \
     Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
     Frames/Dialogs/ConfigValveDialog.ui \
+    Frames/Dialogs/EditFanDialog.ui \
     Frames/Dialogs/LivestockOperationDialog.ui \
     Frames/Dialogs/MessageDialog.ui \
     Frames/Dialogs/MinMaxByDayEditDialog.ui \

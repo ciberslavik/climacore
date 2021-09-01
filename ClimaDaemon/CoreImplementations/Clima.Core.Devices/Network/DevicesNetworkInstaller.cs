@@ -12,6 +12,7 @@ namespace Clima.Core.Devices.Network
         public void InstallServices(INetworkServiceRegistrator registrator)
         {
             registrator.RegisterNetworkService<SensorsService>();
+            registrator.RegisterNetworkService<DeviceProviderService>();
         }
     }
 }

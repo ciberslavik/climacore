@@ -1,12 +1,21 @@
 #include "VentilationOverviewFrame.h"
 #include "ui_VentilationOverviewFrame.h"
 #include <Services/FrameManager.h>
+#include <ApplicationWorker.h>
 
 VentilationOverviewFrame::VentilationOverviewFrame(QWidget *parent) :
     FrameBase(parent),
     ui(new Ui::VentilationOverviewFrame)
 {
     ui->setupUi(this);
+
+    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("VentilationService");
+    if(service != nullptr)
+    {
+        m_ventService = dynamic_cast<VentilationService*>(service);
+    }
+
+
 }
 
 VentilationOverviewFrame::~VentilationOverviewFrame()
@@ -21,6 +30,7 @@ void VentilationOverviewFrame::closeEvent(QCloseEvent *event)
 
 void VentilationOverviewFrame::showEvent(QShowEvent *event)
 {
+    m_ventService->GetFanStates();
 }
 
 
@@ -41,5 +51,79 @@ void VentilationOverviewFrame::onProfileSelectorComplete(ProfileInfo profileInfo
 {
    // disconnect(m_ProfileSelector, &SelectProfileFrame::ProfileSelected, this, &VentilationOverviewFrame::onProfileSelectorComplete);
     ui->lblProfileName->setText(profileInfo.Name);
+}
+
+void VentilationOverviewFrame::onFanStatesReceived(VentilationStateResponse *resp)
+{
+    if(m_fanStates.count()>0)
+    {
+        qDeleteAll(m_fanStates);
+        m_fanStates.clear();
+    }
+
+    for(int i = 0; i < resp->States.count(); i++)
+    {
+        FanState *state = new FanState(resp->States.at(i));
+
+        m_fanStates.insert(state->Info.Key, state);
+    }
+
+    createFanWidgets();
+}
+
+void VentilationOverviewFrame::onFanStateChanged(FanStateEnum_t newState)
+{
+
+}
+
+void VentilationOverviewFrame::onFanModeChanged(FanMode_t newMode)
+{
+
+}
+
+void VentilationOverviewFrame::createFanWidgets()
+{
+    if(m_fanWidgets.count()>0)
+    {
+        removeFanWidgets();
+    }
+
+    for(int i = 0; i < m_fanStates.count(); i++)
+    {
+        FanState *s = m_fanStates.values().at(i);
+
+        FanWidget *widget = new FanWidget(s, this);
+        connect(widget, &FanWidget::FanModeChanged, this, &VentilationOverviewFrame::onFanModeChanged);
+        connect(widget, &FanWidget::FanStateChanged, this, &VentilationOverviewFrame::onFanStateChanged);
+        if(s->Info.IsAnalog)
+        {
+            ui->layAnalogFans->addWidget(widget);
+        }
+        else
+        {
+            ui->layDiscrFans->addWidget(widget);
+        }
+        m_fanWidgets.insert(s->Info.Key, widget);
+    }
+}
+
+void VentilationOverviewFrame::removeFanWidgets()
+{
+    for(int i = 0;i< m_fanWidgets.count(); i++)
+    {
+        FanWidget *w = m_fanWidgets.values().at(i);
+        disconnect(w, &FanWidget::FanModeChanged, this, &VentilationOverviewFrame::onFanModeChanged);
+        disconnect(w, &FanWidget::FanStateChanged, this, &VentilationOverviewFrame::onFanStateChanged);
+        if(w->isAnalog())
+        {
+            ui->layAnalogFans->removeWidget(w);
+        }
+        else
+        {
+            ui->layDiscrFans->removeWidget(w);
+        }
+        delete w;
+    }
+    m_fanWidgets.clear();
 }
 

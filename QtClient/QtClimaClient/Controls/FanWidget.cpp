@@ -5,25 +5,18 @@
 
 FanWidget::FanWidget(QWidget *parent) : QWidget(parent)
 {
-    m_fanMovie = new QMovie(":/Images/Fan.gif");
-    m_fanLabel = new QLabel(this);
-    m_modeLabel = new QClickableLabel(this);
-    m_modeEditor = new FanModeSwitch();
-    m_modeEditor->setVisible(false);
-
-    //label->setText("Test");
-    m_fanLabel->setMovie(m_fanMovie);
-    //m_fanMovie->start();
-    m_manualPixmap = QPixmap(":Images/Industry-Manual-icon.png");
-    m_autoPixmap = QPixmap(":Images/Industry-Automatic-icon.png");
-    m_discardPixmap = QPixmap(":Images/cancel-icon.png");
-    m_alertPixmap=QPixmap(":Images/alert-icon.png").scaled(32, 32);
-
     m_fanMode = FanMode::Auto;
-    m_fanState = FanStateEnum::Disabled;
+    m_fanState = FanStateEnum::Stopped;
+    createUI();
+    rebuildUI();
+}
 
-    connect(m_modeLabel, &QClickableLabel::labelClicked, this, &FanWidget::onModeLabelClicked);
-    connect(m_modeEditor, &FanModeSwitch::acceptMode, this, &FanWidget::onModeEditorAccept);
+FanWidget::FanWidget(FanState *stateObj, QWidget *parent)
+{
+    m_fanMode = (FanMode_t)stateObj->Mode;
+    m_fanState = (FanStateEnum_t)stateObj->State;
+    m_isAnalog = stateObj->Info.IsAnalog;
+    createUI();
     rebuildUI();
 }
 
@@ -37,7 +30,7 @@ void FanWidget::setFanState(FanStateEnum state)
     }
 }
 
-void FanWidget::setMode(FanMode mode)
+void FanWidget::setFanMode(FanMode mode)
 {
     if(m_fanMode != mode)
     {
@@ -108,7 +101,7 @@ void FanWidget::onModeEditorAccept(FanMode mode)
 {
     if(m_fanMode != mode)
     {
-        setMode(mode);
+        setFanMode(mode);
     }
     m_modeEditor->setVisible(false);
     m_modeEditor->close();
@@ -117,6 +110,27 @@ void FanWidget::onModeEditorAccept(FanMode mode)
 void FanWidget::onModeEditorCancel()
 {
 
+}
+
+void FanWidget::createUI()
+{
+    m_fanMovie = new QMovie(":/Images/Fan.gif");
+    m_fanLabel = new QLabel(this);
+    m_modeLabel = new QClickableLabel(this);
+    m_modeEditor = new FanModeSwitch();
+    m_modeEditor->setVisible(false);
+
+    //label->setText("Test");
+    m_fanLabel->setMovie(m_fanMovie);
+    //m_fanMovie->start();
+    m_manualPixmap = QPixmap(":Images/Industry-Manual-icon.png");
+    m_autoPixmap = QPixmap(":Images/Industry-Automatic-icon.png");
+    m_discardPixmap = QPixmap(":Images/cancel-icon.png");
+    m_alertPixmap=QPixmap(":Images/alert-icon.png").scaled(32, 32);
+
+
+    connect(m_modeLabel, &QClickableLabel::labelClicked, this, &FanWidget::onModeLabelClicked);
+    connect(m_modeEditor, &FanModeSwitch::acceptMode, this, &FanWidget::onModeEditorAccept);
 }
 
 void FanWidget::rebuildUI()
@@ -138,11 +152,11 @@ void FanWidget::rebuildUI()
     {
         switch (m_fanState)
         {
-            case FanStateEnum::Enabled:
+            case FanStateEnum::Running:
                 m_stateBrush = QBrush(Qt::green);
                 m_fanMovie->start();
             break;
-            case FanStateEnum::Disabled:
+            case FanStateEnum::Stopped:
                 m_stateBrush = QBrush(Qt::GlobalColor::darkGreen);
                 m_fanMovie->stop();
             break;

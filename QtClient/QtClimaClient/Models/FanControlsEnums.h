@@ -2,8 +2,8 @@
 #define FANCONTROLSENUMS_H
 typedef enum class FanStateEnum
 {
-    Enabled,
-    Disabled,
+    Running,
+    Stopped,
     Alarm
 }FanStateEnum_t;
 

@@ -13,6 +13,7 @@ namespace Clima.Core.Conrollers.Ventilation.Network
         public void InstallServices(INetworkServiceRegistrator registrator)
         {
             registrator.RegisterNetworkService<LightControllerService>();
+            registrator.RegisterNetworkService<VentilationControllerService>();
         }
     }
 }

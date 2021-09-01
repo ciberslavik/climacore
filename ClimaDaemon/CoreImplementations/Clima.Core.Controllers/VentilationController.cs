@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using Clima.Basics;
 using Clima.Basics.Services;
+using Clima.Core.Conrollers.Ventilation.Configuration;
 using Clima.Core.Conrollers.Ventilation.DataModel;
 using Clima.Core.Controllers.Ventilation;
+using Clima.Core.DataModel;
 using Clima.Core.Devices;
 
 namespace Clima.Core.Conrollers.Ventilation
 {
     public class VentilationController : IVentilationController
     {
-        private Dictionary<int,IFan> _fans;
+        private readonly IDeviceProvider _devProvider;
+        private Dictionary<string, IFan> _fans;
         private bool _isRunning;
         private FanControllerTable _fanTable;
         private long _currentPerformance;
         
-        public VentilationController()
+        public VentilationController(IDeviceProvider devProvider)
         {
-            _fans = new Dictionary<int,IFan>();
+            _devProvider = devProvider;
+            _fans = new Dictionary<string,IFan>();
             _fanTable = new FanControllerTable();
             _currentPerformance = 0;
             _isRunning = false;
@@ -42,10 +46,10 @@ namespace Clima.Core.Conrollers.Ventilation
 
         public void Init(object config)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public Type ConfigType { get; }
+        public Type ConfigType => typeof(VentilationControllerConfig);
         public ServiceState ServiceState { get; }
 
         public bool IsRunning => _isRunning;
@@ -58,35 +62,34 @@ namespace Clima.Core.Conrollers.Ventilation
                 return;
 
             fan.State.PropertyChanged+= StateOnPropertyChanged;
-            _fans.Add(fan.State.FanId, fan);
+            _fans.Add(fan.State.Info.Key, fan);
         }
 
         private void StateOnPropertyChanged(object sender, PropertyChangedEventArgs ea)
         {
-            if (ea.PropertyName.Equals(nameof(FanState.Disabled)) ||
-                ea.PropertyName.Equals(nameof(FanState.Hermetise)) ||
-                ea.PropertyName.Equals(nameof(FanState.Performance)) ||
-                ea.PropertyName.Equals(nameof(FanState.Priority)) ||
-                ea.PropertyName.Equals(nameof(FanState.FansCount)) ||
-                ea.PropertyName.Equals(nameof(FanState.StartValue)) ||
-                ea.PropertyName.Equals(nameof(FanState.StopValue)))
-            {
-                RebuildControllerTable();
-            }
+            //if (ea.PropertyName.Equals(nameof(FanInfo.Hermetise)) ||
+           //     ea.PropertyName.Equals(nameof(FanState.Performance)) ||
+           //     ea.PropertyName.Equals(nameof(FanState.Priority)) ||
+           //     ea.PropertyName.Equals(nameof(FanState.FansCount)) ||
+           //     ea.PropertyName.Equals(nameof(FanState.StartValue)) ||
+           //     ea.PropertyName.Equals(nameof(FanState.StopValue)))
+           // {
+           //     RebuildControllerTable();
+           // }
         }
 
         public void RemoveFan(IFan fan)
         {
             if (_fans.ContainsValue(fan))
             {
-                _fans.Remove(fan.State.FanId);
+                _fans.Remove(fan.State.Info.Key);
                 RebuildControllerTable();
             }
         }
 
         public void SetPerformance(float performance)
         {
-            if ((performance > 0) && (performance != _currentPerformance))
+            /*if ((performance > 0) && (performance != _currentPerformance))
             {
                 IAnalogFan analogFan = default;
                 float discrPerformance = 0;
@@ -124,12 +127,12 @@ namespace Clima.Core.Conrollers.Ventilation
                 
                     Console.WriteLine($"Discrete fans performance:{discrPerformance} remain power:{remainPower} analog power:{analogPower}%");
                 }
-            }
+            }*/
         }
 
         internal void RebuildControllerTable()
         {
-            _fanTable.Clear();
+            /*_fanTable.Clear();
             var fans = _fans.Values.ToList();
             fans.Sort();
 
@@ -157,7 +160,7 @@ namespace Clima.Core.Conrollers.Ventilation
                 }
             }
 
-            TotalPerformance = performanceCounter;
+            TotalPerformance = performanceCounter;*/
         }
     }
 }
