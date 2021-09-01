@@ -1,7 +1,10 @@
+
+#include <Models/FanState.h>
 #pragma once
 
 #include <QWidget>
-
+#include <QMap>
+#include "Controls/FanWidget.h"
 #include "Frames/FrameBase.h"
 #include "Services/FrameManager.h"
 #include "Frames/Graphs/SelectProfileFrame.h"
@@ -35,5 +38,8 @@ private slots:
 private:
     Ui::VentilationOverviewFrame *ui;
     SelectProfileFrame *m_ProfileSelector;
+
+    QMap<QString, FanWidget*> m_fanWidgets;
+    QMap<QString, FanState*> m_fanStates;
 };
 

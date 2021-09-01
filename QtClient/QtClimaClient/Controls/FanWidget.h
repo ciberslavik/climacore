@@ -2,7 +2,7 @@
 #define FANWIDGET_H
 
 #include "QClickableLabel.h"
-#include "FanControlsEnums.h"
+#include "Models/FanControlsEnums.h"
 #include "FanModeSwitch.h"
 #include <QLabel>
 #include <QMouseEvent>
@@ -18,9 +18,9 @@ class FanWidget : public QWidget
 public:
 
     explicit FanWidget(QWidget *parent = nullptr);
-    void setFanState(FanState_t state);
+    void setFanState(FanStateEnum_t state);
     void setMode(FanMode_t mode);
-    FanState fanState();
+    FanStateEnum fanState();
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 signals:
@@ -29,7 +29,7 @@ private slots:
     void onModeEditorAccept(FanMode mode);
     void onModeEditorCancel();
 private:
-    FanState m_fanState;
+    FanStateEnum m_fanState;
     FanMode m_fanMode;
     QMovie *m_fanMovie;
 

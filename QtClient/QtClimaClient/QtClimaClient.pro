@@ -16,6 +16,7 @@ SOURCES += \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
     Frames/Dialogs/ConfigValveDialog.cpp \
+    Frames/Dialogs/LivestockOperationDialog.cpp \
     Frames/Dialogs/MessageDialog.cpp \
     Frames/Dialogs/MinMaxByDayEditDialog.cpp \
     Frames/Dialogs/SelectProfileDialog.cpp \
@@ -45,9 +46,11 @@ SOURCES += \
     Network/ClientConnection.cpp \
     Network/GenericServices/GraphService.cpp \
     Network/GenericServices/LightControllerService.cpp \
+    Network/GenericServices/ProductionService.cpp \
     Network/GenericServices/SensorsService.cpp \
     Network/GenericServices/ServerInfoService.cpp \
     Network/GenericServices/SystemStatusService.cpp \
+    Network/GenericServices/VentilationService.cpp \
     Network/ReplyUserList.cpp \
     Network/RequestUserList.cpp \
     Network/Session.cpp \
@@ -59,13 +62,14 @@ SOURCES += \
 
 HEADERS += \
     ApplicationWorker.h \
-    Controls/FanControlsEnums.h \
+    Models/FanControlsEnums.h \
     Controls/FanModeSwitch.h \
     Controls/FanWidget.h \
     Controls/QClickableLabel.h \
     Controls/qclickablelineedit.h \
     Controls/qcustomplot.h \
     Frames/Dialogs/ConfigValveDialog.h \
+    Frames/Dialogs/LivestockOperationDialog.h \
     Frames/Dialogs/MessageDialog.h \
     Frames/Dialogs/MinMaxByDayEditDialog.h \
     Frames/Dialogs/SelectProfileDialog.h \
@@ -93,6 +97,8 @@ HEADERS += \
     Models/Authorization/User.h \
     Models/Dialogs/ProfileInfoModel.h \
     Models/Dialogs/TempProfileModel.h \
+    Models/FanInfo.h \
+    Models/FanState.h \
     Models/Graphs/MinMaxByDayPoint.h \
     Models/Graphs/MinMaxByDayProfile.h \
     Models/Graphs/ProfileInfo.h \
@@ -100,6 +106,7 @@ HEADERS += \
     Models/Graphs/ValueByDayProfile.h \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
+    Models/ProductionStatus.h \
     Models/SensorsData.h \
     Models/SystemState.h \
     Network/AuthRequest.h \
@@ -119,9 +126,12 @@ HEADERS += \
     Network/GenericServices/Messages/ServerInfoRequest.h \
     Network/GenericServices/Messages/TemperatureStateResponse.h \
     Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
+    Network/GenericServices/Messages/VentilationStateResponse.h \
+    Network/GenericServices/ProductionService.h \
     Network/GenericServices/SensorsService.h \
     Network/GenericServices/ServerInfoService.h \
     Network/GenericServices/SystemStatusService.h \
+    Network/GenericServices/VentilationService.h \
     Network/INetworkService.h \
     Network/NetworkRequest.h \
     Network/NetworkResponse.h \
@@ -140,6 +150,7 @@ FORMS += \
     Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
     Frames/Dialogs/ConfigValveDialog.ui \
+    Frames/Dialogs/LivestockOperationDialog.ui \
     Frames/Dialogs/MessageDialog.ui \
     Frames/Dialogs/MinMaxByDayEditDialog.ui \
     Frames/Dialogs/SelectProfileDialog.ui \

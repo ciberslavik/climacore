@@ -20,14 +20,14 @@ FanWidget::FanWidget(QWidget *parent) : QWidget(parent)
     m_alertPixmap=QPixmap(":Images/alert-icon.png").scaled(32, 32);
 
     m_fanMode = FanMode::Auto;
-    m_fanState = FanState::Disabled;
+    m_fanState = FanStateEnum::Disabled;
 
     connect(m_modeLabel, &QClickableLabel::labelClicked, this, &FanWidget::onModeLabelClicked);
     connect(m_modeEditor, &FanModeSwitch::acceptMode, this, &FanWidget::onModeEditorAccept);
     rebuildUI();
 }
 
-void FanWidget::setFanState(FanState state)
+void FanWidget::setFanState(FanStateEnum state)
 {
     if(m_fanState != state)
     {
@@ -48,7 +48,7 @@ void FanWidget::setMode(FanMode mode)
     }
 }
 
-FanState FanWidget::fanState()
+FanStateEnum FanWidget::fanState()
 {
     return m_fanState;
 }
@@ -138,15 +138,15 @@ void FanWidget::rebuildUI()
     {
         switch (m_fanState)
         {
-            case FanState::Enabled:
+            case FanStateEnum::Enabled:
                 m_stateBrush = QBrush(Qt::green);
                 m_fanMovie->start();
             break;
-            case FanState::Disabled:
+            case FanStateEnum::Disabled:
                 m_stateBrush = QBrush(Qt::GlobalColor::darkGreen);
                 m_fanMovie->stop();
             break;
-            case FanState::Alarm:
+            case FanStateEnum::Alarm:
                 m_stateBrush = QBrush(Qt::red);
                 m_modeLabel->setPixmap(m_alertPixmap);
                 m_fanMovie->stop();

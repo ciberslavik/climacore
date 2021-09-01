@@ -1,11 +1,11 @@
 #ifndef FANCONTROLSENUMS_H
 #define FANCONTROLSENUMS_H
-typedef enum class FanState
+typedef enum class FanStateEnum
 {
     Enabled,
     Disabled,
     Alarm
-}FanState_t;
+}FanStateEnum_t;
 
 typedef enum class FanMode
 {

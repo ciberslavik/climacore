@@ -27,7 +27,7 @@ public:
     QPushButton *pushButton_6;
     QPushButton *btnTemperature;
     QPushButton *btnVentilationOverview;
-    QPushButton *btnVentilationConfig;
+    QPushButton *btnProduction;
     QPushButton *pushButton_5;
     QPushButton *btnLightConfig;
     QPushButton *btnReturn;
@@ -60,11 +60,11 @@ public:
 
         gridLayout->addWidget(btnVentilationOverview, 1, 0, 1, 1);
 
-        btnVentilationConfig = new QPushButton(MainMenuFrame);
-        btnVentilationConfig->setObjectName(QStringLiteral("btnVentilationConfig"));
-        btnVentilationConfig->setMinimumSize(QSize(0, 65));
+        btnProduction = new QPushButton(MainMenuFrame);
+        btnProduction->setObjectName(QStringLiteral("btnProduction"));
+        btnProduction->setMinimumSize(QSize(0, 65));
 
-        gridLayout->addWidget(btnVentilationConfig, 1, 1, 1, 1);
+        gridLayout->addWidget(btnProduction, 1, 1, 1, 1);
 
         pushButton_5 = new QPushButton(MainMenuFrame);
         pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
@@ -96,7 +96,7 @@ public:
         pushButton_6->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
         btnTemperature->setText(QApplication::translate("MainMenuFrame", "\320\242\320\265\320\274\320\277\320\265\321\200\320\260\321\202\321\203\321\200\320\260", Q_NULLPTR));
         btnVentilationOverview->setText(QApplication::translate("MainMenuFrame", "\320\236\320\261\320\267\320\276\321\200 \320\262\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\320\270", Q_NULLPTR));
-        btnVentilationConfig->setText(QApplication::translate("MainMenuFrame", "\320\237\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\213 \320\262\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\320\270", Q_NULLPTR));
+        btnProduction->setText(QApplication::translate("MainMenuFrame", "\320\237\321\200\320\276\320\270\320\267\320\262\320\276\320\264\321\201\321\202\320\262\320\276", Q_NULLPTR));
         pushButton_5->setText(QApplication::translate("MainMenuFrame", "PushButton", Q_NULLPTR));
         btnLightConfig->setText(QApplication::translate("MainMenuFrame", "\320\236\321\201\320\262\320\265\321\211\320\265\320\275\320\270\320\265", Q_NULLPTR));
         btnReturn->setText(QApplication::translate("MainMenuFrame", "<< \320\235\320\260\320\267\320\260\320\264", Q_NULLPTR));

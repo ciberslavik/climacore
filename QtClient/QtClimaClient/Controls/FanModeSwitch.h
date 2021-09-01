@@ -1,6 +1,6 @@
 #ifndef FANSTATESWITCH_H
 #define FANSTATESWITCH_H
-#include "FanControlsEnums.h"
+#include "Models/FanControlsEnums.h"
 
 #include <QDialog>
 #include <QWidget>

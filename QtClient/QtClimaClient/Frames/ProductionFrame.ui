@@ -19,60 +19,106 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="6">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
+   <item row="3" column="0" rowspan="2" colspan="8">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="btnPlending">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>170</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Посадка</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnKill">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>170</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Убой</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnDeath">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>170</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Падежъ</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnRefraction">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Разрядка</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="1" column="2" colspan="3">
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="lblKilled">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="text">
       <string>TextLabel</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <spacer name="verticalSpacer_3">
+   <item row="5" column="1">
+    <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeType">
       <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QLabel" name="label_6">
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Убито</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2" colspan="3">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -111,6 +157,26 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="7">
+    <widget class="QLabel" name="lblDead">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QLabel" name="label_6">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Убито</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="2">
     <widget class="QLabel" name="label">
      <property name="maximumSize">
@@ -124,17 +190,36 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="5">
-    <widget class="QLabel" name="label_5">
+   <item row="7" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="2" colspan="3">
+    <widget class="QLabel" name="lblTotalPlending">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="text">
-      <string>Всего падежъ</string>
+      <string>TextLabel</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="7">
+   <item row="6" column="0" colspan="8">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="btnPreparing">
        <property name="minimumSize">
         <size>
          <width>170</width>
@@ -153,7 +238,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="btnStartGrowing">
        <property name="minimumSize">
         <size>
          <width>170</width>
@@ -173,7 +258,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="btnEndGrowing">
        <property name="minimumSize">
         <size>
          <width>170</width>
@@ -194,8 +279,8 @@
      </item>
     </layout>
    </item>
-   <item row="5" column="1">
-    <spacer name="verticalSpacer_2">
+   <item row="2" column="1">
+    <spacer name="verticalSpacer_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
@@ -210,66 +295,27 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0" rowspan="2" colspan="7">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>55</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>170</width>
-         <height>55</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Посадка</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_5">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>55</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>170</width>
-         <height>55</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Убой</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_6">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>55</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>170</width>
-         <height>55</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Падежъ</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="0" column="5">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Всего падежъ</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Дата начала
+выращивания</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="7">
+    <widget class="QLabel" name="lblStartDate">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -1,4 +1,6 @@
-﻿namespace Clima.Core.Controllers.Network.Messages
+﻿using Clima.Core.Devices;
+
+namespace Clima.Core.Controllers.Network.Messages
 {
     public class FanStateResponse
     {
@@ -6,6 +8,6 @@
         {
         }
 
-        
+        public FanState State{get;set;}
     }
 }

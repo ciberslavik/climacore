@@ -1,5 +1,6 @@
 #include "LightConfigFrame.h"
 #include "MainMenuFrame.h"
+#include "ProductionFrame.h"
 #include "TemperatureOwerviewFrame.h"
 #include "VentilationConfigFrame.h"
 #include "VentilationOverviewFrame.h"
@@ -62,5 +63,7 @@ void MainMenuFrame::on_btnLightConfig_clicked()
 
 void MainMenuFrame::on_btnProduction_clicked()
 {
+    ProductionFrame *prodFrame = new ProductionFrame();
 
+    FrameManager::instance()->setCurrentFrame(prodFrame);
 }
