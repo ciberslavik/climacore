@@ -42,6 +42,7 @@ SOURCES += \
     Models/Authorization/User.cpp \
     Models/Dialogs/ProfileInfoModel.cpp \
     Models/Dialogs/TempProfileModel.cpp \
+    Models/FanInfosModel.cpp \
     Models/LightTimersModel.cpp \
     Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
@@ -101,6 +102,7 @@ HEADERS += \
     Models/Dialogs/ProfileInfoModel.h \
     Models/Dialogs/TempProfileModel.h \
     Models/FanInfo.h \
+    Models/FanInfosModel.h \
     Models/FanState.h \
     Models/Graphs/MinMaxByDayPoint.h \
     Models/Graphs/MinMaxByDayProfile.h \
@@ -120,6 +122,9 @@ HEADERS += \
     Network/GenericServices/Messages/ClimatStatusResponse.h \
     Network/GenericServices/Messages/CreateGraphRequest.h \
     Network/GenericServices/Messages/DefaultRequest.h \
+    Network/GenericServices/Messages/FanInfoListRsponse.h \
+    Network/GenericServices/Messages/FanInfoRequest.h \
+    Network/GenericServices/Messages/FanStateListResponse.h \
     Network/GenericServices/Messages/GetProfileRequest.h \
     Network/GenericServices/Messages/GetProfileResponse.h \
     Network/GenericServices/Messages/GraphInfosRequest.h \
@@ -130,7 +135,6 @@ HEADERS += \
     Network/GenericServices/Messages/ServerInfoRequest.h \
     Network/GenericServices/Messages/TemperatureStateResponse.h \
     Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
-    Network/GenericServices/Messages/VentilationStateResponse.h \
     Network/GenericServices/ProductionService.h \
     Network/GenericServices/SensorsService.h \
     Network/GenericServices/ServerInfoService.h \

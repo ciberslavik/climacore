@@ -8,7 +8,7 @@ namespace Clima.Core.Controllers.Network.Messages
         public FanInfoRequest()
         {
         }
-        
+        public string FanKey { get; set; }
         public FanInfo Info { get; set; } = new FanInfo(); 
     }
 }

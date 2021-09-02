@@ -3,12 +3,12 @@ using Clima.Core.DataModel;
 
 namespace Clima.Core.Controllers.Network.Messages
 {
-    public class FanInfosResponse
+    public class FanStateListResponse
     {
-        public FanInfosResponse()
+        public FanStateListResponse()
         {
         }
 
-        public List<FanInfo> Infos { get; set; } = new List<FanInfo>();
+        public List<FanState> States { get; set; }= new List<FanState>();
     }
 }

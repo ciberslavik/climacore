@@ -12,3 +12,15 @@ EditFanDialog::~EditFanDialog()
 {
     delete ui;
 }
+
+void EditFanDialog::on_btnAccept_clicked()
+{
+    accept();
+}
+
+
+void EditFanDialog::on_btnCancel_clicked()
+{
+    reject();
+}
+

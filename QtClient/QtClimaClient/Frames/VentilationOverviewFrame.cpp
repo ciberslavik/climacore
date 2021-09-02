@@ -30,7 +30,7 @@ void VentilationOverviewFrame::closeEvent(QCloseEvent *event)
 
 void VentilationOverviewFrame::showEvent(QShowEvent *event)
 {
-    m_ventService->GetFanStates();
+    m_ventService->GetFanStateList();
 }
 
 
@@ -53,7 +53,7 @@ void VentilationOverviewFrame::onProfileSelectorComplete(ProfileInfo profileInfo
     ui->lblProfileName->setText(profileInfo.Name);
 }
 
-void VentilationOverviewFrame::onFanStatesReceived(VentilationStateResponse *resp)
+void VentilationOverviewFrame::onFanStatesReceived(FanStateListResponse *resp)
 {
     if(m_fanStates.count()>0)
     {

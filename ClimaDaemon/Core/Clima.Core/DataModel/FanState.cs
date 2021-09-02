@@ -5,11 +5,27 @@ namespace Clima.Core.DataModel
 {
     public class FanState : ObservableObject
     {
+        private FanStateEnum _state;
+        private FanModeEnum _mode;
+
         public FanState()
         {
+            Info.PropertyChanged += (o,ea) =>
+                { OnPropertyChanged(ea.PropertyName); };
         }
-        public FanStateEnum State { get; set; }
-        public FanModeEnum Mode { get; set; }
+
+        public FanStateEnum State
+        {
+            get => _state;
+            set => Update(ref _state, value);
+        }
+
+        public FanModeEnum Mode
+        {
+            get => _mode;
+            set => Update(ref _mode, value);
+        }
+
         public FanInfo Info { get; set; }
     }
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Clima.Basics;
 using Clima.Basics.Services;
-using Clima.Core.Conrollers.Ventilation.Configuration;
 using Clima.Core.Conrollers.Ventilation.DataModel;
+using Clima.Core.Controllers.Configuration;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel;
 using Clima.Core.Devices;
@@ -14,153 +14,93 @@ namespace Clima.Core.Conrollers.Ventilation
     public class VentilationController : IVentilationController
     {
         private readonly IDeviceProvider _devProvider;
-        private Dictionary<string, IFan> _fans;
-        private bool _isRunning;
         private FanControllerTable _fanTable;
-        private long _currentPerformance;
-        
+        private VentilationControllerConfig _config;
+
         public VentilationController(IDeviceProvider devProvider)
         {
             _devProvider = devProvider;
-            _fans = new Dictionary<string,IFan>();
             _fanTable = new FanControllerTable();
-            _currentPerformance = 0;
-            _isRunning = false;
+
+            ServiceState = ServiceState.NotInitialized;
         }
 
 
         public void Start()
         {
-            if(_isRunning)
+            if(ServiceState == ServiceState.Running)
                 return;
-
-            _isRunning = true;
-            RebuildControllerTable();
+            
+            if (ServiceState == ServiceState.Initialized)
+            {
+                ServiceState = ServiceState.Running;
+            }
         }
 
         public void Stop()
         {
-            if (_isRunning)
-                _isRunning = false;
+            if (ServiceState == ServiceState.Running)
+            {
+                ServiceState = ServiceState.Stopped;
+            }
         }
 
         public void Init(object config)
         {
-            
+            if (config is VentilationControllerConfig cfg)
+            {
+                _config = cfg;
+                
+                CreateFans();
+            }
         }
 
         public Type ConfigType => typeof(VentilationControllerConfig);
-        public ServiceState ServiceState { get; }
-
-        public bool IsRunning => _isRunning;
-        public long TotalPerformance { get; private set; }
-        public IList<IFan> Fans { get; }
-
-        public void AddFan(IFan fan)
+        public ServiceState ServiceState { get; private set; }
+        
+        public Dictionary<string, FanState> FanStates { get; } 
+            = new Dictionary<string, FanState>();
+        
+        public string CreateOrUpdate(FanInfo fanInfo)
         {
-            if(_fans.ContainsValue(fan))
-                return;
-
-            fan.State.PropertyChanged+= StateOnPropertyChanged;
-            _fans.Add(fan.State.Info.Key, fan);
-        }
-
-        private void StateOnPropertyChanged(object sender, PropertyChangedEventArgs ea)
-        {
-            //if (ea.PropertyName.Equals(nameof(FanInfo.Hermetise)) ||
-           //     ea.PropertyName.Equals(nameof(FanState.Performance)) ||
-           //     ea.PropertyName.Equals(nameof(FanState.Priority)) ||
-           //     ea.PropertyName.Equals(nameof(FanState.FansCount)) ||
-           //     ea.PropertyName.Equals(nameof(FanState.StartValue)) ||
-           //     ea.PropertyName.Equals(nameof(FanState.StopValue)))
-           // {
-           //     RebuildControllerTable();
-           // }
-        }
-
-        public void RemoveFan(IFan fan)
-        {
-            if (_fans.ContainsValue(fan))
+            if (!string.IsNullOrEmpty(fanInfo.Key))    //Key not empty
             {
-                _fans.Remove(fan.State.Info.Key);
-                RebuildControllerTable();
+                if (_config.FanInfos.ContainsKey(fanInfo.Key)) //Update existing
+                {
+                    _config.FanInfos[fanInfo.Key] = fanInfo;
+                }
+                else //Create new for info key
+                {
+                    _config.FanInfos.Add(fanInfo.Key, fanInfo);
+                }
+            }
+            else     //Create new key and record
+            {
+                fanInfo.Key = _config.GetNewFanInfoKey();
+                _config.FanInfos.Add(fanInfo.Key, fanInfo);
+            }
+            return fanInfo.Key;
+        }
+
+        public void RemoveFan(string fanKey)
+        {
+            if (_config.FanInfos.ContainsKey(fanKey))
+            {
+                _config.FanInfos.Remove(fanKey);
             }
         }
 
-        public void SetPerformance(float performance)
+        public void SetPerformance(int performance)
         {
-            /*if ((performance > 0) && (performance != _currentPerformance))
-            {
-                IAnalogFan analogFan = default;
-                float discrPerformance = 0;
-                float analogPerformance = 0;
-                foreach (var tableItem in _fanTable)
-                {
-                    if(_fans[tableItem.FanId].GetType().IsAssignableTo(typeof(IAnalogFan)))
-                    {
-                        analogFan = _fans[tableItem.FanId] as IAnalogFan;
-                        if (analogFan is not null)
-                            analogPerformance = analogFan.State.Performance * analogFan.State.FansCount;
-                        
-                        continue;
-                    }
-                    
-                    if (performance > tableItem.StartPerformance)
-                    {
-                        discrPerformance = tableItem.CurrentPerformance;
-                        
-                        tableItem.IsRunning = true;
-                        _fans[tableItem.FanId].Start();
-                        
-                    }
-                    else if(performance < tableItem.StopPerformance)
-                    {
-                        tableItem.IsRunning = false;
-                        _fans[tableItem.FanId].Stop();
-                    }
-                }
-
-                float remainPower = performance - discrPerformance;
-                if (analogFan != null)
-                {
-                    float analogPower = (remainPower / (analogFan.State.Performance * analogFan.State.FansCount)) * 100;
-                
-                    Console.WriteLine($"Discrete fans performance:{discrPerformance} remain power:{remainPower} analog power:{analogPower}%");
-                }
-            }*/
+            throw new NotImplementedException();
         }
+        public int TotalPerformance => 0;
+        public int CurrentPerformance => 0;
 
-        internal void RebuildControllerTable()
+
+        private void CreateFans()
         {
-            /*_fanTable.Clear();
-            var fans = _fans.Values.ToList();
-            fans.Sort();
-
-            long performanceCounter = 0;
-            foreach (var fan in fans)
-            {
-                if ((!fan.State.Hermetise) || (!fan.State.Disabled))
-                {
-                    
-                    int fanPerf = fan.State.Performance * fan.State.FansCount;
-                    float startPerf = fanPerf * fan.State.StartValue;
-                    float stopPerf = fanPerf * fan.State.StopValue;
-                    
-                    var tableItem = new FanControllerTableItem();
-                    tableItem.FanId = fan.State.FanId;
-                    tableItem.Priority = fan.State.Priority;
-                    tableItem.StartPerformance = performanceCounter + startPerf;
-                    tableItem.StopPerformance = performanceCounter + stopPerf;
-
-                    performanceCounter += fanPerf;
-
-                    tableItem.CurrentPerformance = performanceCounter;
-
-                    _fanTable.Add(tableItem);
-                }
-            }
-
-            TotalPerformance = performanceCounter;*/
+            
         }
     }
 }

@@ -14,6 +14,11 @@ public:
     explicit EditFanDialog(QWidget *parent = nullptr);
     ~EditFanDialog();
 
+private slots:
+    void on_btnAccept_clicked();
+
+    void on_btnCancel_clicked();
+
 private:
     Ui::EditFanDialog *ui;
 };

@@ -2,8 +2,11 @@
 
 #include "FrameBase.h"
 
+#include <QItemSelectionModel>
 #include <QWidget>
 #include <Services/FrameManager.h>
+#include <Models/FanInfosModel.h>
+#include <Network/GenericServices/VentilationService.h>
 
 namespace Ui {
 class VentilationConfigFrame;
@@ -16,14 +19,31 @@ class VentilationConfigFrame : public FrameBase
 public:
     explicit VentilationConfigFrame(QWidget *parent = nullptr);
     ~VentilationConfigFrame();
-
-private:
-    Ui::VentilationConfigFrame *ui;
-
-    // FrameBase interface
-public:
     QString getFrameName() override;
+
 private slots:
     void on_btnSelectGraph_clicked();
+    void on_btnReturn_clicked();
+    void on_btnEdit_clicked();
+    void on_btnAdd_clicked();
+    void on_btnDelete_clicked();
+    void on_btnCancel_clicked();
+    void on_btnDown_clicked();
+    void on_btnUp_clicked();
+
+    void onFanInfoListReceived(QList<FanInfo> infos);
+private:
+    Ui::VentilationConfigFrame *ui;
+    FanInfosModel *m_infosModel;
+    VentilationService *m_ventService;
+    QItemSelectionModel *m_selection;
+    // QPaintDevice interface
+public:
+    QPaintEngine *paintEngine() const;
+
+    // QWidget interface
+protected:
+    void closeEvent(QCloseEvent *event);
+    void showEvent(QShowEvent *event);
 };
 

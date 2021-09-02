@@ -1,11 +1,13 @@
 #include "VentilationService.h"
 
+#include <Network/GenericServices/Messages/FanInfoRequest.h>
+
 VentilationService::VentilationService(QObject *parent) : INetworkService(parent)
 {
 
 }
 
-void VentilationService::GetFanStates()
+void VentilationService::GetFanStateList()
 {
     NetworkRequest *request = new NetworkRequest();
     request->service = "VentilationService";
@@ -16,16 +18,64 @@ void VentilationService::GetFanStates()
     delete request;
 }
 
+void VentilationService::GetFanInfoList()
+{
+
+}
+
+void VentilationService::CreateOrUpdateFan(const FanInfo &info)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "VentilationService";
+    request->method = "CreateOrUpdateFan";
+
+    FanInfoRequest fInfoRequest;
+    fInfoRequest.FanKey = info.Key;
+    fInfoRequest.Info = info;
+
+    request->params = fInfoRequest.toJsonString();
+
+    emit SendRequest(request);
+
+    delete request;
+}
+
+
+void VentilationService::RemoveFan(const QString &fanKey)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "VentilationService";
+    request->method = "CreateOrUpdateFan";
+
+    FanInfoRequest fInfoRequest;
+    fInfoRequest.FanKey = fanKey;
+
+    request->params = fInfoRequest.toJsonString();
+
+    emit SendRequest(request);
+
+    delete request;
+}
+
 void VentilationService::ProcessReply(NetworkResponse *reply)
 {
     if(reply->service == "VentilationService")
     {
-        if(reply->method == "GetFanStates")
+        if(reply->method == "GetFanStateList")
         {
-            VentilationStateResponse *response = new VentilationStateResponse();
+            FanStateListResponse *response = new FanStateListResponse();
             response->fromJson(reply->result.toUtf8());
 
-            emit FanStatesReceived(response);
+            emit FanStateListReceived(response->States);
+
+            delete response;
+        }
+        else if(reply->method == "GetFanInfoList")
+        {
+            FanInfoListResponse *response = new FanInfoListResponse();
+            response->fromJson(reply->result.toUtf8());
+
+            emit FanInfoListReceived(response->Infos);
 
             delete response;
         }

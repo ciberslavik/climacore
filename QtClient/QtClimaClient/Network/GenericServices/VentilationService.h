@@ -2,7 +2,8 @@
 
 #include "Network/INetworkService.h"
 #include <QObject>
-#include <Network/GenericServices/Messages/VentilationStateResponse.h>
+#include <Network/GenericServices/Messages/FanStateListResponse.h>
+#include <Network/GenericServices/Messages/FanInfoListRsponse.h>
 
 class VentilationService : public INetworkService
 {
@@ -10,10 +11,13 @@ class VentilationService : public INetworkService
 public:
     explicit VentilationService(QObject *parent = nullptr);
 
-    void GetFanStates();
-
+    void GetFanStateList();
+    void GetFanInfoList();
+    void CreateOrUpdateFan(const FanInfo &info);
+    void RemoveFan(const QString &fanKey);
 signals:
-    void FanStatesReceived(VentilationStateResponse *response);
+    void FanStateListReceived(QList<FanState> response);
+    void FanInfoListReceived(QList<FanInfo> response);
     // INetworkService interface
 public:
     QString ServiceName(){return "ventilationService";}

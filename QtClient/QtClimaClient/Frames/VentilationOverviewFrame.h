@@ -37,7 +37,7 @@ private slots:
     void on_btnSelectProfile_clicked();
     void onProfileSelectorComplete(ProfileInfo profileInfo);
 
-    void onFanStatesReceived(VentilationStateResponse *resp);
+    void onFanStatesReceived(FanStateListResponse *resp);
 
     void onFanStateChanged(FanStateEnum_t newState);
     void onFanModeChanged(FanMode_t newMode);

@@ -1,14 +1,16 @@
 #pragma once
 #include <QObject>
+#include <QList>
 #include <Services/QSerializer.h>
-#include "Models/FanState.h"
+#include <Models/FanState.h>
 
-class VentilationStateResponse:public QSerializer
+class FanStateListResponse:public QSerializer
 {
     Q_GADGET
     QS_SERIALIZABLE;
 public:
-    VentilationStateResponse(){}
-    virtual ~VentilationStateResponse(){}
+    FanStateListResponse(){}
+    virtual ~FanStateListResponse(){}
+
     QS_COLLECTION_OBJECTS(QList, FanState, States)
 };
