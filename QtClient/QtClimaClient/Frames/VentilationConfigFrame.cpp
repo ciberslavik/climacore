@@ -81,8 +81,13 @@ void VentilationConfigFrame::onFanInfoListReceived(QList<FanInfo> infos)
 
 }
 
+void VentilationConfigFrame::closeEvent(QCloseEvent *event)
+{
+
+}
+
 void VentilationConfigFrame::showEvent(QShowEvent *event)
 {
-    m_ventService->GetFanStateList();
+    m_ventService->GetFanInfoList();
 }
 

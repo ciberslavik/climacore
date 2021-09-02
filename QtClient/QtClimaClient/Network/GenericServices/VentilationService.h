@@ -20,7 +20,7 @@ signals:
     void FanInfoListReceived(QList<FanInfo> response);
     // INetworkService interface
 public:
-    QString ServiceName(){return "ventilationService";}
+    QString ServiceName(){return "VentilationService";}
     QList<QString> Methods(){return QList<QString>();}
     void ProcessReply(NetworkResponse *reply);
 };

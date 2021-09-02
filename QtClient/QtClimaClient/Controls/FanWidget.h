@@ -25,7 +25,7 @@ public:
     FanStateEnum fanState();
     FanMode_t fanMode(){return m_fanMode;}
     void setIsAnalog(bool isanalog);
-    bool isAnalog();
+    bool isAnalog(){return m_isAnalog;}
 
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;

@@ -10,23 +10,30 @@ VentilationService::VentilationService(QObject *parent) : INetworkService(parent
 void VentilationService::GetFanStateList()
 {
     NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationService";
-    request->method = "GetFanStates";
+    request->service = "VentilationControllerService";
+    request->method = "GetFanStateList";
 
     emit SendRequest(request);
 
-    delete request;
+
 }
 
 void VentilationService::GetFanInfoList()
 {
+
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "VentilationControllerService";
+    request->method = "GetFanInfoList";
+
+    emit SendRequest(request);
+
 
 }
 
 void VentilationService::CreateOrUpdateFan(const FanInfo &info)
 {
     NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationService";
+    request->service = "VentilationControllerService";
     request->method = "CreateOrUpdateFan";
 
     FanInfoRequest fInfoRequest;
@@ -36,15 +43,13 @@ void VentilationService::CreateOrUpdateFan(const FanInfo &info)
     request->params = fInfoRequest.toJsonString();
 
     emit SendRequest(request);
-
-    delete request;
 }
 
 
 void VentilationService::RemoveFan(const QString &fanKey)
 {
     NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationService";
+    request->service = "VentilationControllerService";
     request->method = "CreateOrUpdateFan";
 
     FanInfoRequest fInfoRequest;
@@ -53,13 +58,11 @@ void VentilationService::RemoveFan(const QString &fanKey)
     request->params = fInfoRequest.toJsonString();
 
     emit SendRequest(request);
-
-    delete request;
 }
 
 void VentilationService::ProcessReply(NetworkResponse *reply)
 {
-    if(reply->service == "VentilationService")
+    if(reply->service == "VentilationControllerService")
     {
         if(reply->method == "GetFanStateList")
         {
@@ -67,8 +70,6 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
             response->fromJson(reply->result.toUtf8());
 
             emit FanStateListReceived(response->States);
-
-            delete response;
         }
         else if(reply->method == "GetFanInfoList")
         {
@@ -76,8 +77,6 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
             response->fromJson(reply->result.toUtf8());
 
             emit FanInfoListReceived(response->Infos);
-
-            delete response;
         }
     }
 }

@@ -86,7 +86,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         {
             if (IsConnected)
             {
-                Console.WriteLine($"Session:{_session.SessionId} closed on watch dog");
+                //Console.WriteLine($"Session:{_session?.SessionId} closed on watch dog");
             }
         }
 

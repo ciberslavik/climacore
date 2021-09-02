@@ -37,13 +37,12 @@ private:
     FanInfosModel *m_infosModel;
     VentilationService *m_ventService;
     QItemSelectionModel *m_selection;
-    // QPaintDevice interface
-public:
-    QPaintEngine *paintEngine() const;
+
+
 
     // QWidget interface
 protected:
-    void closeEvent(QCloseEvent *event);
-    void showEvent(QShowEvent *event);
+    void closeEvent(QCloseEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 };
 

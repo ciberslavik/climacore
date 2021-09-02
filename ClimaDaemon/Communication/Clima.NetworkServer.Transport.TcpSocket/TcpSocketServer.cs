@@ -95,8 +95,11 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             _listener.Start();
             _exitSignal = false;
 
-            while (!_exitSignal) ConnectionLooper();
-
+            while (!_exitSignal)
+            {
+                ConnectionLooper();
+                Thread.Yield();
+            }
             IsRunning = false;
         }
 
@@ -149,7 +152,11 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
         private void SessionOnDisconnected(object? sender, EventArgs e)
         {
-            if (sender is TcpSocketSession session) Console.WriteLine($"Disconnected:{session.ConnectionId}");
+            if (sender is TcpSocketSession session)
+            {
+                Console.WriteLine($"Disconnected:{session.ConnectionId}");
+                session.Disconnect();
+            }
         }
 
         private void SessionOnMessageReceived(object sender, MessageEventArgs e)
