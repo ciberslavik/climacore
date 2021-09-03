@@ -46,6 +46,11 @@ FanStateEnum FanWidget::fanState()
     return m_fanState;
 }
 
+bool FanWidget::isAnalog()
+{
+
+}
+
 void FanWidget::paintEvent(QPaintEvent *event)
 {
 

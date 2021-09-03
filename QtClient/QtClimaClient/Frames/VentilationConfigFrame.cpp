@@ -4,6 +4,10 @@
 
 #include <ApplicationWorker.h>
 
+#include <Frames/Dialogs/EditFanDialog.h>
+
+#include <Services/FrameManager.h>
+
 VentilationConfigFrame::VentilationConfigFrame(QWidget *parent) :
     FrameBase(parent),
     ui(new Ui::VentilationConfigFrame)
@@ -15,7 +19,6 @@ VentilationConfigFrame::VentilationConfigFrame(QWidget *parent) :
     {
         m_ventService = dynamic_cast<VentilationService*>(service);
     }
-
 }
 
 VentilationConfigFrame::~VentilationConfigFrame()
@@ -43,13 +46,25 @@ void VentilationConfigFrame::on_btnReturn_clicked()
 
 void VentilationConfigFrame::on_btnEdit_clicked()
 {
+    EditFanDialog *dlg = new EditFanDialog(FrameManager::instance()->MainWindow());
 
+    if(dlg->exec() == QDialog::Accepted)
+    {
+
+    }
 }
 
 
 void VentilationConfigFrame::on_btnAdd_clicked()
 {
+    EditFanDialog *dlg = new EditFanDialog(FrameManager::instance()->MainWindow());
 
+    if(dlg->exec() == QDialog::Accepted)
+    {
+        FanInfo *newFan = new FanInfo();
+
+        //newFan->FanName = dlg->get
+    }
 }
 
 
@@ -77,6 +92,11 @@ void VentilationConfigFrame::on_btnUp_clicked()
 }
 
 void VentilationConfigFrame::onFanInfoListReceived(QList<FanInfo> infos)
+{
+
+}
+
+void VentilationConfigFrame::closeEvent(QCloseEvent *event)
 {
 
 }

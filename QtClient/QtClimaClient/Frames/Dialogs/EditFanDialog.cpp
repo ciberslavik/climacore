@@ -13,6 +13,16 @@ EditFanDialog::~EditFanDialog()
     delete ui;
 }
 
+FanInfo *EditFanDialog::getInfo()
+{
+    return m_fanInfo;
+}
+
+void EditFanDialog::setInfo(FanInfo *info)
+{
+    m_fanInfo = info;
+}
+
 void EditFanDialog::on_btnAccept_clicked()
 {
     accept();

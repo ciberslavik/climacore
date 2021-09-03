@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QDialog>
+#include "Models/FanInfo.h"
 
 namespace Ui {
 class EditFanDialog;
@@ -13,7 +14,8 @@ class EditFanDialog : public QDialog
 public:
     explicit EditFanDialog(QWidget *parent = nullptr);
     ~EditFanDialog();
-
+    FanInfo *getInfo();
+    void setInfo(FanInfo *info);
 private slots:
     void on_btnAccept_clicked();
 
@@ -21,5 +23,6 @@ private slots:
 
 private:
     Ui::EditFanDialog *ui;
+    FanInfo *m_fanInfo;
 };
 
