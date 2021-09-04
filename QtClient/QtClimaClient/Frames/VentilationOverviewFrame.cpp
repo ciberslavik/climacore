@@ -1,3 +1,4 @@
+#include "VentilationConfigFrame.h"
 #include "VentilationOverviewFrame.h"
 #include "ui_VentilationOverviewFrame.h"
 #include <Services/FrameManager.h>
@@ -125,5 +126,13 @@ void VentilationOverviewFrame::removeFanWidgets()
         delete w;
     }
     m_fanWidgets.clear();
+}
+
+
+void VentilationOverviewFrame::on_btnConfigure_clicked()
+{
+    VentilationConfigFrame *frame = new VentilationConfigFrame();
+
+    FrameManager::instance()->setCurrentFrame(frame);
 }
 

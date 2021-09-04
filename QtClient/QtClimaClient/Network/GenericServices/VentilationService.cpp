@@ -10,10 +10,12 @@ VentilationService::VentilationService(QObject *parent) : INetworkService(parent
 void VentilationService::GetFanStateList()
 {
     NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationControllerService";
-    request->method = "GetFanStateList";
+    request->service = "VentilationService";
+    request->method = "GetFanStates";
 
     emit SendRequest(request);
+
+    delete request;
 }
 
 void VentilationService::GetFanInfoList()
@@ -38,13 +40,15 @@ void VentilationService::CreateOrUpdateFan(const FanInfo &info)
     request->params = fInfoRequest.toJsonString();
 
     emit SendRequest(request);
+
+    delete request;
 }
 
 
 void VentilationService::RemoveFan(const QString &fanKey)
 {
     NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationControllerService";
+    request->service = "VentilationService";
     request->method = "CreateOrUpdateFan";
 
     FanInfoRequest fInfoRequest;
@@ -53,23 +57,31 @@ void VentilationService::RemoveFan(const QString &fanKey)
     request->params = fInfoRequest.toJsonString();
 
     emit SendRequest(request);
+
+    delete request;
 }
 
 void VentilationService::ProcessReply(NetworkResponse *reply)
 {
-    if(reply->service == "VentilationControllerService")
+    if(reply->service == "VentilationService")
     {
         if(reply->method == "GetFanStateList")
         {
             FanStateListResponse *response = new FanStateListResponse();
             response->fromJson(reply->result.toUtf8());
+
             emit FanStateListReceived(response->States);
+
+            delete response;
         }
         else if(reply->method == "GetFanInfoList")
         {
             FanInfoListResponse *response = new FanInfoListResponse();
             response->fromJson(reply->result.toUtf8());
+
             emit FanInfoListReceived(response->Infos);
+
+            delete response;
         }
     }
 }
