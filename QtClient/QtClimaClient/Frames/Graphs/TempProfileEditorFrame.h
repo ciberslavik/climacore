@@ -30,7 +30,7 @@ private slots:
     void on_btnCancel_clicked();
 
     void on_btnAddPoint_clicked();
-
+    void onTxtClicked();
 private:
     Ui::GraphEditorFrame *ui;
     ValueByDayProfile *m_profile;

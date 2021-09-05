@@ -5,7 +5,9 @@
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>ConsoleServer</RootNamespace>
     </PropertyGroup>
-
+    <PropertyGroup>
+        <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
+    </PropertyGroup>
     <ItemGroup>
       <ProjectReference Include="..\Communication\Clima.NetworkServer.Transport.TcpSocket\Clima.NetworkServer.Transport.TcpSocket.csproj" />
       <ProjectReference Include="..\CoreImplementations\Clima.Communication\Clima.Communication.csproj" />

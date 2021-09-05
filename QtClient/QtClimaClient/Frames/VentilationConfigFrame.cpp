@@ -19,6 +19,8 @@ VentilationConfigFrame::VentilationConfigFrame(QWidget *parent) :
     {
         m_ventService = dynamic_cast<VentilationService*>(service);
     }
+
+
 }
 
 VentilationConfigFrame::~VentilationConfigFrame()

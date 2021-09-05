@@ -31,15 +31,13 @@ private slots:
     void on_btnDown_clicked();
     void on_btnUp_clicked();
 
+
     void onFanInfoListReceived(QList<FanInfo> infos);
 private:
     Ui::VentilationConfigFrame *ui;
     FanInfosModel *m_infosModel;
     VentilationService *m_ventService;
     QItemSelectionModel *m_selection;
-    // QPaintDevice interface
-public:
-    QPaintEngine *paintEngine() const;
 
     // QWidget interface
 protected:

@@ -3,6 +3,8 @@
 
 #include <Services/FrameManager.h>
 
+#include <Frames/Dialogs/inputtextdialog.h>
+
 TempProfileEditorFrame::TempProfileEditorFrame(ValueByDayProfile *profile, QWidget *parent) :
     FrameBase(parent),
     ui(new Ui::GraphEditorFrame)
@@ -21,6 +23,9 @@ TempProfileEditorFrame::TempProfileEditorFrame(ValueByDayProfile *profile, QWidg
 
     ui->lblCreationDate->setText(profile->Info.CreationTime.toString("dd.MM.yyyy hh:mm"));
     ui->lblEditDate->setText(profile->Info.ModifiedTime.toString("dd.MM.yyyy hh:mm"));
+
+    connect(ui->txtName, &QClickableLineEdit::clicked, this, &TempProfileEditorFrame::onTxtClicked);
+    connect(ui->txtDescription, &QClickableLineEdit::clicked, this, &TempProfileEditorFrame::onTxtClicked);
 }
 
 TempProfileEditorFrame::~TempProfileEditorFrame()
@@ -40,7 +45,6 @@ void TempProfileEditorFrame::tableSelectionChanged()
 
 void TempProfileEditorFrame::on_btnAccept_clicked()
 {
-
     emit editComplete();
     FrameManager::instance()->PreviousFrame();
 }
@@ -48,7 +52,6 @@ void TempProfileEditorFrame::on_btnAccept_clicked()
 
 void TempProfileEditorFrame::on_btnCancel_clicked()
 {
-
     emit editCanceled();
     FrameManager::instance()->PreviousFrame();
 }
@@ -69,5 +72,20 @@ void TempProfileEditorFrame::on_btnAddPoint_clicked()
     }
 
     dialog->deleteLater();
+    ui->table->update();
+}
+
+void TempProfileEditorFrame::onTxtClicked()
+{
+    QLineEdit *txt = dynamic_cast<QLineEdit*>(sender());
+    InputTextDialog *dlg = new InputTextDialog(FrameManager::instance()->MainWindow());
+
+    dlg->setText(txt->text());
+
+    if(dlg->exec() == QDialog::Accepted)
+    {
+        txt->setText(dlg->getText());
+    }
+
 }
 

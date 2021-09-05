@@ -226,6 +226,7 @@ public:
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         pushButton_2 = new QPushButton(SystemStateFrame);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_2->setEnabled(false);
         pushButton_2->setMinimumSize(QSize(0, 45));
         QFont font3;
         font3.setPointSize(14);
