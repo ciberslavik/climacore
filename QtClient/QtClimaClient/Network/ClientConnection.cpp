@@ -122,6 +122,7 @@ void ClientConnection::SendRequest(NetworkRequest *request)
         request->id = request_counter;
         QString message = request->toJsonString();
 
+        delete request;
         message = message + "<EOF>";
         qDebug() << "Send Rquest:" << message;
         m_socket->write(message.toUtf8(),message.toUtf8().size());

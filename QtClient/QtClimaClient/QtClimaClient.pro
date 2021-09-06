@@ -112,6 +112,7 @@ HEADERS += \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
     Models/ProductionStatus.h \
+    Models/RelayInfo.h \
     Models/SensorsData.h \
     Models/SystemState.h \
     Network/AuthRequest.h \
@@ -130,6 +131,7 @@ HEADERS += \
     Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
     Network/GenericServices/Messages/LightPressetsResponse.h \
+    Network/GenericServices/Messages/RelayInfoListResponse.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \

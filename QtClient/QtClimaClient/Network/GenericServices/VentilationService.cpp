@@ -14,8 +14,6 @@ void VentilationService::GetFanStateList()
     request->method = "GetFanStates";
 
     emit SendRequest(request);
-
-    delete request;
 }
 
 void VentilationService::GetFanInfoList()
@@ -40,8 +38,6 @@ void VentilationService::CreateOrUpdateFan(const FanInfo &info)
     request->params = fInfoRequest.toJsonString();
 
     emit SendRequest(request);
-
-    delete request;
 }
 
 
@@ -57,8 +53,6 @@ void VentilationService::RemoveFan(const QString &fanKey)
     request->params = fInfoRequest.toJsonString();
 
     emit SendRequest(request);
-
-    delete request;
 }
 
 void VentilationService::ProcessReply(NetworkResponse *reply)
@@ -72,7 +66,6 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
 
             emit FanStateListReceived(response->States);
 
-            delete response;
         }
         else if(reply->method == "GetFanInfoList")
         {
@@ -81,7 +74,6 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
 
             emit FanInfoListReceived(response->Infos);
 
-            delete response;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Clima.Core.Controllers.Ventilation
     {
         Dictionary<string, FanState> FanStates { get; }
         string CreateOrUpdate(FanInfo fanInfo);
+        void UpdateState(FanState fanState);
         void RemoveFan(string fanKey);
         void SetPerformance(int performance);
         int TotalPerformance { get; }

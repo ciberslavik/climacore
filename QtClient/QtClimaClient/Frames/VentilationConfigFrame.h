@@ -4,6 +4,7 @@
 
 #include <QItemSelectionModel>
 #include <QWidget>
+
 #include <Services/FrameManager.h>
 #include <Models/FanInfosModel.h>
 #include <Network/GenericServices/VentilationService.h>
@@ -35,13 +36,17 @@ private slots:
     void onFanInfoListReceived(QList<FanInfo> infos);
 private:
     Ui::VentilationConfigFrame *ui;
+    QList<FanInfo> m_infos;
     FanInfosModel *m_infosModel;
     VentilationService *m_ventService;
     QItemSelectionModel *m_selection;
 
+
+    void selectRow(int index);
     // QWidget interface
 protected:
     void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *event);
+
 };
 

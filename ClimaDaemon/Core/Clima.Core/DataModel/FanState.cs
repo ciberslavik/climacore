@@ -10,8 +10,7 @@ namespace Clima.Core.DataModel
 
         public FanState()
         {
-            Info.PropertyChanged += (o,ea) =>
-                { OnPropertyChanged(ea.PropertyName); };
+           
         }
 
         public FanStateEnum State
@@ -26,7 +25,7 @@ namespace Clima.Core.DataModel
             set => Update(ref _mode, value);
         }
 
-        public FanInfo Info { get; set; }
+        public FanInfo Info { get; set; } 
     }
 
     [DataContract(Name = "FanStateEnum")]

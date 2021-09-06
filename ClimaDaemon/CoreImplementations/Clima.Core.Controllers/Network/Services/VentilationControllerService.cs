@@ -15,7 +15,7 @@ namespace Clima.Core.Controllers.Network.Services
         }
 
         [ServiceMethod]
-        public FanInfosResponse GetFanInfos(DefaultRequest request)
+        public FanInfosResponse GetFanInfoList(DefaultRequest request)
         {
             var response = new FanInfosResponse();
 
@@ -43,13 +43,19 @@ namespace Clima.Core.Controllers.Network.Services
         [ServiceMethod]
         public FanStateResponse SetFanState(FanStateRequest request)
         {
+            _ventController.UpdateState(request.State);
             return new FanStateResponse();
         }
 
         [ServiceMethod]
         public FanStateListResponse GetFanStateList(DefaultRequest request)
         {
-            return new FanStateListResponse();
+            var response = new FanStateListResponse();
+            foreach(var fanState in _ventController.FanStates.Values)
+            {
+                response.States.Add(fanState);
+            }
+            return response;
         }
     }
 }

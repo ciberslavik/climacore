@@ -10,6 +10,7 @@
 
 #include <Frames/MainMenuFrame.h>
 #include <Frames/SystemStateFrame.h>
+#include <Network/GenericServices/DeviceProviderService.h>
 #include <Network/GenericServices/GraphService.h>
 #include <Network/GenericServices/LightControllerService.h>
 #include <Network/GenericServices/SensorsService.h>
@@ -28,7 +29,7 @@ int main(int argc, char *argv[])
 
     //conn->ConnectToHost("10.0.10.146", 5911);
     conn->ConnectToHost("127.0.0.1", 5911);
-    //conn->ConnectToHost("192.168.0.11", 5911);
+    //conn->ConnectToHost("192.168.0.10", 5911);
 
     if(!conn->isConnected())
         return 0;
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
     worker->RegisterNetworkService(new GraphService());
     worker->RegisterNetworkService(new LightControllerService());
     worker->RegisterNetworkService(new VentilationService());
+    worker->RegisterNetworkService(new DeviceProviderService());
 
     CMainWindow w;
     w.resize(800, 480);

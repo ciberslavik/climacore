@@ -30,5 +30,9 @@ namespace Clima.Core.Controllers.Configuration
             }
             return "";
         }
+        public static VentilationControllerConfig CreateDefault()
+        {
+            return new VentilationControllerConfig();
+        }
     }
 }

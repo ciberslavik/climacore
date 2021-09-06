@@ -16,7 +16,7 @@ namespace Clima.Core.Devices.Network.Services
         }
 
         [ServiceMethod]
-        public RelayInfosResponse GetRelayInfos(DefaultRequest request)
+        public RelayInfosResponse GetRelayList(DefaultRequest request)
         {
             return new RelayInfosResponse()
             {

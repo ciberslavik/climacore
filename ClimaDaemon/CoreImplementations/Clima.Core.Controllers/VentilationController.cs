@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Clima.Basics;
+using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core.Conrollers.Ventilation.DataModel;
 using Clima.Core.Controllers.Configuration;
@@ -25,6 +26,7 @@ namespace Clima.Core.Conrollers.Ventilation
             ServiceState = ServiceState.NotInitialized;
         }
 
+        public IConfigurationStorage ConfigStore { get; set; }
 
         public void Start()
         {
@@ -79,6 +81,7 @@ namespace Clima.Core.Conrollers.Ventilation
                 fanInfo.Key = _config.GetNewFanInfoKey();
                 _config.FanInfos.Add(fanInfo.Key, fanInfo);
             }
+            ConfigStore.Save();
             return fanInfo.Key;
         }
 
@@ -100,7 +103,29 @@ namespace Clima.Core.Conrollers.Ventilation
 
         private void CreateFans()
         {
-            
+            foreach(var info in _config.FanInfos.Values)
+            {
+               
+                FanStates.Add(info.Key, new FanState(){
+                    Info = info,
+                    Mode = FanModeEnum.Auto,
+                    State = FanStateEnum.Stopped
+                });
+            }
+        }
+
+        public void UpdateState(FanState fanState)
+        {
+            if(FanStates.ContainsKey(fanState.Info.Key))
+            {
+                if(fanState.Mode == FanModeEnum.Manual)
+                {
+                    if (fanState.State == FanStateEnum.Running)
+                        _devProvider.GetRelay(fanState.Info.RelayName).On();
+                    else if(fanState.State == FanStateEnum.Stopped)
+                        _devProvider.GetRelay(fanState.Info.RelayName).Off();
+                }
+            }
         }
     }
 }

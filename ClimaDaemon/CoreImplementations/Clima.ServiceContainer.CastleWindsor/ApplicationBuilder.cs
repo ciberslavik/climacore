@@ -32,6 +32,7 @@ namespace Clima.ServiceContainer.CastleWindsor
         private IJsonServer _server;
         private IClimaScheduler _sheduler;
         private ISystemLogger _logger;
+        private const bool isDebug = true;
         public ApplicationBuilder()
         {
         }
@@ -91,6 +92,7 @@ namespace Clima.ServiceContainer.CastleWindsor
                     
                     var serviceConfig = getConfigMi.MakeGenericMethod(service.ConfigType)
                         .Invoke(configStore, new object[] { });
+
                     _logger.Debug($"Initialize :{service.GetType().Name}");
 
                     service.Init(serviceConfig);
@@ -104,15 +106,15 @@ namespace Clima.ServiceContainer.CastleWindsor
         {
             var configStore = _container.Resolve<IConfigurationStorage>();
             IConfigurationItem ioconfig = default;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                _container.Register(Component.For<IIOService>().ImplementedBy<AgavaIoService>().LifestyleSingleton());
-                ioconfig = configStore.GetConfig<ModbusConfig>();
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (isDebug)
             {
                 _container.Register(Component.For<IIOService>().ImplementedBy<StubIOService>().LifestyleSingleton());
                 ioconfig = configStore.GetConfig<StubIOServiceConfig>();
+            }
+            else
+            {
+                _container.Register(Component.For<IIOService>().ImplementedBy<AgavaIoService>().LifestyleSingleton());
+                ioconfig = configStore.GetConfig<ModbusConfig>();
             }
 
             if (ioconfig is not null)
