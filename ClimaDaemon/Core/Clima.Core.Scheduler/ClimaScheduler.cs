@@ -4,6 +4,8 @@ using System.Threading;
 using Clima.Basics;
 using Clima.Basics.Services;
 using Clima.Core.Controllers;
+using Clima.Core.Controllers.Heater;
+using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel.GraphModel;
 using Clima.Core.Scheduler.Configuration;
 
@@ -19,9 +21,17 @@ namespace Clima.Core.Scheduler
         private GraphBase<ValueByDayPoint> _temperatureGraph;
         private GraphBase<MinMaxByDayPoint> _ventilationGraph;
         private readonly ITimeProvider _time;
-        public ClimaScheduler(IControllerFactory controllerFactory, ITimeProvider timeProvider)
+        private readonly IHeaterController _heater;
+        private readonly IVentilationController _ventilation;
+
+        public ClimaScheduler(IControllerFactory controllerFactory, 
+            ITimeProvider timeProvider,
+            IHeaterController heater,
+            IVentilationController ventilation)
         {
             _time = timeProvider;
+            _heater = heater;
+            _ventilation = ventilation;
             _controllerFactory = controllerFactory; 
             SchedulerState = new ShedulerStateObject();
         }
@@ -40,7 +50,33 @@ namespace Clima.Core.Scheduler
 
         public void SetValveGraph(GraphBase<ValueByValuePoint> graph)
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
+        }
+
+        public void SetSchedulerState(SchedulerState newState)
+        {
+            if (SchedulerState.State == newState)
+                return;
+            switch (newState)
+            {
+                case Scheduler.SchedulerState.Stopped:
+                    
+                    break;
+                case Scheduler.SchedulerState.Alarm:
+                    
+                    break;
+                case Scheduler.SchedulerState.Cleaning:
+                    
+                    break;
+                case Scheduler.SchedulerState.Brooding:
+                    
+                    break;
+                case Scheduler.SchedulerState.Growing:
+                    
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            }
         }
 
         public ShedulerStateObject SchedulerState { get; }
@@ -126,8 +162,6 @@ namespace Clima.Core.Scheduler
                 _config = cfg;
             else
                 return;
-                
-            
         }
 
         public Type ConfigType { get; }

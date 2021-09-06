@@ -10,13 +10,13 @@ VentilationOverviewFrame::VentilationOverviewFrame(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("VentilationService");
+    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("VentilationControllerService");
     if(service != nullptr)
     {
         m_ventService = dynamic_cast<VentilationService*>(service);
     }
 
-
+    connect(m_ventService, &VentilationService::FanStateListReceived, this, &VentilationOverviewFrame::onFanStatesReceived);
 }
 
 VentilationOverviewFrame::~VentilationOverviewFrame()
@@ -54,7 +54,7 @@ void VentilationOverviewFrame::onProfileSelectorComplete(ProfileInfo profileInfo
     ui->lblProfileName->setText(profileInfo.Name);
 }
 
-void VentilationOverviewFrame::onFanStatesReceived(FanStateListResponse *resp)
+void VentilationOverviewFrame::onFanStatesReceived(QList<FanState> states)
 {
     if(m_fanStates.count()>0)
     {
@@ -62,9 +62,9 @@ void VentilationOverviewFrame::onFanStatesReceived(FanStateListResponse *resp)
         m_fanStates.clear();
     }
 
-    for(int i = 0; i < resp->States.count(); i++)
+    for(int i = 0; i < states.count(); i++)
     {
-        FanState *state = new FanState(resp->States.at(i));
+        FanState *state = new FanState(states.at(i));
 
         m_fanStates.insert(state->Info.Key, state);
     }

@@ -8,6 +8,8 @@ namespace Clima.Core.Scheduler
         void SetTemperatureGraph(GraphBase<ValueByDayPoint> graph);
         void SetVentilationGraph(GraphBase<MinMaxByDayPoint> graph);
         void SetValveGraph(GraphBase<ValueByValuePoint> graph);
+        void SetSchedulerState(SchedulerState newState);
+        
         ShedulerStateObject SchedulerState { get; }
     }
 }

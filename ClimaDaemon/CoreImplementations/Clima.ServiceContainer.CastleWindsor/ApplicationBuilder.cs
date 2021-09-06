@@ -29,8 +29,7 @@ namespace Clima.ServiceContainer.CastleWindsor
     {
         private IWindsorContainer _container;
         private IServiceProvider _serviceProvider;
-        private IJsonServer _server;
-        private IClimaScheduler _sheduler;
+       
         private ISystemLogger _logger;
         private const bool isDebug = true;
         public ApplicationBuilder()

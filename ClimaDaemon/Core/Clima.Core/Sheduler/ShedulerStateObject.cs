@@ -9,7 +9,7 @@ namespace Clima.Core.Scheduler
         {
         }
 
-        public ShedulerState State { get; set; }
+        public SchedulerState State { get; set; }
         
         public float TemperatureSetPoint { get; set; }
         public float VentilationMax { get; set; }

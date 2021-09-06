@@ -7,6 +7,7 @@ using Clima.Basics.Services;
 using Clima.Core;
 using Clima.Core.Conrollers.Ventilation;
 using Clima.Core.Controllers;
+using Clima.Core.Controllers.Heater;
 using Clima.Core.Controllers.Light;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel.GraphModel;
@@ -53,7 +54,11 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                 Component
                     .For<ITimeProvider>()
                     .ImplementedBy<DefaultTimeProvider>()
-                    .LifestyleTransient());
+                    .LifestyleTransient(),
+                Component
+                    .For<IHeaterController>()
+                    .ImplementedBy<HeaterController>()
+                    .LifestyleSingleton());
             
             container.AddFacility<TypedFactoryFacility>();
             

@@ -1,6 +1,6 @@
 ﻿namespace Clima.Core.Scheduler
 {
-    public enum ShedulerState
+    public enum SchedulerState
     {
         Stopped,
         Alarm,

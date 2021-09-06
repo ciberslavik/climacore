@@ -35,6 +35,7 @@ void FanModeSwitch::on_btnDisable_clicked()
     {
         m_mode = FanMode::Disabled;
         checkButton();
+        emit fanModeChanged(m_mode);
     }
 }
 
@@ -44,6 +45,7 @@ void FanModeSwitch::on_btnManual_clicked()
     {
         m_mode = FanMode::Manual;
         checkButton();
+        emit fanModeChanged(m_mode);
     }
 }
 
@@ -53,6 +55,7 @@ void FanModeSwitch::on_btnAuto_clicked()
     {
         m_mode = FanMode::Auto;
         checkButton();
+        emit fanModeChanged(m_mode);
     }
 }
 

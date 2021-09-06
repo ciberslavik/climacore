@@ -37,7 +37,7 @@ private slots:
     void on_btnSelectProfile_clicked();
     void onProfileSelectorComplete(ProfileInfo profileInfo);
 
-    void onFanStatesReceived(FanStateListResponse *resp);
+    void onFanStatesReceived(QList<FanState> states);
 
     void onFanStateChanged(FanStateEnum_t newState);
     void onFanModeChanged(FanMode_t newMode);

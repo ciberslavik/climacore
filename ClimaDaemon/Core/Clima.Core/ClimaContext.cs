@@ -53,6 +53,9 @@ namespace Clima.Core
 
         public ISensors Sensors => _serviceProvider.Resolve<IDeviceProvider>().GetSensors();
 
-
+        public void SaveConfiguration()
+        {
+            _serviceProvider.Resolve<IConfigurationStorage>().Save();
+        }
     }
 }

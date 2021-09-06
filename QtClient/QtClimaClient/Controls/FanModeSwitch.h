@@ -25,6 +25,7 @@ signals:
     void acceptMode(FanMode mode);
     void cancelEdit();
     void fanStateChanged(bool state);
+    void fanModeChanged(FanMode_t mode);
 private slots:
     void on_btnDisable_clicked();
 

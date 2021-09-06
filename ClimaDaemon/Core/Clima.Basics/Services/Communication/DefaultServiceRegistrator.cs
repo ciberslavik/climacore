@@ -60,7 +60,16 @@ namespace Clima.Basics.Services.Communication
                                 if (resolveMethod is not null)
                                 {
                                     resolveMethod = resolveMethod.MakeGenericMethod(serviceType);
-                                    var service = resolveMethod.Invoke(_serviceProvider, null);
+                                    object service = null;
+                                    try
+                                    {
+                                        service = resolveMethod.Invoke(_serviceProvider, null);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
+
                                     if (service is not null)
                                         return methodInfo.Invoke(service, new[] {p});
                                     else

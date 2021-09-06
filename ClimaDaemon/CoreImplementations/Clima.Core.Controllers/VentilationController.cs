@@ -25,9 +25,6 @@ namespace Clima.Core.Conrollers.Ventilation
 
             ServiceState = ServiceState.NotInitialized;
         }
-
-        public IConfigurationStorage ConfigStore { get; set; }
-
         public void Start()
         {
             if(ServiceState == ServiceState.Running)
@@ -81,7 +78,9 @@ namespace Clima.Core.Conrollers.Ventilation
                 fanInfo.Key = _config.GetNewFanInfoKey();
                 _config.FanInfos.Add(fanInfo.Key, fanInfo);
             }
-            ConfigStore.Save();
+            
+            ClimaContext.Current.SaveConfiguration();
+            
             return fanInfo.Key;
         }
 
@@ -90,6 +89,7 @@ namespace Clima.Core.Conrollers.Ventilation
             if (_config.FanInfos.ContainsKey(fanKey))
             {
                 _config.FanInfos.Remove(fanKey);
+                ClimaContext.Current.SaveConfiguration();
             }
         }
 

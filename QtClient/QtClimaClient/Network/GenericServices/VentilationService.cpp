@@ -10,8 +10,8 @@ VentilationService::VentilationService(QObject *parent) : INetworkService(parent
 void VentilationService::GetFanStateList()
 {
     NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationService";
-    request->method = "GetFanStates";
+    request->service = ServiceName();
+    request->method = "GetFanStateList";
 
     emit SendRequest(request);
 }
@@ -19,7 +19,7 @@ void VentilationService::GetFanStateList()
 void VentilationService::GetFanInfoList()
 {
     NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationControllerService";
+    request->service = ServiceName();
     request->method = "GetFanInfoList";
 
     emit SendRequest(request);
@@ -28,7 +28,7 @@ void VentilationService::GetFanInfoList()
 void VentilationService::CreateOrUpdateFan(const FanInfo &info)
 {
     NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationControllerService";
+    request->service = ServiceName();
     request->method = "CreateOrUpdateFan";
 
     FanInfoRequest fInfoRequest;
@@ -44,7 +44,7 @@ void VentilationService::CreateOrUpdateFan(const FanInfo &info)
 void VentilationService::RemoveFan(const QString &fanKey)
 {
     NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationService";
+    request->service = ServiceName();
     request->method = "CreateOrUpdateFan";
 
     FanInfoRequest fInfoRequest;
@@ -57,7 +57,7 @@ void VentilationService::RemoveFan(const QString &fanKey)
 
 void VentilationService::ProcessReply(NetworkResponse *reply)
 {
-    if(reply->service == "VentilationService")
+    if(reply->service == ServiceName())
     {
         if(reply->method == "GetFanStateList")
         {
