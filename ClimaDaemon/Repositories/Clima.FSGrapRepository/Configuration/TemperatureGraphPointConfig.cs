@@ -31,9 +31,13 @@ namespace Clima.FSGrapRepository.Configuration
             return Index.CompareTo(other.Index);
         }
 
+
         public int CompareTo(IGraphPointConfig<TemperatureGraphPointConfig>? other)
         {
-            return 1;
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+
+            return -1;
         }
     }
 }

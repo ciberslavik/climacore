@@ -21,7 +21,6 @@ SOURCES += \
     Frames/Dialogs/LivestockOperationDialog.cpp \
     Frames/Dialogs/MessageDialog.cpp \
     Frames/Dialogs/MinMaxByDayEditDialog.cpp \
-    Frames/Dialogs/SelectProfileDialog.cpp \
     Frames/Dialogs/ValueByDayEditDialog.cpp \
     Frames/Dialogs/inputdigitdialog.cpp \
     Frames/Dialogs/inputtextdialog.cpp \
@@ -79,7 +78,6 @@ HEADERS += \
     Frames/Dialogs/LivestockOperationDialog.h \
     Frames/Dialogs/MessageDialog.h \
     Frames/Dialogs/MinMaxByDayEditDialog.h \
-    Frames/Dialogs/SelectProfileDialog.h \
     Frames/Dialogs/ValueByDayEditDialog.h \
     Frames/Dialogs/inputdigitdialog.h \
     Frames/Dialogs/inputtextdialog.h \
@@ -112,6 +110,8 @@ HEADERS += \
     Models/Graphs/ProfileInfo.h \
     Models/Graphs/ValueByDayPoint.h \
     Models/Graphs/ValueByDayProfile.h \
+    Models/Graphs/ValueByValuePoint.h \
+    Models/Graphs/ValueByValueProfile.h \
     Models/HeaterState.h \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
@@ -133,7 +133,9 @@ HEADERS += \
     Network/GenericServices/Messages/FanInfoRequest.h \
     Network/GenericServices/Messages/FanStateListResponse.h \
     Network/GenericServices/Messages/GetProfileRequest.h \
-    Network/GenericServices/Messages/GetProfileResponse.h \
+    Network/GenericServices/Messages/GetTempProfileResponse.h \
+    Network/GenericServices/Messages/GetValveProfileResponse.h \
+    Network/GenericServices/Messages/GetVentProfileResponse.h \
     Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
     Network/GenericServices/Messages/LightPressetsResponse.h \
@@ -142,7 +144,9 @@ HEADERS += \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \
     Network/GenericServices/Messages/TemperatureStateResponse.h \
+    Network/GenericServices/Messages/UpdateMinMaxByDayProfileRequest.h \
     Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
+    Network/GenericServices/Messages/UpdateValueByValueProfileRequest.h \
     Network/GenericServices/ProductionService.h \
     Network/GenericServices/SensorsService.h \
     Network/GenericServices/ServerInfoService.h \
@@ -171,7 +175,6 @@ FORMS += \
     Frames/Dialogs/LivestockOperationDialog.ui \
     Frames/Dialogs/MessageDialog.ui \
     Frames/Dialogs/MinMaxByDayEditDialog.ui \
-    Frames/Dialogs/SelectProfileDialog.ui \
     Frames/Dialogs/ValueByDayEditDialog.ui \
     Frames/Dialogs/inputdigitdialog.ui \
     Frames/Dialogs/inputtextdialog.ui \

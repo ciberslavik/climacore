@@ -111,12 +111,12 @@ namespace Clima.Core.Scheduler
             
             
             var result = new ValueByDayPoint();
-            if (_temperatureGraph.Points.Any(d => d.DayNumber == dayNumber))
+            if (_temperatureGraph.Points.Any(d => d.Day == dayNumber))
             {
                 ValueByDayPoint? first = null;
                 foreach (var d in _temperatureGraph.Points)
                 {
-                    if (d.DayNumber == dayNumber)
+                    if (d.Day == dayNumber)
                     {
                         first = d;
                         break;
@@ -128,17 +128,17 @@ namespace Clima.Core.Scheduler
             else
             {
                 var smallerNumberCloseToInput = (from n1 in _temperatureGraph.Points
-                    where n1.DayNumber < dayNumber
-                    orderby n1.DayNumber descending
+                    where n1.Day < dayNumber
+                    orderby n1.Day descending
                     select n1).First();
 
                 var largerNumberCloseToInput = (from n1 in _temperatureGraph.Points
-                    where n1.DayNumber > dayNumber
-                    orderby n1.DayNumber
+                    where n1.Day > dayNumber
+                    orderby n1.Day
                     select n1).First();
 
-                int periodDays = largerNumberCloseToInput.DayNumber - smallerNumberCloseToInput.DayNumber;
-                float diff = dayNumber - smallerNumberCloseToInput.DayNumber;
+                int periodDays = largerNumberCloseToInput.Day - smallerNumberCloseToInput.Day;
+                float diff = dayNumber - smallerNumberCloseToInput.Day;
                 float point = diff / periodDays;
                 float temperature = MathUtils.Lerp(
                     smallerNumberCloseToInput.Value,

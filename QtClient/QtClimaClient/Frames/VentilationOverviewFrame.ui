@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>684</width>
-    <height>410</height>
+    <height>441</height>
    </rect>
   </property>
   <property name="font">
@@ -57,7 +57,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="../Resources.qrc">
        <normaloff>:/Images/line-chart.png</normaloff>:/Images/line-chart.png</iconset>
      </property>
      <property name="iconSize">
@@ -70,6 +70,18 @@
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_3">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>25</height>
+      </size>
+     </property>
      <property name="text">
       <string>Управляемый</string>
      </property>
@@ -77,6 +89,18 @@
    </item>
    <item row="1" column="1">
     <widget class="QProgressBar" name="pbAnalogFan">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>25</height>
+      </size>
+     </property>
      <property name="value">
       <number>24</number>
      </property>
@@ -100,7 +124,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="../Resources.qrc">
        <normaloff>:/Images/gears.png</normaloff>:/Images/gears.png</iconset>
      </property>
      <property name="iconSize">
@@ -113,6 +137,18 @@
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_4">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>25</height>
+      </size>
+     </property>
      <property name="text">
       <string>Шахты</string>
      </property>
@@ -120,6 +156,18 @@
    </item>
    <item row="2" column="1">
     <widget class="QProgressBar" name="pbMines">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>25</height>
+      </size>
+     </property>
      <property name="value">
       <number>24</number>
      </property>
@@ -143,7 +191,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="../Resources.qrc">
        <normaloff>:/Images/gears.png</normaloff>:/Images/gears.png</iconset>
      </property>
      <property name="iconSize">
@@ -156,6 +204,18 @@
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label_5">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>25</height>
+      </size>
+     </property>
      <property name="text">
       <string>Клапана</string>
      </property>
@@ -163,6 +223,18 @@
    </item>
    <item row="3" column="1">
     <widget class="QProgressBar" name="pbValves">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>25</height>
+      </size>
+     </property>
      <property name="value">
       <number>24</number>
      </property>
@@ -186,7 +258,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="../Resources.qrc">
        <normaloff>:/Images/gears.png</normaloff>:/Images/gears.png</iconset>
      </property>
      <property name="iconSize">
@@ -201,7 +273,11 @@
     <layout class="QHBoxLayout" name="layAnalogFans"/>
    </item>
    <item row="5" column="0" colspan="3">
-    <layout class="QHBoxLayout" name="layDiscrFans"/>
+    <layout class="QHBoxLayout" name="layDiscrFans">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+    </layout>
    </item>
    <item row="6" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -223,7 +299,7 @@
         <string>Назад</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../Resources.qrc">
          <normaloff>:/Images/icons8-u-turn-to-left-50.png</normaloff>:/Images/icons8-u-turn-to-left-50.png</iconset>
        </property>
        <property name="iconSize">
@@ -266,7 +342,7 @@
 вентиляторов</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../Resources.qrc">
          <normaloff>:/Images/icons8-edit-64.png</normaloff>:/Images/icons8-edit-64.png</iconset>
        </property>
        <property name="iconSize">
@@ -281,6 +357,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

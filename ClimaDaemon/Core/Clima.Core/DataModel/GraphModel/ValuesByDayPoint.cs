@@ -4,20 +4,20 @@
     {
         public ValueByDayPoint()
         {
-            DayNumber = 1;
+            Day = 1;
             Value = 0;
         }
 
         public ValueByDayPoint(int day = 1, float value = 0)
         {
-            DayNumber = day;
+            Day = day;
             Value = value;
         }
 
 
         public override int PointIndex { get; set; }
 
-        public int DayNumber { get; set; }
+        public int Day { get; set; }
         public float Value { get; set; }
     }
 }

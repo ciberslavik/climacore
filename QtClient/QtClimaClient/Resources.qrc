@@ -26,5 +26,6 @@
         <file>Images/remove.png</file>
         <file>Images/add.png</file>
         <file>Images/icons8-u-turn-to-left-50.png</file>
+        <file>Images/circled-right.png</file>
     </qresource>
 </RCC>

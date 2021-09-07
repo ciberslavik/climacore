@@ -99,6 +99,7 @@ void VentilationConfigFrame::on_btnCancel_clicked()
 
 void VentilationConfigFrame::on_btnDown_clicked()
 {
+    m_selection = ui->tableView->selectionModel();
     QModelIndexList indexes = m_selection->selectedIndexes();
     int currentIndex = indexes.at(0).row();
     if(currentIndex == (m_infosModel->rowCount()-1))
@@ -110,6 +111,7 @@ void VentilationConfigFrame::on_btnDown_clicked()
 
 void VentilationConfigFrame::on_btnUp_clicked()
 {
+    m_selection = ui->tableView->selectionModel();
     QModelIndexList indexes = m_selection->selectedIndexes();
     int currentIndex = indexes.at(0).row();
     if(currentIndex == 0)

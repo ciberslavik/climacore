@@ -94,6 +94,9 @@ void VentilationOverviewFrame::createFanWidgets()
         FanState *s = m_fanStates.values().at(i);
 
         FanWidget *widget = new FanWidget(s, this);
+        widget->setMaximumSize(QSize(130,200));
+        widget->setMinimumSize(QSize(130,200));
+
         connect(widget, &FanWidget::FanModeChanged, this, &VentilationOverviewFrame::onFanModeChanged);
         connect(widget, &FanWidget::FanStateChanged, this, &VentilationOverviewFrame::onFanStateChanged);
         if(s->Info.IsAnalog)

@@ -1,6 +1,6 @@
 #include "ProfileInfoModel.h"
 
-ProfileInfoModel::ProfileInfoModel(QList<ProfileInfo> *infos, QObject *parent)
+ProfileInfoModel::ProfileInfoModel(const QList<ProfileInfo> &infos, QObject *parent)
     : QAbstractTableModel(parent)
 {
     m_infos = infos;
@@ -29,7 +29,7 @@ QVariant ProfileInfoModel::headerData(int section, Qt::Orientation orientation, 
 
 int ProfileInfoModel::rowCount(const QModelIndex &parent) const
 {
-    return m_infos->count();
+    return m_infos.count();
 }
 
 int ProfileInfoModel::columnCount(const QModelIndex &parent) const
@@ -43,10 +43,10 @@ QVariant ProfileInfoModel::data(const QModelIndex &index, int role) const
         switch(index.column())
         {
         case 0:
-            return m_infos->at(index.row()).Name;
+            return m_infos[index.row()].Name;
             break;
         case 1:
-            return m_infos->at(index.row()).Description;
+            return m_infos[index.row()].Description;
             break;
         }
     return QVariant();
@@ -54,14 +54,14 @@ QVariant ProfileInfoModel::data(const QModelIndex &index, int role) const
 
 QString ProfileInfoModel::getProfileKey(int rowNumber)
 {
-    return m_infos->at(rowNumber).Key;
+    return m_infos[rowNumber].Key;
 }
 
 int ProfileInfoModel::getRowNumber(const QString &key)
 {
-    for(int i = 0; i < m_infos->count(); i++)
+    for(int i = 0; i < m_infos.count(); i++)
     {
-        if(m_infos->at(i).Key == key)
+        if(m_infos[i].Key == key)
             return i;
     }
     return -1;

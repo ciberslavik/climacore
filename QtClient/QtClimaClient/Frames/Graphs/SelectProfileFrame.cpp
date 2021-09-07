@@ -19,20 +19,23 @@ SelectProfileFrame::SelectProfileFrame(const ProfileType &profileType, QWidget *
     {
         m_graphService = dynamic_cast<GraphService*>(service);
     }
-    connect(m_graphService, &GraphService::TempProfileResponse, this, &SelectProfileFrame::TemperatureGraphReceived);
+    connect(m_graphService, &GraphService::TempProfileResponse, this, &SelectProfileFrame::TempGraphReceived);
+    connect(m_graphService, &GraphService::VentProfileResponse, this, &SelectProfileFrame::VentGraphReceived);
+    connect(m_graphService, &GraphService::ValveProfileResponse, this, &SelectProfileFrame::ValveGraphReceived);
+    connect(m_graphService, &GraphService::TempInfosResponse, this, &SelectProfileFrame::TempInfosReceived);
+    connect(m_graphService, &GraphService::VentInfosResponse, this, &SelectProfileFrame::VentInfosReceived);
+    connect(m_graphService, &GraphService::ValveInfosResponse, this, &SelectProfileFrame::ValveInfosReceived);
 
     switch (m_profileType) {
     case ProfileType::Temperature:
         m_graphService->GetTempInfos();
-        connect(m_graphService, &GraphService::TempInfosResponse, this, &SelectProfileFrame::ProfileInfosReceived);
         break;
     case ProfileType::Ventilation:
+        m_graphService->GetVentInfos();
         break;
     case ProfileType::ValveByVent:
+        m_graphService->GetValveInfos();
         break;
-    case ProfileType::MineByVent:
-        break;
-
     }
     //
 
@@ -49,7 +52,7 @@ QString SelectProfileFrame::getFrameName()
     return "SelectProfileFrame";
 }
 
-void SelectProfileFrame::ProfileInfosReceived(QList<ProfileInfo> *infos)
+void SelectProfileFrame::TempInfosReceived(QList<ProfileInfo> infos)
 {
     m_infoModel = new ProfileInfoModel(infos, this);
 
@@ -62,29 +65,43 @@ void SelectProfileFrame::ProfileInfosReceived(QList<ProfileInfo> *infos)
     selectRow(0);
 }
 
-void SelectProfileFrame::TemperatureGraphReceived(ValueByDayProfile *profile)
+void SelectProfileFrame::VentInfosReceived(QList<ProfileInfo> infos)
 {
-    m_curTempProfile = profile;
-
-    drawTemperatureGraph(profile);
-
-    if(m_needEdit)
-    {
-        m_tempEditor = new TempProfileEditorFrame(m_curTempProfile);
-        connect(m_tempEditor, &TempProfileEditorFrame::editComplete, this, &SelectProfileFrame::on_ProfileEditorCompleted);
-        connect(m_tempEditor, &TempProfileEditorFrame::editCanceled, this, &SelectProfileFrame::on_ProfileEditorCanceled);
-        FrameManager::instance()->setCurrentFrame(m_tempEditor);
-
-
-    }
-
 
 }
 
-void SelectProfileFrame::on_ProfileEditorCompleted()
+void SelectProfileFrame::ValveInfosReceived(QList<ProfileInfo> infos)
 {
-    m_graphService->UpdateTemperatureProfile(m_curTempProfile);
-    qDebug()<< "Edit accepted";
+
+}
+
+void SelectProfileFrame::TempGraphReceived(ValueByDayProfile profile)
+{
+    drawTemperatureGraph(&profile);
+
+    if(m_needEdit)
+    {
+        m_tempEditor = new TempProfileEditorFrame(profile);
+        connect(m_tempEditor, &TempProfileEditorFrame::editComplete, this, &SelectProfileFrame::onTempProfileEditorCompleted);
+        connect(m_tempEditor, &TempProfileEditorFrame::editCanceled, this, &SelectProfileFrame::on_ProfileEditorCanceled);
+        FrameManager::instance()->setCurrentFrame(m_tempEditor);
+    }
+}
+
+void SelectProfileFrame::VentGraphReceived(MinMaxByDayProfile profile)
+{
+
+}
+
+void SelectProfileFrame::ValveGraphReceived(ValueByValueProfile profile)
+{
+
+}
+
+void SelectProfileFrame::onTempProfileEditorCompleted(const ValueByDayProfile &profile)
+{
+    m_graphService->UpdateTemperatureProfile(profile);
+    qDebug()<< "Edit temperature accepted";
 }
 
 void SelectProfileFrame::on_ProfileEditorCanceled()
@@ -112,31 +129,18 @@ void SelectProfileFrame::selectRow(int row)
     m_selection->select(selection, QItemSelectionModel::Select);
 
     QString key = m_infoModel->infos()->at(row).Key;
-    loadGraph(key);
 
     switch(m_profileType)
     {
     case ProfileType::Temperature:
-        loadTemperatureGraph(key);
+        m_needEdit = false;
+        m_graphService->GetTemperatureProfile(key);
         break;
     case ProfileType::Ventilation:
         break;
     case ProfileType::ValveByVent:
         break;
-    case ProfileType::MineByVent:
-        break;
-
     }
-}
-
-void SelectProfileFrame::loadGraph(const QString &key)
-{
-
-}
-
-void SelectProfileFrame::loadTemperatureGraph(const QString &key)
-{
-    m_graphService->GetTemperatureProfile(key);
 }
 
 void SelectProfileFrame::drawTemperatureGraph(ValueByDayProfile *profile)
@@ -192,34 +196,43 @@ void SelectProfileFrame::on_btnAdd_clicked()
     {
         QString name = inputDialog->getText();
         qDebug() << "Name:" << name;
-        ProfileInfo *info = new ProfileInfo();
-        info->Name = name;
-        info->CreationTime = QDateTime::currentDateTime();
-        info->ModifiedTime = QDateTime::currentDateTime();
-        m_graphService->CreateTemperatureProfile(info);
+        ProfileInfo info;
+        info.Name = name;
+        info.CreationTime = QDateTime::currentDateTime();
+        info.ModifiedTime = QDateTime::currentDateTime();
+
+        switch (m_profileType) {
+        case ProfileType::Temperature:
+            m_graphService->CreateTemperatureProfile(info);
+            break;
+        case ProfileType::Ventilation:
+            m_graphService->CreateVentilationProfile(info);
+            break;
+        case ProfileType::ValveByVent:
+            m_graphService->CreateValveProfile(info);
+            break;
+        }
     }
 }
 
 
 void SelectProfileFrame::on_btnEdit_clicked()
 {
+    m_selection = ui->profilesTable->selectionModel();
     switch(m_profileType)
     {
     case ProfileType::Temperature:
     {
-        m_tempEditor = new TempProfileEditorFrame(m_curTempProfile);
-        connect(m_tempEditor, &TempProfileEditorFrame::editComplete, this, &SelectProfileFrame::on_ProfileEditorCompleted);
-        connect(m_tempEditor, &TempProfileEditorFrame::editCanceled, this, &SelectProfileFrame::on_ProfileEditorCanceled);
-        FrameManager::instance()->setCurrentFrame(m_tempEditor);
+        m_needEdit = true;
+        int rowIndex = m_selection->currentIndex().row();
+        QString key = m_infoModel->infos()->at(rowIndex).Key;
+        m_graphService->GetTemperatureProfile(key);
     }
         break;
     case ProfileType::Ventilation:
         break;
     case ProfileType::ValveByVent:
         break;
-    case ProfileType::MineByVent:
-        break;
-
     }
 }
 

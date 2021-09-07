@@ -12,12 +12,13 @@ namespace GraphProviderService
     {
         private readonly IGraphProviderFactory _providerFactory;
         public ISystemLogger Log { get; set; }
-
+        public string ServiceName { get; } = "GraphProviderService";
         public GraphProviderService(IGraphProviderFactory providerFactory)
         {
             _providerFactory = providerFactory;
         }
-
+        
+        #region GetMethods
         [ServiceMethod]
         public GraphInfosResponse GetTemperatureProfileInfos(GraphInfosRequest request)
         {
@@ -25,11 +26,10 @@ namespace GraphProviderService
 
             return new GraphInfosResponse()
             {
-                GraphType = "Temperature",
+                GraphType = (int)GraphType.Temperature,
                 Infos = new List<ProfileInfo>(temperatureProvider.GetGraphInfos())
             };
         }
-
         [ServiceMethod]
         public TemperatureGraphResponse GetTemperatureProfile(GetProfileRequest<TemperatureGraphResponse> request)
         {
@@ -37,8 +37,9 @@ namespace GraphProviderService
             if (string.IsNullOrEmpty(request.ProfileKey))
                 throw new InvalidRequestException("Get temperature graph key is null");
             var tGraph = _providerFactory.TemperatureGraphProvider().GetGraph(request.ProfileKey);
+            
             if (tGraph is null)
-                throw new KeyNotFoundException(
+                throw new InvalidRequestException(
                     $"key: {request.ProfileKey} not contains in temperature graph repository");
 
             Log.Debug($"Get temperature profile request:{request.ProfileKey}");
@@ -48,14 +49,72 @@ namespace GraphProviderService
             response.Points = new List<ValueByDayPoint>(tGraph.Points);
             return response;
         }
+
         [ServiceMethod]
-        public TemperatureGraphResponse GetCurrentTemperatureGraph(GetProfileRequest<TemperatureGraphResponse> request)
+        public GraphInfosResponse GetVentilationProfileInfos(GraphInfosRequest request)
         {
-            throw new System.NotImplementedException();
+            var ventilationProvider = _providerFactory.VentilationGraphProvider();
+
+            return new GraphInfosResponse()
+            {
+                GraphType = (int)GraphType.Ventilation,
+                Infos = new List<ProfileInfo>(ventilationProvider.GetGraphInfos())
+            };
         }
+        [ServiceMethod]
+        public VentilationGraphResponse GetVentilationProfile(GetProfileRequest<VentilationGraphResponse> request)
+        {
+            if (string.IsNullOrEmpty(request.ProfileKey))
+                throw new InvalidRequestException("Get ventilation graph key is null");
+            var vGraph = _providerFactory.VentilationGraphProvider().GetGraph(request.ProfileKey);
+            
+            if (vGraph is null)
+                throw new InvalidRequestException(
+                    $"key: {request.ProfileKey} not contains in ventilation graph repository");
 
-        public string ServiceName { get; } = "GraphProviderService";
+            Log.Debug($"Get ventilation profile request:{request.ProfileKey}");
+            
+            var response = new VentilationGraphResponse();
+            response.Info = vGraph.Info;
+            response.Points = new List<MinMaxByDayPoint>(vGraph.Points);
+            return response;
+        }
+        
+        
+        [ServiceMethod]
+        public GraphInfosResponse GetValveProfileInfos(GraphInfosRequest request)
+        {
+            var valveProvider = _providerFactory.ValveGraphProvider();
 
+            return new GraphInfosResponse()
+            {
+                GraphType = (int)GraphType.ValveByVent,
+                Infos = new List<ProfileInfo>(valveProvider.GetGraphInfos())
+            };
+        }
+        
+        [ServiceMethod]
+        public ValveGraphResponse GetValveProfile(GetProfileRequest<ValveGraphResponse> request)
+        {
+            if (string.IsNullOrEmpty(request.ProfileKey))
+                throw new InvalidRequestException("Get valve graph key is null");
+            var vGraph = _providerFactory.ValveGraphProvider().GetGraph(request.ProfileKey);
+            
+            if (vGraph is null)
+                throw new InvalidRequestException(
+                    $"key: {request.ProfileKey} not contains in valve graph repository");
+
+            Log.Debug($"Get valve profile request:{request.ProfileKey}");
+            
+            var response = new ValveGraphResponse();
+            response.Info = vGraph.Info;
+            response.Points = new List<ValueByValuePoint>(vGraph.Points);
+            return response;
+        }
+        #endregion GetMethods
+        
+        
+        
         [ServiceMethod]
         public CreateResultRespose CreateTemperatureProfile(CreateProfileRequest request)
         {
@@ -76,13 +135,8 @@ namespace GraphProviderService
         [ServiceMethod]
         public DefaultResponse UpdateTemperatureProfile(UpdateTemperatureGraphRequest request)
         {
-            var tGraphProvider = _providerFactory.TemperatureGraphProvider();
-            var graph = tGraphProvider.GetGraph(request.Profile.Info.Key);
-            if (graph is null)
-            {
-                return new DefaultResponse()
-                    {RequestName = "UpdateTemperatureGraph", Status = $"Graph:{request.Profile.Info.Key} not found"};
-            }
+            var tempGraphProvider = _providerFactory.TemperatureGraphProvider();
+            var graph = tempGraphProvider.GetGraph(request.Profile.Info.Key);
 
             graph.Info = request.Profile.Info;
             graph.Points = request.Profile.Points;
@@ -105,18 +159,10 @@ namespace GraphProviderService
 
             return new DefaultResponse($"Key:{request.Key} not contains in storage");
         }
+        
+        
         [ServiceMethod]
-        public GraphInfosResponse GetVentilationGraphInfos(GraphInfosRequest request)
-        {
-            throw new System.NotImplementedException();
-        }
-        [ServiceMethod]
-        public VentilationGraphResponse GetVentilationGraph(GetProfileRequest<VentilationGraphResponse> request)
-        {
-            throw new System.NotImplementedException();
-        }
-        [ServiceMethod]
-        public CreateResultRespose CreateVentilationGraph(CreateProfileRequest request)
+        public CreateResultRespose CreateVentilationProfile(CreateProfileRequest request)
         {
             throw new System.NotImplementedException();
         }
@@ -126,9 +172,30 @@ namespace GraphProviderService
             throw new System.NotImplementedException();
         }
         [ServiceMethod]
-        public DefaultResponse UpdateVentilationGraph(UpdateVentilationGraphRequest request)
+        public DefaultResponse UpdateVentilationProfile(UpdateVentilationGraphRequest request)
         {
-            throw new System.NotImplementedException();
+            var ventGraphProvider = _providerFactory.VentilationGraphProvider();
+            var graph = ventGraphProvider.GetGraph(request.Profile.Info.Key);
+
+            graph.Info = request.Profile.Info;
+            graph.Points = request.Profile.Points;
+            
+            _providerFactory.Save();
+            return new DefaultResponse()
+                {RequestName = "UpdateVentilationGraph", Status = $"OK"};
+        }
+        [ServiceMethod]
+        public DefaultResponse UpdateValveProfile(UpdateValveGraphRequest request)
+        {
+            var valveGraphProvider = _providerFactory.ValveGraphProvider();
+            var graph = valveGraphProvider.GetGraph(request.Profile.Info.Key);
+
+            graph.Info = request.Profile.Info;
+            graph.Points = request.Profile.Points;
+            
+            _providerFactory.Save();
+            return new DefaultResponse()
+                {RequestName = "UpdateValveGraph", Status = $"OK"};
         }
     }
 }

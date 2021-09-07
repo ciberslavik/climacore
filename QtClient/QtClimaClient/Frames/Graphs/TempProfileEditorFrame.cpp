@@ -5,24 +5,24 @@
 
 #include <Frames/Dialogs/inputtextdialog.h>
 
-TempProfileEditorFrame::TempProfileEditorFrame(ValueByDayProfile *profile, QWidget *parent) :
+TempProfileEditorFrame::TempProfileEditorFrame(const ValueByDayProfile &profile, QWidget *parent) :
     FrameBase(parent),
     ui(new Ui::GraphEditorFrame)
 {
     ui->setupUi(this);
     setTitle("Редактирование профиля температуры");
     m_profile = profile;
-    m_model = new TempProfileModel(m_profile);
+    m_model = new TempProfileModel(&m_profile);
 
     ui->table->setModel(m_model);
 
     m_selection = ui->table->selectionModel();
 
-    ui->txtName->setText(profile->Info.Name);
-    ui->txtDescription->setText((profile->Info.Description));
+    ui->txtName->setText(m_profile.Info.Name);
+    ui->txtDescription->setText((m_profile.Info.Description));
 
-    ui->lblCreationDate->setText(profile->Info.CreationTime.toString("dd.MM.yyyy hh:mm"));
-    ui->lblEditDate->setText(profile->Info.ModifiedTime.toString("dd.MM.yyyy hh:mm"));
+    ui->lblCreationDate->setText(m_profile.Info.CreationTime.toString("dd.MM.yyyy hh:mm"));
+    ui->lblEditDate->setText(m_profile.Info.ModifiedTime.toString("dd.MM.yyyy hh:mm"));
 
     connect(ui->txtName, &QClickableLineEdit::clicked, this, &TempProfileEditorFrame::onTxtClicked);
     connect(ui->txtDescription, &QClickableLineEdit::clicked, this, &TempProfileEditorFrame::onTxtClicked);
@@ -45,7 +45,10 @@ void TempProfileEditorFrame::tableSelectionChanged()
 
 void TempProfileEditorFrame::on_btnAccept_clicked()
 {
-    emit editComplete();
+    m_profile.Info.Name = ui->txtName->text();
+    m_profile.Info.Description = ui->txtDescription->text();
+
+    emit editComplete(m_profile);
     FrameManager::instance()->PreviousFrame();
 }
 
@@ -59,16 +62,16 @@ void TempProfileEditorFrame::on_btnCancel_clicked()
 
 void TempProfileEditorFrame::on_btnAddPoint_clicked()
 {
-    ValueByDayPoint *point = new ValueByDayPoint();
+    ValueByDayPoint point;
     ValueByDayEditDialog *dialog = new ValueByDayEditDialog(FrameManager::instance()->MainWindow());
 
-    dialog->setValue(point);
+    dialog->setValue(&point);
     dialog->setTitle("Добавление точки");
     dialog->setValueName("Температура");
 
     if(dialog->exec() == QDialog::Accepted)
     {
-        m_profile->Points.append(*point);
+        m_profile.Points.append(point);
     }
 
     dialog->deleteLater();

@@ -3,7 +3,6 @@
 
 #include <Models/Graphs/ProfileInfo.h>
 
-#include <Frames/Dialogs/SelectProfileDialog.h>
 #include <Frames/Graphs/SelectProfileFrame.h>
 #include <Services/FrameManager.h>
 
@@ -38,15 +37,6 @@ TestModeFrame::~TestModeFrame()
 void TestModeFrame::on_btnSelectProfileTest_clicked()
 {
 
-
-    SelectProfileDialog *testDialog = new SelectProfileDialog(&testData, FrameManager::instance()->MainWindow());
-
-    if(testDialog->exec() == QDialog::Accepted)
-    {
-        ui->lblSelectProfileResult->setText(
-                    "Result Key:" + testDialog->SelectedProfile() +
-                    " Name:" + testDialog->SelectedProfile());
-    }
 }
 
 void TestModeFrame::closeEvent(QCloseEvent *event)

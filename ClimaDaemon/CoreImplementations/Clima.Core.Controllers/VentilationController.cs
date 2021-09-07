@@ -127,7 +127,6 @@ namespace Clima.Core.Conrollers.Ventilation
         {
             foreach(var info in _config.FanInfos.Values)
             {
-               
                 FanStates.Add(info.Key, new FanState(){
                     Info = info,
                     Mode = FanModeEnum.Auto,

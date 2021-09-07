@@ -16,12 +16,12 @@ class TempProfileEditorFrame : public FrameBase
     Q_OBJECT
 
 public:
-    explicit TempProfileEditorFrame(ValueByDayProfile *profile, QWidget *parent = nullptr);
+    explicit TempProfileEditorFrame(const ValueByDayProfile &profile, QWidget *parent = nullptr);
     ~TempProfileEditorFrame();
     QString getFrameName() override;
 
 signals:
-    void editComplete();
+    void editComplete(const ValueByDayProfile &profile);
     void editCanceled();
 private slots:
     void tableSelectionChanged();
@@ -33,7 +33,7 @@ private slots:
     void onTxtClicked();
 private:
     Ui::GraphEditorFrame *ui;
-    ValueByDayProfile *m_profile;
+    ValueByDayProfile m_profile;
     TempProfileModel *m_model;
     QItemSelectionModel *m_selection;
 

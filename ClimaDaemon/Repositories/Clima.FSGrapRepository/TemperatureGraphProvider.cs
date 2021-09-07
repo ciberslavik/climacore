@@ -31,7 +31,7 @@ namespace Clima.FSGrapRepository
 
             foreach (var point in graph.Points)
             {
-                var pointConfig = new TemperatureGraphPointConfig(point.DayNumber, point.Value);
+                var pointConfig = new TemperatureGraphPointConfig(point.Day, point.Value);
                 config.Points.Add(pointConfig);
             }
 

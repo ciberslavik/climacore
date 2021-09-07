@@ -31,7 +31,7 @@ namespace Clima.FSGraphRepository.Tests
             for (var i = 1; i < 11; i += 2)
                 graph.AddPoint(new ValueByDayPoint()
                 {
-                    DayNumber = i,
+                    Day = i,
                     Value = (float) i * 10 / 100
                 });
 

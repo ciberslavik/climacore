@@ -28,10 +28,16 @@ public:
 signals:
     void ProfileSelected(ProfileInfo profileInfo);
 private slots:
-    void ProfileInfosReceived(QList<ProfileInfo> *infos);
-    void TemperatureGraphReceived(ValueByDayProfile *profile);
 
-    void on_ProfileEditorCompleted();
+    void TempInfosReceived(QList<ProfileInfo> infos);
+    void VentInfosReceived(QList<ProfileInfo> infos);
+    void ValveInfosReceived(QList<ProfileInfo> infos);
+
+    void TempGraphReceived(ValueByDayProfile profile);
+    void VentGraphReceived(MinMaxByDayProfile profile);
+    void ValveGraphReceived(ValueByValueProfile profile);
+
+    void onTempProfileEditorCompleted(const ValueByDayProfile &profile);
     void on_ProfileEditorCanceled();
 
     void on_btnReturn_clicked();
@@ -48,8 +54,7 @@ private:
     QItemSelectionModel *m_selection;
 
     void selectRow(int row);
-    void loadGraph(const QString &key);
-    void loadTemperatureGraph(const QString &key);
+
     void drawTemperatureGraph(ValueByDayProfile *profile);
     ProfileType m_profileType;
     bool m_needEdit = false;

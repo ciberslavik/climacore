@@ -14,7 +14,7 @@ public:
     {
 
     }
-    QS_FIELD(QString, GraphType)
+    QS_FIELD(int, GraphType)
     QS_COLLECTION_OBJECTS(QList, ProfileInfo, Infos)
 };
 

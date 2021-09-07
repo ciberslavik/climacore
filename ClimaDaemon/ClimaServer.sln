@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.FSLightRepository", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.FSLightRepository.Tests", "Tests\Clima.FSLightRepository.Tests\Clima.FSLightRepository.Tests.csproj", "{694E5666-87C6-4768-A3D0-3A0ED9177FD5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.NetworkServer.Transport.AsyncSocket", "Communication\Clima.NetworkServer.Transport.AsyncSocket\Clima.NetworkServer.Transport.AsyncSocket.csproj", "{CD42ED27-1512-4C0F-96C9-5CE1D7D99107}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,10 @@ Global
 		{694E5666-87C6-4768-A3D0-3A0ED9177FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{694E5666-87C6-4768-A3D0-3A0ED9177FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{694E5666-87C6-4768-A3D0-3A0ED9177FD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD42ED27-1512-4C0F-96C9-5CE1D7D99107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD42ED27-1512-4C0F-96C9-5CE1D7D99107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD42ED27-1512-4C0F-96C9-5CE1D7D99107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD42ED27-1512-4C0F-96C9-5CE1D7D99107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -204,6 +210,7 @@ Global
 		{A577C045-D6E4-4788-A60C-888DDD1606A6} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
 		{CE0A4779-2E93-429F-BB46-F96B383BF75D} = {95E95B63-A53C-4E7D-9E8A-56E1344541FD}
 		{694E5666-87C6-4768-A3D0-3A0ED9177FD5} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
+		{CD42ED27-1512-4C0F-96C9-5CE1D7D99107} = {097481DE-74BF-4033-92CC-4CD24774B69E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8C0318C-3AF4-4615-9360-4283C4059C31}

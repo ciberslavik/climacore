@@ -3,13 +3,13 @@ using Clima.Core.DataModel.GraphModel;
 
 namespace Clima.Core.Network.Messages
 {
-    public class VentilationGraphResponse
+    public class ValveGraphResponse
     {
-        public VentilationGraphResponse()
+        public ValveGraphResponse()
         {
             
         }
         public ProfileInfo Info { get; set; } = new ProfileInfo();
-        public List<MinMaxByDayPoint> Points { get; set; } = new List<MinMaxByDayPoint>();
+        public List<ValueByValuePoint> Points { get; set; } = new List<ValueByValuePoint>();
     }
 }

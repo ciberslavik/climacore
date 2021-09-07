@@ -1,10 +1,6 @@
 #include "GraphService.h"
 
-#include <Network/GenericServices/Messages/GraphInfosRequest.h>
-#include <Network/GenericServices/Messages/CreateGraphRequest.h>
-#include <Network/GenericServices/Messages/GetProfileRequest.h>
-#include <Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h>
-#include <Frames/Graphs/ProfileType.h>
+
 
 GraphService::GraphService(QObject *parent) : INetworkService(parent)
 {
@@ -18,19 +14,17 @@ void GraphService::GetTempInfos()
 
     emit SendRequest(request);
 }
-
-void GraphService::CreateTemperatureProfile(ProfileInfo *info)
+void GraphService::GetVentInfos()
 {
-    NetworkRequest *request = new NetworkRequest();
-    CreateGraphRequest *createRequest = new CreateGraphRequest();
+    GraphInfosRequest *request = new GraphInfosRequest();
+    request->method = "GetVentilationProfileInfos";
 
-
-    createRequest->GraphType = (int)ProfileType::Temperature;
-    createRequest->Info = *info;
-    request->jsonrpc = "0.1a";
-    request->service = "GraphProviderService";
-    request->method = "CreateTemperatureProfile";
-    request->params = createRequest->toJsonString();
+    emit SendRequest(request);
+}
+void GraphService::GetValveInfos()
+{
+    GraphInfosRequest *request = new GraphInfosRequest();
+    request->method = "GetValveProfileInfos";
 
     emit SendRequest(request);
 }
@@ -42,37 +36,140 @@ void GraphService::GetTemperatureProfile(const QString &key)
     request->service = "GraphProviderService";
     request->method = "GetTemperatureProfile";
 
-    GetProfileRequest *profileRequest = new GetProfileRequest();
-    profileRequest->ProfileType = 0;
-    profileRequest->ProfileKey = key;
+    GetProfileRequest profileRequest;
+    profileRequest.ProfileType = (int)ProfileType::Temperature;;
+    profileRequest.ProfileKey = key;
 
-    request->params = profileRequest->toJsonString();
+    request->params = profileRequest.toJsonString();
+
+    emit SendRequest(request);
+}
+void GraphService::GetVentilationProfile(const QString &key)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "GetVentilationProfile";
+
+    GetProfileRequest profileRequest;
+    profileRequest.ProfileType = (int)ProfileType::Ventilation;;
+    profileRequest.ProfileKey = key;
+
+    request->params = profileRequest.toJsonString();
+
+    emit SendRequest(request);
+}
+void GraphService::GetValveProfile(const QString &key)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "GetValveProfile";
+
+    GetProfileRequest profileRequest;
+    profileRequest.ProfileType = (int)ProfileType::ValveByVent;
+    profileRequest.ProfileKey = key;
+
+    request->params = profileRequest.toJsonString();
 
     emit SendRequest(request);
 }
 
-void GraphService::UpdateTemperatureProfile(ValueByDayProfile *profile)
+void GraphService::CreateTemperatureProfile(ProfileInfo info)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "CreateTemperatureProfile";
+
+    CreateGraphRequest createRequest;
+
+
+    createRequest.GraphType = (int)ProfileType::Temperature;
+    createRequest.Info = info;
+
+    request->params = createRequest.toJsonString();
+
+    emit SendRequest(request);
+}
+void GraphService::CreateVentilationProfile(ProfileInfo info)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "CreateVentilationProfile";
+
+    CreateGraphRequest createRequest;
+
+
+    createRequest.GraphType = (int)ProfileType::Ventilation;
+    createRequest.Info = info;
+
+    request->params = createRequest.toJsonString();
+
+    emit SendRequest(request);
+}
+void GraphService::CreateValveProfile(ProfileInfo info)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "CreateValveProfile";
+
+    CreateGraphRequest createRequest;
+
+
+    createRequest.GraphType = (int)ProfileType::ValveByVent;
+    createRequest.Info = info;
+
+    request->params = createRequest.toJsonString();
+
+    emit SendRequest(request);
+}
+
+void GraphService::UpdateTemperatureProfile(ValueByDayProfile profile)
 {
     NetworkRequest *request = new NetworkRequest();
     request->jsonrpc = "0.1a";
     request->service = "GraphProviderService";
     request->method = "UpdateTemperatureProfile";
 
-    UpdateValueByDayProfileRequest *profileRequest = new UpdateValueByDayProfileRequest();
-    profileRequest->Profile = *profile;
+    UpdateValueByDayProfileRequest profileRequest;
+    profileRequest.Profile = profile;
 
-    request->params = profileRequest->toJsonString();
+    request->params = profileRequest.toJsonString();
 
     emit SendRequest(request);
 }
-
-void GraphService::GetVentInfos()
+void GraphService::UpdateVentilationProfile(MinMaxByDayProfile profile)
 {
-    GraphInfosRequest *request = new GraphInfosRequest();
-    request->method = "GetVentilationProfileInfos";
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "UpdateVentilationProfile";
+
+    UpdateMinMaxByDayProfileRequest profileRequest;
+    profileRequest.Profile = profile;
+
+    request->params = profileRequest.toJsonString();
 
     emit SendRequest(request);
 }
+void GraphService::UpdateValveProfile(ValueByValueProfile profile)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "UpdateVentilationProfile";
+
+    UpdateValueByValueProfileRequest profileRequest;
+    profileRequest.Profile = profile;
+
+    request->params = profileRequest.toJsonString();
+
+    emit SendRequest(request);
+}
+
 
 QString GraphService::ServiceName()
 {
@@ -90,25 +187,30 @@ void GraphService::ProcessReply(NetworkResponse *reply)
     {
         if(reply->method == "GetTemperatureProfileInfos")
         {
-            qDebug() << "GetTemperatureProfilesInfos response:" << reply->result;
-
-            GraphInfosResponce *infos = new GraphInfosResponce();
-            infos->fromJson(reply->result.toUtf8());
-
-            emit TempInfosResponse(&infos->Infos);
-
-        }
-        else if(reply->method == "GetTemperatureProfile")
-        {
-            qDebug() << "GetTemperatureProfile response:" << reply->result;
-            ValueByDayProfile *profile = new ValueByDayProfile();
-            profile->fromJson(reply->result.toUtf8());
-
-            emit TempProfileResponse(profile);
+            GraphInfosResponce infos;
+            infos.fromJson(reply->result.toUtf8());
+            emit TempInfosResponse(infos.Infos);
         }
         else if(reply->method == "GetVentilationProfileInfos")
         {
-
+            GraphInfosResponce infos;
+            infos.fromJson(reply->result.toUtf8());
+            emit VentInfosResponse(infos.Infos);
         }
+        else if(reply->method == "GetValveProfileInfos")
+        {
+            GraphInfosResponce infos;
+            infos.fromJson(reply->result.toUtf8());
+            emit ValveInfosResponse(infos.Infos);
+        }
+        else if(reply->method == "GetTemperatureProfile")
+        {
+            //qDebug() << "GetTemperatureProfile response:" << reply->result;
+            ValueByDayProfile profile;
+            profile.fromJson(reply->result.toUtf8());
+
+            emit TempProfileResponse(profile);
+        }
+
     }
 }
