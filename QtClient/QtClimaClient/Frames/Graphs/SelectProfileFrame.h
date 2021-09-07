@@ -50,6 +50,7 @@ private:
     void selectRow(int row);
     void loadGraph(const QString &key);
     void loadTemperatureGraph(const QString &key);
+    void drawTemperatureGraph(ValueByDayProfile *profile);
     ProfileType m_profileType;
     bool m_needEdit = false;
     GraphService *m_graphService;

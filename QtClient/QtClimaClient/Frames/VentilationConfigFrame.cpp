@@ -14,24 +14,30 @@ VentilationConfigFrame::VentilationConfigFrame(QWidget *parent) :
 {
     ui->setupUi(this);
     setTitle("Настройка вентиляторов");
-    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("VentilationService");
-    if(service != nullptr)
-    {
-        m_ventService = dynamic_cast<VentilationService*>(service);
-    }
 
-    m_infosModel = new FanInfosModel(&m_infos);
+    m_infosModel = new FanInfosModel();
+   // ui->tableView->setModel(m_infosModel);
+    m_selection = ui->tableView->selectionModel();
 
 }
 
 VentilationConfigFrame::~VentilationConfigFrame()
 {
+    disconnect(m_ventService, &VentilationService::FanInfoListReceived, this, &VentilationConfigFrame::onFanInfoListReceived);
+    disconnect(m_ventService, &VentilationService::CreateOrUpdateComplete, this, &VentilationConfigFrame::onCreateOrUpdateComplete);
     delete ui;
 }
 
 QString VentilationConfigFrame::getFrameName()
 {
     return "VentilatilationConfigFrame";
+}
+
+void VentilationConfigFrame::setService(VentilationService *service)
+{
+    m_ventService = service;
+    connect(m_ventService, &VentilationService::FanInfoListReceived, this, &VentilationConfigFrame::onFanInfoListReceived);
+    connect(m_ventService, &VentilationService::CreateOrUpdateComplete, this, &VentilationConfigFrame::onCreateOrUpdateComplete);
 }
 
 void VentilationConfigFrame::on_btnSelectGraph_clicked()
@@ -49,15 +55,17 @@ void VentilationConfigFrame::on_btnReturn_clicked()
 
 void VentilationConfigFrame::on_btnEdit_clicked()
 {
-    EditFanDialog *dlg = new EditFanDialog(FrameManager::instance()->MainWindow());
+    m_selection = ui->tableView->selectionModel();
 
+    EditFanDialog *dlg = new EditFanDialog(FrameManager::instance()->MainWindow());
+    int index = m_selection->currentIndex().row();
+    dlg->setInfo(m_infos.at(index));
     if(dlg->exec() == QDialog::Accepted)
     {
-        FanInfo *newFan = dlg->getInfo();
+        FanInfo newFan = dlg->getInfo();
 
-        m_ventService->CreateOrUpdateFan(*newFan);
+        m_ventService->CreateOrUpdateFan(newFan);
 
-        delete newFan;
         ui->tableView->update();
     }
 }
@@ -69,12 +77,9 @@ void VentilationConfigFrame::on_btnAdd_clicked()
 
     if(dlg->exec() == QDialog::Accepted)
     {
-        FanInfo *newFan = dlg->getInfo();
+        FanInfo newFan = dlg->getInfo();
 
-        m_ventService->CreateOrUpdateFan(*newFan);
-
-        delete newFan;
-
+        m_ventService->CreateOrUpdateFan(newFan);
         ui->tableView->update();
     }
 }
@@ -116,10 +121,14 @@ void VentilationConfigFrame::on_btnUp_clicked()
 void VentilationConfigFrame::onFanInfoListReceived(QList<FanInfo> infos)
 {
     m_infos = infos;
+    m_infosModel->setFanInfoList(infos);
 
     ui->tableView->setModel(m_infosModel);
+}
 
-    m_selection = ui->tableView->selectionModel();
+void VentilationConfigFrame::onCreateOrUpdateComplete()
+{
+     m_ventService->GetFanInfoList();
 }
 
 void VentilationConfigFrame::selectRow(int index)

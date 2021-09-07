@@ -62,22 +62,45 @@ namespace Clima.Core.Conrollers.Ventilation
         
         public string CreateOrUpdate(FanInfo fanInfo)
         {
-            if (!string.IsNullOrEmpty(fanInfo.Key))    //Key not empty
-            {
+	    try
+	    {
+	      if (!string.IsNullOrEmpty(fanInfo.Key))    //Key not empty
+              {
                 if (_config.FanInfos.ContainsKey(fanInfo.Key)) //Update existing
                 {
                     _config.FanInfos[fanInfo.Key] = fanInfo;
+		    FanStates[fanInfo.Key].Info = fanInfo;
                 }
                 else //Create new for info key
                 {
                     _config.FanInfos.Add(fanInfo.Key, fanInfo);
+		    FanStates.Add(fanInfo.Key, new FanState(){
+                    	Info = fanInfo,
+                    	Mode = FanModeEnum.Auto,
+                    	State = FanStateEnum.Stopped
+                	});
                 }
-            }
-            else     //Create new key and record
-            {
+              }
+              else     //Create new key and record
+              {
                 fanInfo.Key = _config.GetNewFanInfoKey();
                 _config.FanInfos.Add(fanInfo.Key, fanInfo);
-            }
+		FanStates.Add(fanInfo.Key, new FanState(){
+                    	Info = fanInfo,
+                    	Mode = FanModeEnum.Auto,
+                    	State = FanStateEnum.Stopped
+                	});
+              }
+	    }
+	    catch (Exception ex)
+	    {
+	      Console.WriteLine(ex.Message);
+	    }
+	    finally
+	    {
+	      
+	    }
+            
             
             ClimaContext.Current.SaveConfiguration();
             

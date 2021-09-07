@@ -39,8 +39,6 @@ int ProfileInfoModel::columnCount(const QModelIndex &parent) const
 
 QVariant ProfileInfoModel::data(const QModelIndex &index, int role) const
 {
-
-
     if(role == Qt::DisplayRole)
         switch(index.column())
         {

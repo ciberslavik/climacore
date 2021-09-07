@@ -1,9 +1,9 @@
 #include "FanInfosModel.h"
 
-FanInfosModel::FanInfosModel(QList<FanInfo> *infos, QObject *parent)
+FanInfosModel::FanInfosModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    m_infos = infos;
+
 }
 
 QVariant FanInfosModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -34,48 +34,51 @@ QVariant FanInfosModel::headerData(int section, Qt::Orientation orientation, int
 
 int FanInfosModel::rowCount(const QModelIndex &parent) const
 {
-    if (!parent.isValid())
-        return 0;
-
-    return m_infos->count();
+    Q_UNUSED(parent)
+    return m_infos.count();
 }
 
 int FanInfosModel::columnCount(const QModelIndex &parent) const
 {
-    if (!parent.isValid())
-        return 0;
-
-    return 5;
+    Q_UNUSED(parent)
+    return 6;
 }
 
 QVariant FanInfosModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
-        return QVariant();
-
     if(role == Qt::DisplayRole)
     {
         switch (index.column()) {
         case 0:
-            return m_infos->at(index.row()).FanName;
+            return m_infos.at(index.row()).FanName;
             break;
         case 1:
-            return m_infos->at(index.row()).Performance;
+            return m_infos.at(index.row()).Performance;
             break;
         case 2:
-            return m_infos->at(index.row()).FanCount;
+            return m_infos.at(index.row()).FanCount;
             break;
         case 3:
-            return m_infos->at(index.row()).Performance * m_infos->at(index.row()).FanCount;
+            return m_infos.at(index.row()).Performance * m_infos.at(index.row()).FanCount;
             break;
         case 4:
-            return m_infos->at(index.row()).Priority;
+            return m_infos.at(index.row()).Priority;
             break;
         case 5:
-            return m_infos->at(index.row()).Hermetise;
+            return m_infos.at(index.row()).Hermetise;
             break;
 
         }
     }
     return QVariant();
 }
+
+void FanInfosModel::setFanInfoList(const QList<FanInfo> &infos)
+{
+    m_infos = QList<FanInfo>(infos);
+    QModelIndex topLeft = index(0, 0);
+    QModelIndex bottomRight = index(m_infos.count()-1, 5);
+    emit dataChanged(topLeft, bottomRight, {Qt::DisplayRole});
+}
+
+

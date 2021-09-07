@@ -33,7 +33,6 @@ SelectProfileFrame::SelectProfileFrame(const ProfileType &profileType, QWidget *
     case ProfileType::MineByVent:
         break;
 
-
     }
     //
 
@@ -66,6 +65,8 @@ void SelectProfileFrame::ProfileInfosReceived(QList<ProfileInfo> *infos)
 void SelectProfileFrame::TemperatureGraphReceived(ValueByDayProfile *profile)
 {
     m_curTempProfile = profile;
+
+    drawTemperatureGraph(profile);
 
     if(m_needEdit)
     {
@@ -136,6 +137,29 @@ void SelectProfileFrame::loadGraph(const QString &key)
 void SelectProfileFrame::loadTemperatureGraph(const QString &key)
 {
     m_graphService->GetTemperatureProfile(key);
+}
+
+void SelectProfileFrame::drawTemperatureGraph(ValueByDayProfile *profile)
+{
+    QCustomPlot *plot = ui->plot;
+
+    plot->addGraph();
+    int pointCount = profile->Points.count();
+
+    QVector<double> days(pointCount);
+    QVector<double> temps(pointCount);
+
+    for(int i = 0; i < pointCount; i++)
+    {
+        days[i] = profile->Points[i].Day;
+        temps[i] = profile->Points[i].Value;
+    }
+
+    plot->graph(0)->setData(days, temps);
+    plot->xAxis->setRange(1,60);
+    plot->yAxis->setRange(10,50);
+
+    plot->replot();
 }
 
 

@@ -17,6 +17,7 @@ SOURCES += \
     Controls/qcustomplot.cpp \
     Frames/Dialogs/ConfigValveDialog.cpp \
     Frames/Dialogs/EditFanDialog.cpp \
+    Frames/Dialogs/HeaterConfigDialog.cpp \
     Frames/Dialogs/LivestockOperationDialog.cpp \
     Frames/Dialogs/MessageDialog.cpp \
     Frames/Dialogs/MinMaxByDayEditDialog.cpp \
@@ -48,6 +49,7 @@ SOURCES += \
     Network/ClientConnection.cpp \
     Network/GenericServices/DeviceProviderService.cpp \
     Network/GenericServices/GraphService.cpp \
+    Network/GenericServices/HeaterControllerService.cpp \
     Network/GenericServices/LightControllerService.cpp \
     Network/GenericServices/ProductionService.cpp \
     Network/GenericServices/SensorsService.cpp \
@@ -66,6 +68,7 @@ SOURCES += \
 HEADERS += \
     ApplicationWorker.h \
     Frames/Dialogs/EditFanDialog.h \
+    Frames/Dialogs/HeaterConfigDialog.h \
     Models/FanControlsEnums.h \
     Controls/FanModeSwitch.h \
     Controls/FanWidget.h \
@@ -109,16 +112,19 @@ HEADERS += \
     Models/Graphs/ProfileInfo.h \
     Models/Graphs/ValueByDayPoint.h \
     Models/Graphs/ValueByDayProfile.h \
+    Models/HeaterState.h \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
     Models/ProductionStatus.h \
     Models/RelayInfo.h \
     Models/SensorsData.h \
     Models/SystemState.h \
+    Models/VentControllerState.h \
     Network/AuthRequest.h \
     Network/ClientConnection.h \
     Network/GenericServices/DeviceProviderService.h \
     Network/GenericServices/GraphService.h \
+    Network/GenericServices/HeaterControllerService.h \
     Network/GenericServices/LightControllerService.h \
     Network/GenericServices/Messages/ClimatStatusResponse.h \
     Network/GenericServices/Messages/CreateGraphRequest.h \
@@ -161,6 +167,7 @@ FORMS += \
     Controls/qclickablelineedit.ui \
     Frames/Dialogs/ConfigValveDialog.ui \
     Frames/Dialogs/EditFanDialog.ui \
+    Frames/Dialogs/HeaterConfigDialog.ui \
     Frames/Dialogs/LivestockOperationDialog.ui \
     Frames/Dialogs/MessageDialog.ui \
     Frames/Dialogs/MinMaxByDayEditDialog.ui \

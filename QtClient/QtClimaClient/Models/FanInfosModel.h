@@ -8,7 +8,7 @@ class FanInfosModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    explicit FanInfosModel(QList<FanInfo> *infos, QObject *parent = nullptr);
+    explicit FanInfosModel(QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -18,8 +18,10 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-
+    void setFanInfoList(const QList<FanInfo> &infos);
+    QList<FanInfo> &getFanInfoList()const;
 private:
-    QList<FanInfo> *m_infos;
+    QList<FanInfo> m_infos;
+
 };
 

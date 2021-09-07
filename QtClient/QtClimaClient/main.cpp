@@ -12,6 +12,7 @@
 #include <Frames/SystemStateFrame.h>
 #include <Network/GenericServices/DeviceProviderService.h>
 #include <Network/GenericServices/GraphService.h>
+#include <Network/GenericServices/HeaterControllerService.h>
 #include <Network/GenericServices/LightControllerService.h>
 #include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
@@ -32,8 +33,12 @@ int main(int argc, char *argv[])
     //conn->ConnectToHost("192.168.0.10", 5911);
 
     if(!conn->isConnected())
+    {
+        qDebug()<< "Not connected";
+        delete conn;
+        delete worker;
         return 0;
-
+    }
     worker->RegisterNetworkService(new ServerInfoService());
     worker->RegisterNetworkService(new SensorsService());
     worker->RegisterNetworkService(new SystemStatusService());
@@ -41,6 +46,8 @@ int main(int argc, char *argv[])
     worker->RegisterNetworkService(new LightControllerService());
     worker->RegisterNetworkService(new VentilationService());
     worker->RegisterNetworkService(new DeviceProviderService());
+    worker->RegisterNetworkService(new HeaterControllerService());
+
 
     CMainWindow w;
     w.resize(800, 480);
@@ -53,7 +60,7 @@ int main(int argc, char *argv[])
     FrameManager *frameManager = FrameManager::instance();
     frameManager->Initialize(&w, &a);
 
-    TestModeFrame *testFrame = new TestModeFrame();
+    //TestModeFrame *testFrame = new TestModeFrame();
     SystemStateFrame *stateFrame = new SystemStateFrame();
 
     FrameManager::instance()->setCurrentFrame(stateFrame);

@@ -133,6 +133,8 @@ void VentilationOverviewFrame::on_btnConfigure_clicked()
 {
     VentilationConfigFrame *frame = new VentilationConfigFrame();
 
+    frame->setService(m_ventService);
+
     FrameManager::instance()->setCurrentFrame(frame);
 }
 

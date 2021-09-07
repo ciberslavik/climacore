@@ -68,6 +68,8 @@ QString TemperatureOwerviewFrame::getFrameName()
 
 void TemperatureOwerviewFrame::closeEvent(QCloseEvent *event)
 {
+    Q_UNUSED(event);
+
     disconnect(
                 m_systemStatus, &SystemStatusService::onTemperatureStatusRecv,
                 this, &TemperatureOwerviewFrame::onTempStateRecv);
@@ -78,6 +80,8 @@ void TemperatureOwerviewFrame::closeEvent(QCloseEvent *event)
 
 void TemperatureOwerviewFrame::showEvent(QShowEvent *event)
 {
+    Q_UNUSED(event);
+
     connect(
                 m_systemStatus, &SystemStatusService::onTemperatureStatusRecv,
                 this, &TemperatureOwerviewFrame::onTempStateRecv);

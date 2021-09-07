@@ -4,13 +4,14 @@
 #include <QObject>
 #include <Network/GenericServices/Messages/FanStateListResponse.h>
 #include <Network/GenericServices/Messages/FanInfoListRsponse.h>
+#include <Models/VentControllerState.h>
 
 class VentilationService : public INetworkService
 {
     Q_OBJECT
 public:
     explicit VentilationService(QObject *parent = nullptr);
-
+    void GetControllerState();
     void GetFanStateList();
     void GetFanInfoList();
     void CreateOrUpdateFan(const FanInfo &info);
@@ -18,6 +19,8 @@ public:
 signals:
     void FanStateListReceived(QList<FanState> response);
     void FanInfoListReceived(QList<FanInfo> response);
+    void ControllerStateReceived(VentControllerState state);
+    void CreateOrUpdateComplete();
     // INetworkService interface
 public:
     QString ServiceName(){return "VentilationControllerService";}

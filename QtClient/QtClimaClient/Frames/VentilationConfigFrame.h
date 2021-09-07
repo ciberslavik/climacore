@@ -21,7 +21,7 @@ public:
     explicit VentilationConfigFrame(QWidget *parent = nullptr);
     ~VentilationConfigFrame();
     QString getFrameName() override;
-
+    void setService(VentilationService *service);
 private slots:
     void on_btnSelectGraph_clicked();
     void on_btnReturn_clicked();
@@ -34,6 +34,7 @@ private slots:
 
 
     void onFanInfoListReceived(QList<FanInfo> infos);
+    void onCreateOrUpdateComplete();
 private:
     Ui::VentilationConfigFrame *ui;
     QList<FanInfo> m_infos;
@@ -45,8 +46,8 @@ private:
     void selectRow(int index);
     // QWidget interface
 protected:
-    void closeEvent(QCloseEvent *event);
-    void showEvent(QShowEvent *event);
+    void closeEvent(QCloseEvent *event)override;
+    void showEvent(QShowEvent *event)override;
 
 };
 

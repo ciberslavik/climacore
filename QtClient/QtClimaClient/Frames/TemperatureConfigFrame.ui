@@ -33,7 +33,7 @@
     </spacer>
    </item>
    <item row="1" column="2" colspan="2">
-    <widget class="QClickableLineEdit" name="lineEdit"/>
+    <widget class="QClickableLineEdit" name="txtMaxTemp"/>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
@@ -50,7 +50,7 @@
     </widget>
    </item>
    <item row="0" column="2">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="lblProfileName">
      <property name="text">
       <string>TextLabel</string>
      </property>
@@ -74,10 +74,10 @@
     </widget>
    </item>
    <item row="2" column="2" colspan="2">
-    <widget class="QClickableLineEdit" name="lineEdit_2"/>
+    <widget class="QClickableLineEdit" name="txtMinTemp"/>
    </item>
    <item row="3" column="2" colspan="2">
-    <widget class="QClickableLineEdit" name="lineEdit_3"/>
+    <widget class="QClickableLineEdit" name="txtCorrection"/>
    </item>
    <item row="0" column="4">
     <widget class="QPushButton" name="btnSelectGraph">
@@ -104,14 +104,14 @@
     </widget>
    </item>
    <item row="5" column="3">
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="btnHeater1">
      <property name="text">
       <string>ТГ 1</string>
      </property>
     </widget>
    </item>
    <item row="5" column="4">
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="btnHeater2">
      <property name="text">
       <string>ТГ 2</string>
      </property>
