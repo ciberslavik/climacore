@@ -59,51 +59,50 @@ namespace Clima.Core.Conrollers.Ventilation
         
         public Dictionary<string, FanState> FanStates { get; } 
             = new Dictionary<string, FanState>();
-        
+
         public string CreateOrUpdate(FanInfo fanInfo)
         {
-	    try
-	    {
-	      if (!string.IsNullOrEmpty(fanInfo.Key))    //Key not empty
-              {
-                if (_config.FanInfos.ContainsKey(fanInfo.Key)) //Update existing
+            try
+            {
+                if (!string.IsNullOrEmpty(fanInfo.Key)) //Key not empty
                 {
-                    _config.FanInfos[fanInfo.Key] = fanInfo;
-		    FanStates[fanInfo.Key].Info = fanInfo;
+                    if (_config.FanInfos.ContainsKey(fanInfo.Key)) //Update existing
+                    {
+                        _config.FanInfos[fanInfo.Key] = fanInfo;
+                        FanStates[fanInfo.Key].Info = fanInfo;
+                    }
+                    else //Create new for info key
+                    {
+                        _config.FanInfos.Add(fanInfo.Key, fanInfo);
+                        FanStates.Add(fanInfo.Key, new FanState()
+                        {
+                            Info = fanInfo,
+                            Mode = FanModeEnum.Auto,
+                            State = FanStateEnum.Stopped
+                        });
+                    }
                 }
-                else //Create new for info key
+                else //Create new key and record
                 {
+                    fanInfo.Key = _config.GetNewFanInfoKey();
                     _config.FanInfos.Add(fanInfo.Key, fanInfo);
-		    FanStates.Add(fanInfo.Key, new FanState(){
-                    	Info = fanInfo,
-                    	Mode = FanModeEnum.Auto,
-                    	State = FanStateEnum.Stopped
-                	});
+                    FanStates.Add(fanInfo.Key, new FanState()
+                    {
+                        Info = fanInfo,
+                        Mode = FanModeEnum.Auto,
+                        State = FanStateEnum.Stopped
+                    });
                 }
-              }
-              else     //Create new key and record
-              {
-                fanInfo.Key = _config.GetNewFanInfoKey();
-                _config.FanInfos.Add(fanInfo.Key, fanInfo);
-		FanStates.Add(fanInfo.Key, new FanState(){
-                    	Info = fanInfo,
-                    	Mode = FanModeEnum.Auto,
-                    	State = FanStateEnum.Stopped
-                	});
-              }
-	    }
-	    catch (Exception ex)
-	    {
-	      Console.WriteLine(ex.Message);
-	    }
-	    finally
-	    {
-	      
-	    }
-            
-            
-            ClimaContext.Current.SaveConfiguration();
-            
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                ClimaContext.Current.SaveConfiguration();
+            }
+
             return fanInfo.Key;
         }
 
