@@ -41,6 +41,8 @@ public:
 signals:
     void TempInfosResponse(QList<ProfileInfo> infos);
     void TempProfileResponse(ValueByDayProfile profile);
+    void TempProfileCreated();
+    void TempProfileUpdated();
 
     void VentInfosResponse(QList<ProfileInfo> infos);
     void VentProfileResponse(MinMaxByDayProfile profile);

@@ -118,7 +118,11 @@
    <item row="1" column="0" colspan="5">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QTableView" name="profilesTable"/>
+      <widget class="QTableView" name="profilesTable">
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
