@@ -1,7 +1,10 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include <ApplicationWorker.h>
 #include <QTime>
+
+#include <Network/INetworkService.h>
 
 CMainWindow::CMainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,6 +12,11 @@ CMainWindow::CMainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("");
+    if(service != nullptr)
+    {
+        m_prodService = dynamic_cast<ProductionService*>(service);
+    }
 
 }
 

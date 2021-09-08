@@ -18,10 +18,12 @@ public:
     void setState(HeaterState state);
     HeaterState getState();
 signals:
-    void onModeChanged();
-    void onStateChanged();
+    void onModeChanged(bool isManual);
+    void onStateChanged(bool isRunning);
 private slots:
     void on_btnAuto_toggled(bool checked);
+
+    void on_btnManualOn_toggled(bool checked);
 
 private:
     Ui::HeaterConfigDialog *ui;

@@ -20,9 +20,13 @@ SelectProfileFrame::SelectProfileFrame(const ProfileType &profileType, QWidget *
         m_graphService = dynamic_cast<GraphService*>(service);
     }
     connect(m_graphService, &GraphService::TempProfileResponse, this, &SelectProfileFrame::TempGraphReceived);
+    connect(m_graphService, &GraphService::TempInfosResponse, this, &SelectProfileFrame::TempInfosReceived);
+    connect(m_graphService, &GraphService::TempProfileCreated, this, &SelectProfileFrame::TempProfileCreated);
+    connect(m_graphService, &GraphService::TempProfileUpdated, this, &SelectProfileFrame::TempProfileUpdated);
+
     connect(m_graphService, &GraphService::VentProfileResponse, this, &SelectProfileFrame::VentGraphReceived);
     connect(m_graphService, &GraphService::ValveProfileResponse, this, &SelectProfileFrame::ValveGraphReceived);
-    connect(m_graphService, &GraphService::TempInfosResponse, this, &SelectProfileFrame::TempInfosReceived);
+
     connect(m_graphService, &GraphService::VentInfosResponse, this, &SelectProfileFrame::VentInfosReceived);
     connect(m_graphService, &GraphService::ValveInfosResponse, this, &SelectProfileFrame::ValveInfosReceived);
 
@@ -96,6 +100,16 @@ void SelectProfileFrame::VentGraphReceived(MinMaxByDayProfile profile)
 void SelectProfileFrame::ValveGraphReceived(ValueByValueProfile profile)
 {
 
+}
+
+void SelectProfileFrame::TempProfileCreated()
+{
+    m_graphService->GetTempInfos();
+}
+
+void SelectProfileFrame::TempProfileUpdated()
+{
+    m_graphService->GetTempInfos();
 }
 
 void SelectProfileFrame::onTempProfileEditorCompleted(const ValueByDayProfile &profile)
@@ -218,15 +232,22 @@ void SelectProfileFrame::on_btnAdd_clicked()
 
 void SelectProfileFrame::on_btnEdit_clicked()
 {
+
     m_selection = ui->profilesTable->selectionModel();
+    if(!m_selection->hasSelection())
+        return;
+
     switch(m_profileType)
     {
     case ProfileType::Temperature:
     {
         m_needEdit = true;
-        int rowIndex = m_selection->currentIndex().row();
-        QString key = m_infoModel->infos()->at(rowIndex).Key;
-        m_graphService->GetTemperatureProfile(key);
+        QModelIndex index = m_selection->selectedIndexes().at(0);
+        if(index.row() >= 0)
+        {
+            QString key = m_infoModel->infos()->at(index.row()).Key;
+            m_graphService->GetTemperatureProfile(key);
+        }
     }
         break;
     case ProfileType::Ventilation:

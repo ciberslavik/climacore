@@ -54,11 +54,7 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                 Component
                     .For<ITimeProvider>()
                     .ImplementedBy<DefaultTimeProvider>()
-                    .LifestyleTransient(),
-                Component
-                    .For<IHeaterController>()
-                    .ImplementedBy<HeaterController>()
-                    .LifestyleSingleton());
+                    .LifestyleTransient());
             
             container.AddFacility<TypedFactoryFacility>();
             

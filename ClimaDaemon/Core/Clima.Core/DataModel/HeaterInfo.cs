@@ -8,5 +8,15 @@
 
         public string Key { get; set; }
         public string RelayName { get; set; }
+        public float Hysteresis { get; set; }
+        public float ManualSetPoint { get; set; }
+        public bool IsManual { get; set; }
+        public int ControlZone { get; set; }
+    }
+
+    public enum HeaterControlZone : int
+    {
+        FrontZone = 0,
+        RearZone = 1
     }
 }

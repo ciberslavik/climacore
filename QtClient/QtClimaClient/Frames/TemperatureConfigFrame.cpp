@@ -60,21 +60,29 @@ void TemperatureConfigFrame::on_btnSelectGraph_clicked()
 
 void TemperatureConfigFrame::on_btnHeater1_clicked()
 {
-    HeaterConfigDialog *dlg = new HeaterConfigDialog(FrameManager::instance()->MainWindow());
-    if(dlg->exec()==QDialog::Accepted)
+    HeaterConfigDialog dlg(FrameManager::instance()->MainWindow());
+    connect(&dlg, &HeaterConfigDialog::onModeChanged, this, &TemperatureConfigFrame::onHeater1ModeChanged);
+    connect(&dlg, &HeaterConfigDialog::onStateChanged, this, &TemperatureConfigFrame::onHeater1StateChanged);
+    if(dlg.exec()==QDialog::Accepted)
     {
 
     }
+    disconnect(&dlg, &HeaterConfigDialog::onModeChanged, this, &TemperatureConfigFrame::onHeater1ModeChanged);
+    disconnect(&dlg, &HeaterConfigDialog::onStateChanged, this, &TemperatureConfigFrame::onHeater1StateChanged);
 }
 
 
 void TemperatureConfigFrame::on_btnHeater2_clicked()
 {
-    HeaterConfigDialog *dlg = new HeaterConfigDialog(FrameManager::instance()->MainWindow());
-    if(dlg->exec()==QDialog::Accepted)
+    HeaterConfigDialog dlg(FrameManager::instance()->MainWindow());
+    connect(&dlg, &HeaterConfigDialog::onModeChanged, this, &TemperatureConfigFrame::onHeater2ModeChanged);
+    connect(&dlg, &HeaterConfigDialog::onStateChanged, this, &TemperatureConfigFrame::onHeater2StateChanged);
+    if(dlg.exec()==QDialog::Accepted)
     {
 
     }
+    disconnect(&dlg, &HeaterConfigDialog::onModeChanged, this, &TemperatureConfigFrame::onHeater2ModeChanged);
+    disconnect(&dlg, &HeaterConfigDialog::onStateChanged, this, &TemperatureConfigFrame::onHeater2StateChanged);
 }
 
 void TemperatureConfigFrame::onTxtClicked()
@@ -87,5 +95,25 @@ void TemperatureConfigFrame::onTxtClicked()
         txt->setText(oldValue);
     }
 
+}
+
+void TemperatureConfigFrame::onHeater1StateChanged(bool isRunning)
+{
+    qDebug()<< "State changed";
+}
+
+void TemperatureConfigFrame::onHeater1ModeChanged(bool isManual)
+{
+qDebug()<< "Mode changed";
+}
+
+void TemperatureConfigFrame::onHeater2StateChanged(bool isRunning)
+{
+qDebug()<< "State2 changed";
+}
+
+void TemperatureConfigFrame::onHeater2ModeChanged(bool isManual)
+{
+qDebug()<< "Mode2 changed";
 }
 

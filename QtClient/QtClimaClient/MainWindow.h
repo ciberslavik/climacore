@@ -3,6 +3,8 @@
 #include <QFrame>
 #include <QMainWindow>
 
+#include <Network/GenericServices/ProductionService.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -26,5 +28,5 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
+    ProductionService *m_prodService;
 };

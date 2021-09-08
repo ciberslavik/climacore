@@ -112,6 +112,7 @@ HEADERS += \
     Models/Graphs/ValueByDayProfile.h \
     Models/Graphs/ValueByValuePoint.h \
     Models/Graphs/ValueByValueProfile.h \
+    Models/HeaterInfo.h \
     Models/HeaterState.h \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
@@ -138,6 +139,7 @@ HEADERS += \
     Network/GenericServices/Messages/GetVentProfileResponse.h \
     Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
+    Network/GenericServices/Messages/HeaterStateRequest.h \
     Network/GenericServices/Messages/LightPressetsResponse.h \
     Network/GenericServices/Messages/RelayInfoListResponse.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \

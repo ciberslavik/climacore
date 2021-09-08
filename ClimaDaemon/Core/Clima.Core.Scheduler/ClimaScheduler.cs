@@ -156,7 +156,7 @@ namespace Clima.Core.Scheduler
         }
         public void Stop()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Init(object config)
@@ -167,7 +167,7 @@ namespace Clima.Core.Scheduler
                 return;
         }
 
-        public Type ConfigType { get; }
+        public Type ConfigType => typeof(SchedulerConfig);
         public ServiceState ServiceState { get; }
     }
 }

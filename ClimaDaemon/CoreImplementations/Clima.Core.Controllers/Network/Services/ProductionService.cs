@@ -3,20 +3,20 @@ using Clima.Core.Network.Messages;
 
 namespace Clima.Core.Controllers.Network.Services
 {
-    public class SchedulerService : INetworkService
+    public class ProductionService : INetworkService
     {
-        public SchedulerService()
+        public ProductionService()
         {
         }
 
         [ServiceMethod]
-        public DefaultResponse StartScheduler()
+        public DefaultResponse StartProduction()
         {
             return new DefaultResponse();
         }
 
         [ServiceMethod]
-        public DefaultResponse StopScheduler()
+        public DefaultResponse StopProduction()
         {
             return new DefaultResponse();
         }

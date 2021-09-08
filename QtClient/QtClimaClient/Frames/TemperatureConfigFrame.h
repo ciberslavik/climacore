@@ -29,6 +29,12 @@ private slots:
 
     void on_btnHeater2_clicked();
     void onTxtClicked();
+
+    void onHeater1StateChanged(bool isRunning);
+    void onHeater1ModeChanged(bool isManual);
+
+    void onHeater2StateChanged(bool isRunning);
+    void onHeater2ModeChanged(bool isManual);
 private:
     Ui::TemperatureConfigFrame *ui;
 

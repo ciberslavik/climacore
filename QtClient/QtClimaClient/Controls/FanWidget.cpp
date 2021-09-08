@@ -95,6 +95,7 @@ void FanWidget::onModeLabelClicked()
     //m_modeEditor->setVisible(true);
 
     m_modeEditor->setFanMode(m_fanMode);
+    m_modeEditor->setParent((QWidget*)parent());
     m_modeEditor->exec();
 }
 

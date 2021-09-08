@@ -14,6 +14,7 @@
 #include <Network/GenericServices/GraphService.h>
 #include <Network/GenericServices/HeaterControllerService.h>
 #include <Network/GenericServices/LightControllerService.h>
+#include <Network/GenericServices/ProductionService.h>
 #include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
 #include <Network/GenericServices/VentilationService.h>
@@ -28,8 +29,8 @@ int main(int argc, char *argv[])
     ClientConnection *conn = new ClientConnection(&a);
     ApplicationWorker *worker = new ApplicationWorker(conn,&a);
 
-    //conn->ConnectToHost("10.0.10.146", 5911);
-    conn->ConnectToHost("127.0.0.1", 5911);
+    conn->ConnectToHost("10.0.10.146", 5911);
+    //conn->ConnectToHost("127.0.0.1", 5911);
     //conn->ConnectToHost("192.168.0.10", 5911);
 
     if(!conn->isConnected())
@@ -47,15 +48,15 @@ int main(int argc, char *argv[])
     worker->RegisterNetworkService(new VentilationService());
     worker->RegisterNetworkService(new DeviceProviderService());
     worker->RegisterNetworkService(new HeaterControllerService());
-
+    worker->RegisterNetworkService(new ProductionService());
 
     CMainWindow w;
     w.resize(800, 480);
     w.show();
-//    QTimer timer(&a);
-//    QObject::connect(&timer, &QTimer::timeout, &w, &CMainWindow::updateData);
-//    timer.setInterval(1000);
-//    timer.start();
+    //    QTimer timer(&a);
+    //    QObject::connect(&timer, &QTimer::timeout, &w, &CMainWindow::updateData);
+    //    timer.setInterval(1000);
+    //    timer.start();
 
     FrameManager *frameManager = FrameManager::instance();
     frameManager->Initialize(&w, &a);
