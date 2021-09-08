@@ -19,6 +19,7 @@ SelectProfileFrame::SelectProfileFrame(const ProfileType &profileType, QWidget *
     {
         m_graphService = dynamic_cast<GraphService*>(service);
     }
+
     connect(m_graphService, &GraphService::TempProfileResponse, this, &SelectProfileFrame::TempGraphReceived);
     connect(m_graphService, &GraphService::TempInfosResponse, this, &SelectProfileFrame::TempInfosReceived);
     connect(m_graphService, &GraphService::TempProfileCreated, this, &SelectProfileFrame::TempProfileCreated);

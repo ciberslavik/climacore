@@ -28,7 +28,7 @@ namespace Clima.FSGrapRepository
             ref GraphConfig<VentilationGraphPointConfig> config, VentilationGraph graph)
         {
             config.Info = graph.Info;
-
+            config.Points.Clear();
             foreach (var point in graph.Points)
             {
                 var pointConfig = new VentilationGraphPointConfig();

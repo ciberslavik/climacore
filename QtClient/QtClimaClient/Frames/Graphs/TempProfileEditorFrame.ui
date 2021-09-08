@@ -85,12 +85,15 @@
        <height>150</height>
       </size>
      </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectColumns</enum>
+     </property>
     </widget>
    </item>
    <item row="3" column="4">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="btnLeft">
        <property name="minimumSize">
         <size>
          <width>55</width>
@@ -132,7 +135,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="btnRight">
        <property name="minimumSize">
         <size>
          <width>55</width>

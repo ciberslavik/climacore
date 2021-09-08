@@ -28,7 +28,7 @@ namespace Clima.FSGrapRepository
             ref GraphConfig<TemperatureGraphPointConfig> config, TemperatureGraph graph)
         {
             config.Info = graph.Info;
-
+            config.Points.Clear();
             foreach (var point in graph.Points)
             {
                 var pointConfig = new TemperatureGraphPointConfig(point.Day, point.Value);

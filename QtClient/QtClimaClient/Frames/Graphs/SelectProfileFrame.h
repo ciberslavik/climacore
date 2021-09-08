@@ -30,10 +30,14 @@ signals:
 private slots:
 
     void TempInfosReceived(QList<ProfileInfo> infos);
+    void TempGraphReceived(ValueByDayProfile profile);
+
+    void TempProfileCreated();
+    void TempProfileUpdated();
     void VentInfosReceived(QList<ProfileInfo> infos);
     void ValveInfosReceived(QList<ProfileInfo> infos);
 
-    void TempGraphReceived(ValueByDayProfile profile);
+
     void VentGraphReceived(MinMaxByDayProfile profile);
     void ValveGraphReceived(ValueByValueProfile profile);
 

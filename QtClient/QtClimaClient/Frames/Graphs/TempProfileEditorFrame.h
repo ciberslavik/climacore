@@ -31,12 +31,20 @@ private slots:
 
     void on_btnAddPoint_clicked();
     void onTxtClicked();
+    void on_btnEditPoint_clicked();
+
+    void on_btnRemovePoint_clicked();
+
+    void on_btnLeft_clicked();
+
+    void on_btnRight_clicked();
+
 private:
     Ui::GraphEditorFrame *ui;
     ValueByDayProfile m_profile;
     TempProfileModel *m_model;
     QItemSelectionModel *m_selection;
 
-
+    void selectColumn(int column);
 };
 

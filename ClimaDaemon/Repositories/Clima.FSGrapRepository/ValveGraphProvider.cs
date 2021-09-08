@@ -28,7 +28,7 @@ namespace Clima.FSGrapRepository
         protected override GraphConfig<ValveGraphPointConfig> PopulateConfigFromGraph(ref GraphConfig<ValveGraphPointConfig> config, ValvePerVentilationGraph graph)
         {
             config.Info = graph.Info;
-
+            config.Points.Clear();
             foreach (var point in graph.Points)
             {
                 var pointConfig = new ValveGraphPointConfig(point.ValueX, point.ValueY);

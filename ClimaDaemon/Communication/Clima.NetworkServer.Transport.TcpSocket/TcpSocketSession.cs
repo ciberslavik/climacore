@@ -24,7 +24,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
         private bool _receiving;
         private bool _sending;
 
-        private WatchDog _WD;
+        private WatchDog _wd;
         public event EventHandler Connected;
         public event EventHandler Disconnected;
         public event EventHandler<MessageEventArgs> MessageReceived;
@@ -77,8 +77,8 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             IsConnected = true;
             Connected?.Invoke(this, new EventArgs());
-            _WD = new WatchDog();
-            _WD.Alarm+= WDOnAlarm;
+            _wd = new WatchDog();
+            _wd.Alarm+= WDOnAlarm;
             TryReceive();
         }
 
@@ -129,7 +129,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
             OnDisConnected();
 
-            //_server.UnregisterSession(Id);
+            //Server.UnregisterSession(Id);
             return true;
         }
 
@@ -399,7 +399,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
 
                 if (str.Contains("<EOF>"))
                 {
-                    _WD.Reset();
+                    _wd.Reset();
                     
                     str = str.Substring(0, str.IndexOf("<EOF>", StringComparison.Ordinal));
                     Console.WriteLine($"Received str:{str}");

@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
     ClientConnection *conn = new ClientConnection(&a);
     ApplicationWorker *worker = new ApplicationWorker(conn,&a);
 
-    conn->ConnectToHost("10.0.10.146", 5911);
-    //conn->ConnectToHost("127.0.0.1", 5911);
+    //conn->ConnectToHost("10.0.10.146", 5911);
+    conn->ConnectToHost("127.0.0.1", 5911);
     //conn->ConnectToHost("192.168.0.10", 5911);
 
     if(!conn->isConnected())
@@ -61,10 +61,10 @@ int main(int argc, char *argv[])
     FrameManager *frameManager = FrameManager::instance();
     frameManager->Initialize(&w, &a);
 
-    //TestModeFrame *testFrame = new TestModeFrame();
+    TestModeFrame *testFrame = new TestModeFrame();
     SystemStateFrame *stateFrame = new SystemStateFrame();
 
-    FrameManager::instance()->setCurrentFrame(stateFrame);
+    FrameManager::instance()->setCurrentFrame(testFrame);
 
 
     int result = a.exec();
