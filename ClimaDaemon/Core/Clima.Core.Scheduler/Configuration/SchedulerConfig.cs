@@ -1,4 +1,5 @@
-﻿using Clima.Basics.Configuration;
+﻿using System;
+using Clima.Basics.Configuration;
 
 namespace Clima.Core.Scheduler.Configuration
 {
@@ -6,6 +7,9 @@ namespace Clima.Core.Scheduler.Configuration
     {
         
         public int SchedulerPeriodSeconds { get; set; }
+        
+        public SchedulerState CurrentState { get; set; }
+        public DateTime StartCurrentStateTime { get; set; }
         public string ConfigurationName => nameof(SchedulerConfig);
     }
 }

@@ -132,6 +132,7 @@ namespace Clima.Core.Conrollers.Ventilation
                     Mode = FanModeEnum.Auto,
                     State = FanStateEnum.Stopped
                 });
+                _devProvider.GetRelay(info.RelayName).Off();
             }
         }
 

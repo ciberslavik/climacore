@@ -37,7 +37,7 @@ namespace Clima.Core.Scheduler
         }
 
         public bool IsRunning => _isRunning;
-        
+        public ISystemLogger Log { get; set; }
         public void SetTemperatureGraph(GraphBase<ValueByDayPoint> graph)
         {
             _temperatureGraph = graph;
@@ -69,7 +69,9 @@ namespace Clima.Core.Scheduler
                     
                     break;
                 case Scheduler.SchedulerState.Brooding:
-                    
+                    _schedulerTimer = new Timer(SchedulerProcess, this, 
+                        _config.SchedulerPeriodSeconds * 1000,
+                        _config.SchedulerPeriodSeconds * 1000);
                     break;
                 case Scheduler.SchedulerState.Growing:
                     
@@ -84,17 +86,18 @@ namespace Clima.Core.Scheduler
         {
             if (!_isRunning)
             {
-                _schedulerTimer = new Timer(SchedulerProcess, null, 
-                    _config.SchedulerPeriodSeconds,
-                    _config.SchedulerPeriodSeconds);
+                _isRunning = true;
             }
         }
 
         private void SchedulerProcess(object? o)
         {
+            var sc = o as ClimaScheduler;
+            
+            Log.Debug("Process scheduler");
             TimeSpan workingTime = DateTime.Now - _startTime;
             int currentDay = workingTime.Days;
-            
+            Log.Debug("Process scheduler");
         }
 
         private float GetCurrentMinuteTemperature()
