@@ -14,6 +14,7 @@
 #include <Network/GenericServices/GraphService.h>
 #include <Network/GenericServices/HeaterControllerService.h>
 #include <Network/GenericServices/LightControllerService.h>
+#include <Network/GenericServices/LivestockService.h>
 #include <Network/GenericServices/ProductionService.h>
 #include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
@@ -49,6 +50,7 @@ int main(int argc, char *argv[])
     worker->RegisterNetworkService(new DeviceProviderService());
     worker->RegisterNetworkService(new HeaterControllerService());
     worker->RegisterNetworkService(new ProductionService());
+    worker->RegisterNetworkService(new LivestockService());
 
     CMainWindow w;
     w.resize(800, 480);

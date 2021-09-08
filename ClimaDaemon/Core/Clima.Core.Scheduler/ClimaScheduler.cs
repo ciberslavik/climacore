@@ -11,7 +11,7 @@ using Clima.Core.Scheduler.Configuration;
 
 namespace Clima.Core.Scheduler
 {
-    public class ClimaScheduler : IClimaScheduler
+    public partial class ClimaScheduler : IClimaScheduler
     {
         private readonly IControllerFactory _controllerFactory;
         private Timer _schedulerTimer;
@@ -32,8 +32,7 @@ namespace Clima.Core.Scheduler
             _time = timeProvider;
             _heater = heater;
             _ventilation = ventilation;
-            _controllerFactory = controllerFactory; 
-            SchedulerState = new ShedulerStateObject();
+            _controllerFactory = controllerFactory;
         }
 
         public bool IsRunning => _isRunning;
@@ -53,7 +52,7 @@ namespace Clima.Core.Scheduler
            // throw new NotImplementedException();
         }
 
-        public void SetSchedulerState(SchedulerState newState)
+        /*public void SetSchedulerState(SchedulerState newState)
         {
             if (SchedulerState.State == newState)
                 return;
@@ -79,9 +78,8 @@ namespace Clima.Core.Scheduler
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
-        }
-
-        public ShedulerStateObject SchedulerState { get; }
+        }*/
+        
         public void Start()
         {
             if (!_isRunning)

@@ -14,8 +14,7 @@ namespace Clima.Core.Conrollers.Ventilation.Network
         {
             registrator.RegisterNetworkService<LightControllerService>();
             registrator.RegisterNetworkService<VentilationControllerService>();
-	    registrator.RegisterNetworkService<HeaterControllerService>();
-	    registrator.RegisterNetworkService<ProductionService>();
+	        registrator.RegisterNetworkService<HeaterControllerService>();
         }
     }
 }

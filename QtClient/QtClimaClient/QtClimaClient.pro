@@ -44,12 +44,12 @@ SOURCES += \
     Models/Dialogs/TempProfileModel.cpp \
     Models/FanInfosModel.cpp \
     Models/LightTimersModel.cpp \
-    Models/LivestockState.cpp \
     Network/ClientConnection.cpp \
     Network/GenericServices/DeviceProviderService.cpp \
     Network/GenericServices/GraphService.cpp \
     Network/GenericServices/HeaterControllerService.cpp \
     Network/GenericServices/LightControllerService.cpp \
+    Network/GenericServices/LivestockService.cpp \
     Network/GenericServices/ProductionService.cpp \
     Network/GenericServices/SensorsService.cpp \
     Network/GenericServices/ServerInfoService.cpp \
@@ -127,6 +127,7 @@ HEADERS += \
     Network/GenericServices/GraphService.h \
     Network/GenericServices/HeaterControllerService.h \
     Network/GenericServices/LightControllerService.h \
+    Network/GenericServices/LivestockService.h \
     Network/GenericServices/Messages/ClimatStatusResponse.h \
     Network/GenericServices/Messages/CreateGraphRequest.h \
     Network/GenericServices/Messages/DefaultRequest.h \
@@ -141,6 +142,8 @@ HEADERS += \
     Network/GenericServices/Messages/GraphInfosResponce.h \
     Network/GenericServices/Messages/HeaterStateRequest.h \
     Network/GenericServices/Messages/LightPressetsResponse.h \
+    Network/GenericServices/Messages/LivestockOperationRequest.h \
+    Network/GenericServices/Messages/LivestockStateResponse.h \
     Network/GenericServices/Messages/RelayInfoListResponse.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
