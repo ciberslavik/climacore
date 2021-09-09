@@ -18,7 +18,7 @@ namespace Clima.Core.Devices.Configuration
         public DeviceProviderConfig()
         {
         }
-
+        public Dictionary<string, HeaterConfig> Heaters { get; set; }= new Dictionary<string, HeaterConfig>();
         public Dictionary<string, MonitoredRelayConfig> MonitoredRelays => _monitoredRelays;
 
         public Dictionary<string, FrequencyConverterConfig> FrequencyConverters => _frequencyConverters;
@@ -69,6 +69,16 @@ namespace Clima.Core.Devices.Configuration
             config.Servos.Add("SERVO:0", ServoConfig.CreateDefault(0));
 
             config.Sensors = SensorsConfig.CreateDefault();
+            config.Heaters.Add("HEAT:0", new HeaterConfig()
+            {
+                HeaterName = "HEAT:0",
+                PinName = "DO:3:10"
+            });
+            config.Heaters.Add("HEAT:1", new HeaterConfig()
+            {
+                HeaterName = "HEAT:1",
+                PinName = "DO:3:11"
+            });
             return config;
         }
     }

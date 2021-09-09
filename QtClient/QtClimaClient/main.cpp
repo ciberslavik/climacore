@@ -55,6 +55,8 @@ int main(int argc, char *argv[])
     CMainWindow w;
     w.resize(800, 480);
     w.show();
+    TimerPool::instance()->getUpdateTimer()->setInterval(1000);
+    TimerPool::instance()->getUpdateTimer()->start();
     //    QTimer timer(&a);
     //    QObject::connect(&timer, &QTimer::timeout, &w, &CMainWindow::updateData);
     //    timer.setInterval(1000);
@@ -63,11 +65,7 @@ int main(int argc, char *argv[])
     FrameManager *frameManager = FrameManager::instance();
     frameManager->Initialize(&w, &a);
 
-    TestModeFrame *testFrame = new TestModeFrame();
-    SystemStateFrame *stateFrame = new SystemStateFrame();
-
-    FrameManager::instance()->setCurrentFrame(testFrame);
-
+    //TestModeFrame *testFrame = new TestModeFrame();
 
     int result = a.exec();
 

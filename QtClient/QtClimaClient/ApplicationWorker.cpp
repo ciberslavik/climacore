@@ -38,11 +38,11 @@ INetworkService *ApplicationWorker::GetNetworkService(const QString &serviceName
 
 void ApplicationWorker::onConnctionEstabilished()
 {
-        NetworkRequest *request = new NetworkRequest();
-        request->jsonrpc = "0.1a";
-        request->service = "ServerInfoService";
-        request->method = "GetServerVersion";
-        m_connection->SendRequest(request);
+//        NetworkRequest *request = new NetworkRequest();
+//        request->jsonrpc = "0.1a";
+//        request->service = "ServerInfoService";
+//        request->method = "GetServerVersion";
+//        m_connection->SendRequest(request);
 }
 
 void ApplicationWorker::onReplyReceived(NetworkResponse *reply)

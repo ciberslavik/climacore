@@ -7,7 +7,7 @@
         }
 
         public string Key { get; set; }
-        public string RelayName { get; set; }
+        public string PinName { get; set; }
         public float Hysteresis { get; set; }
         public float ManualSetPoint { get; set; }
         public bool IsManual { get; set; }

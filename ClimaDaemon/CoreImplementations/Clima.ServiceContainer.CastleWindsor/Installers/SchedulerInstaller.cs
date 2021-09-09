@@ -16,7 +16,7 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             _logger.Info("Install scheduler components");
-            container.Register(Component.For<IClimaScheduler>().ImplementedBy<ClimaScheduler>());
+            //container.Register(Component.For<IClimaScheduler>().ImplementedBy<ClimaScheduler>());
         }
     }
 }

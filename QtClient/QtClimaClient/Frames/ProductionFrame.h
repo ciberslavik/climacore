@@ -33,5 +33,14 @@ private slots:
     void on_btnStartGrowing_clicked();
     void on_btnEndGrowing_clicked();
     void on_btnReturn_clicked();
+
+    void ProductionStopped(int state);
+    void PreparingStarted(int state);
+    void ProductionStarted(int state);
+    void onProductionStateChanged(int state);
+
+    // QWidget interface
+protected:
+    void showEvent(QShowEvent *event) override;
 };
 

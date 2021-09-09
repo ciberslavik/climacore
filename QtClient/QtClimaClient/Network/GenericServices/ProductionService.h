@@ -10,11 +10,16 @@ class ProductionService : public INetworkService
 public:
     explicit ProductionService(QObject *parent = nullptr);
     void GetProductionState();
-    void StartPreparing();
+    void StartPreparing(float temperature);
     void StartProduction();
     void StopProduction();
 signals:
-    void ProductionStateReceived(ProductionStatus status);
+    void ProductionStateReceived(int state);
+    void PreparingStarted(int state);
+    void ProductionStopped(int state);
+    void ProductionStarted(int state);
+
+    void ProductionStateChanged(int newState);
     // INetworkService interface
 public:
     QString ServiceName(){return "ProductionService";}

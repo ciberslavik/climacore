@@ -103,6 +103,16 @@ void SelectProfileFrame::ValveGraphReceived(ValueByValueProfile profile)
 
 }
 
+void SelectProfileFrame::VentProfileCreated()
+{
+
+}
+
+void SelectProfileFrame::VentProfileUpdated()
+{
+
+}
+
 void SelectProfileFrame::TempProfileCreated()
 {
     m_graphService->GetTempInfos();

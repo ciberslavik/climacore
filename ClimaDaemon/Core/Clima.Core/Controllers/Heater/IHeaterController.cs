@@ -10,6 +10,7 @@ namespace Clima.Core.Controllers.Heater
         public Dictionary<string, HeaterState> States { get; }
         public void SetHeaterState(HeaterState newState);
         public HeaterInfo UpdateHeaterInfo(HeaterInfo info);
+        public void StopHeater();
         public void Process(float setpoint);
     }
 }

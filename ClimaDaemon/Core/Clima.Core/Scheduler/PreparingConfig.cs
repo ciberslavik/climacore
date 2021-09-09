@@ -1,4 +1,4 @@
-﻿namespace Clima.Core.Scheduler.Configuration
+﻿namespace Clima.Core.Scheduler
 {
     public class PreparingConfig
     {

@@ -12,6 +12,7 @@ namespace Clima.Core.Devices
         IDiscreteFan GetDiscreteFan(string fanName);
         IAnalogFan GetAnalogFan(string fanName);
         IServoDrive GetServo(string servoName);
+        IHeater GetHeater(string heaterName);
         ISensors GetSensors();
     }
 }

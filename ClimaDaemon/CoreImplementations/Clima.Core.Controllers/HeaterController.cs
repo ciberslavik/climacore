@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core.Controllers.Configuration;
 using Clima.Core.Controllers.Heater;
 using Clima.Core.DataModel;
 using Clima.Core.Devices;
 
-namespace Clima.Core.Conrollers.Ventilation
+namespace Clima.Core.Controllers
 {
     public class HeaterController:IHeaterController
     {
@@ -30,6 +29,13 @@ namespace Clima.Core.Conrollers.Ventilation
             
         }
 
+        public void StopHeater()
+        {
+            foreach (var heater in _heaters.Values)
+            {
+                _deviceProvider.GetHeater(heater.Info.Key).Off();
+            }
+        }
         public void Init(object config)
         {
             Log.Debug("Heater controller init");
@@ -72,9 +78,9 @@ namespace Clima.Core.Conrollers.Ventilation
                 if (_heaters[key].Info.IsManual)
                 {
                     if (newState.IsRunning)
-                        _deviceProvider.GetRelay(_heaters[key].Info.RelayName).On();
+                        _deviceProvider.GetHeater(_heaters[key].Info.PinName).On();
                     else
-                        _deviceProvider.GetRelay(_heaters[key].Info.RelayName).Off();
+                        _deviceProvider.GetHeater(_heaters[key].Info.PinName).Off();
                 }
             }
             throw new ArgumentException($"Heater state for key:{newState.Info.Key} not found");
@@ -93,7 +99,39 @@ namespace Clima.Core.Conrollers.Ventilation
 
         public void Process(float setpoint)
         {
+            Log.Debug($"Heater process value:{setpoint}");
+
+            var currFront = _deviceProvider.GetSensors().FrontTemperature;
+            var currRear = _deviceProvider.GetSensors().RearTemperature;
+
+            var heat1On = setpoint - _heaters["HEAT:0"].Info.Hysteresis;
+            var heat1Off = setpoint -(_heaters["HEAT:0"].Info.Hysteresis * 0.5f);
+            var heat2On = setpoint - _heaters["HEAT:1"].Info.Hysteresis;
+            var heat2Off = setpoint - (_heaters["HEAT:1"].Info.Hysteresis * 0.5f);
             
+            if (!_heaters["HEAT:0"].Info.IsManual)
+            {
+                if (currFront <= heat1On)
+                {
+                    _deviceProvider.GetHeater("HEAT:0").On();
+                }
+                else if (currFront >= heat1Off)
+                {
+                    _deviceProvider.GetHeater("HEAT:0").Off();
+                }
+            }
+
+            if (!_heaters["HEAT:1"].Info.IsManual)
+            {
+                if (currRear <= heat2On)
+                {
+                    _deviceProvider.GetHeater("HEAT:1").On();
+                }
+                else if (currRear >= heat2Off)
+                {
+                    _deviceProvider.GetHeater("HEAT:1").Off();
+                }
+            }
         }
     }
 }

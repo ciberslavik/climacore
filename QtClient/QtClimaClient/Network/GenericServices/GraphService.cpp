@@ -211,6 +211,13 @@ void GraphService::ProcessReply(NetworkResponse *reply)
 
             emit TempProfileResponse(profile);
         }
-
+        else if(reply->method == "CreateTemperatureProfile")
+        {
+            emit TempProfileCreated();
+        }
+        else if(reply->method == "UpdateTemperatureProfile")
+        {
+            emit TempProfileUpdated();
+        }
     }
 }

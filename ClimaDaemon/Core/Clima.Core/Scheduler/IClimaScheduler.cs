@@ -2,6 +2,7 @@
 using Clima.Basics.Services;
 using Clima.Core.DataModel;
 using Clima.Core.DataModel.GraphModel;
+using Clima.Core.Scheduler;
 
 namespace Clima.Core.Scheduler
 {
@@ -23,7 +24,7 @@ namespace Clima.Core.Scheduler
         
         //Production
 
-        void StartPreparing();
+        void StartPreparing(PreparingConfig config);
         void StartProduction();
         void StopProduction();
         ProductionState ProductionState { get; }

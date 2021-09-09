@@ -1,6 +1,7 @@
 ﻿using Clima.Basics.Services.Communication;
 using Clima.Core.Network.Messages;
 using Clima.Core.Scheduler.Network.Messages;
+using Clima.Core.Scheduler;
 
 namespace Clima.Core.Scheduler.Network.Services
 {
@@ -40,7 +41,7 @@ namespace Clima.Core.Scheduler.Network.Services
         [ServiceMethod]
         public LivestockStateResponse GetState(DefaultRequest request)
         {
-            return new()
+            return new LivestockStateResponse()
             {
                 State = _scheduler.GetLivestockState()
             };

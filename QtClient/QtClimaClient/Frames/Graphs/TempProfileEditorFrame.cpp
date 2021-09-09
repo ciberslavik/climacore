@@ -31,6 +31,8 @@ TempProfileEditorFrame::TempProfileEditorFrame(const ValueByDayProfile &profile,
 
 TempProfileEditorFrame::~TempProfileEditorFrame()
 {
+    disconnect(ui->txtName, &QClickableLineEdit::clicked, this, &TempProfileEditorFrame::onTxtClicked);
+    disconnect(ui->txtDescription, &QClickableLineEdit::clicked, this, &TempProfileEditorFrame::onTxtClicked);
     delete ui;
 }
 
@@ -64,13 +66,13 @@ void TempProfileEditorFrame::on_btnCancel_clicked()
 void TempProfileEditorFrame::on_btnAddPoint_clicked()
 {
     ValueByDayPoint point;
-    ValueByDayEditDialog dialog(FrameManager::instance()->MainWindow());
+    ValueByDayEditDialog *dialog = new ValueByDayEditDialog(FrameManager::instance()->MainWindow());
 
-    dialog.setValue(&point);
-    dialog.setTitle("Добавление точки");
-    dialog.setValueName("Температура");
+    dialog->setValue(&point);
+    dialog->setTitle("Добавление точки");
+    dialog->setValueName("Температура");
 
-    if(dialog.exec() == QDialog::Accepted)
+    if(dialog->exec() == QDialog::Accepted)
     {
         ui->table->setModel(nullptr);
         m_profile.Points.append(point);

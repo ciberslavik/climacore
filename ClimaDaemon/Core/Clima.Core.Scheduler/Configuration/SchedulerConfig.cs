@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using Clima.Basics.Configuration;
+using Clima.Core.Scheduler;
 
 namespace Clima.Core.Scheduler.Configuration
 {
     public class SchedulerConfig:IConfigurationItem
     {
-        
-        public int SchedulerPeriodSeconds { get; set; }
+
+        public int SchedulerPeriodSeconds { get; set; } = 20;
         
         public DateTime StartCurrentStateTime { get; set; }
         public string ConfigurationName => nameof(SchedulerConfig);
-        public List<LivestockOperation> LivestockOperations { get; set; }
-        
-        public ProductionState LastProductionState { get; set; }
-        public PreparingConfig Preparing { get; set; }
+        public List<LivestockOperation> LivestockOperations { get; set; } = new List<LivestockOperation>();
+
+        public ProductionState LastProductionState { get; set; } = ProductionState.Stopped;
+        public PreparingConfig Preparing { get; set; } = new PreparingConfig();
+
+        public static SchedulerConfig CreateDefault()
+        {
+            return new SchedulerConfig();
+            
+        }
     }
 }

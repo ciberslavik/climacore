@@ -27,8 +27,14 @@ public slots:
 private slots:
     void on_pushButton_clicked();
     void LivestockStateReceived(LivestockState state);
+    void onProductionStateChanged(int newState);
+    void updateUI();
 private:
     Ui::MainWindow *ui;
     ProductionService *m_prodService;
     LivestockService *m_livestock;
+    bool flag;
+    // QWidget interface
+protected:
+    void showEvent(QShowEvent *event) override;
 };

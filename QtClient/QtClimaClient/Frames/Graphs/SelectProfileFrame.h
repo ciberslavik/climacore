@@ -41,6 +41,9 @@ private slots:
     void VentGraphReceived(MinMaxByDayProfile profile);
     void ValveGraphReceived(ValueByValueProfile profile);
 
+    void VentProfileCreated();
+    void VentProfileUpdated();
+
     void onTempProfileEditorCompleted(const ValueByDayProfile &profile);
     void on_ProfileEditorCanceled();
 

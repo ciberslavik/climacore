@@ -116,6 +116,7 @@ HEADERS += \
     Models/HeaterState.h \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
+    Models/PreparingConfig.h \
     Models/ProductionStatus.h \
     Models/RelayInfo.h \
     Models/SensorsData.h \
@@ -144,6 +145,8 @@ HEADERS += \
     Network/GenericServices/Messages/LightPressetsResponse.h \
     Network/GenericServices/Messages/LivestockOperationRequest.h \
     Network/GenericServices/Messages/LivestockStateResponse.h \
+    Network/GenericServices/Messages/PreparingConfigRequest.h \
+    Network/GenericServices/Messages/ProductionStateResponse.h \
     Network/GenericServices/Messages/RelayInfoListResponse.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \

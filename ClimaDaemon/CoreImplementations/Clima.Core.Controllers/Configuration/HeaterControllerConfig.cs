@@ -22,7 +22,7 @@ namespace Clima.Core.Controllers.Configuration
                 Hysteresis = 1,
                 IsManual = false,
                 ManualSetPoint = 26,
-                RelayName = "REL:10"
+                PinName = "DO:3:10"
             });
             result.Infos.Add("HEAT:1",new HeaterInfo()
             {
@@ -31,7 +31,7 @@ namespace Clima.Core.Controllers.Configuration
                 Hysteresis = 1,
                 IsManual = false,
                 ManualSetPoint = 26,
-                RelayName = "REL:11"
+                PinName = "DO:3:11"
             });
 
             return result;

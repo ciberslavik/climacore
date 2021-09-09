@@ -28,10 +28,10 @@ public:
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QLabel *label_6;
-    QLabel *label_4;
-    QLabel *label_5;
+    QLabel *lblHeads;
+    QLabel *lblDay;
     QLabel *label;
-    QLabel *label_2;
+    QLabel *lblStatus_2;
     QLabel *label_3;
     QLabel *lblStatus;
     QLabel *lblClock;
@@ -58,18 +58,18 @@ public:
 
         gridLayout->addWidget(label_6, 0, 4, 1, 1);
 
-        label_4 = new QLabel(centralwidget);
-        label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setFont(font);
+        lblHeads = new QLabel(centralwidget);
+        lblHeads->setObjectName(QStringLiteral("lblHeads"));
+        lblHeads->setFont(font);
 
-        gridLayout->addWidget(label_4, 0, 5, 1, 1);
+        gridLayout->addWidget(lblHeads, 0, 5, 1, 1);
 
-        label_5 = new QLabel(centralwidget);
-        label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setMaximumSize(QSize(50, 16777215));
-        label_5->setFont(font);
+        lblDay = new QLabel(centralwidget);
+        lblDay->setObjectName(QStringLiteral("lblDay"));
+        lblDay->setMaximumSize(QSize(50, 16777215));
+        lblDay->setFont(font);
 
-        gridLayout->addWidget(label_5, 0, 3, 1, 1);
+        gridLayout->addWidget(lblDay, 0, 3, 1, 1);
 
         label = new QLabel(centralwidget);
         label->setObjectName(QStringLiteral("label"));
@@ -78,12 +78,12 @@ public:
 
         gridLayout->addWidget(label, 0, 0, 1, 1);
 
-        label_2 = new QLabel(centralwidget);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setMaximumSize(QSize(140, 20));
-        label_2->setFont(font);
+        lblStatus_2 = new QLabel(centralwidget);
+        lblStatus_2->setObjectName(QStringLiteral("lblStatus_2"));
+        lblStatus_2->setMaximumSize(QSize(140, 20));
+        lblStatus_2->setFont(font);
 
-        gridLayout->addWidget(label_2, 0, 1, 1, 1);
+        gridLayout->addWidget(lblStatus_2, 0, 1, 1, 1);
 
         label_3 = new QLabel(centralwidget);
         label_3->setObjectName(QStringLiteral("label_3"));
@@ -135,10 +135,10 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
         label_6->setText(QApplication::translate("MainWindow", "\320\237\320\276\320\263\320\276\320\273\320\276\320\262\321\214\320\265", Q_NULLPTR));
-        label_4->setText(QApplication::translate("MainWindow", "20000", Q_NULLPTR));
-        label_5->setText(QApplication::translate("MainWindow", "45", Q_NULLPTR));
+        lblHeads->setText(QApplication::translate("MainWindow", "20000", Q_NULLPTR));
+        lblDay->setText(QApplication::translate("MainWindow", "45", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "\320\241\320\276\321\201\321\202\320\276\321\217\320\275\320\270\320\265:", Q_NULLPTR));
-        label_2->setText(QApplication::translate("MainWindow", "\320\222\321\213\321\200\320\260\321\211\320\270\320\262\320\260\320\275\320\270\320\265", Q_NULLPTR));
+        lblStatus_2->setText(QApplication::translate("MainWindow", "\320\222\321\213\321\200\320\260\321\211\320\270\320\262\320\260\320\275\320\270\320\265", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "\320\224\320\265\320\275\321\214", Q_NULLPTR));
         lblStatus->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
         lblClock->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));

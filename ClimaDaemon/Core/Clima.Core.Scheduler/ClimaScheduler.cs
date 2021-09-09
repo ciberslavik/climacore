@@ -8,6 +8,7 @@ using Clima.Core.Controllers.Heater;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel.GraphModel;
 using Clima.Core.Scheduler.Configuration;
+using Clima.Core.Scheduler;
 
 namespace Clima.Core.Scheduler
 {
@@ -92,10 +93,18 @@ namespace Clima.Core.Scheduler
         {
             var sc = o as ClimaScheduler;
             
-            Log.Debug("Process scheduler");
-            TimeSpan workingTime = DateTime.Now - _startTime;
+            TimeSpan workingTime = DateTime.Now - sc._startTime;
             int currentDay = workingTime.Days;
             Log.Debug("Process scheduler");
+
+            if (sc.ProductionState == ProductionState.Preparing)
+            {
+                sc._heater.Process(sc._pConfig.TemperatureSetPoint);
+            }
+            else if (sc.ProductionState == ProductionState.Stopped)
+            {
+                sc._heater.StopHeater();
+            }
         }
 
         private float GetCurrentMinuteTemperature()
