@@ -1,4 +1,5 @@
-﻿using Clima.Core.DataModel;
+﻿using System;
+using Clima.Core.DataModel;
 
 namespace Clima.Core.Scheduler.Network.Messages
 {
@@ -8,6 +9,6 @@ namespace Clima.Core.Scheduler.Network.Messages
         {
             
         }
-        public int State { get; set; }
+       public ProductionState State { get; set; } = new ProductionState();
     }
 }

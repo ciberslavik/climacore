@@ -49,7 +49,7 @@ namespace Clima.Core
         public IFileSystem FileSystem =>
             _serviceProvider.Resolve<IFileSystem>();
 
-        public ISystemLogger Logger { get; private set; }
+        public static ISystemLogger Logger { get; set; }
 
         public ISensors Sensors => _serviceProvider.Resolve<IDeviceProvider>().GetSensors();
 

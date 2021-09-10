@@ -15,31 +15,43 @@ namespace Clima.Core.Scheduler.Network.Services
         }
 
         [ServiceMethod]
-        public DefaultResponse PlantHeads(LivestockOperationRequest request)
+        public LivestockStateResponse PlantHeads(LivestockOperationRequest request)
         {
             _scheduler.LivestockPlanting(request.HeadsCount, request.OperationDate);
-            return new DefaultResponse();
+            return new LivestockStateResponse()
+            {
+                State = _scheduler.GetLivestockState()
+            };
         }
         [ServiceMethod]
-        public DefaultResponse KillHeads(LivestockOperationRequest request)
+        public LivestockStateResponse KillHeads(LivestockOperationRequest request)
         {
             _scheduler.LivestockKill(request.HeadsCount, request.OperationDate);
-            return new DefaultResponse();
+            return new LivestockStateResponse()
+            {
+                State = _scheduler.GetLivestockState()
+            };
         }
         [ServiceMethod]
-        public DefaultResponse DeathHeads(LivestockOperationRequest request)
+        public LivestockStateResponse DeathHeads(LivestockOperationRequest request)
         {
             _scheduler.LivestockDeath(request.HeadsCount, request.OperationDate);
-            return new DefaultResponse();
+            return new LivestockStateResponse()
+            {
+                State = _scheduler.GetLivestockState()
+            };
         }
         [ServiceMethod]
-        public DefaultResponse RefractHeads(LivestockOperationRequest request)
+        public LivestockStateResponse RefractHeads(LivestockOperationRequest request)
         {
             _scheduler.LivestockRefraction(request.HeadsCount, request.OperationDate);
-            return new DefaultResponse();
+            return new LivestockStateResponse()
+            {
+                State = _scheduler.GetLivestockState()
+            };
         }
         [ServiceMethod]
-        public LivestockStateResponse GetState(DefaultRequest request)
+        public LivestockStateResponse GetLivestockState(DefaultRequest request)
         {
             return new LivestockStateResponse()
             {

@@ -14,7 +14,7 @@ void LivestockService::GetLivestockState()
 
     request->jsonrpc = "0.1a";
     request->service = "LivestockService";
-    request->method = "GetState";
+    request->method = "GetLivestockState";
 
     emit SendRequest(request);
 }
@@ -89,11 +89,30 @@ void LivestockService::ProcessReply(NetworkResponse *reply)
 {
     if(reply->service == "LivestockService")
     {
-        if(reply->method == "GetState")
+        LivestockStateResponse resp;
+        resp.fromJson(reply->result.toUtf8());
+
+        if(reply->method == "GetLivestockState")
         {
-            LivestockStateResponse resp;
-            resp.fromJson(reply->result.toUtf8());
-            emit ListockStateReceived(resp.State);
+            emit LivestockStateReceived(resp.State);
         }
+        else if(reply->method == "KillHeads")
+        {
+            emit KillComlete();
+        }
+        else if(reply->method == "RefractHeads")
+        {
+            emit RefractionComplete();
+        }
+        else if(reply->method == "DeathHeads")
+        {
+            emit DeathComplete();
+        }
+        else if(reply->method == "PlantHeads")
+        {
+            emit PlantedComplete();
+        }
+
+        emit LivestockUpdated(resp.State);
     }
 }

@@ -2,6 +2,8 @@
 
 #include "FrameBase.h"
 #include "Network/GenericServices/ProductionService.h"
+#include "Network/GenericServices/LivestockService.h"
+
 #include "Frames/Dialogs/LivestockOperationDialog.h"
 #include "ApplicationWorker.h"
 #include <QWidget>
@@ -21,6 +23,7 @@ public:
 private:
     Ui::ProductionFrame *ui;
     ProductionService *m_prodService;
+    LivestockService *m_liveService;
     // FrameBase interface
 public:
     QString getFrameName(){return "ProductionFrame";}
@@ -37,8 +40,9 @@ private slots:
     void ProductionStopped(int state);
     void PreparingStarted(int state);
     void ProductionStarted(int state);
-    void onProductionStateChanged(int state);
+    void onProductionStateChanged(ProductionState state);
 
+    void LivestockStateChanged(LivestockState state);
     // QWidget interface
 protected:
     void showEvent(QShowEvent *event) override;

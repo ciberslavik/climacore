@@ -15,5 +15,14 @@ namespace Clima.Core.Scheduler.Tests
         }
 
         public DateTime Now => _time;
+        public DateTime GetNetworkTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetLocalTime(DateTime dateTime)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

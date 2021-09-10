@@ -13,10 +13,18 @@ ProductionFrame::ProductionFrame(QWidget *parent) :
     {
         m_prodService = dynamic_cast<ProductionService*>(service);
     }
+
+    service = ApplicationWorker::Instance()->GetNetworkService("LivestockService");
+    if(service != nullptr)
+    {
+        m_liveService = dynamic_cast<LivestockService*>(service);
+    }
     connect(m_prodService, &ProductionService::PreparingStarted, this, &ProductionFrame::PreparingStarted);
     connect(m_prodService, &ProductionService::ProductionStopped, this, &ProductionFrame::ProductionStopped);
     connect(m_prodService, &ProductionService::ProductionStarted, this, &ProductionFrame::PreparingStarted);
     connect(m_prodService, &ProductionService::ProductionStateChanged,this, &ProductionFrame::onProductionStateChanged);
+
+    connect(m_liveService, &LivestockService::LivestockUpdated, this, &ProductionFrame::LivestockStateChanged);
     ui->lblDead->setText("0");
     ui->lblKilled->setText("0");
     ui->lblTotalPlending->setText("0");
@@ -95,7 +103,7 @@ void ProductionFrame::on_btnPreparing_clicked()
 
 void ProductionFrame::on_btnStartGrowing_clicked()
 {
-
+    m_prodService->StartProduction();
 }
 
 
@@ -125,9 +133,9 @@ void ProductionFrame::ProductionStarted(int state)
 
 }
 
-void ProductionFrame::onProductionStateChanged(int state)
+void ProductionFrame::onProductionStateChanged(ProductionState state)
 {
-    switch (state) {
+    switch (state.State) {
     case 0:
         ui->btnDeath->setEnabled(false);
         ui->btnKill->setEnabled(false);
@@ -155,8 +163,17 @@ void ProductionFrame::onProductionStateChanged(int state)
         ui->btnPreparing->setEnabled(false);
         ui->btnStartGrowing->setEnabled(true);
         break;
-
     }
+
+    ui->lblStartDate->setText(state.StartDate.toString("dd.MM.yyyy hh:mm"));
+}
+
+void ProductionFrame::LivestockStateChanged(LivestockState state)
+{
+    ui->lblDead->setText(QString::number(state.TotalDeadHeads));
+    ui->lblKilled->setText(QString::number(state.TotalKilledHeads));
+    ui->lblTotalPlending->setText(QString::number(state.TotalPlantedHeads));
+
 }
 
 void ProductionFrame::showEvent(QShowEvent *event)

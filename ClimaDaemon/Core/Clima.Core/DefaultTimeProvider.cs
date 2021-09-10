@@ -6,5 +6,14 @@ namespace Clima.Core
     {
         
         public DateTime Now => DateTime.Now;
+        public DateTime GetNetworkTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetLocalTime(DateTime dateTime)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

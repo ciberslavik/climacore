@@ -31,6 +31,16 @@ void ProductionService::StartPreparing(float temperature)
     emit SendRequest(request);
 }
 
+void ProductionService::StartProduction()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "ProductionService";
+    request->method = "StartProduction";
+
+    emit SendRequest(request);
+}
+
 void ProductionService::StopProduction()
 {
     NetworkRequest *request = new NetworkRequest();
@@ -55,11 +65,11 @@ void ProductionService::ProcessReply(NetworkResponse *reply)
 
         if(reply->method == "StartPreparing")
         {
-            emit PreparingStarted(resp.State);
+            emit PreparingStarted(resp.State.State);
         }
         if(reply->method == "StopProduction")
         {
-            emit ProductionStopped(resp.State);
+            emit ProductionStopped(resp.State.State);
         }
 
         emit ProductionStateChanged(resp.State);

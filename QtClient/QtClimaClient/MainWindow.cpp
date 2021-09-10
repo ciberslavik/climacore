@@ -12,7 +12,6 @@
 CMainWindow::CMainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , m_livestock(nullptr)
 {
     ui->setupUi(this);
 
@@ -21,18 +20,14 @@ CMainWindow::CMainWindow(QWidget *parent)
     {
         m_prodService = dynamic_cast<ProductionService*>(service);
     }
-    service = ApplicationWorker::Instance()->GetNetworkService("Livestock");
-    if(service != nullptr)
-    {
-        m_livestock = dynamic_cast<LivestockService*>(service);
-    }
 
-    flag=true;
+    connect(m_prodService, &ProductionService::ProductionStateChanged, this, &CMainWindow::onProductionStateChanged);
+
+    flag = true;
 }
 
 CMainWindow::~CMainWindow()
 {
-    disconnect(m_livestock, &LivestockService::ListockStateReceived, this, &CMainWindow::LivestockStateReceived);
     delete ui;
 }
 
@@ -59,12 +54,8 @@ void CMainWindow::on_pushButton_clicked()
 
 }
 
-void CMainWindow::LivestockStateReceived(LivestockState state)
-{
 
-}
-
-void CMainWindow::onProductionStateChanged(int newState)
+void CMainWindow::onProductionStateChanged(ProductionState newState)
 {
     if(flag)
     {
@@ -73,7 +64,7 @@ void CMainWindow::onProductionStateChanged(int newState)
         FrameManager::instance()->setCurrentFrame(stateFrame);
         flag = false;
     }
-    switch (newState) {
+    switch (newState.State) {
     case 0:
     {ui->lblStatus_2->setText("Останов");}
         break;
@@ -84,6 +75,8 @@ void CMainWindow::onProductionStateChanged(int newState)
     {ui->lblStatus_2->setText("Выращивание");}
         break;
     };
+    ui->lblHeads->setText(QString::number(newState.CurrentHeads));
+    ui->lblDay->setText(QString::number(newState.CurrentDay));
 }
 
 void CMainWindow::updateUI()
@@ -95,9 +88,7 @@ void CMainWindow::updateUI()
 
 void CMainWindow::showEvent(QShowEvent *event)
 {
-    if(m_livestock !=nullptr)
-        connect(m_livestock, &LivestockService::ListockStateReceived, this, &CMainWindow::LivestockStateReceived);
-    connect(m_prodService, &ProductionService::ProductionStateChanged, this, &CMainWindow::onProductionStateChanged);
+    Q_UNUSED(event)
 
     QTimer *tmr = TimerPool::instance()->getUpdateTimer();
     connect(tmr, &QTimer::timeout, this, &CMainWindow::updateUI);

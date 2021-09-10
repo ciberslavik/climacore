@@ -117,7 +117,7 @@ HEADERS += \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
     Models/PreparingConfig.h \
-    Models/ProductionStatus.h \
+    Models/ProductionState.h \
     Models/RelayInfo.h \
     Models/SensorsData.h \
     Models/SystemState.h \

@@ -26,13 +26,11 @@ public slots:
     void updateData();
 private slots:
     void on_pushButton_clicked();
-    void LivestockStateReceived(LivestockState state);
-    void onProductionStateChanged(int newState);
+    void onProductionStateChanged(ProductionState newState);
     void updateUI();
 private:
     Ui::MainWindow *ui;
     ProductionService *m_prodService;
-    LivestockService *m_livestock;
     bool flag;
     // QWidget interface
 protected:

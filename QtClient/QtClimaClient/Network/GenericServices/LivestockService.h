@@ -18,7 +18,14 @@ public:
     void Refraction(const int &heads, const QDateTime &date);
     void Death(const int &heads, const QDateTime &date);
 signals:
-    void ListockStateReceived(LivestockState state);
+    void LivestockStateReceived(LivestockState state);
+
+    void PlantedComplete();
+    void KillComlete();
+    void DeathComplete();
+    void RefractionComplete();
+
+    void LivestockUpdated(LivestockState state);
     // INetworkService interface
 public:
     QString ServiceName() override{return "LivestockService";}

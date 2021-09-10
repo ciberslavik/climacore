@@ -1,4 +1,5 @@
 ﻿using Clima.Basics.Services.Communication;
+using Clima.Core.DataModel;
 using Clima.Core.Network.Messages;
 using Clima.Core.Scheduler.Network.Messages;
 using Clima.Core.Scheduler;
@@ -17,29 +18,41 @@ namespace Clima.Core.Scheduler.Network.Services
         [ServiceMethod]
         public ProductionStateResponse GetProductionState(DefaultRequest request)
         {
-            return new ProductionStateResponse()
-            {
-                State = (int) _scheduler.ProductionState
-            };
+            return CreateResponse();
         }
 
         [ServiceMethod]
         public ProductionStateResponse StartPreparing(PreparingConfigRequest request)
         {
             _scheduler.StartPreparing(request.Config);
-            return new ProductionStateResponse()
-            {
-                State = (int) _scheduler.ProductionState
-            };
+            return CreateResponse();
         }
 
         [ServiceMethod]
         public ProductionStateResponse StopProduction(DefaultRequest request)
         {
             _scheduler.StopProduction();
+            return CreateResponse();
+        }
+
+        [ServiceMethod]
+        public ProductionStateResponse StartProduction(DefaultRequest request)
+        {
+            _scheduler.StartProduction();
+            return CreateResponse();
+        }
+        private ProductionStateResponse CreateResponse()
+        {
+            
             return new ProductionStateResponse()
             {
-                State = (int) _scheduler.ProductionState
+                State = new ProductionState()
+                {
+                    State = (int) _scheduler.SchedulerState,
+                    StartDate = _scheduler.StartDate,
+                    CurrentDay = _scheduler.CurrentDay,
+                    CurrentHeads = _scheduler.CurrentHeads
+                }
             };
         }
     }

@@ -1,7 +1,8 @@
 #pragma once
 #include <QObject>
+#include <QDateTime>
 #include <Services/QSerializer.h>
-
+#include <Models/ProductionState.h>
 class ProductionStateResponse:public QSerializer
 {
     Q_GADGET
@@ -10,5 +11,6 @@ public:
     ProductionStateResponse(){}
     virtual ~ProductionStateResponse(){}
 
-    QS_FIELD(int, State)
+    QS_OBJECT(ProductionState, State)
+
 };

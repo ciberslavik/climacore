@@ -31,7 +31,7 @@ namespace Clima.ServiceContainer.CastleWindsor
         private IServiceProvider _serviceProvider;
        
         private ISystemLogger _logger;
-        private const bool isDebug = false;
+        private const bool isDebug = true;
         public ApplicationBuilder()
         {
         }
@@ -42,6 +42,7 @@ namespace Clima.ServiceContainer.CastleWindsor
             //Register logger
             _container.Register(Component.For<ISystemLogger>().ImplementedBy<ConsoleSystemLogger>());
             _logger = _container.Resolve<ISystemLogger>();
+            ClimaContext.Logger = _logger;
             _container.Install(new BasicsInstaller(_logger));
 
             //if parameter is true then stub io service else real io service

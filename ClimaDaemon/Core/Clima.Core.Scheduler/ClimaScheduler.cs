@@ -12,46 +12,92 @@ using Clima.Core.Scheduler;
 
 namespace Clima.Core.Scheduler
 {
+#nullable enable
     public partial class ClimaScheduler : IClimaScheduler
     {
-        private readonly IControllerFactory _controllerFactory;
-        private Timer _schedulerTimer;
-        private SchedulerConfig _config;
-        private bool _isRunning;
-        private DateTime _startTime;
-        private GraphBase<ValueByDayPoint> _temperatureGraph;
-        private GraphBase<MinMaxByDayPoint> _ventilationGraph;
+        //private readonly IControllerFactory _controllerFactory;
         private readonly ITimeProvider _time;
         private readonly IHeaterController _heater;
         private readonly IVentilationController _ventilation;
+        private readonly IGraphProviderFactory _graphProviderFactory;
 
-        public ClimaScheduler(IControllerFactory controllerFactory, 
-            ITimeProvider timeProvider,
+        private readonly object _threadLock = new object();
+        private Timer _schedulerTimer;
+        private bool _schedulerTimerRunning;
+
+
+        private SchedulerConfig _config;
+        private bool _isRunning;
+        private DateTime _startDate;
+        private GraphBase<ValueByDayPoint> _temperatureGraph;
+        private GraphBase<MinMaxByDayPoint> _ventilationGraph;
+        private GraphBase<ValueByValuePoint> _valveGraph;
+
+
+        public ClimaScheduler(ITimeProvider timeProvider,
             IHeaterController heater,
-            IVentilationController ventilation)
+            IVentilationController ventilation,
+            IGraphProviderFactory graphProviderFactory)
         {
             _time = timeProvider;
             _heater = heater;
             _ventilation = ventilation;
-            _controllerFactory = controllerFactory;
+            _graphProviderFactory = graphProviderFactory;
+            _schedulerTimerRunning = false;
+            _currentState = SchedulerState.Stopped;
+            
+            ServiceState = ServiceState.NotInitialized;
         }
+
+        #region Properties
 
         public bool IsRunning => _isRunning;
         public ISystemLogger Log { get; set; }
-        public void SetTemperatureGraph(GraphBase<ValueByDayPoint> graph)
+
+        public Type ConfigType => typeof(SchedulerConfig);
+        public ServiceState ServiceState { get; private set; }
+
+        #endregion Properties
+
+        #region Graph managment
+
+        public void SetTemperatureGraph(string graph)
         {
-            _temperatureGraph = graph;
+            var tGraphProvider = _graphProviderFactory.TemperatureGraphProvider();
+            if (tGraphProvider.ContainsKey(graph))
+            {
+                _temperatureGraph = tGraphProvider.GetGraph(graph);
+                TemperatureGraph = graph;
+            }
         }
 
-        public void SetVentilationGraph(GraphBase<MinMaxByDayPoint> graph)
+        public string TemperatureGraph { get; private set; }
+
+        public void SetVentilationGraph(string graph)
         {
-            _ventilationGraph = graph;
+            var vGraphProvider = _graphProviderFactory.VentilationGraphProvider();
+            if (vGraphProvider.ContainsKey(graph))
+            {
+                _ventilationGraph = vGraphProvider.GetGraph(graph);
+                VentilationGraph = graph;
+            }
         }
 
-        public void SetValveGraph(GraphBase<ValueByValuePoint> graph)
+        public string VentilationGraph { get; private set; }
+
+        public void SetValveGraph(string graph)
         {
-           // throw new NotImplementedException();
+            var vGraphProvider = _graphProviderFactory.ValveGraphProvider();
+            if (vGraphProvider.ContainsKey(graph))
+            {
+                _valveGraph = vGraphProvider.GetGraph(graph);
+                ValveGraph = graph;
+            }
         }
+
+        public string ValveGraph { get; private set; }
+
+        #endregion Graph managment
 
         /*public void SetSchedulerState(SchedulerState newState)
         {
@@ -80,30 +126,30 @@ namespace Clima.Core.Scheduler
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
         }*/
-        
+
         public void Start()
         {
             if (!_isRunning)
             {
                 _isRunning = true;
+                ServiceState = ServiceState.Running;
             }
         }
 
         private void SchedulerProcess(object? o)
         {
-            var sc = o as ClimaScheduler;
-            
-            TimeSpan workingTime = DateTime.Now - sc._startTime;
-            int currentDay = workingTime.Days;
+            if (!(o is ClimaScheduler sc)) return;
+            var workingTime = DateTime.Now - sc._startDate;
+            var currentDay = workingTime.Days;
             Log.Debug("Process scheduler");
 
-            if (sc.ProductionState == ProductionState.Preparing)
+            if (sc.SchedulerState == SchedulerState.Preparing)
             {
                 sc._heater.Process(sc._pConfig.TemperatureSetPoint);
             }
-            else if (sc.ProductionState == ProductionState.Stopped)
+            else if (sc.SchedulerState == SchedulerState.Production)
             {
-                sc._heater.StopHeater();
+                sc._heater.Process(GetDayTemperature(currentDay));
             }
         }
 
@@ -111,70 +157,122 @@ namespace Clima.Core.Scheduler
         {
             return 0f;
         }
+
         internal float GetDayTemperature(int dayNumber)
         {
             //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
             //соседними точками для текущего дня
             /*TimeSpan workingTime = DateTime.Now - SchedulerState.StartGrowingTime;
             int currentDay = workingTime.Days;*/
-         
+            ValueByDayPoint? pt = _temperatureGraph.Points.FirstOrDefault(point => point.Day == dayNumber);
+            if (pt != null)
+                return pt.Value;
+
+
+            var smallerNumberCloseToInput = (from n1 in _temperatureGraph.Points
+                where n1.Day < dayNumber
+                orderby n1.Day descending
+                select n1).First();
+
+            var largerNumberCloseToInput = (from n1 in _temperatureGraph.Points
+                where n1.Day > dayNumber
+                orderby n1.Day
+                select n1).First();
+
+            var periodDays = largerNumberCloseToInput.Day - smallerNumberCloseToInput.Day;
+            float diff = dayNumber - smallerNumberCloseToInput.Day;
+            var point = diff / periodDays;
             
+            var temperature = MathUtils.Lerp(
+                smallerNumberCloseToInput.Value,
+                largerNumberCloseToInput.Value,
+                point);
+
+            return temperature;
+        }
+        internal MinMaxByDayPoint GetDayVentilation(int dayNumber)
+        {
+            //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
+            //соседними точками для текущего дня
+            /*TimeSpan workingTime = DateTime.Now - SchedulerState.StartGrowingTime;
+            int currentDay = workingTime.Days;*/
+            MinMaxByDayPoint? pt = _ventilationGraph.Points.FirstOrDefault(dayPoint => dayPoint.Day == dayNumber);
+            if (pt != null)
+                return pt;
+
+
+            var smallerNumberCloseToInput = (from n1 in _ventilationGraph.Points
+                where n1.Day < dayNumber
+                orderby n1.Day descending
+                select n1).First();
+
+            var largerNumberCloseToInput = (from n1 in _ventilationGraph.Points
+                where n1.Day > dayNumber
+                orderby n1.Day
+                select n1).First();
+
+            var periodDays = largerNumberCloseToInput.Day - smallerNumberCloseToInput.Day;
+            float diff = dayNumber - smallerNumberCloseToInput.Day;
+            var point = diff / periodDays;
             
-            var result = new ValueByDayPoint();
-            if (_temperatureGraph.Points.Any(d => d.Day == dayNumber))
-            {
-                ValueByDayPoint? first = null;
-                foreach (var d in _temperatureGraph.Points)
-                {
-                    if (d.Day == dayNumber)
-                    {
-                        first = d;
-                        break;
-                    }
-                }
+            var minValue = MathUtils.Lerp(
+                smallerNumberCloseToInput.MinValue,
+                largerNumberCloseToInput.MinValue,
+                point);
+            var maxValue = MathUtils.Lerp(
+                smallerNumberCloseToInput.MaxValue,
+                largerNumberCloseToInput.MaxValue,
+                point);
 
-                return first.Value;
-            }
-            else
-            {
-                var smallerNumberCloseToInput = (from n1 in _temperatureGraph.Points
-                    where n1.Day < dayNumber
-                    orderby n1.Day descending
-                    select n1).First();
-
-                var largerNumberCloseToInput = (from n1 in _temperatureGraph.Points
-                    where n1.Day > dayNumber
-                    orderby n1.Day
-                    select n1).First();
-
-                int periodDays = largerNumberCloseToInput.Day - smallerNumberCloseToInput.Day;
-                float diff = dayNumber - smallerNumberCloseToInput.Day;
-                float point = diff / periodDays;
-                float temperature = MathUtils.Lerp(
-                    smallerNumberCloseToInput.Value,
-                    largerNumberCloseToInput.Value,
-                    point);
-
-                return temperature;
-
-            }
-            
-            return 0f;
+            return new MinMaxByDayPoint(dayNumber, minValue, maxValue);
         }
         public void Stop()
         {
-            
+            if (_isRunning)
+            {
+                _isRunning = false;
+                ServiceState = ServiceState.Stopped;
+            }
         }
 
         public void Init(object config)
         {
             if (config is SchedulerConfig cfg)
+            {
                 _config = cfg;
-            else
-                return;
+                ServiceState = ServiceState.Initialized;
+            }
         }
 
-        public Type ConfigType => typeof(SchedulerConfig);
-        public ServiceState ServiceState { get; }
+        private void StartTimer()
+        {
+            if(_schedulerTimerRunning)
+                return;
+            
+            _schedulerTimer = new Timer(SchedulerProcess, this, Timeout.Infinite, Timeout.Infinite);
+            _schedulerTimer.Change(TimeSpan.FromTicks(0), TimeSpan.FromSeconds(_config.SchedulerPeriodSeconds));
+            _schedulerTimerRunning = true;
+        }
+
+        private void StopTimer(TimeSpan timeout)
+        {
+            lock (_threadLock)
+            {
+                if (_schedulerTimer is not null)
+                {
+                    ManualResetEvent waitHandle = new ManualResetEvent(false);
+                    if (_schedulerTimer.Dispose(waitHandle))
+                    {
+                        if (!waitHandle.WaitOne(timeout))
+                            throw new TimeoutException("Timeout waiting for sceduler timer stop");
+                    }
+
+                    waitHandle.Close();
+                    _schedulerTimer = null;
+                    _schedulerTimerRunning = false;
+                }
+            }
+        }
+#nullable disable
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Clima.Core.Scheduler
 {
-    public enum ProductionState:int
+    public enum SchedulerState:int
     {
         Stopped = 0,
         Preparing = 1,

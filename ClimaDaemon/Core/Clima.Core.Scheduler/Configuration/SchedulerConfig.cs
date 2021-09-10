@@ -14,7 +14,7 @@ namespace Clima.Core.Scheduler.Configuration
         public string ConfigurationName => nameof(SchedulerConfig);
         public List<LivestockOperation> LivestockOperations { get; set; } = new List<LivestockOperation>();
 
-        public ProductionState LastProductionState { get; set; } = ProductionState.Stopped;
+        public SchedulerState LastSchedulerState { get; set; } = SchedulerState.Stopped;
         public PreparingConfig Preparing { get; set; } = new PreparingConfig();
 
         public static SchedulerConfig CreateDefault()

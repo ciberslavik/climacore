@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Models/ProductionStatus.h>
+#include <Models/ProductionState.h>
 #include <Network/INetworkService.h>
 #include <QObject>
 
@@ -14,12 +14,11 @@ public:
     void StartProduction();
     void StopProduction();
 signals:
-    void ProductionStateReceived(int state);
     void PreparingStarted(int state);
     void ProductionStopped(int state);
     void ProductionStarted(int state);
 
-    void ProductionStateChanged(int newState);
+    void ProductionStateChanged(ProductionState newState);
     // INetworkService interface
 public:
     QString ServiceName(){return "ProductionService";}
