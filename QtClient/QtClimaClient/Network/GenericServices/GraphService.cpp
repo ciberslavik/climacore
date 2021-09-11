@@ -1,5 +1,7 @@
 #include "GraphService.h"
 
+#include <Network/GenericServices/Messages/RemoveGraphRequest.h>
+
 
 
 GraphService::GraphService(QObject *parent) : INetworkService(parent)
@@ -141,6 +143,21 @@ void GraphService::UpdateTemperatureProfile(ValueByDayProfile profile)
 
     emit SendRequest(request);
 }
+
+void GraphService::RemoveTemperatureProfile(const QString &key)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "RemoveTemperatureProfile";
+
+    RemoveGraphRequest removeRequest;
+    removeRequest.Key = key;
+
+    request->params = removeRequest.toJsonString();
+    emit SendRequest(request);
+
+}
 void GraphService::UpdateVentilationProfile(MinMaxByDayProfile profile)
 {
     NetworkRequest *request = new NetworkRequest();
@@ -155,6 +172,20 @@ void GraphService::UpdateVentilationProfile(MinMaxByDayProfile profile)
 
     emit SendRequest(request);
 }
+
+void GraphService::RemoveVentilationProfile(const QString &key)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "RemoveVentilationProfile";
+
+    RemoveGraphRequest removeRequest;
+    removeRequest.Key = key;
+
+    request->params = removeRequest.toJsonString();
+    emit SendRequest(request);
+}
 void GraphService::UpdateValveProfile(ValueByValueProfile profile)
 {
     NetworkRequest *request = new NetworkRequest();
@@ -167,6 +198,20 @@ void GraphService::UpdateValveProfile(ValueByValueProfile profile)
 
     request->params = profileRequest.toJsonString();
 
+    emit SendRequest(request);
+}
+
+void GraphService::RemoveValveProfile(const QString &key)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "GraphProviderService";
+    request->method = "RemoveValveProfile";
+
+    RemoveGraphRequest removeRequest;
+    removeRequest.Key = key;
+
+    request->params = removeRequest.toJsonString();
     emit SendRequest(request);
 }
 
@@ -210,6 +255,18 @@ void GraphService::ProcessReply(NetworkResponse *reply)
             profile.fromJson(reply->result.toUtf8());
 
             emit TempProfileResponse(profile);
+        }
+        else if(reply->method == "GetVentilationProfile")
+        {
+            MinMaxByDayProfile profile;
+            profile.fromJson(reply->result.toUtf8());
+            emit VentProfileResponse(profile);
+        }
+        else if(reply->method == "GetValveProfile")
+        {
+            ValueByValueProfile profile;
+            profile.fromJson(reply->result.toUtf8());
+            emit ValveProfileResponse(profile);
         }
         else if(reply->method == "CreateTemperatureProfile")
         {

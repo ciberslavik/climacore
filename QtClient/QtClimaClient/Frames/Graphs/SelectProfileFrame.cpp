@@ -4,11 +4,16 @@
 #include <ApplicationWorker.h>
 #include <QDateTime>
 
+#include <Frames/Dialogs/MessageDialog.h>
 #include <Frames/Dialogs/inputtextdialog.h>
 
 SelectProfileFrame::SelectProfileFrame(const ProfileType &profileType, QWidget *parent) :
     FrameBase(parent),
-    ui(new Ui::SelectProfileFrame)
+    ui(new Ui::SelectProfileFrame),
+    m_infoModel(nullptr),
+    m_curTempProfile(nullptr),
+    m_curVentProfile(nullptr),
+    m_currValveProfile(nullptr)
 {
     m_profileType = profileType;
     ui->setupUi(this);
@@ -20,16 +25,20 @@ SelectProfileFrame::SelectProfileFrame(const ProfileType &profileType, QWidget *
         m_graphService = dynamic_cast<GraphService*>(service);
     }
 
+    connect(m_graphService, &GraphService::TempInfosResponse, this, &SelectProfileFrame::ProfileInfosReceived);
+    connect(m_graphService, &GraphService::VentInfosResponse, this, &SelectProfileFrame::ProfileInfosReceived);
+    connect(m_graphService, &GraphService::ValveInfosResponse, this, &SelectProfileFrame::ProfileInfosReceived);
+
+
     connect(m_graphService, &GraphService::TempProfileResponse, this, &SelectProfileFrame::TempGraphReceived);
-    connect(m_graphService, &GraphService::TempInfosResponse, this, &SelectProfileFrame::TempInfosReceived);
     connect(m_graphService, &GraphService::TempProfileCreated, this, &SelectProfileFrame::TempProfileCreated);
     connect(m_graphService, &GraphService::TempProfileUpdated, this, &SelectProfileFrame::TempProfileUpdated);
 
     connect(m_graphService, &GraphService::VentProfileResponse, this, &SelectProfileFrame::VentGraphReceived);
     connect(m_graphService, &GraphService::ValveProfileResponse, this, &SelectProfileFrame::ValveGraphReceived);
 
-    connect(m_graphService, &GraphService::VentInfosResponse, this, &SelectProfileFrame::VentInfosReceived);
-    connect(m_graphService, &GraphService::ValveInfosResponse, this, &SelectProfileFrame::ValveInfosReceived);
+
+
 
     switch (m_profileType) {
     case ProfileType::Temperature:
@@ -57,8 +66,15 @@ QString SelectProfileFrame::getFrameName()
     return "SelectProfileFrame";
 }
 
-void SelectProfileFrame::TempInfosReceived(QList<ProfileInfo> infos)
+void SelectProfileFrame::ProfileInfosReceived(QList<ProfileInfo> infos)
 {
+
+    if(m_infoModel != nullptr)
+    {
+        delete m_infoModel;
+        m_infoModel = nullptr;
+    }
+
     m_infoModel = new ProfileInfoModel(infos, this);
 
     ui->profilesTable->setModel(m_infoModel);
@@ -70,32 +86,44 @@ void SelectProfileFrame::TempInfosReceived(QList<ProfileInfo> infos)
     selectRow(0);
 }
 
-void SelectProfileFrame::VentInfosReceived(QList<ProfileInfo> infos)
-{
 
-}
-
-void SelectProfileFrame::ValveInfosReceived(QList<ProfileInfo> infos)
-{
-
-}
 
 void SelectProfileFrame::TempGraphReceived(ValueByDayProfile profile)
 {
-    drawTemperatureGraph(&profile);
+    if(m_curTempProfile != nullptr)
+    {
+        delete m_curTempProfile;
+        m_curTempProfile = nullptr;
+    }
+
+    m_curTempProfile = new ValueByDayProfile(profile);
+    drawTemperatureGraph(m_curTempProfile);
 
     if(m_needEdit)
     {
-        m_tempEditor = new TempProfileEditorFrame(profile);
+        m_tempEditor = new TempProfileEditorFrame(m_curTempProfile);
         connect(m_tempEditor, &TempProfileEditorFrame::editComplete, this, &SelectProfileFrame::onTempProfileEditorCompleted);
-        connect(m_tempEditor, &TempProfileEditorFrame::editCanceled, this, &SelectProfileFrame::on_ProfileEditorCanceled);
         FrameManager::instance()->setCurrentFrame(m_tempEditor);
     }
 }
 
 void SelectProfileFrame::VentGraphReceived(MinMaxByDayProfile profile)
 {
+    if(m_curVentProfile != nullptr)
+    {
+        delete m_curVentProfile;
+        m_curVentProfile = nullptr;
+    }
 
+    m_curVentProfile = new MinMaxByDayProfile(profile);
+    drawVentilationGraph(m_curVentProfile);
+
+    if(m_needEdit)
+    {
+        m_ventEditor = new VentProfileEditorFrame(m_curVentProfile);
+        connect(m_ventEditor, &VentProfileEditorFrame::editComplete, this, &SelectProfileFrame::onVentProfileEditorCompleted);
+        FrameManager::instance()->setCurrentFrame(m_ventEditor);
+    }
 }
 
 void SelectProfileFrame::ValveGraphReceived(ValueByValueProfile profile)
@@ -123,17 +151,23 @@ void SelectProfileFrame::TempProfileUpdated()
     m_graphService->GetTempInfos();
 }
 
-void SelectProfileFrame::onTempProfileEditorCompleted(const ValueByDayProfile &profile)
+void SelectProfileFrame::onTempProfileEditorCompleted()
 {
-    m_graphService->UpdateTemperatureProfile(profile);
-    qDebug()<< "Edit temperature accepted";
+    m_graphService->UpdateTemperatureProfile(*m_curTempProfile);
+    qDebug() << "Edit temperature accepted";
 }
 
-void SelectProfileFrame::on_ProfileEditorCanceled()
+void SelectProfileFrame::onVentProfileEditorCompleted()
 {
-
+    m_graphService->UpdateVentilationProfile(*m_curVentProfile);
+    qDebug() << "Edit ventilation accepted";
 }
 
+void SelectProfileFrame::onValveProfileEditorCompleted()
+{
+    m_graphService->UpdateValveProfile(*m_currValveProfile);
+    qDebug() << "Edit valve accepted";
+}
 
 
 void SelectProfileFrame::on_btnReturn_clicked()
@@ -183,7 +217,7 @@ void SelectProfileFrame::drawTemperatureGraph(ValueByDayProfile *profile)
         days[i] = profile->Points[i].Day;
         temps[i] = profile->Points[i].Value;
     }
-
+    plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
     plot->graph(0)->setData(days, temps);
     plot->xAxis->setRange(1,60);
     plot->yAxis->setRange(10,50);
@@ -191,26 +225,71 @@ void SelectProfileFrame::drawTemperatureGraph(ValueByDayProfile *profile)
     plot->replot();
 }
 
+void SelectProfileFrame::drawVentilationGraph(MinMaxByDayProfile *profile)
+{
+    QCustomPlot *plot = ui->plot;
+
+    plot->addGraph();
+    int pointCount = profile->Points.count();
+
+    QVector<double> days(pointCount);
+    QVector<double> maxValues(pointCount);
+    QVector<double> minValues(pointCount);
+
+    for(int i = 0; i < pointCount; i++)
+    {
+        days[i] = profile->Points[i].Day;
+        maxValues[i] = profile->Points[i].MaxValue;
+        minValues[i] = profile->Points[i].MinValue;
+    }
+
+    plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
+    plot->graph(0)->setData(days, maxValues);
+    plot->addGraph();
+    plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
+    plot->graph(1)->setData(days, minValues);
+
+    plot->xAxis->setRange(1,60);
+    plot->yAxis->setRange(10,50);
+
+    plot->replot();
+}
+
+void SelectProfileFrame::drawValveGraph(ValueByValueProfile *profile)
+{
+
+}
+
 
 void SelectProfileFrame::on_btnUp_clicked()
 {
     QModelIndexList indexes = m_selection->selectedIndexes();
-    int currentIndex = indexes.at(0).row();
-    if(currentIndex == 0)
-        selectRow(currentIndex);
+    if(indexes.count()>0)
+    {
+        int currentIndex = indexes.at(0).row();
+        if(currentIndex == 0)
+            selectRow(currentIndex);
+        else
+            selectRow(currentIndex - 1);
+    }
     else
-        selectRow(currentIndex - 1);
+        selectRow(0);
 }
 
 
 void SelectProfileFrame::on_btnDown_clicked()
 {
     QModelIndexList indexes = m_selection->selectedIndexes();
-    int currentIndex = indexes.at(0).row();
-    if(currentIndex == (m_infoModel->rowCount()-1))
-        selectRow(currentIndex);
+    if(indexes.count()>0)
+    {
+        int currentIndex = indexes.at(0).row();
+        if(currentIndex == (m_infoModel->rowCount()-1))
+            selectRow(currentIndex);
+        else
+            selectRow(currentIndex + 1);
+    }
     else
-        selectRow(currentIndex + 1);
+        selectRow(0);
 }
 
 
@@ -245,26 +324,32 @@ void SelectProfileFrame::on_btnEdit_clicked()
 {
 
     m_selection = ui->profilesTable->selectionModel();
-    if(!m_selection->hasSelection())
-        return;
-
-    switch(m_profileType)
+    QModelIndex index = m_selection->selectedIndexes().at(0);
+    if(index.row() >= 0)
     {
-    case ProfileType::Temperature:
-    {
-        m_needEdit = true;
-        QModelIndex index = m_selection->selectedIndexes().at(0);
-        if(index.row() >= 0)
+        int currIndex = index.row();
+        QString key = m_infoModel->infos()->at(currIndex).Key;
+        switch(m_profileType)
         {
-            QString key = m_infoModel->infos()->at(index.row()).Key;
+        case ProfileType::Temperature:
+        {
+            m_needEdit = true;
             m_graphService->GetTemperatureProfile(key);
         }
-    }
-        break;
-    case ProfileType::Ventilation:
-        break;
-    case ProfileType::ValveByVent:
-        break;
+            break;
+        case ProfileType::Ventilation:
+        {
+            m_needEdit = true;
+            m_graphService->GetVentilationProfile(key);
+        }
+            break;
+        case ProfileType::ValveByVent:
+        {
+            m_needEdit = true;
+            m_graphService->GetValveProfile(key);
+        }
+            break;
+        }
     }
 }
 
@@ -275,5 +360,38 @@ void SelectProfileFrame::on_btnAccept_clicked()
     int currentIndex = indexes.at(0).row();
 
     emit ProfileSelected(m_infoModel->infos()->at(currentIndex));
+}
+
+
+void SelectProfileFrame::on_btnDelete_clicked()
+{
+    m_selection = ui->profilesTable->selectionModel();
+    QModelIndex index = m_selection->selectedIndexes().at(0);
+    if(index.row() >= 0)
+    {
+        int currIndex = index.row();
+        QString key = m_infoModel->infos()->at(currIndex).Key;
+        QString profileName = m_infoModel->infos()->at(currIndex).Name;
+
+        MessageDialog dlg("Удаление",
+                          "Вы действительно хотите удалить профиль\n" + profileName,
+                          MessageDialog::YesNoDialog,
+                          FrameManager::instance()->MainWindow());
+        if(dlg.exec() == QDialog::Accepted)
+        {
+            switch(m_profileType)
+            {
+            case ProfileType::Temperature:
+                m_graphService->RemoveTemperatureProfile(key);
+                break;
+            case ProfileType::Ventilation:
+                m_graphService->RemoveVentilationProfile(key);
+                break;
+            case ProfileType::ValveByVent:
+                m_graphService->RemoveValveProfile(key);
+                break;
+            }
+        }
+    }
 }
 

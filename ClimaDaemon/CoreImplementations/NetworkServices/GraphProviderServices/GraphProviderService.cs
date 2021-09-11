@@ -164,12 +164,30 @@ namespace GraphProviderService
         [ServiceMethod]
         public CreateResultRespose CreateVentilationProfile(CreateProfileRequest request)
         {
-            throw new System.NotImplementedException();
+            var vGraphProvider = _providerFactory.VentilationGraphProvider();
+            var newKey = vGraphProvider.GetValidKey();
+            Log.Debug($"Create ventilation graph key:{newKey}");
+            var newGraph = vGraphProvider.CreateGraph(newKey);
+            
+            newGraph.Info.Name = request.Info.Name;
+            newGraph.Info.Description = request.Info.Description;
+            newGraph.Info.CreationTime = request.Info.CreationTime;
+            newGraph.Info.ModifiedTime = request.Info.ModifiedTime;
+
+            _providerFactory.Save();
+            return new CreateResultRespose() {NewGraphKey = newKey};
         }
         [ServiceMethod]
-        public DefaultResponse RemoveVentilationGraph(RemoveGraphRequest request)
+        public DefaultResponse RemoveVentilationProfile(RemoveGraphRequest request)
         {
-            throw new System.NotImplementedException();
+            var vGraphProvider = _providerFactory.VentilationGraphProvider();
+            if (vGraphProvider.ContainsKey(request.Key))
+            {
+                vGraphProvider.RemoveGraph(request.Key);
+                return new DefaultResponse();
+            }
+
+            return new DefaultResponse($"Key:{request.Key} not contains in storage");
         }
         [ServiceMethod]
         public DefaultResponse UpdateVentilationProfile(UpdateVentilationGraphRequest request)
@@ -184,6 +202,23 @@ namespace GraphProviderService
             return new DefaultResponse()
                 {RequestName = "UpdateVentilationGraph", Status = $"OK"};
         }
+
+        [ServiceMethod]
+        public CreateResultRespose CreateValveProfile(CreateProfileRequest request)
+        {
+            var vGraphProvider = _providerFactory.ValveGraphProvider();
+            var newKey = vGraphProvider.GetValidKey();
+            Log.Debug($"Create ventilation graph key:{newKey}");
+            var newGraph = vGraphProvider.CreateGraph(newKey);
+            
+            newGraph.Info.Name = request.Info.Name;
+            newGraph.Info.Description = request.Info.Description;
+            newGraph.Info.CreationTime = request.Info.CreationTime;
+            newGraph.Info.ModifiedTime = request.Info.ModifiedTime;
+
+            _providerFactory.Save();
+            return new CreateResultRespose() {NewGraphKey = newKey};
+        }
         [ServiceMethod]
         public DefaultResponse UpdateValveProfile(UpdateValveGraphRequest request)
         {
@@ -196,6 +231,19 @@ namespace GraphProviderService
             _providerFactory.Save();
             return new DefaultResponse()
                 {RequestName = "UpdateValveGraph", Status = $"OK"};
+        }
+
+        [ServiceMethod]
+        public DefaultResponse RemoveValveProfile(RemoveGraphRequest request)
+        {
+            var vGraphProvider = _providerFactory.ValveGraphProvider();
+            if (vGraphProvider.ContainsKey(request.Key))
+            {
+                vGraphProvider.RemoveGraph(request.Key);
+                return new DefaultResponse();
+            }
+
+            return new DefaultResponse($"Key:{request.Key} not contains in storage");
         }
     }
 }

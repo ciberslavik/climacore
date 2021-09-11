@@ -14,7 +14,7 @@ namespace Clima.FSGrapRepository
         protected readonly GraphProviderConfig<TConfigPoint> ProviderConfig;
 
         private TGraph _currentGraph;
-        private GraphConfig<TConfigPoint> _currentGraphConfig = new GraphConfig<TConfigPoint>();
+        private readonly GraphConfig<TConfigPoint> _currentGraphConfig = new GraphConfig<TConfigPoint>();
         private Dictionary<string, TGraph> _loadedGraphs = new Dictionary<string, TGraph>();
 
         protected GraphProviderBase(GraphProviderConfig<TConfigPoint> config)
@@ -53,7 +53,7 @@ namespace Clima.FSGrapRepository
                 var graph = CreateFromConfig(graphConfig);
                 _loadedGraphs.Add(graphName, graph);
                 graph.GraphModified += GraphOnGraphModified;
-                return CreateFromConfig(graphConfig);
+                return graph;
             }
 
             throw new GraphProviderException($"Graph:{graphName} not found in repository");

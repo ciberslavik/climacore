@@ -8,6 +8,7 @@
 #include <Network/INetworkService.h>
 
 #include <Frames/SystemStateFrame.h>
+#include <Frames/TestModeFrame.h>
 
 CMainWindow::CMainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -59,9 +60,9 @@ void CMainWindow::onProductionStateChanged(ProductionState newState)
 {
     if(flag)
     {
-        SystemStateFrame *stateFrame = new SystemStateFrame();
-
-        FrameManager::instance()->setCurrentFrame(stateFrame);
+        //SystemStateFrame *stateFrame = new SystemStateFrame();
+        TestModeFrame *testFrame = new TestModeFrame();
+        FrameManager::instance()->setCurrentFrame(testFrame);
         flag = false;
     }
     switch (newState.State) {

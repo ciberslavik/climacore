@@ -27,6 +27,7 @@ SOURCES += \
     Frames/FrameBase.cpp \
     Frames/Graphs/SelectProfileFrame.cpp \
     Frames/Graphs/TempProfileEditorFrame.cpp \
+    Frames/Graphs/VentProfileEditorFrame.cpp \
     Frames/LightConfigFrame.cpp \
     Frames/MainMenuFrame.cpp \
     Frames/ProductionFrame.cpp \
@@ -42,6 +43,8 @@ SOURCES += \
     Models/Authorization/User.cpp \
     Models/Dialogs/ProfileInfoModel.cpp \
     Models/Dialogs/TempProfileModel.cpp \
+    Models/Dialogs/ValveProfileModel.cpp \
+    Models/Dialogs/VentProfileModel.cpp \
     Models/FanInfosModel.cpp \
     Models/LightTimersModel.cpp \
     Network/ClientConnection.cpp \
@@ -68,6 +71,9 @@ HEADERS += \
     ApplicationWorker.h \
     Frames/Dialogs/EditFanDialog.h \
     Frames/Dialogs/HeaterConfigDialog.h \
+    Frames/Graphs/VentProfileEditorFrame.h \
+    Models/Dialogs/ValveProfileModel.h \
+    Models/Dialogs/VentProfileModel.h \
     Models/FanControlsEnums.h \
     Controls/FanModeSwitch.h \
     Controls/FanWidget.h \
@@ -148,6 +154,7 @@ HEADERS += \
     Network/GenericServices/Messages/PreparingConfigRequest.h \
     Network/GenericServices/Messages/ProductionStateResponse.h \
     Network/GenericServices/Messages/RelayInfoListResponse.h \
+    Network/GenericServices/Messages/RemoveGraphRequest.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \
@@ -188,6 +195,7 @@ FORMS += \
     Frames/Dialogs/inputtextdialog.ui \
     Frames/Graphs/SelectProfileFrame.ui \
     Frames/Graphs/TempProfileEditorFrame.ui \
+    Frames/Graphs/VentProfileEditorFrame.ui \
     Frames/LightConfigFrame.ui \
     Frames/MainMenuFrame.ui \
     Frames/ProductionFrame.ui \

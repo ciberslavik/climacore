@@ -47,6 +47,8 @@ namespace Clima.Core.Scheduler
             _currentState = SchedulerState.Stopped;
             
             ServiceState = ServiceState.NotInitialized;
+
+            _temperatureGraph = _graphProviderFactory.TemperatureGraphProvider().GetGraph("Default");
         }
 
         #region Properties

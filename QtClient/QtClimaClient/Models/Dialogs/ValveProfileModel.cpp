@@ -1,19 +1,19 @@
-#include "TempProfileModel.h"
+#include "ValveProfileModel.h"
 
-TempProfileModel::TempProfileModel(ValueByDayProfile *profile, QObject *parent)
+ValveProfileModel::ValveProfileModel(ValueByValueProfile *profile, QObject *parent)
     : QAbstractTableModel(parent)
 {
     m_profile = profile;
 }
 
-QVariant TempProfileModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant ValveProfileModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role == Qt::ItemDataRole::DisplayRole)
     {
         if(orientation == Qt::Orientation::Horizontal)
-            return m_profile->Points.at(section).Day;
+            return m_profile->Points.at(section).ValueX;
         else if(orientation == Qt::Orientation::Vertical)
-            return "Temp";
+            return "Клап.";
     }
 
     return QVariant();
@@ -21,7 +21,7 @@ QVariant TempProfileModel::headerData(int section, Qt::Orientation orientation, 
 
 
 
-int TempProfileModel::rowCount(const QModelIndex &parent) const
+int ValveProfileModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -29,7 +29,7 @@ int TempProfileModel::rowCount(const QModelIndex &parent) const
     return 1;
 }
 
-int TempProfileModel::columnCount(const QModelIndex &parent) const
+int ValveProfileModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -37,7 +37,7 @@ int TempProfileModel::columnCount(const QModelIndex &parent) const
     return m_profile->Points.count();
 }
 
-QVariant TempProfileModel::data(const QModelIndex &index, int role) const
+QVariant ValveProfileModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -45,7 +45,7 @@ QVariant TempProfileModel::data(const QModelIndex &index, int role) const
     if(role == Qt::DisplayRole)
     {
         if(index.row()==0)
-            return m_profile->Points.at(index.column()).Value;
+            return m_profile->Points.at(index.column()).ValueY;
 
     }
 

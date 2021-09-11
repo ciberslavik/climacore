@@ -1,14 +1,14 @@
 #pragma once
 
 #include <QAbstractTableModel>
-#include <Models/Graphs/ValueByDayProfile.h>
+#include <Models/Graphs/MinMaxByDayProfile.h>
 
-class TempProfileModel : public QAbstractTableModel
+class VentProfileModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    explicit TempProfileModel(ValueByDayProfile *profile, QObject *parent = nullptr);
+    explicit VentProfileModel(MinMaxByDayProfile *profile, QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -20,9 +20,15 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    ValueByDayProfile *getProfile(){return m_profile;}
+    MinMaxByDayProfile *getProfile(){return m_profile;}
 private:
 
-    ValueByDayProfile *m_profile;
+    MinMaxByDayProfile *m_profile;
+
+    // QAbstractItemModel interface
+public:
+    bool removeColumns(int column, int count, const QModelIndex &parent) override;
+
+    void removePoint(const int &index);
 };
 

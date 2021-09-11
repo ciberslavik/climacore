@@ -31,7 +31,7 @@ namespace Clima.FSGrapRepository
             config.Points.Clear();
             foreach (var point in graph.Points)
             {
-                var pointConfig = new VentilationGraphPointConfig();
+                var pointConfig = new VentilationGraphPointConfig(point.Day, point.MinValue, point.MaxValue);
                 config.Points.Add(pointConfig);
             }
 

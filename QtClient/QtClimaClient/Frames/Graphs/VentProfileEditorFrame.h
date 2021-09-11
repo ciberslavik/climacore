@@ -4,20 +4,20 @@
 #include <QWidget>
 
 #include <Frames/FrameBase.h>
-#include <Models/Graphs/ValueByDayProfile.h>
-#include <Models/Dialogs/TempProfileModel.h>
-#include <Frames/Dialogs/ValueByDayEditDialog.h>
+#include <Models/Graphs/MinMaxByDayProfile.h>
+#include <Models/Dialogs/VentProfileModel.h>
+#include <Frames/Dialogs/MinMaxByDayEditDialog.h>
 namespace Ui {
-class GraphEditorFrame;
+class VentEditorFrame;
 }
 
-class TempProfileEditorFrame : public FrameBase
+class VentProfileEditorFrame : public FrameBase
 {
     Q_OBJECT
 
 public:
-    explicit TempProfileEditorFrame(ValueByDayProfile *profile, QWidget *parent = nullptr);
-    ~TempProfileEditorFrame();
+    explicit VentProfileEditorFrame(MinMaxByDayProfile *profile, QWidget *parent = nullptr);
+    ~VentProfileEditorFrame();
     QString getFrameName() override;
 
 signals:
@@ -40,9 +40,9 @@ private slots:
     void on_btnRight_clicked();
 
 private:
-    Ui::GraphEditorFrame *ui;
-    ValueByDayProfile *m_profile;
-    TempProfileModel *m_model;
+    Ui::VentEditorFrame *ui;
+    MinMaxByDayProfile *m_profile;
+    VentProfileModel *m_model;
     QItemSelectionModel *m_selection;
 
     void selectColumn(int column);

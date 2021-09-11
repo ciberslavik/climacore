@@ -21,6 +21,8 @@ private slots:
 
     void on_btnSelectGraphTest_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::TestModeFrame *ui;
      QList<ProfileInfo> testData;

@@ -49,7 +49,20 @@
     </rect>
    </property>
    <property name="text">
-    <string>SelectGraphTest</string>
+    <string>SelectTempGraphTest</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SelectVentGraphTest</string>
    </property>
   </widget>
  </widget>

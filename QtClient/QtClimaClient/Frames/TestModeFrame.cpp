@@ -57,3 +57,11 @@ void TestModeFrame::on_btnSelectGraphTest_clicked()
     FrameManager::instance()->setCurrentFrame(graphFrame);
 }
 
+
+void TestModeFrame::on_pushButton_clicked()
+{
+    SelectProfileFrame *graphFrame = new SelectProfileFrame(ProfileType::Ventilation);
+
+    FrameManager::instance()->setCurrentFrame(graphFrame);
+}
+

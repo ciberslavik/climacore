@@ -2,13 +2,13 @@
 {
     public class RemoveGraphRequest
     {
-        public RemoveGraphRequest(string graphType = "", string key = "")
+        public RemoveGraphRequest(string key = "")
         {
             Key = key;
-            GraphType = graphType;
+            GraphType = 0;
         }
 
-        public string GraphType { get; set; }
+        public int GraphType { get; set; }
         public string Key { get; set; }
     }
 }

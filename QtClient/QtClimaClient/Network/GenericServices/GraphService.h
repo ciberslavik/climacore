@@ -26,17 +26,19 @@ public:
     void CreateTemperatureProfile(ProfileInfo info);
     void GetTemperatureProfile(const QString &key);
     void UpdateTemperatureProfile(ValueByDayProfile profile);
+    void RemoveTemperatureProfile(const QString &key);
 
     void GetVentInfos();
     void CreateVentilationProfile(ProfileInfo info);
     void GetVentilationProfile(const QString &key);
     void UpdateVentilationProfile(MinMaxByDayProfile profile);
+    void RemoveVentilationProfile(const QString &key);
 
     void GetValveInfos();
     void CreateValveProfile(ProfileInfo info);
     void GetValveProfile(const QString &key);
     void UpdateValveProfile(ValueByValueProfile profile);
-
+    void RemoveValveProfile(const QString &key);
 
 signals:
     void TempInfosResponse(QList<ProfileInfo> infos);

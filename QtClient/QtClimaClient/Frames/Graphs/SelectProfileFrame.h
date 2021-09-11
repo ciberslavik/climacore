@@ -11,6 +11,7 @@
 #include <Services/FrameManager.h>
 #include <Frames/Graphs/ProfileType.h>
 #include <Frames/Graphs/TempProfileEditorFrame.h>
+#include <Frames/Graphs/VentProfileEditorFrame.h>
 
 namespace Ui {
 class SelectProfileFrame;
@@ -29,14 +30,11 @@ signals:
     void ProfileSelected(ProfileInfo profileInfo);
 private slots:
 
-    void TempInfosReceived(QList<ProfileInfo> infos);
+    void ProfileInfosReceived(QList<ProfileInfo> infos);
     void TempGraphReceived(ValueByDayProfile profile);
 
     void TempProfileCreated();
     void TempProfileUpdated();
-    void VentInfosReceived(QList<ProfileInfo> infos);
-    void ValveInfosReceived(QList<ProfileInfo> infos);
-
 
     void VentGraphReceived(MinMaxByDayProfile profile);
     void ValveGraphReceived(ValueByValueProfile profile);
@@ -44,8 +42,10 @@ private slots:
     void VentProfileCreated();
     void VentProfileUpdated();
 
-    void onTempProfileEditorCompleted(const ValueByDayProfile &profile);
-    void on_ProfileEditorCanceled();
+    void onTempProfileEditorCompleted();
+    void onVentProfileEditorCompleted();
+    void onValveProfileEditorCompleted();
+
 
     void on_btnReturn_clicked();
     void on_btnUp_clicked();
@@ -53,6 +53,8 @@ private slots:
     void on_btnAdd_clicked();
     void on_btnEdit_clicked();
     void on_btnAccept_clicked();
+
+    void on_btnDelete_clicked();
 
 private:
     Ui::SelectProfileFrame *ui;
@@ -63,12 +65,17 @@ private:
     void selectRow(int row);
 
     void drawTemperatureGraph(ValueByDayProfile *profile);
+    void drawVentilationGraph(MinMaxByDayProfile *profile);
+    void drawValveGraph(ValueByValueProfile *profile);
     ProfileType m_profileType;
     bool m_needEdit = false;
     GraphService *m_graphService;
 
     ValueByDayProfile *m_curTempProfile;
     MinMaxByDayProfile *m_curVentProfile;
+    ValueByValueProfile *m_currValveProfile;
+
     TempProfileEditorFrame *m_tempEditor;
+    VentProfileEditorFrame *m_ventEditor;
 };
 
