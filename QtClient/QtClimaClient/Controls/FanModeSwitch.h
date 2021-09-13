@@ -19,12 +19,12 @@ public:
 
     void setFanMode(FanMode mode);
     FanMode fanMode();
-    void setFanState(bool state);
-    bool fanState(){return m_fanState;}
+    void setFanState(FanStateEnum_t state);
+    FanStateEnum_t fanState(){return m_fanState;}
 signals:
-    void acceptMode(FanMode mode);
+    void acceptMode();
     void cancelEdit();
-    void fanStateChanged(bool state);
+    void fanStateChanged(FanStateEnum_t state);
     void fanModeChanged(FanMode_t mode);
 private slots:
     void on_btnDisable_clicked();
@@ -47,7 +47,7 @@ private:
     Ui::FanModeSwitch *ui;
 
     FanMode m_mode;
-    bool m_fanState = false;
+    FanStateEnum_t m_fanState;
 
     void checkButton();
 };

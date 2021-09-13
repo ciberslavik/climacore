@@ -3,6 +3,9 @@
 
 #include <Services/FrameManager.h>
 
+#include <Frames/Dialogs/StartPreparingDialog.h>
+#include <Frames/Dialogs/StartProductionDialog.h>
+
 ProductionFrame::ProductionFrame(QWidget *parent) :
     FrameBase(parent),
     ui(new Ui::ProductionFrame)
@@ -90,20 +93,22 @@ void ProductionFrame::on_btnRefraction_clicked()
 
 void ProductionFrame::on_btnPreparing_clicked()
 {
-    QLineEdit *txt = new QLineEdit();
-    InputDigitDialog dlg(txt, FrameManager::instance()->MainWindow());
+    StartPreparingDialog dlg(FrameManager::instance()->MainWindow());
 
-    if(dlg.exec()==QDialog::Accepted)
+    if(dlg.exec() == QDialog::Accepted)
     {
-        float val = txt->text().toFloat();
-        m_prodService->StartPreparing(val);
+        m_prodService->StartPreparing(dlg.getTemperature(), dlg.getStartDate());
     }
 }
 
 
 void ProductionFrame::on_btnStartGrowing_clicked()
 {
-    m_prodService->StartProduction();
+    StartProductionDialog dlg(FrameManager::instance()->MainWindow());
+    if(dlg.exec() == QDialog::Accepted)
+    {
+        m_prodService->StartProduction(dlg.getHeadsCount(), dlg.getPlendingDate(), dlg.getStartDate());
+    }
 }
 
 

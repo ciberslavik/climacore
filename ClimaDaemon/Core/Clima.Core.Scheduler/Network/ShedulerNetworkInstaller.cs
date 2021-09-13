@@ -16,6 +16,7 @@ namespace Clima.Core.Scheduler.Network
         {
             registrator.RegisterNetworkService<LivestockService>();
             registrator.RegisterNetworkService<ProductionService>();
+            registrator.RegisterNetworkService<SchedulerControlService>();
         }
     }
 }

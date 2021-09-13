@@ -16,7 +16,7 @@ VentilationConfigFrame::VentilationConfigFrame(QWidget *parent) :
     setTitle("Настройка вентиляторов");
 
     m_infosModel = new FanInfosModel();
-   // ui->tableView->setModel(m_infosModel);
+    // ui->tableView->setModel(m_infosModel);
     m_selection = ui->tableView->selectionModel();
 
 }
@@ -42,7 +42,7 @@ void VentilationConfigFrame::setService(VentilationService *service)
 
 void VentilationConfigFrame::on_btnSelectGraph_clicked()
 {
-   // SelectGraphFrame *selectFrame = new SelectGraphFrame();
+    // SelectGraphFrame *selectFrame = new SelectGraphFrame();
     //FrameManager::instance()->setCurrentFrame(selectFrame);
 }
 
@@ -58,29 +58,44 @@ void VentilationConfigFrame::on_btnEdit_clicked()
     m_selection = ui->tableView->selectionModel();
 
     EditFanDialog *dlg = new EditFanDialog(FrameManager::instance()->MainWindow());
-    int index = m_selection->currentIndex().row();
-    dlg->setInfo(m_infos.at(index));
-    if(dlg->exec() == QDialog::Accepted)
+    QModelIndexList indexes = m_selection->selectedIndexes();
+    if(indexes.count() > 0)
     {
-        FanInfo newFan = dlg->getInfo();
+        int index = indexes.at(0).row();
 
-        m_ventService->CreateOrUpdateFan(newFan);
+        dlg->setInfo(&m_infos[index]);
 
-        ui->tableView->update();
+        if(dlg->exec() == QDialog::Accepted)
+        {
+
+            m_ventService->CreateOrUpdateFan(m_infos[index]);
+            qSort(m_infos.begin(),m_infos.end(),
+                  [](const FanInfo &a, const FanInfo &b) -> bool { return a.Priority < b.Priority; });
+
+            ui->tableView->update();
+        }
     }
 }
 
 
 void VentilationConfigFrame::on_btnAdd_clicked()
 {
+    FanInfo newFan;
     EditFanDialog *dlg = new EditFanDialog(FrameManager::instance()->MainWindow());
+    dlg->setInfo(&newFan);
 
     if(dlg->exec() == QDialog::Accepted)
     {
-        FanInfo newFan = dlg->getInfo();
+        ui->tableView->setModel(nullptr);
 
         m_ventService->CreateOrUpdateFan(newFan);
-        ui->tableView->update();
+
+        m_infos.append(newFan);
+
+        qSort(m_infos.begin(),m_infos.end(),
+              [](const FanInfo &a, const FanInfo &b) -> bool { return a.Priority < b.Priority; });
+
+        ui->tableView->setModel(m_infosModel);
     }
 }
 
@@ -101,11 +116,16 @@ void VentilationConfigFrame::on_btnDown_clicked()
 {
     m_selection = ui->tableView->selectionModel();
     QModelIndexList indexes = m_selection->selectedIndexes();
-    int currentIndex = indexes.at(0).row();
-    if(currentIndex == (m_infosModel->rowCount()-1))
-        selectRow(currentIndex);
+    if(indexes.count() > 0)
+    {
+        int currentIndex = indexes.at(0).row();
+        if(currentIndex == (m_infosModel->rowCount()-1))
+            selectRow(currentIndex);
+        else
+            selectRow(currentIndex + 1);
+    }
     else
-        selectRow(currentIndex + 1);
+        selectRow(0);
 }
 
 
@@ -113,24 +133,33 @@ void VentilationConfigFrame::on_btnUp_clicked()
 {
     m_selection = ui->tableView->selectionModel();
     QModelIndexList indexes = m_selection->selectedIndexes();
-    int currentIndex = indexes.at(0).row();
-    if(currentIndex == 0)
-        selectRow(currentIndex);
+    if(indexes.count() > 0)
+    {
+        int currentIndex = indexes.at(0).row();
+        if(currentIndex == 0)
+            selectRow(currentIndex);
+        else
+            selectRow(currentIndex - 1);
+    }
     else
-        selectRow(currentIndex - 1);
+        selectRow(0);
 }
 
 void VentilationConfigFrame::onFanInfoListReceived(QList<FanInfo> infos)
 {
     m_infos = infos;
-    m_infosModel->setFanInfoList(infos);
+
+    qSort(m_infos.begin(),m_infos.end(),
+          [](const FanInfo &a, const FanInfo &b) -> bool { return a.Priority < b.Priority; });
+
+    m_infosModel->setFanInfoList(&m_infos);
 
     ui->tableView->setModel(m_infosModel);
 }
 
 void VentilationConfigFrame::onCreateOrUpdateComplete()
 {
-     m_ventService->GetFanInfoList();
+    m_ventService->GetFanInfoList();
 }
 
 void VentilationConfigFrame::selectRow(int index)

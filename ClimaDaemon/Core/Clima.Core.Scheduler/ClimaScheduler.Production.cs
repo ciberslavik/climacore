@@ -6,42 +6,42 @@ namespace Clima.Core.Scheduler
 {
     public partial class ClimaScheduler
     {
-        private SchedulerState _currentState;
+        
         private PreparingConfig _pConfig;
         public void StartPreparing(PreparingConfig config)
         {
             _pConfig = config;
             Log.Debug($"Start preparing:{_pConfig.TemperatureSetPoint}");
-            if (_currentState != SchedulerState.Preparing)
+            if (_state.SchedulerState != SchedulerState.Preparing)
             {
-                _currentState = SchedulerState.Preparing;
+                _state.SchedulerState = SchedulerState.Preparing;
                 StartTimer();
-                _startDate = DateTime.Now;
+                _state.StartPreparingDate = config.StartDate;
             }
         }
 
-        public void StartProduction()
+        public void StartProduction(ProductionConfig config)
         {
-            if (_currentState != SchedulerState.Production)
+            if (_state.SchedulerState != SchedulerState.Production)
             {
-                _currentState = SchedulerState.Production;
+                _state.SchedulerState = SchedulerState.Production;
                 StartTimer();
-                _startDate = DateTime.Now;
+                _state.StartProductionDate = config.StartDate;
             }
         }
 
         public void StopProduction()
         {
-            if (_currentState != SchedulerState.Stopped)
+            if (_state.SchedulerState != SchedulerState.Stopped)
             {
-                _currentState = SchedulerState.Stopped;
+                _state.SchedulerState = SchedulerState.Stopped;
                 StopTimer(TimeSpan.FromSeconds(20));
                 _heater.StopHeater();
             }
         }
 
-        public SchedulerState SchedulerState => _currentState;
-        public DateTime StartDate => _startDate;
+        public SchedulerState SchedulerState => _state.SchedulerState;
+        
         public int CurrentHeads => GetCurrentHeads();
 
         public int CurrentDay
@@ -50,8 +50,8 @@ namespace Clima.Core.Scheduler
             {
                 if (SchedulerState == SchedulerState.Stopped)
                     return 0;
-                
-                var diff = _time.Now - _startDate;
+
+                var diff = _time.Now - _state.StartProductionDate;
                 return diff.Days;
             }
         }

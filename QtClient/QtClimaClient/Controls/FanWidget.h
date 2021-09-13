@@ -24,6 +24,7 @@ public:
     void setFanMode(FanMode_t mode);
     FanStateEnum fanState();
     FanMode_t fanMode(){return m_fanMode;}
+    FanState *getStateObj();
     void setIsAnalog(bool isanalog);
     bool isAnalog(){return m_isAnalog;}
 
@@ -32,12 +33,18 @@ public:
 signals:
     void FanModeChanged(FanMode_t newMode);
     void FanStateChanged(FanStateEnum_t newState);
+    void EditBegin();
+    void EditAccept();
+    void EditCancel();
 private slots:
     void onModeLabelClicked();
-    void onModeEditorAccept(FanMode mode);
+    void onModeEditorAccept();
     void onModeEditorCancel();
+    void onModeEditorModeChanged(FanMode mode);
+    void onModeEditorStateChanged(FanStateEnum_t state);
 private:
-    FanStateEnum m_fanState;
+    FanStateEnum_t m_fanState;
+    FanState *m_stateObj;
     FanMode m_fanMode;
     QMovie *m_fanMovie;
     bool m_isAnalog;

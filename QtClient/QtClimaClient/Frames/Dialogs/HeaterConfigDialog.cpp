@@ -6,6 +6,9 @@ HeaterConfigDialog::HeaterConfigDialog(QWidget *parent) :
     ui(new Ui::HeaterConfigDialog)
 {
     ui->setupUi(this);
+
+    ui->cboControlZone->addItem("Фронт");
+    ui->cboControlZone->addItem("Тыл");
 }
 
 HeaterConfigDialog::~HeaterConfigDialog()
@@ -13,51 +16,75 @@ HeaterConfigDialog::~HeaterConfigDialog()
     delete ui;
 }
 
-void HeaterConfigDialog::setState(HeaterState state)
+void HeaterConfigDialog::setState(HeaterState *state)
 {
     m_state = state;
-    if(m_state.Info.IsManual)
-        ui->btnManual->toggle();
-    else
-        ui->btnAuto->toggle();
+    ui->btnManual->setChecked(m_state->Info.IsManual);
 
-    ui->btnManualOn->setChecked(m_state.IsRunning);
+    ui->btnManualOn->setEnabled(m_state->Info.IsManual);
+    ui->btnManualOn->setChecked(m_state->IsRunning);
 }
 
-HeaterState HeaterConfigDialog::getState()
+HeaterState *HeaterConfigDialog::getState()
 {
-
     return m_state;
 }
 
 void HeaterConfigDialog::on_btnAuto_toggled(bool checked)
 {
-    if(checked)
-    {
-        ui->txtSetPoint->setEnabled(true);
-        ui->txtHyst->setEnabled(true);
-        ui->btnManualOn->setEnabled(false);
-        m_state.Info.IsManual = true;
-        emit onModeChanged(true);
-    }
-    else
-    {
+    Q_UNUSED(checked)
+    if(ui->btnAuto->isChecked())
+    {                                           //Auto mode
         ui->txtSetPoint->setEnabled(false);
-        ui->txtHyst->setEnabled(true);
-        ui->btnManualOn->setEnabled(true);
-        m_state.Info.IsManual = false;
+        ui->btnManualOn->setEnabled(false);
+
+        m_state->Info.IsManual = false;
         emit onModeChanged(false);
     }
 }
+void HeaterConfigDialog::on_btnManual_clicked()
+{
+    if(ui->btnManual->isChecked())
+    {
+        ui->txtSetPoint->setEnabled(true);
+        ui->btnManualOn->setEnabled(true);
 
+        m_state->Info.IsManual = true;
+        emit onModeChanged(true);
+    }
+}
 
 void HeaterConfigDialog::on_btnManualOn_toggled(bool checked)
 {
-    m_state.IsRunning = checked;
+    m_state->IsRunning = checked;
     emit onStateChanged(checked);
-    if(checked)
+    if(ui->btnManualOn->isChecked())
+    {
         ui->btnManualOn->setText("Вкл.");
+        emit onStateChanged(true);
+    }
     else
+    {
         ui->btnManualOn->setText("Выкл.");
+        emit onStateChanged(false);
+    }
 }
+
+
+
+
+
+void HeaterConfigDialog::on_btnAccept_clicked()
+{
+    accept();
+}
+
+
+void HeaterConfigDialog::on_btnCancel_clicked()
+{
+    reject();
+}
+
+
+
 

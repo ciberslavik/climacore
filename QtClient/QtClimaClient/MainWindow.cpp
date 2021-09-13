@@ -60,9 +60,9 @@ void CMainWindow::onProductionStateChanged(ProductionState newState)
 {
     if(flag)
     {
-        //SystemStateFrame *stateFrame = new SystemStateFrame();
-        TestModeFrame *testFrame = new TestModeFrame();
-        FrameManager::instance()->setCurrentFrame(testFrame);
+        SystemStateFrame *stateFrame = new SystemStateFrame();
+        //TestModeFrame *testFrame = new TestModeFrame();
+        FrameManager::instance()->setCurrentFrame(stateFrame);
         flag = false;
     }
     switch (newState.State) {

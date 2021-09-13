@@ -21,6 +21,8 @@ SOURCES += \
     Frames/Dialogs/LivestockOperationDialog.cpp \
     Frames/Dialogs/MessageDialog.cpp \
     Frames/Dialogs/MinMaxByDayEditDialog.cpp \
+    Frames/Dialogs/StartPreparingDialog.cpp \
+    Frames/Dialogs/StartProductionDialog.cpp \
     Frames/Dialogs/ValueByDayEditDialog.cpp \
     Frames/Dialogs/inputdigitdialog.cpp \
     Frames/Dialogs/inputtextdialog.cpp \
@@ -54,6 +56,7 @@ SOURCES += \
     Network/GenericServices/LightControllerService.cpp \
     Network/GenericServices/LivestockService.cpp \
     Network/GenericServices/ProductionService.cpp \
+    Network/GenericServices/SchedulerControlService.cpp \
     Network/GenericServices/SensorsService.cpp \
     Network/GenericServices/ServerInfoService.cpp \
     Network/GenericServices/SystemStatusService.cpp \
@@ -71,6 +74,8 @@ HEADERS += \
     ApplicationWorker.h \
     Frames/Dialogs/EditFanDialog.h \
     Frames/Dialogs/HeaterConfigDialog.h \
+    Frames/Dialogs/StartPreparingDialog.h \
+    Frames/Dialogs/StartProductionDialog.h \
     Frames/Graphs/VentProfileEditorFrame.h \
     Models/Dialogs/ValveProfileModel.h \
     Models/Dialogs/VentProfileModel.h \
@@ -123,8 +128,10 @@ HEADERS += \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
     Models/PreparingConfig.h \
+    Models/ProductionConfig.h \
     Models/ProductionState.h \
     Models/RelayInfo.h \
+    Models/SchedulerInfo.h \
     Models/SensorsData.h \
     Models/SystemState.h \
     Models/VentControllerState.h \
@@ -147,14 +154,18 @@ HEADERS += \
     Network/GenericServices/Messages/GetVentProfileResponse.h \
     Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
+    Network/GenericServices/Messages/HeaterStateListResponse.h \
     Network/GenericServices/Messages/HeaterStateRequest.h \
+    Network/GenericServices/Messages/HeaterStateResponse.h \
     Network/GenericServices/Messages/LightPressetsResponse.h \
     Network/GenericServices/Messages/LivestockOperationRequest.h \
     Network/GenericServices/Messages/LivestockStateResponse.h \
     Network/GenericServices/Messages/PreparingConfigRequest.h \
+    Network/GenericServices/Messages/ProductionConfigRequest.h \
     Network/GenericServices/Messages/ProductionStateResponse.h \
     Network/GenericServices/Messages/RelayInfoListResponse.h \
     Network/GenericServices/Messages/RemoveGraphRequest.h \
+    Network/GenericServices/Messages/SchedulerInfoResponse.h \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \
@@ -163,6 +174,7 @@ HEADERS += \
     Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
     Network/GenericServices/Messages/UpdateValueByValueProfileRequest.h \
     Network/GenericServices/ProductionService.h \
+    Network/GenericServices/SchedulerControlService.h \
     Network/GenericServices/SensorsService.h \
     Network/GenericServices/ServerInfoService.h \
     Network/GenericServices/SystemStatusService.h \
@@ -190,6 +202,8 @@ FORMS += \
     Frames/Dialogs/LivestockOperationDialog.ui \
     Frames/Dialogs/MessageDialog.ui \
     Frames/Dialogs/MinMaxByDayEditDialog.ui \
+    Frames/Dialogs/StartPreparingDialog.ui \
+    Frames/Dialogs/StartProductionDialog.ui \
     Frames/Dialogs/ValueByDayEditDialog.ui \
     Frames/Dialogs/inputdigitdialog.ui \
     Frames/Dialogs/inputtextdialog.ui \

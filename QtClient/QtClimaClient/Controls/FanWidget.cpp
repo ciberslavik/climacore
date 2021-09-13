@@ -13,14 +13,16 @@ FanWidget::FanWidget(QWidget *parent) : QWidget(parent)
 
 FanWidget::FanWidget(FanState *stateObj, QWidget *parent)
 {
-    m_fanMode = (FanMode_t)stateObj->Mode;
-    m_fanState = (FanStateEnum_t)stateObj->State;
-    m_isAnalog = stateObj->Info.IsAnalog;
+    m_stateObj  = stateObj;
+    m_fanMode = (FanMode_t)m_stateObj->Mode;
+    m_fanState = (FanStateEnum_t)m_stateObj->State;
+
+    m_isAnalog = m_stateObj->Info.IsAnalog;
     createUI();
     rebuildUI();
 }
 
-void FanWidget::setFanState(FanStateEnum state)
+void FanWidget::setFanState(FanStateEnum_t state)
 {
     if(m_fanState != state)
     {
@@ -44,6 +46,11 @@ void FanWidget::setFanMode(FanMode mode)
 FanStateEnum FanWidget::fanState()
 {
     return m_fanState;
+}
+
+FanState *FanWidget::getStateObj()
+{
+    return m_stateObj;
 }
 
 
@@ -93,25 +100,40 @@ void FanWidget::resizeEvent(QResizeEvent *event)
 void FanWidget::onModeLabelClicked()
 {
     //m_modeEditor->setVisible(true);
-
+    emit EditBegin();
     m_modeEditor->setFanMode(m_fanMode);
+    m_modeEditor->setFanState(m_fanState);
     m_modeEditor->setParent((QWidget*)parent());
     m_modeEditor->exec();
+
 }
 
-void FanWidget::onModeEditorAccept(FanMode mode)
+void FanWidget::onModeEditorAccept()
 {
-    if(m_fanMode != mode)
-    {
-        setFanMode(mode);
-    }
+    setFanMode(m_modeEditor->fanMode());
+    setFanState(m_modeEditor->fanState());
     m_modeEditor->setVisible(false);
     m_modeEditor->close();
+    emit EditAccept();
 }
 
 void FanWidget::onModeEditorCancel()
 {
+    m_modeEditor->setVisible(false);
+    m_modeEditor->close();
+    emit EditCancel();
+}
 
+void FanWidget::onModeEditorModeChanged(FanMode mode)
+{
+    setFanMode(m_modeEditor->fanMode());
+    emit FanModeChanged(mode);
+}
+
+void FanWidget::onModeEditorStateChanged(FanStateEnum_t state)
+{
+    setFanState(m_modeEditor->fanState());
+    emit FanStateChanged(state);
 }
 
 void FanWidget::createUI()
@@ -133,6 +155,8 @@ void FanWidget::createUI()
 
     connect(m_modeLabel, &QClickableLabel::labelClicked, this, &FanWidget::onModeLabelClicked);
     connect(m_modeEditor, &FanModeSwitch::acceptMode, this, &FanWidget::onModeEditorAccept);
+    connect(m_modeEditor, &FanModeSwitch::fanModeChanged, this, &FanWidget::onModeEditorModeChanged);
+    connect(m_modeEditor, &FanModeSwitch::fanStateChanged, this, &FanWidget::onModeEditorStateChanged);
 }
 
 void FanWidget::rebuildUI()

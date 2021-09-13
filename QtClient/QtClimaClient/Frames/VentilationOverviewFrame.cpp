@@ -74,12 +74,12 @@ void VentilationOverviewFrame::onFanStatesReceived(QList<FanState> states)
 
 void VentilationOverviewFrame::onFanStateChanged(FanStateEnum_t newState)
 {
-
+    qDebug() << "FAN State changed";
 }
 
 void VentilationOverviewFrame::onFanModeChanged(FanMode_t newMode)
 {
-
+    qDebug() << "FAN Mode changed";
 }
 
 void VentilationOverviewFrame::createFanWidgets()
@@ -94,11 +94,14 @@ void VentilationOverviewFrame::createFanWidgets()
         FanState *s = m_fanStates.values().at(i);
 
         FanWidget *widget = new FanWidget(s, this);
-        widget->setMaximumSize(QSize(130,130));
-        widget->setMinimumSize(QSize(130,130));
+        //widget->setMaximumSize(QSize(130,130));
+        //widget->setMinimumSize(QSize(130,130));
 
         connect(widget, &FanWidget::FanModeChanged, this, &VentilationOverviewFrame::onFanModeChanged);
         connect(widget, &FanWidget::FanStateChanged, this, &VentilationOverviewFrame::onFanStateChanged);
+        connect(widget, &FanWidget::EditBegin, this, &VentilationOverviewFrame::onBeginEditFan);
+        connect(widget, &FanWidget::EditAccept, this, &VentilationOverviewFrame::onAcceptEditFan);
+        connect(widget, &FanWidget::EditCancel, this, &VentilationOverviewFrame::onCancelEditFan);
         if(s->Info.IsAnalog)
         {
             ui->layAnalogFans->addWidget(widget);
@@ -115,18 +118,21 @@ void VentilationOverviewFrame::removeFanWidgets()
 {
     for(int i = 0;i< m_fanWidgets.count(); i++)
     {
-        FanWidget *w = m_fanWidgets.values().at(i);
-        disconnect(w, &FanWidget::FanModeChanged, this, &VentilationOverviewFrame::onFanModeChanged);
-        disconnect(w, &FanWidget::FanStateChanged, this, &VentilationOverviewFrame::onFanStateChanged);
-        if(w->isAnalog())
+        FanWidget *widget = m_fanWidgets.values().at(i);
+        disconnect(widget, &FanWidget::FanModeChanged, this, &VentilationOverviewFrame::onFanModeChanged);
+        disconnect(widget, &FanWidget::FanStateChanged, this, &VentilationOverviewFrame::onFanStateChanged);
+        disconnect(widget, &FanWidget::EditBegin, this, &VentilationOverviewFrame::onBeginEditFan);
+        disconnect(widget, &FanWidget::EditAccept, this, &VentilationOverviewFrame::onAcceptEditFan);
+        disconnect(widget, &FanWidget::EditCancel, this, &VentilationOverviewFrame::onCancelEditFan);
+        if(widget->isAnalog())
         {
-            ui->layAnalogFans->removeWidget(w);
+            ui->layAnalogFans->removeWidget(widget);
         }
         else
         {
-            ui->layDiscrFans->removeWidget(w);
+            ui->layDiscrFans->removeWidget(widget);
         }
-        delete w;
+        delete widget;
     }
     m_fanWidgets.clear();
 }
@@ -139,5 +145,23 @@ void VentilationOverviewFrame::on_btnConfigure_clicked()
     frame->setService(m_ventService);
 
     FrameManager::instance()->setCurrentFrame(frame);
+}
+
+void VentilationOverviewFrame::onBeginEditFan()
+{
+    FanWidget *w = dynamic_cast<FanWidget*>(sender());
+    qDebug() << "Begin edit fan:" << w->getStateObj()->Info.Key;
+}
+
+void VentilationOverviewFrame::onAcceptEditFan()
+{
+    FanWidget *w = dynamic_cast<FanWidget*>(sender());
+    qDebug() << "Accept edit fan:" << w->getStateObj()->Info.Key;
+}
+
+void VentilationOverviewFrame::onCancelEditFan()
+{
+    FanWidget *w = dynamic_cast<FanWidget*>(sender());
+    qDebug() << "Cancel edit fan:" << w->getStateObj()->Info.Key;
 }
 

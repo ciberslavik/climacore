@@ -6,6 +6,7 @@
 
 #include <Models/Graphs/ProfileInfo.h>
 #include <Network/GenericServices/HeaterControllerService.h>
+#include <Network/GenericServices/SchedulerControlService.h>
 #include <Frames/Graphs/SelectProfileFrame.h>
 
 namespace Ui {
@@ -35,6 +36,9 @@ private slots:
 
     void onHeater2StateChanged(bool isRunning);
     void onHeater2ModeChanged(bool isManual);
+
+    void onHeaterStateReceived(HeaterState state);
+    void onHeaterStateListReceived(QList<HeaterState> states);
 private:
     Ui::TemperatureConfigFrame *ui;
 
@@ -45,5 +49,7 @@ public:
     SelectProfileFrame *m_ProfileSelector;
 
     HeaterControllerService *m_heaterService;
+    SchedulerControlService *m_scheduler;
+    QList<HeaterState> m_states;
 };
 

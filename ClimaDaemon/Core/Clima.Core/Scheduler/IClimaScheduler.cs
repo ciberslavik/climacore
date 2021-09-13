@@ -8,15 +8,12 @@ namespace Clima.Core.Scheduler
 {
     public interface IClimaScheduler : IService
     {
-        void SetTemperatureGraph(string graph);
-        void SetVentilationGraph(string graph);
-        void SetValveGraph(string graph);
-        
-        string TemperatureGraph { get; }
-        string VentilationGraph { get; }
-        string ValveGraph { get; }
-        
-    
+        void SetTemperatureProfile(string profileKey);
+        void SetVentilationProfile(string profileKey);
+        void SetValveProfile(string profileKey);
+        void SetMineProfile(string profileKey);
+
+        void ReloadProfiles();
         //Livestock
 
         void LivestockPlanting(int heads, DateTime opDate);
@@ -29,12 +26,13 @@ namespace Clima.Core.Scheduler
         //Production
 
         void StartPreparing(PreparingConfig config);
-        void StartProduction();
+        void StartProduction(ProductionConfig config);
         void StopProduction();
         SchedulerState SchedulerState { get; }
-        DateTime StartDate { get; }
-        
+
         int CurrentDay { get; }
         int CurrentHeads { get; }
+        DateTime StartDate { get; }
+        SchedulerInfo SchedulerInfo { get; }
     }
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <QObject>
+#include <QDateTime>
 #include <Services/QSerializer.h>
 
 class PreparingConfig:public QSerializer
@@ -14,4 +15,5 @@ public:
     QS_FIELD(float, VentilationSetPint)
     QS_FIELD(float, ValveSetPoint)
     QS_FIELD(float, MineSetPoint)
+    QS_FIELD(QDateTime, StartDate)
 };

@@ -43,6 +43,9 @@ private slots:
     void onFanModeChanged(FanMode_t newMode);
     void on_btnConfigure_clicked();
 
+    void onBeginEditFan();
+    void onAcceptEditFan();
+    void onCancelEditFan();
 private:
     Ui::VentilationOverviewFrame *ui;
     SelectProfileFrame *m_ProfileSelector;

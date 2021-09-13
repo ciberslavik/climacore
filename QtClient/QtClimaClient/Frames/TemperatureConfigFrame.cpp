@@ -18,11 +18,24 @@ TemperatureConfigFrame::TemperatureConfigFrame(QWidget *parent) :
     connect(ui->txtMaxTemp, &QClickableLineEdit::clicked, this, &TemperatureConfigFrame::onTxtClicked);
     connect(ui->txtCorrection, &QClickableLineEdit::clicked, this, &TemperatureConfigFrame::onTxtClicked);
 
-    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("HeaterService");
+    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("HeaterControllerService");
     if(service != nullptr)
     {
         m_heaterService = dynamic_cast<HeaterControllerService*>(service);
     }
+
+    connect(m_heaterService, &HeaterControllerService::HeaterStateUpdated, this, &TemperatureConfigFrame::onHeaterStateReceived);
+    connect(m_heaterService, &HeaterControllerService::HeaterStateListReceived, this, &TemperatureConfigFrame::onHeaterStateListReceived);
+
+    service = ApplicationWorker::Instance()->GetNetworkService("SchedulerControlService");
+    if(service != nullptr)
+    {
+        m_scheduler = dynamic_cast<SchedulerControlService*>(service);
+    }
+
+    m_heaterService->GetHeaterStates();
+
+
 }
 
 TemperatureConfigFrame::~TemperatureConfigFrame()
@@ -61,8 +74,12 @@ void TemperatureConfigFrame::on_btnSelectGraph_clicked()
 void TemperatureConfigFrame::on_btnHeater1_clicked()
 {
     HeaterConfigDialog dlg(FrameManager::instance()->MainWindow());
+    dlg.setState(&m_states[0]);
+
     connect(&dlg, &HeaterConfigDialog::onModeChanged, this, &TemperatureConfigFrame::onHeater1ModeChanged);
     connect(&dlg, &HeaterConfigDialog::onStateChanged, this, &TemperatureConfigFrame::onHeater1StateChanged);
+
+
     if(dlg.exec()==QDialog::Accepted)
     {
 
@@ -75,6 +92,7 @@ void TemperatureConfigFrame::on_btnHeater1_clicked()
 void TemperatureConfigFrame::on_btnHeater2_clicked()
 {
     HeaterConfigDialog dlg(FrameManager::instance()->MainWindow());
+    dlg.setState(&m_states[1]);
     connect(&dlg, &HeaterConfigDialog::onModeChanged, this, &TemperatureConfigFrame::onHeater2ModeChanged);
     connect(&dlg, &HeaterConfigDialog::onStateChanged, this, &TemperatureConfigFrame::onHeater2StateChanged);
     if(dlg.exec()==QDialog::Accepted)
@@ -99,21 +117,53 @@ void TemperatureConfigFrame::onTxtClicked()
 
 void TemperatureConfigFrame::onHeater1StateChanged(bool isRunning)
 {
-    qDebug()<< "State changed";
+    HeaterState state(m_states[0]);
+
+    //state.Info.Key = "HEAT:0";
+    if(state.Info.IsManual)
+    {
+        state.IsRunning = isRunning;
+        m_heaterService->UpdateHeaterState(state);
+    }
 }
 
 void TemperatureConfigFrame::onHeater1ModeChanged(bool isManual)
 {
-qDebug()<< "Mode changed";
+    HeaterState state(m_states[0]);
+
+    state.Info.Key = "HEAT:0";
+    state.Info.IsManual = isManual;
+    m_heaterService->UpdateHeaterState(state);
 }
 
 void TemperatureConfigFrame::onHeater2StateChanged(bool isRunning)
 {
-qDebug()<< "State2 changed";
+    HeaterState state(m_states[1]);
+
+    //state.Info.Key = "HEAT:0";
+    if(state.Info.IsManual)
+    {
+        state.IsRunning = isRunning;
+        m_heaterService->UpdateHeaterState(state);
+    }
 }
 
 void TemperatureConfigFrame::onHeater2ModeChanged(bool isManual)
 {
-qDebug()<< "Mode2 changed";
+    HeaterState state;
+    state.Info.Key = "HEAT:1";
+    state.Info.IsManual = isManual;
+    m_heaterService->UpdateHeaterState(state);
+}
+
+void TemperatureConfigFrame::onHeaterStateReceived(HeaterState state)
+{
+
+}
+
+void TemperatureConfigFrame::onHeaterStateListReceived(QList<HeaterState> states)
+{
+    m_states = states;
+
 }
 

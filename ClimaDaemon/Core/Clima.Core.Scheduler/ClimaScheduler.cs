@@ -6,9 +6,12 @@ using Clima.Basics.Services;
 using Clima.Core.Controllers;
 using Clima.Core.Controllers.Heater;
 using Clima.Core.Controllers.Ventilation;
+using Clima.Core.DataModel;
 using Clima.Core.DataModel.GraphModel;
+using Clima.Core.Devices;
 using Clima.Core.Scheduler.Configuration;
 using Clima.Core.Scheduler;
+using Clima.Core.Scheduler.DataModel;
 
 namespace Clima.Core.Scheduler
 {
@@ -20,7 +23,13 @@ namespace Clima.Core.Scheduler
         private readonly IHeaterController _heater;
         private readonly IVentilationController _ventilation;
         private readonly IGraphProviderFactory _graphProviderFactory;
-
+        private readonly IDeviceProvider _deviceProvider;
+        
+        private SchedulerStateObject _state;
+        
+        private IServoDrive _valveServo;
+        private IServoDrive _mineServo;
+        
         private readonly object _threadLock = new object();
         private Timer _schedulerTimer;
         private bool _schedulerTimerRunning;
@@ -28,27 +37,30 @@ namespace Clima.Core.Scheduler
 
         private SchedulerConfig _config;
         private bool _isRunning;
-        private DateTime _startDate;
+       
+        
         private GraphBase<ValueByDayPoint> _temperatureGraph;
         private GraphBase<MinMaxByDayPoint> _ventilationGraph;
         private GraphBase<ValueByValuePoint> _valveGraph;
-
+        private GraphBase<ValueByValuePoint> _mineGraph;
 
         public ClimaScheduler(ITimeProvider timeProvider,
             IHeaterController heater,
             IVentilationController ventilation,
-            IGraphProviderFactory graphProviderFactory)
+            IGraphProviderFactory graphProviderFactory,
+            IDeviceProvider _deviceProvider)
         {
             _time = timeProvider;
             _heater = heater;
             _ventilation = ventilation;
             _graphProviderFactory = graphProviderFactory;
+            this._deviceProvider = _deviceProvider;
             _schedulerTimerRunning = false;
-            _currentState = SchedulerState.Stopped;
+
+            _state = new SchedulerStateObject();
+            _state.SchedulerState = SchedulerState.Stopped;
             
             ServiceState = ServiceState.NotInitialized;
-
-            _temperatureGraph = _graphProviderFactory.TemperatureGraphProvider().GetGraph("Default");
         }
 
         #region Properties
@@ -59,46 +71,96 @@ namespace Clima.Core.Scheduler
         public Type ConfigType => typeof(SchedulerConfig);
         public ServiceState ServiceState { get; private set; }
 
+        public SchedulerInfo SchedulerInfo
+        {
+            get
+            {
+                return new SchedulerInfo()
+                {
+                    TemperatureProfileKey = _temperatureGraph.Info.Key,
+                    TemperatureProfileName = _temperatureGraph.Info.Name,
+                    
+                    VentilationProfileKey = _ventilationGraph.Info.Key,
+                    VentilationProfileName = _ventilationGraph.Info.Name,
+                    
+                    ValveProfileKey = _valveGraph.Info.Key,
+                    ValveProfileName =  _valveGraph.Info.Name,
+                    
+                    MineProfileKey = _mineGraph.Info.Key,
+                    MineProfileName = _mineGraph.Info.Name,
+                    
+                    CurrentDay = this.CurrentDay,
+                    CurrentHeads = this.CurrentHeads
+                };
+            }
+        }
+
+        public DateTime StartDate
+        {
+            get
+            {
+                if (_state.SchedulerState == SchedulerState.Preparing)
+                    return _state.StartPreparingDate;
+                else if (_state.SchedulerState == SchedulerState.Production)
+                    return _state.StartProductionDate;
+                else
+                {
+                    return DateTime.MinValue;
+                }
+            }
+        }
+
         #endregion Properties
 
         #region Graph managment
 
-        public void SetTemperatureGraph(string graph)
+        public void SetTemperatureProfile(string profileKey)
         {
             var tGraphProvider = _graphProviderFactory.TemperatureGraphProvider();
-            if (tGraphProvider.ContainsKey(graph))
+            if (tGraphProvider.ContainsKey(profileKey))
             {
-                _temperatureGraph = tGraphProvider.GetGraph(graph);
-                TemperatureGraph = graph;
+                _temperatureGraph = tGraphProvider.GetGraph(profileKey);
+                _config.TemperatureProfileKey = _temperatureGraph.Info.Key;
+                Save();
             }
         }
 
-        public string TemperatureGraph { get; private set; }
-
-        public void SetVentilationGraph(string graph)
+        public void SetVentilationProfile(string profileKey)
         {
             var vGraphProvider = _graphProviderFactory.VentilationGraphProvider();
-            if (vGraphProvider.ContainsKey(graph))
+            if (vGraphProvider.ContainsKey(profileKey))
             {
-                _ventilationGraph = vGraphProvider.GetGraph(graph);
-                VentilationGraph = graph;
+                _ventilationGraph = vGraphProvider.GetGraph(profileKey);
+                _config.VentilationProfileKey = _ventilationGraph.Info.Key;
+                Save();
             }
         }
-
-        public string VentilationGraph { get; private set; }
-
-        public void SetValveGraph(string graph)
+        public void SetValveProfile(string profileKey)
         {
             var vGraphProvider = _graphProviderFactory.ValveGraphProvider();
-            if (vGraphProvider.ContainsKey(graph))
+            if (vGraphProvider.ContainsKey(profileKey))
             {
-                _valveGraph = vGraphProvider.GetGraph(graph);
-                ValveGraph = graph;
+                _valveGraph = vGraphProvider.GetGraph(profileKey);
+                _config.ValveProfileKey = _valveGraph.Info.Key;
+                Save();
             }
         }
 
-        public string ValveGraph { get; private set; }
+        public void SetMineProfile(string profileKey)
+        {
+            var vGraphProvider = _graphProviderFactory.ValveGraphProvider();
+            if (vGraphProvider.ContainsKey(profileKey))
+            {
+                _mineGraph = vGraphProvider.GetGraph(profileKey);
+                _config.MineProfileKey = _mineGraph.Info.Key;
+                Save();
+            }
+        }
 
+        public void ReloadProfiles()
+        {
+            
+        }
         #endregion Graph managment
 
         /*public void SetSchedulerState(SchedulerState newState)
@@ -141,7 +203,7 @@ namespace Clima.Core.Scheduler
         private void SchedulerProcess(object? o)
         {
             if (!(o is ClimaScheduler sc)) return;
-            var workingTime = DateTime.Now - sc._startDate;
+            var workingTime = _time.Now - sc._state.StartProductionDate;
             var currentDay = workingTime.Days;
             Log.Debug("Process scheduler");
 
@@ -242,10 +304,16 @@ namespace Clima.Core.Scheduler
             if (config is SchedulerConfig cfg)
             {
                 _config = cfg;
+                
+                
                 ServiceState = ServiceState.Initialized;
             }
         }
 
+        private void Save()
+        {
+            ClimaContext.Current.SaveConfiguration();
+        }
         private void StartTimer()
         {
             if(_schedulerTimerRunning)

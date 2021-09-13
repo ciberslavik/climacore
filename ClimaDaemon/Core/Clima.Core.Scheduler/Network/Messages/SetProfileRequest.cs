@@ -1,8 +1,8 @@
 ﻿namespace Clima.Core.Scheduler.Network.Messages
 {
-    public class SetGraphRequest
+    public class SetProfileRequest
     {
-        public SetGraphRequest()
+        public SetProfileRequest()
         {
         }
 

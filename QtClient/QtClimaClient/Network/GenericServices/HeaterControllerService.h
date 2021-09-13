@@ -12,7 +12,7 @@ public:
     void GetHeaterStates();
     void UpdateHeaterState(HeaterState state);
 signals:
-    void HeaterStatesReceived(QList<HeaterState> states);
+    void HeaterStateListReceived(QList<HeaterState> states);
     void HeaterStateUpdated(HeaterState state);
     // INetworkService interface
 public:

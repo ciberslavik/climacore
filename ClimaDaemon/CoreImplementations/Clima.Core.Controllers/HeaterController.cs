@@ -61,31 +61,40 @@ namespace Clima.Core.Controllers
 
         public HeaterInfo UpdateHeaterInfo(HeaterInfo info)
         {
-            if (_config.Infos.ContainsKey(info.Key))
-            {
-                _config.Infos[info.Key] = info;
-                _heaters[info.Key].Info = info;
-            }
+            //UpdateHeater();
 
             return _config.Infos[info.Key];
         }
+
+        private void UpdateHeater(HeaterState state)
+        {
+            var key = state.Info.Key;
+            if (_config.Infos.ContainsKey(key))
+            {
+                _config.Infos[key].Hysteresis = state.Info.Hysteresis;
+                _config.Infos[key].IsManual = state.Info.IsManual;
+                _config.Infos[key].ControlZone = state.Info.ControlZone;
+                _config.Infos[key].ManualSetPoint = state.Info.ManualSetPoint;
+
+                _heaters[key].Info = _config.Infos[key];
+                _heaters[key].IsRunning = state.IsRunning;
+            }
+        }
+
         public void SetHeaterState(HeaterState newState)
         {
+            UpdateHeater(newState);
+
             var key = newState.Info.Key;
-            if (_heaters.ContainsKey(key))
+            if (_heaters[key].Info.IsManual)
             {
-                _heaters[key] = newState;
-                if (_heaters[key].Info.IsManual)
-                {
-                    if (newState.IsRunning)
-                        _deviceProvider.GetHeater(_heaters[key].Info.PinName).On();
-                    else
-                        _deviceProvider.GetHeater(_heaters[key].Info.PinName).Off();
-                }
+                if (newState.IsRunning)
+                    _deviceProvider.GetHeater(key).On();
+                else
+                    _deviceProvider.GetHeater(key).Off();
             }
-            throw new ArgumentException($"Heater state for key:{newState.Info.Key} not found");
         }
-        
+
         public HeaterState GetHeaterState(string key)
         {
             if (_heaters.ContainsKey(key))

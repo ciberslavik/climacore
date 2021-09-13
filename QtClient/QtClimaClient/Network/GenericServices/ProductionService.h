@@ -10,8 +10,8 @@ class ProductionService : public INetworkService
 public:
     explicit ProductionService(QObject *parent = nullptr);
     void GetProductionState();
-    void StartPreparing(float temperature);
-    void StartProduction();
+    void StartPreparing(float temperature, QDateTime startDate);
+    void StartProduction(int placeHeads, QDateTime plandingDate, QDateTime startDate);
     void StopProduction();
 signals:
     void PreparingStarted(int state);

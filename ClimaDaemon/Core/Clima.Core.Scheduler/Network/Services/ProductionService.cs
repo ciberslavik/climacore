@@ -36,9 +36,9 @@ namespace Clima.Core.Scheduler.Network.Services
         }
 
         [ServiceMethod]
-        public ProductionStateResponse StartProduction(DefaultRequest request)
+        public ProductionStateResponse StartProduction(ProductionConfigRequest request)
         {
-            _scheduler.StartProduction();
+            _scheduler.StartProduction(request.Config);
             return CreateResponse();
         }
         private ProductionStateResponse CreateResponse()

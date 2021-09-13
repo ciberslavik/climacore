@@ -1,6 +1,7 @@
 #include "ProductionService.h"
 
 #include <Network/GenericServices/Messages/PreparingConfigRequest.h>
+#include <Network/GenericServices/Messages/ProductionConfigRequest.h>
 #include <Network/GenericServices/Messages/ProductionStateResponse.h>
 
 ProductionService::ProductionService(QObject *parent) : INetworkService(parent)
@@ -18,7 +19,7 @@ void ProductionService::GetProductionState()
     emit SendRequest(request);
 }
 
-void ProductionService::StartPreparing(float temperature)
+void ProductionService::StartPreparing(float temperature, QDateTime startDate)
 {
     NetworkRequest *request = new NetworkRequest();
     request->jsonrpc = "0.1a";
@@ -26,17 +27,24 @@ void ProductionService::StartPreparing(float temperature)
     request->method = "StartPreparing";
     PreparingConfigRequest cfg;
     cfg.Config.TemperatureSetPoint = temperature;
-
+    cfg.Config.StartDate = startDate;
     request->params = cfg.toJsonString();
     emit SendRequest(request);
 }
 
-void ProductionService::StartProduction()
+void ProductionService::StartProduction(int placeHeads, QDateTime plandingDate, QDateTime startDate)
 {
     NetworkRequest *request = new NetworkRequest();
     request->jsonrpc = "0.1a";
     request->service = "ProductionService";
     request->method = "StartProduction";
+
+    ProductionConfigRequest cfg;
+    cfg.Config.PlaceHeads = placeHeads;
+    cfg.Config.PlendingDate = plandingDate;
+    cfg.Config.StartDate = startDate;
+
+    request->params = cfg.toJsonString();
 
     emit SendRequest(request);
 }

@@ -29,6 +29,15 @@ FanMode FanModeSwitch::fanMode()
     return m_mode;
 }
 
+void FanModeSwitch::setFanState(FanStateEnum_t state)
+{
+    if(m_fanState != state)
+    {
+        m_fanState = state;
+        checkButton();
+    }
+}
+
 void FanModeSwitch::on_btnDisable_clicked()
 {
     if(m_mode!=FanMode::Disabled)
@@ -61,7 +70,7 @@ void FanModeSwitch::on_btnAuto_clicked()
 
 void FanModeSwitch::on_btnAccept_clicked()
 {
-    emit acceptMode(m_mode);
+    emit acceptMode();
 }
 
 void FanModeSwitch::on_btnCancel_clicked()
@@ -92,7 +101,7 @@ void FanModeSwitch::checkButton()
         break;
         case FanMode::Manual:
             ui->btnManual->setChecked(true);
-            if(m_fanState)
+            if(m_fanState == FanStateEnum_t::Running)
             {
                 ui->btnOn->setChecked(true);
             }
@@ -123,18 +132,18 @@ void FanModeSwitch::checkButton()
 
 void FanModeSwitch::on_btnOn_clicked()
 {
-    if(!m_fanState)
+    if(m_fanState == FanStateEnum::Stopped)
     {
-        m_fanState = true;
+        m_fanState = FanStateEnum::Running;
         emit fanStateChanged(m_fanState);
     }
 }
 
 void FanModeSwitch::on_btnOff_clicked()
 {
-    if(m_fanState)
+    if(m_fanState == FanStateEnum::Running)
     {
-        m_fanState = false;
+        m_fanState = FanStateEnum::Stopped;
         emit fanStateChanged(m_fanState);
     }
 }
