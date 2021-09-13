@@ -1,0 +1,31 @@
+﻿{
+  "$id": "1",
+  "CurrentGraph": "Default",
+  "Graphs": {
+    "$id": "2",
+    "Default": {
+      "$id": "3",
+      "Info": {
+        "$id": "4",
+        "Key": "Default",
+        "Name": "Default Graph",
+        "CreationTime": "2021-09-07T19:33:16.2242418+03:00",
+        "ModifiedTime": "2021-09-07T19:33:16.2278541+03:00"
+      },
+      "Points": []
+    },
+    "Graph0": {
+      "$id": "5",
+      "Info": {
+        "$id": "6",
+        "Key": "Graph0",
+        "Name": "ТЕСТ",
+        "Description": "",
+        "CreationTime": "2021-09-07T19:33:16",
+        "ModifiedTime": "2021-09-07T19:33:16"
+      },
+      "Points": []
+    }
+  },
+  "ConfigurationName": "DefaultConfig"
+}

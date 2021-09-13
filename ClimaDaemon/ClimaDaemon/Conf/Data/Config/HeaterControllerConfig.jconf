@@ -1,0 +1,25 @@
+﻿{
+  "$id": "1",
+  "Infos": {
+    "$id": "2",
+    "HEAT:0": {
+      "$id": "3",
+      "Key": "HEAT:0",
+      "PinName": "DO:3:10",
+      "Hysteresis": 1.0,
+      "ManualSetPoint": 26.0,
+      "IsManual": false,
+      "ControlZone": 0
+    },
+    "HEAT:1": {
+      "$id": "4",
+      "Key": "HEAT:1",
+      "PinName": "DO:3:11",
+      "Hysteresis": 1.0,
+      "ManualSetPoint": 26.0,
+      "IsManual": false,
+      "ControlZone": 1
+    }
+  },
+  "ConfigurationName": "HeaterController"
+}

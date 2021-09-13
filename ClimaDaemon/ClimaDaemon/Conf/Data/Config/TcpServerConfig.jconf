@@ -1,0 +1,10 @@
+﻿{
+  "$id": "1",
+  "HsotName": "",
+  "Port": 5911,
+  "MaxClientConnections": 3,
+  "SendBufferSize": 4096,
+  "ReceiveBufferSize": 4096,
+  "NetworkTimeout": 300,
+  "ConfigurationName": "TcpServerConfig"
+}

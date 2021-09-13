@@ -1,0 +1,81 @@
+﻿{
+  "$id": "1",
+  "CurrentGraph": "Default",
+  "Graphs": {
+    "$id": "2",
+    "Default": {
+      "$id": "3",
+      "Info": {
+        "$id": "4",
+        "Key": "Default",
+        "Name": "Default Graph2",
+        "Description": "",
+        "CreationTime": "2021-09-08T00:15:07+03:00",
+        "ModifiedTime": "2021-09-11T17:45:17.8309957+03:00"
+      },
+      "Points": [
+        {
+          "$id": "5",
+          "Day": 1,
+          "Temperature": 33.0,
+          "Index": 0
+        },
+        {
+          "$id": "6",
+          "Day": 5,
+          "Temperature": 30.0,
+          "Index": 0
+        },
+        {
+          "$id": "7",
+          "Day": 9,
+          "Temperature": 25.0,
+          "Index": 0
+        },
+        {
+          "$id": "8",
+          "Day": 10,
+          "Temperature": 28.0,
+          "Index": 0
+        },
+        {
+          "$id": "9",
+          "Day": 14,
+          "Temperature": 30.0,
+          "Index": 0
+        },
+        {
+          "$id": "10",
+          "Day": 20,
+          "Temperature": 28.0,
+          "Index": 0
+        },
+        {
+          "$id": "11",
+          "Day": 25,
+          "Temperature": 25.0,
+          "Index": 0
+        },
+        {
+          "$id": "12",
+          "Day": 30,
+          "Temperature": 35.0,
+          "Index": 0
+        }
+      ]
+    },
+    "Graph0": {
+      "$id": "13",
+      "Info": {
+        "$id": "14",
+        "Key": "Graph0",
+        "Name": "ЛЕТО",
+        "Description": "",
+        "CreationTime": "2021-09-11T13:50:56",
+        "ModifiedTime": "2021-09-11T13:50:56"
+      },
+      "Points": []
+    }
+  },
+  "ConfigurationName": "DefaultConfig"
+}

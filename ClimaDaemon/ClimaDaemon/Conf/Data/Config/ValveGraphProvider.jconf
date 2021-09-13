@@ -1,0 +1,32 @@
+﻿{
+  "$id": "1",
+  "CurrentGraph": "Default",
+  "Graphs": {
+    "$id": "2",
+    "Default": {
+      "$id": "3",
+      "Info": {
+        "$id": "4",
+        "Key": "Default",
+        "Name": "Default Graph",
+        "CreationTime": "2021-09-08T00:15:07.1932086+03:00",
+        "ModifiedTime": "2021-09-08T00:15:07.1932132+03:00"
+      },
+      "Points": [
+        {
+          "$id": "5",
+          "Day": 0,
+          "Temperature": 0.0,
+          "Index": 0
+        },
+        {
+          "$id": "6",
+          "Day": 0,
+          "Temperature": 0.0,
+          "Index": 0
+        }
+      ]
+    }
+  },
+  "ConfigurationName": "DefaultConfig"
+}

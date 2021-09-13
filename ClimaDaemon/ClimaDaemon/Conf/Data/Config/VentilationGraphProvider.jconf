@@ -1,0 +1,76 @@
+﻿{
+  "$id": "1",
+  "CurrentGraph": "Default",
+  "Graphs": {
+    "$id": "2",
+    "Default": {
+      "$id": "3",
+      "Info": {
+        "$id": "4",
+        "Key": "Default",
+        "Name": "Default Graph",
+        "Description": "",
+        "CreationTime": "2021-09-08T00:15:07+03:00",
+        "ModifiedTime": "2021-09-12T17:48:41.6011086+03:00"
+      },
+      "Points": [
+        {
+          "$id": "5",
+          "Day": 1,
+          "MaxValue": 80.0,
+          "MinValue": 50.0,
+          "Index": 0
+        },
+        {
+          "$id": "6",
+          "Day": 5,
+          "MaxValue": 80.0,
+          "MinValue": 80.0,
+          "Index": 0
+        },
+        {
+          "$id": "7",
+          "Day": 10,
+          "MaxValue": 80.0,
+          "MinValue": 40.0,
+          "Index": 0
+        }
+      ]
+    },
+    "Graph0": {
+      "$id": "8",
+      "Info": {
+        "$id": "9",
+        "Key": "Graph0",
+        "Name": "ТЕСТ ВЕНТ",
+        "Description": "",
+        "CreationTime": "2021-09-11T23:58:42",
+        "ModifiedTime": "2021-09-12T18:13:26.8254304+03:00"
+      },
+      "Points": [
+        {
+          "$id": "10",
+          "Day": 1,
+          "MaxValue": 85.0,
+          "MinValue": 10.0,
+          "Index": 0
+        },
+        {
+          "$id": "11",
+          "Day": 10,
+          "MaxValue": 80.0,
+          "MinValue": 20.0,
+          "Index": 0
+        },
+        {
+          "$id": "12",
+          "Day": 25,
+          "MaxValue": 70.0,
+          "MinValue": 27.0,
+          "Index": 0
+        }
+      ]
+    }
+  },
+  "ConfigurationName": "DefaultConfig"
+}

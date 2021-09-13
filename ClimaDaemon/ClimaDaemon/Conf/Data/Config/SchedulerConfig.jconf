@@ -1,0 +1,30 @@
+﻿{
+  "$id": "1",
+  "SchedulerPeriodSeconds": 20,
+  "StartCurrentStateTime": "0001-01-01T00:00:00",
+  "LastSchedulerState": 0,
+  "ProductionConfig": {
+    "$id": "2",
+    "PlaceHeads": 0,
+    "PlandingDate": "0001-01-01T00:00:00",
+    "StartDate": "0001-01-01T00:00:00"
+  },
+  "PreparingConfig": {
+    "$id": "3",
+    "TemperatureSetPoint": 0.0,
+    "VentilationSetPint": 0.0,
+    "ValveSetPoint": 0.0,
+    "MineSetPoint": 0.0,
+    "StartDate": "0001-01-01T00:00:00"
+  },
+  "ConfigurationName": "SchedulerConfig",
+  "LivestockOperations": [],
+  "Preparing": {
+    "$id": "4",
+    "TemperatureSetPoint": 0.0,
+    "VentilationSetPint": 0.0,
+    "ValveSetPoint": 0.0,
+    "MineSetPoint": 0.0,
+    "StartDate": "0001-01-01T00:00:00"
+  }
+}
