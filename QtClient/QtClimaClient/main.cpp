@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
     ClientConnection *conn = new ClientConnection(&a);
     ApplicationWorker *worker = new ApplicationWorker(conn,&a);
 
-    //conn->ConnectToHost("10.0.10.146", 5911);
-    conn->ConnectToHost("127.0.0.1", 5911);
+    conn->ConnectToHost("10.0.10.146", 5911);
+    //conn->ConnectToHost("127.0.0.1", 5911);
     //conn->ConnectToHost("192.168.0.10", 5911);
 
     if(!conn->isConnected())

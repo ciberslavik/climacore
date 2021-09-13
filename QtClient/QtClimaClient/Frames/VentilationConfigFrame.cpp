@@ -95,6 +95,7 @@ void VentilationConfigFrame::on_btnAdd_clicked()
         qSort(m_infos.begin(),m_infos.end(),
               [](const FanInfo &a, const FanInfo &b) -> bool { return a.Priority < b.Priority; });
 
+        m_infosModel->setFanInfoList(&m_infos);
         ui->tableView->setModel(m_infosModel);
     }
 }

@@ -155,6 +155,7 @@ namespace Clima.NetworkServer.Transport.TcpSocket
             if (sender is TcpSocketSession session)
             {
                 Console.WriteLine($"Disconnected:{session.ConnectionId}");
+                _connections.TryRemove(session.ConnectionId, out _);
                 session.Disconnect();
             }
         }
