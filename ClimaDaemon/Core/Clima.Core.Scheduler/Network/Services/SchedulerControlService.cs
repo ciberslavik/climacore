@@ -16,25 +16,34 @@ namespace Clima.Core.Scheduler.Network.Services
         [ServiceMethod]
         public DefaultResponse SetTemperatureProfile(SetProfileRequest request)
         {
-            _scheduler.SetTemperatureProfile(request.GraphKey);
+            _scheduler.SetTemperatureProfile(request.ProfileKey);
             return new DefaultResponse();
         }
 
         [ServiceMethod]
         public SchedulerInfoResponse GetSchedulerInfo(DefaultRequest request)
         {
-            return new SchedulerInfoResponse();
+            return new SchedulerInfoResponse()
+            {
+                Info = _scheduler.SchedulerInfo
+            };
         }
         [ServiceMethod]
         public DefaultResponse SetVentilationProfile(SetProfileRequest request)
         {
-            _scheduler.SetVentilationProfile(request.GraphKey);
+            _scheduler.SetVentilationProfile(request.ProfileKey);
             return new DefaultResponse();
         }
         [ServiceMethod]
         public DefaultResponse SetValveProfile(SetProfileRequest request)
         {
-            _scheduler.SetValveProfile(request.GraphKey);
+            _scheduler.SetValveProfile(request.ProfileKey);
+            return new DefaultResponse();
+        }
+        [ServiceMethod]
+        public DefaultResponse SetMineProfile(SetProfileRequest request)
+        {
+            _scheduler.SetMineProfile(request.ProfileKey);
             return new DefaultResponse();
         }
     }

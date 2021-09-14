@@ -17,12 +17,25 @@ public:
     void UpdateFanState(const FanState &state);
     void CreateOrUpdateFan(const FanInfo &info);
     void RemoveFan(const QString &fanKey);
+
+    void GetValveState();
+    void UpdateValveState(bool isManual, float setPoint);
+
+    void GetMineState();
+    void UpdateMineState(bool isManual, float setPoint);
+
 signals:
     void FanStateListReceived(QList<FanState> response);
     void FanStateUpdated(FanState state);
     void FanInfoListReceived(QList<FanInfo> response);
     void ControllerStateReceived(VentControllerState state);
     void CreateOrUpdateComplete();
+
+    void ValveStateReceived(bool isManual, float currPos, float setPoint);
+    void ValveStateUpdated(bool isManual, float currPos, float setPoint);
+
+    void MineStateReceived(bool isManual, float currPos, float setPoint);
+    void MineStateUpdated(bool isManual, float currPos, float setPoint);
     // INetworkService interface
 public:
     QString ServiceName(){return "VentilationControllerService";}

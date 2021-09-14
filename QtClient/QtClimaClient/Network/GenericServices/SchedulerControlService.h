@@ -13,10 +13,12 @@ public:
     void SetTemperatureProfile(const QString &profileKey);
     void SetVentilationProfile(const QString &profileKey);
     void SetValveProfile(const QString &profileKey);
+    void SetMineProfile(const QString &profileKey);
 
     void GetSchedulerInfo();
 signals:
     void SchedulerInfoReceived(SchedulerInfo info);
+    void SchedulerUpdated();
     // INetworkService interface
 public:
     QString ServiceName() override{return "SchedulerControlService";}

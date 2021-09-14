@@ -128,17 +128,31 @@ void SelectProfileFrame::VentGraphReceived(MinMaxByDayProfile profile)
 
 void SelectProfileFrame::ValveGraphReceived(ValueByValueProfile profile)
 {
+    if(m_currValveProfile != nullptr)
+    {
+        delete m_currValveProfile;
+        m_currValveProfile = nullptr;
+    }
 
+    m_currValveProfile = new ValueByValueProfile(profile);
+    drawValveGraph(m_currValveProfile);
+
+    if(m_needEdit)
+    {
+        m_valveEditor = new ValveProfileEditorFrame(m_currValveProfile);
+        connect(m_valveEditor, &ValveProfileEditorFrame::editComplete, this, &SelectProfileFrame::onValveProfileEditorCompleted);
+        FrameManager::instance()->setCurrentFrame(m_valveEditor);
+    }
 }
 
 void SelectProfileFrame::VentProfileCreated()
 {
-
+    m_graphService->GetVentInfos();
 }
 
 void SelectProfileFrame::VentProfileUpdated()
 {
-
+    m_graphService->GetVentInfos();
 }
 
 void SelectProfileFrame::TempProfileCreated()
@@ -196,8 +210,12 @@ void SelectProfileFrame::selectRow(int row)
         m_graphService->GetTemperatureProfile(key);
         break;
     case ProfileType::Ventilation:
+        m_needEdit = false;
+        m_graphService->GetVentilationProfile(key);
         break;
     case ProfileType::ValveByVent:
+        m_needEdit = false;
+        m_graphService->GetValveProfile(key);
         break;
     }
 }
@@ -249,15 +267,37 @@ void SelectProfileFrame::drawVentilationGraph(MinMaxByDayProfile *profile)
     plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
     plot->graph(1)->setData(days, minValues);
 
-    plot->xAxis->setRange(1,100);
-    plot->yAxis->setRange(1,50);
+    plot->xAxis->setRange(1,50);
+    plot->yAxis->setRange(0,10);
 
     plot->replot();
 }
 
 void SelectProfileFrame::drawValveGraph(ValueByValueProfile *profile)
 {
+    QCustomPlot *plot = ui->plot;
 
+    plot->addGraph();
+    int pointCount = profile->Points.count();
+
+
+    QVector<double> ValuesX(pointCount);
+    QVector<double> ValuesY(pointCount);
+
+    for(int i = 0; i < pointCount; i++)
+    {
+        ValuesX[i] = profile->Points[i].ValueX;
+        ValuesY[i] = profile->Points[i].ValueY;
+    }
+
+    plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
+    plot->graph(0)->setData(ValuesX, ValuesY);
+
+
+    plot->xAxis->setRange(1,100);
+    plot->yAxis->setRange(1,100);
+
+    plot->replot();
 }
 
 

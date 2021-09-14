@@ -204,19 +204,48 @@ namespace Clima.Core.Scheduler
         {
             if (!(o is ClimaScheduler sc)) return;
             var workingTime = _time.Now - sc._state.StartProductionDate;
-            var currentDay = workingTime.Days;
+            _state.CurrentDay = workingTime.Days;
             Log.Debug("Process scheduler");
-
+            string dataToLog = "";
+            //Calculate setpoints
+                //Temperature
+            _state.TemperatureSetPoint = GetDayTemperature(_state.CurrentDay);
+            dataToLog += "Temp set point:" + _state.TemperatureSetPoint + " \n";
+                //Ventilation
+            var dayVent = GetDayVentilation(_state.CurrentDay);
+            _state.VentilationMaxPoint = dayVent.MaxValue;
+            dataToLog += "Max vent:" + _state.VentilationMaxPoint + " \n";
+            _state.VentilationMinPoint = dayVent.MinValue;
+            dataToLog += "MinVent:" + _state.VentilationMinPoint + " \n";
+            _state.VentilationSetPoint = ProcessVent(
+                _state.TemperatureSetPoint,
+                _state.VentilationMinPoint,
+                _state.VentilationMaxPoint);
+            dataToLog += "Vent set point:" + _state.VentilationSetPoint + " \n";
+                //Valves
+            _state.ValveSetPoint = GetCurrentValve(_state.VentilationSetPoint);
+            dataToLog += "Valve set point:" + _state.ValveSetPoint + " \n";
+            _state.MaineSetPoint = GetCurrentMine(_state.VentilationSetPoint);
+            dataToLog += "Mine set point:" + _state.MaineSetPoint + " \n";
+            
+            Log.Info(dataToLog);
+            //_state.ValveSetPoint = Get
             if (sc.SchedulerState == SchedulerState.Preparing)
             {
                 sc._heater.Process(sc._pConfig.TemperatureSetPoint);
             }
             else if (sc.SchedulerState == SchedulerState.Production)
             {
-                sc._heater.Process(GetDayTemperature(currentDay));
+                sc._heater.Process(_state.TemperatureSetPoint);
+                //sc._ventilation.SetPerformance(_state.);
             }
         }
 
+        private float ProcessVent(float tempSetPoint, float minVent, float maxVent)
+        {
+
+            return 0;
+        }
         private float GetCurrentMinuteTemperature()
         {
             return 0f;
@@ -228,6 +257,10 @@ namespace Clima.Core.Scheduler
             //соседними точками для текущего дня
             /*TimeSpan workingTime = DateTime.Now - SchedulerState.StartGrowingTime;
             int currentDay = workingTime.Days;*/
+            if (dayNumber == 0)
+            {
+                return _temperatureGraph.Points[0].Value;
+            }
             ValueByDayPoint? pt = _temperatureGraph.Points.FirstOrDefault(point => point.Day == dayNumber);
             if (pt != null)
                 return pt.Value;
@@ -254,12 +287,79 @@ namespace Clima.Core.Scheduler
 
             return temperature;
         }
+        internal float GetCurrentValve(float ventValue)
+        {
+            //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
+            //соседними точками для текущего дня
+            /*TimeSpan workingTime = DateTime.Now - SchedulerState.StartGrowingTime;
+            int currentDay = workingTime.Days;*/
+            ValueByValuePoint? pt = _valveGraph.Points.FirstOrDefault(point => point.ValueX == ventValue);
+            if (pt != null)
+                return pt.ValueY;
+
+
+            var smallerNumberCloseToInput = (from n1 in _valveGraph.Points
+                where n1.ValueX < ventValue
+                orderby n1.ValueX descending
+                select n1).First();
+
+            var largerNumberCloseToInput = (from n1 in _valveGraph.Points
+                where n1.ValueX > ventValue
+                orderby n1.ValueX
+                select n1).First();
+
+            var distance = largerNumberCloseToInput.ValueX - smallerNumberCloseToInput.ValueX;
+            float diff = ventValue - smallerNumberCloseToInput.ValueX;
+            var point = diff / distance;
+            
+            var valve = MathUtils.Lerp(
+                smallerNumberCloseToInput.ValueY,
+                largerNumberCloseToInput.ValueY,
+                point);
+
+            return valve;
+        }
+        internal float GetCurrentMine(float ventValue)
+        {
+            //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
+            //соседними точками для текущего дня
+            /*TimeSpan workingTime = DateTime.Now - SchedulerState.StartGrowingTime;
+            int currentDay = workingTime.Days;*/
+            ValueByValuePoint? pt = _mineGraph.Points.FirstOrDefault(point => point.ValueX == ventValue);
+            if (pt != null)
+                return pt.ValueY;
+
+
+            var smallerNumberCloseToInput = (from n1 in _mineGraph.Points
+                where n1.ValueX < ventValue
+                orderby n1.ValueX descending
+                select n1).First();
+
+            var largerNumberCloseToInput = (from n1 in _mineGraph.Points
+                where n1.ValueX > ventValue
+                orderby n1.ValueX
+                select n1).First();
+
+            var distance = largerNumberCloseToInput.ValueX - smallerNumberCloseToInput.ValueX;
+            float diff = ventValue - smallerNumberCloseToInput.ValueX;
+            var point = diff / distance;
+            
+            var valve = MathUtils.Lerp(
+                smallerNumberCloseToInput.ValueY,
+                largerNumberCloseToInput.ValueY,
+                point);
+
+            return valve;
+        }
         internal MinMaxByDayPoint GetDayVentilation(int dayNumber)
         {
             //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
             //соседними точками для текущего дня
             /*TimeSpan workingTime = DateTime.Now - SchedulerState.StartGrowingTime;
             int currentDay = workingTime.Days;*/
+            if (dayNumber == 0)
+                return _ventilationGraph.Points[0];
+            
             MinMaxByDayPoint? pt = _ventilationGraph.Points.FirstOrDefault(dayPoint => dayPoint.Day == dayNumber);
             if (pt != null)
                 return pt;
@@ -304,8 +404,18 @@ namespace Clima.Core.Scheduler
             if (config is SchedulerConfig cfg)
             {
                 _config = cfg;
+                _temperatureGraph = _graphProviderFactory.TemperatureGraphProvider()
+                    .GetGraph(_config.TemperatureProfileKey);
+
+                _ventilationGraph = _graphProviderFactory.VentilationGraphProvider()
+                    .GetGraph(_config.VentilationProfileKey);
                 
+                _valveGraph = _graphProviderFactory.ValveGraphProvider()
+                    .GetGraph(_config.ValveProfileKey);
                 
+                _mineGraph = _graphProviderFactory.ValveGraphProvider()
+                    .GetGraph(_config.MineProfileKey);
+
                 ServiceState = ServiceState.Initialized;
             }
         }

@@ -138,10 +138,23 @@
       "FinePauseTime": 2500,
       "FullOpen": 90.0,
       "FullClose": 8.0
+    },
+    "SERVO:1": {
+      "$id": "17",
+      "ServoName": "SERVO:1",
+      "OpenPinName": "DO:3:5",
+      "ClosePinName": "DO:3:6",
+      "FeedbackPinName": "AI:1:5",
+      "FineAccuracy": 0.1,
+      "CoarseAccuracy": 1.5,
+      "FinePulseTime": 500,
+      "FinePauseTime": 2500,
+      "FullOpen": 90.0,
+      "FullClose": 8.0
     }
   },
   "Sensors": {
-    "$id": "17",
+    "$id": "18",
     "FrontTempPinName": "AI:1:0",
     "RearTempPinName": "AI:1:1",
     "OutdoorTempPinName": "AI:1:6",

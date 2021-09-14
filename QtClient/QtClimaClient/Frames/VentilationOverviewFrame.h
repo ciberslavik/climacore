@@ -34,8 +34,7 @@ public:
     virtual QString getFrameName() override{return "VentilationOverviewFrame";}
 private slots:
     void on_pushButton_clicked();
-    void on_btnSelectProfile_clicked();
-    void onProfileSelectorComplete(ProfileInfo profileInfo);
+
 
     void onFanStatesReceived(QList<FanState> states);
     void onFanStateUpdated(FanState state);
@@ -48,6 +47,10 @@ private slots:
     void onBeginEditFan(const QString &fanKey);
     void onAcceptEditFan(const QString &fanKey);
     void onCancelEditFan(const QString &fanKey);
+    void on_btnConfigMine_clicked();
+
+    void on_btnConfigValve_clicked();
+
 private:
     Ui::VentilationOverviewFrame *ui;
     SelectProfileFrame *m_ProfileSelector;

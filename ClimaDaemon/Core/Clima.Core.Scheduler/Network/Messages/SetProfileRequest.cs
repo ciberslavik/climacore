@@ -6,6 +6,6 @@
         {
         }
 
-        public string GraphKey { get; set; }
+        public string ProfileKey { get; set; }
     }
 }

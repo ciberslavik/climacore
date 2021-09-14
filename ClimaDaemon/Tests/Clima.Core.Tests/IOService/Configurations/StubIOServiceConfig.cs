@@ -18,7 +18,7 @@ namespace Clima.Core.Tests.IOService.Configurations
         public static StubIOServiceConfig CreateDefault()
         {
             var config = new StubIOServiceConfig();
-            for (var i = 0; i < 12; i++)
+            for (var i = 0; i < 8; i++)
             {
                 var dout = new StubDOUTConfig();
                 dout.PinName = $"DO:2:{i}";
@@ -26,6 +26,14 @@ namespace Clima.Core.Tests.IOService.Configurations
                 config.DiscreteOutputs.Add(dout.PinName, dout);
             }
 
+            for (var i = 0; i < 12; i++)
+            {
+                var dout = new StubDOUTConfig();
+                dout.PinName = $"DO:3:{i}";
+                dout.MonitorPinName = "";
+                config.DiscreteOutputs.Add(dout.PinName, dout);
+            }
+            
             for (var i = 0; i < 12; i++)
             {
                 var din = new StubDINConfig();

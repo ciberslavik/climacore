@@ -33,6 +33,8 @@ private slots:
 
     void on_btnProduction_clicked();
 
+    void on_btnEditProfiles_clicked();
+
 private:
     Ui::MainMenuFrame *ui;
 };

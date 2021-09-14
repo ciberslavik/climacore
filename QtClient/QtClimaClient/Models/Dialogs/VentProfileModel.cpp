@@ -50,9 +50,9 @@ QVariant VentProfileModel::data(const QModelIndex &index, int role) const
     if(role == Qt::DisplayRole)
     {
         if(index.row()==0)
-            return m_profile->Points.at(index.column()).MaxValue;
+            return QString::number(m_profile->Points.at(index.column()).MaxValue);
         else if(index.row()==1)
-            return m_profile->Points.at(index.column()).MinValue;
+            return QString::number(m_profile->Points.at(index.column()).MinValue);
 
     }
 

@@ -157,7 +157,6 @@ namespace Clima.NetworkServer.Transport.TcpSocket
                 Console.WriteLine($"Disconnected:{session.ConnectionId}");
                 _connections.TryRemove(session.ConnectionId, out _);
                 session.Disconnect();
-                
             }
         }
 

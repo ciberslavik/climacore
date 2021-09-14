@@ -191,7 +191,7 @@ void GraphService::UpdateValveProfile(ValueByValueProfile profile)
     NetworkRequest *request = new NetworkRequest();
     request->jsonrpc = "0.1a";
     request->service = "GraphProviderService";
-    request->method = "UpdateVentilationProfile";
+    request->method = "UpdateValveProfile";
 
     UpdateValueByValueProfileRequest profileRequest;
     profileRequest.Profile = profile;

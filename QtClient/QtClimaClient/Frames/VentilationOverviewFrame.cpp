@@ -3,6 +3,7 @@
 #include "ui_VentilationOverviewFrame.h"
 #include <Services/FrameManager.h>
 #include <ApplicationWorker.h>
+#include <Frames/Dialogs/ConfigValveDialog.h>
 
 VentilationOverviewFrame::VentilationOverviewFrame(QWidget *parent) :
     FrameBase(parent),
@@ -42,18 +43,7 @@ void VentilationOverviewFrame::on_pushButton_clicked()
 }
 
 
-void VentilationOverviewFrame::on_btnSelectProfile_clicked()
-{
-    m_ProfileSelector = new SelectProfileFrame(ProfileType::Ventilation);
-    connect(m_ProfileSelector, &SelectProfileFrame::ProfileSelected, this, &VentilationOverviewFrame::onProfileSelectorComplete);
-    FrameManager::instance()->setCurrentFrame(m_ProfileSelector);
-}
 
-void VentilationOverviewFrame::onProfileSelectorComplete(ProfileInfo profileInfo)
-{
-   // disconnect(m_ProfileSelector, &SelectProfileFrame::ProfileSelected, this, &VentilationOverviewFrame::onProfileSelectorComplete);
-    ui->lblProfileName->setText(profileInfo.Name);
-}
 
 void VentilationOverviewFrame::onFanStatesReceived(QList<FanState> states)
 {
@@ -211,5 +201,27 @@ void VentilationOverviewFrame::onCancelEditFan(const QString &fanKey)
 
     m_ventService->UpdateFanState(m_editedOld);
     qDebug() << "Cancel edit fan:" << fanKey;
+}
+
+
+void VentilationOverviewFrame::on_btnConfigMine_clicked()
+{
+    ConfigValveDialog dlg(ConfigValveDialog::Mine, FrameManager::instance()->MainWindow());
+
+    if(dlg.exec() == QDialog::Accepted)
+    {
+
+    }
+}
+
+
+void VentilationOverviewFrame::on_btnConfigValve_clicked()
+{
+    ConfigValveDialog dlg(ConfigValveDialog::Mine, FrameManager::instance()->MainWindow());
+
+    if(dlg.exec() == QDialog::Accepted)
+    {
+
+    }
 }
 

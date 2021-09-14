@@ -8,7 +8,7 @@
 #include <Models/Dialogs/ValveProfileModel.h>
 #include <Frames/Dialogs/ValueByValueEditDialog.h>
 namespace Ui {
-class GraphEditorFrame;
+class ValveProfileEditorFrame;
 }
 
 class ValveProfileEditorFrame : public FrameBase
@@ -40,7 +40,7 @@ private slots:
     void on_btnRight_clicked();
 
 private:
-    Ui::GraphEditorFrame *ui;
+    Ui::ValveProfileEditorFrame *ui;
     ValueByValueProfile *m_profile;
     ValveProfileModel *m_model;
     QItemSelectionModel *m_selection;

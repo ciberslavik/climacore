@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ValveProfileEditorFrame.h"
+
 #include <Frames/FrameBase.h>
 #include <QItemSelectionModel>
 #include <QWidget>
@@ -77,5 +79,6 @@ private:
 
     TempProfileEditorFrame *m_tempEditor;
     VentProfileEditorFrame *m_ventEditor;
+    ValveProfileEditorFrame *m_valveEditor;
 };
 

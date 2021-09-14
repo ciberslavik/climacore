@@ -9,20 +9,21 @@
         "$id": "4",
         "Key": "Default",
         "Name": "Default Graph",
-        "CreationTime": "2021-09-08T00:15:07.1932086+03:00",
-        "ModifiedTime": "2021-09-08T00:15:07.1932132+03:00"
+        "Description": "",
+        "CreationTime": "2021-09-08T00:15:07+03:00",
+        "ModifiedTime": "2021-09-15T01:53:17.060385+03:00"
       },
       "Points": [
         {
           "$id": "5",
-          "Day": 0,
-          "Temperature": 0.0,
+          "Ventilation": 0.0,
+          "Valve": 0.0,
           "Index": 0
         },
         {
           "$id": "6",
-          "Day": 0,
-          "Temperature": 0.0,
+          "Ventilation": 100.0,
+          "Valve": 100.0,
           "Index": 0
         }
       ]

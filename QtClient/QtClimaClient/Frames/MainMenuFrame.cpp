@@ -9,6 +9,8 @@
 
 #include <Services/FrameManager.h>
 
+#include <Frames/Graphs/ConfigProfilesFrame.h>
+
 MainMenuFrame::MainMenuFrame(QWidget *parent) :
     FrameBase(parent),
     ui(new Ui::MainMenuFrame)
@@ -67,3 +69,11 @@ void MainMenuFrame::on_btnProduction_clicked()
 
     FrameManager::instance()->setCurrentFrame(prodFrame);
 }
+
+void MainMenuFrame::on_btnEditProfiles_clicked()
+{
+    ConfigProfilesFrame *pofFrame = new ConfigProfilesFrame();
+
+    FrameManager::instance()->setCurrentFrame(pofFrame);
+}
+

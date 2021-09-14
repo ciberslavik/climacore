@@ -167,28 +167,76 @@
       "MonitorPinName": "DI:2:7",
       "PinNumberInModule": 0
     },
-    "DO:2:8": {
+    "DO:3:0": {
       "$id": "34",
-      "PinName": "DO:2:8",
-      "MonitorPinName": "DI:2:8",
+      "PinName": "DO:3:0",
+      "MonitorPinName": "",
       "PinNumberInModule": 0
     },
-    "DO:2:9": {
+    "DO:3:1": {
       "$id": "35",
-      "PinName": "DO:2:9",
-      "MonitorPinName": "DI:2:9",
+      "PinName": "DO:3:1",
+      "MonitorPinName": "",
       "PinNumberInModule": 0
     },
-    "DO:2:10": {
+    "DO:3:2": {
       "$id": "36",
-      "PinName": "DO:2:10",
-      "MonitorPinName": "DI:2:10",
+      "PinName": "DO:3:2",
+      "MonitorPinName": "",
       "PinNumberInModule": 0
     },
-    "DO:2:11": {
+    "DO:3:3": {
       "$id": "37",
-      "PinName": "DO:2:11",
-      "MonitorPinName": "DI:2:11",
+      "PinName": "DO:3:3",
+      "MonitorPinName": "",
+      "PinNumberInModule": 0
+    },
+    "DO:3:4": {
+      "$id": "38",
+      "PinName": "DO:3:4",
+      "MonitorPinName": "",
+      "PinNumberInModule": 0
+    },
+    "DO:3:5": {
+      "$id": "39",
+      "PinName": "DO:3:5",
+      "MonitorPinName": "",
+      "PinNumberInModule": 0
+    },
+    "DO:3:6": {
+      "$id": "40",
+      "PinName": "DO:3:6",
+      "MonitorPinName": "",
+      "PinNumberInModule": 0
+    },
+    "DO:3:7": {
+      "$id": "41",
+      "PinName": "DO:3:7",
+      "MonitorPinName": "",
+      "PinNumberInModule": 0
+    },
+    "DO:3:8": {
+      "$id": "42",
+      "PinName": "DO:3:8",
+      "MonitorPinName": "",
+      "PinNumberInModule": 0
+    },
+    "DO:3:9": {
+      "$id": "43",
+      "PinName": "DO:3:9",
+      "MonitorPinName": "",
+      "PinNumberInModule": 0
+    },
+    "DO:3:10": {
+      "$id": "44",
+      "PinName": "DO:3:10",
+      "MonitorPinName": "",
+      "PinNumberInModule": 0
+    },
+    "DO:3:11": {
+      "$id": "45",
+      "PinName": "DO:3:11",
+      "MonitorPinName": "",
       "PinNumberInModule": 0
     }
   },

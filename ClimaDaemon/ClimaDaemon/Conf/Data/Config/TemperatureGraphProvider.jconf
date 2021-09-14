@@ -72,9 +72,46 @@
         "Name": "ЛЕТО",
         "Description": "",
         "CreationTime": "2021-09-11T13:50:56",
-        "ModifiedTime": "2021-09-11T13:50:56"
+        "ModifiedTime": "2021-09-15T00:31:42.9729758+03:00"
       },
-      "Points": []
+      "Points": [
+        {
+          "$id": "15",
+          "Day": 1,
+          "Temperature": 33.0,
+          "Index": 0
+        },
+        {
+          "$id": "16",
+          "Day": 10,
+          "Temperature": 30.0,
+          "Index": 0
+        },
+        {
+          "$id": "17",
+          "Day": 20,
+          "Temperature": 27.0,
+          "Index": 0
+        },
+        {
+          "$id": "18",
+          "Day": 30,
+          "Temperature": 25.0,
+          "Index": 0
+        },
+        {
+          "$id": "19",
+          "Day": 40,
+          "Temperature": 22.0,
+          "Index": 0
+        },
+        {
+          "$id": "20",
+          "Day": 50,
+          "Temperature": 20.0,
+          "Index": 0
+        }
+      ]
     }
   },
   "ConfigurationName": "DefaultConfig"

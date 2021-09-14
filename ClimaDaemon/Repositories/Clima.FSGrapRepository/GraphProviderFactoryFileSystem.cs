@@ -119,7 +119,7 @@ namespace Clima.FSGrapRepository
                 _configStorgae.RegisterConfig(configName, valveProviderConfig);
                 _configStorgae.Save();
             }
-            _tempProviderConfig = _configStorgae.GetConfig<GraphProviderConfig<TemperatureGraphPointConfig>>(configName);
+            _valveProviderConfig = _configStorgae.GetConfig<GraphProviderConfig<ValveGraphPointConfig>>(configName);
         }
         public IGraphProvider<TemperatureGraph, ValueByDayPoint> TemperatureGraphProvider()
         {

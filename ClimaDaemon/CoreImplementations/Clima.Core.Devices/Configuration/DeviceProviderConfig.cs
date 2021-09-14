@@ -52,21 +52,10 @@ namespace Clima.Core.Devices.Configuration
                 relay.MonitorPinName = $"DI:2:{i}";
                 config._monitoredRelays.Add(relayName, relay);
             }
-
-            var fanConfig = new FanInfo();
-
-            fanConfig.FanName = "FAN:0";
-            fanConfig.Priority = 1;
-            fanConfig.FanCount = 2;
-            fanConfig.Performance = 15000;
-            fanConfig.StartValue = 0.1f;
-            fanConfig.StopValue = 0.05f;
-
-            fanConfig.IsAnalog = true;
-            fanConfig.RelayName = "FC:0";
-            config.Fans.Add(fanConfig.FanName, fanConfig);
-
+            
+            
             config.Servos.Add("SERVO:0", ServoConfig.CreateDefault(0));
+            config.Servos.Add("SERVO:1", ServoConfig.CreateDefault(1));
 
             config.Sensors = SensorsConfig.CreateDefault();
             config.Heaters.Add("HEAT:0", new HeaterConfig()

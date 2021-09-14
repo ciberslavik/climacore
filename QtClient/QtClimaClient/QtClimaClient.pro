@@ -24,11 +24,14 @@ SOURCES += \
     Frames/Dialogs/StartPreparingDialog.cpp \
     Frames/Dialogs/StartProductionDialog.cpp \
     Frames/Dialogs/ValueByDayEditDialog.cpp \
+    Frames/Dialogs/ValueByValueEditDialog.cpp \
     Frames/Dialogs/inputdigitdialog.cpp \
     Frames/Dialogs/inputtextdialog.cpp \
     Frames/FrameBase.cpp \
+    Frames/Graphs/ConfigProfilesFrame.cpp \
     Frames/Graphs/SelectProfileFrame.cpp \
     Frames/Graphs/TempProfileEditorFrame.cpp \
+    Frames/Graphs/ValveProfileEditorFrame.cpp \
     Frames/Graphs/VentProfileEditorFrame.cpp \
     Frames/LightConfigFrame.cpp \
     Frames/MainMenuFrame.cpp \
@@ -76,6 +79,9 @@ HEADERS += \
     Frames/Dialogs/HeaterConfigDialog.h \
     Frames/Dialogs/StartPreparingDialog.h \
     Frames/Dialogs/StartProductionDialog.h \
+    Frames/Dialogs/ValueByValueEditDialog.h \
+    Frames/Graphs/ConfigProfilesFrame.h \
+    Frames/Graphs/ValveProfileEditorFrame.h \
     Frames/Graphs/VentProfileEditorFrame.h \
     Models/Dialogs/ValveProfileModel.h \
     Models/Dialogs/VentProfileModel.h \
@@ -170,9 +176,12 @@ HEADERS += \
     Network/GenericServices/Messages/SensorsServiceRequest.h \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \
+    Network/GenericServices/Messages/ServoStateResponse.h \
+    Network/GenericServices/Messages/SetProfileRequest.h \
     Network/GenericServices/Messages/TemperatureStateResponse.h \
     Network/GenericServices/Messages/UpdateFanStateRequest.h \
     Network/GenericServices/Messages/UpdateMinMaxByDayProfileRequest.h \
+    Network/GenericServices/Messages/UpdateServoStateRequest.h \
     Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
     Network/GenericServices/Messages/UpdateValueByValueProfileRequest.h \
     Network/GenericServices/ProductionService.h \
@@ -207,10 +216,13 @@ FORMS += \
     Frames/Dialogs/StartPreparingDialog.ui \
     Frames/Dialogs/StartProductionDialog.ui \
     Frames/Dialogs/ValueByDayEditDialog.ui \
+    Frames/Dialogs/ValueByValueEditDialog.ui \
     Frames/Dialogs/inputdigitdialog.ui \
     Frames/Dialogs/inputtextdialog.ui \
+    Frames/Graphs/ConfigProfilesFrame.ui \
     Frames/Graphs/SelectProfileFrame.ui \
     Frames/Graphs/TempProfileEditorFrame.ui \
+    Frames/Graphs/ValveProfileEditorFrame.ui \
     Frames/Graphs/VentProfileEditorFrame.ui \
     Frames/LightConfigFrame.ui \
     Frames/MainMenuFrame.ui \

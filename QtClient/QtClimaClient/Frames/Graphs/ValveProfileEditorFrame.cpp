@@ -7,7 +7,7 @@
 
 ValveProfileEditorFrame::ValveProfileEditorFrame(ValueByValueProfile *profile, QWidget *parent) :
     FrameBase(parent),
-    ui(new Ui::GraphEditorFrame)
+    ui(new Ui::ValveProfileEditorFrame)
 {
     ui->setupUi(this);
     setTitle("Редактирование профиля температуры");
@@ -19,7 +19,7 @@ ValveProfileEditorFrame::ValveProfileEditorFrame(ValueByValueProfile *profile, Q
     ui->lblCreationDate->setText(m_profile->Info.CreationTime.toString("dd.MM.yyyy hh:mm"));
     ui->lblEditDate->setText(m_profile->Info.ModifiedTime.toString("dd.MM.yyyy hh:mm"));
 
-    m_model = new TempProfileModel(m_profile);
+    m_model = new ValveProfileModel(m_profile);
 
     ui->table->setModel(m_model);
     ui->table->resizeColumnsToContents();
@@ -67,13 +67,24 @@ void ValveProfileEditorFrame::on_btnAddPoint_clicked()
     ValueByValuePoint point;
     ValueByValueEditDialog *dialog = new ValueByValueEditDialog(FrameManager::instance()->MainWindow());
 
-    dialog->setValue(&point);
+    dialog->setValueX(point.ValueX);
+    dialog->setValueY(point.ValueY);
+
     dialog->setTitle("Добавление точки");
-    dialog->setValueName("Температура");
+
+    dialog->setValueXTitle("Вентиляция");
+    dialog->setValueXSuffix("м3ч/гол.");
+
+    dialog->setValueYTitle("Пол. серво");
+    dialog->setValueYSuffix("%");
 
     if(dialog->exec() == QDialog::Accepted)
     {
+        point.ValueX = dialog->getValueX();
+        point.ValueY = dialog->getValueY();
+
         ui->table->setModel(nullptr);
+
         m_profile->Points.append(point);
 
         qSort(m_profile->Points.begin(), m_profile->Points.end(),
@@ -109,17 +120,29 @@ void ValveProfileEditorFrame::on_btnEditPoint_clicked()
     if(indexes.count() > 0)
     {
         currentIndex = indexes.at(0).column();
-        ValueByDayPoint point = m_profile->Points.at(currentIndex);
+        ValueByValuePoint point = m_profile->Points.at(currentIndex);
 
-        ValueByDayEditDialog *dialog = new ValueByDayEditDialog(FrameManager::instance()->MainWindow());
+        ValueByValueEditDialog *dialog = new ValueByValueEditDialog(FrameManager::instance()->MainWindow());
 
-        dialog->setValue(&point);
-        dialog->setTitle("Редактирование точки");
-        dialog->setValueName("Температура");
+        dialog->setValueX(point.ValueX);
+        dialog->setValueY(point.ValueY);
+
+        dialog->setTitle("Добавление точки");
+
+        dialog->setValueXTitle("Вентиляция");
+        dialog->setValueXSuffix("м3ч/гол.");
+
+        dialog->setValueYTitle("Пол. серво");
+        dialog->setValueYSuffix("%");
+
 
         if(dialog->exec() == QDialog::Accepted)
         {
             ui->table->setModel(nullptr);
+
+            point.ValueX = dialog->getValueX();
+            point.ValueY = dialog->getValueY();
+
             m_profile->Points[currentIndex] = point;
 
             qSort(m_profile->Points.begin(), m_profile->Points.end(),
@@ -214,16 +237,16 @@ void ValveProfileEditorFrame::drawGraph()
     plot->addGraph();
     int pointCount = m_profile->Points.count();
 
-    QVector<double> days(pointCount);
-    QVector<double> temps(pointCount);
+    QVector<double> value_x(pointCount);
+    QVector<double> value_y(pointCount);
 
     for(int i = 0; i < pointCount; i++)
     {
-        days[i] = m_profile->Points[i].Day;
-        temps[i] = m_profile->Points[i].Value;
+        value_x[i] = m_profile->Points[i].ValueX;
+        value_y[i] = m_profile->Points[i].ValueY;
     }
     plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
-    plot->graph(0)->setData(days, temps);
+    plot->graph(0)->setData(value_x, value_y);
 
     plot->xAxis->setRange(0,100);
     plot->yAxis->setRange(0,100);

@@ -215,7 +215,6 @@ void VentProfileEditorFrame::drawGraph()
     plot->clearGraphs();
 
 
-    qDebug()<< "graphs count"<< plot->graphCount();
     int pointCount = m_profile->Points.count();
 
     QVector<double> days(pointCount);
@@ -232,15 +231,15 @@ void VentProfileEditorFrame::drawGraph()
     plot->addGraph();
     plot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
     plot->graph()->setData(days, maxValue);
-    plot->graph()->rescaleAxes();
+    //plot->graph()->rescaleAxes();
 
     plot->addGraph();
     plot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
     plot->graph()->setData(days, minValue);
-    plot->graph()->rescaleAxes();
+    //plot->graph()->rescaleAxes();
 
     plot->xAxis->setRange(1,50);
-    plot->yAxis->setRange(0,100);
+    plot->yAxis->setRange(0,10);
 
     plot->replot();
 }

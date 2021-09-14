@@ -17,6 +17,7 @@ namespace Clima.Core.Scheduler
                 _state.SchedulerState = SchedulerState.Preparing;
                 StartTimer();
                 _state.StartPreparingDate = config.StartDate;
+                Save();
             }
         }
 
@@ -27,6 +28,7 @@ namespace Clima.Core.Scheduler
                 _state.SchedulerState = SchedulerState.Production;
                 StartTimer();
                 _state.StartProductionDate = config.StartDate;
+                Save();
             }
         }
 
@@ -37,6 +39,8 @@ namespace Clima.Core.Scheduler
                 _state.SchedulerState = SchedulerState.Stopped;
                 StopTimer(TimeSpan.FromSeconds(20));
                 _heater.StopHeater();
+                _ventilation.SetPerformance(0);
+                Save();
             }
         }
 
