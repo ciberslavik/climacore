@@ -15,13 +15,18 @@ namespace Clima.Core.Conrollers.Ventilation
     public class VentilationController : IVentilationController
     {
         private readonly IDeviceProvider _devProvider;
-        private FanControllerTable _fanTable;
+        private Dictionary<string, FanControllerTableItem> _fanTable;
         private VentilationControllerConfig _config;
-
+        private IServoDrive _valveServo = null;
+        private bool _valveManual = false;
+        private IServoDrive _mineServo = null;
+        private bool _mineManual = false;
+        private int _currentPerformance;
+        private int _totalPerformance;
         public VentilationController(IDeviceProvider devProvider)
         {
             _devProvider = devProvider;
-            _fanTable = new FanControllerTable();
+            _fanTable = new Dictionary<string, FanControllerTableItem>();
 
             ServiceState = ServiceState.NotInitialized;
         }
@@ -60,7 +65,7 @@ namespace Clima.Core.Conrollers.Ventilation
         public Dictionary<string, FanState> FanStates { get; } 
             = new Dictionary<string, FanState>();
 
-        public string CreateOrUpdate(FanInfo fanInfo)
+        public string CreateOrUpdateFan(FanInfo fanInfo)
         {
             try
             {
@@ -77,7 +82,6 @@ namespace Clima.Core.Conrollers.Ventilation
                         FanStates.Add(fanInfo.Key, new FanState()
                         {
                             Info = fanInfo,
-                            Mode = FanModeEnum.Auto,
                             State = FanStateEnum.Stopped
                         });
                     }
@@ -89,7 +93,6 @@ namespace Clima.Core.Conrollers.Ventilation
                     FanStates.Add(fanInfo.Key, new FanState()
                     {
                         Info = fanInfo,
-                        Mode = FanModeEnum.Auto,
                         State = FanStateEnum.Stopped
                     });
                 }
@@ -117,37 +120,156 @@ namespace Clima.Core.Conrollers.Ventilation
 
         public void SetPerformance(int performance)
         {
-            throw new NotImplementedException();
+            if(_currentPerformance == performance)
+                return;
+            _currentPerformance = performance;
+            foreach (var fanTableValue in _fanTable.Values)
+            {
+                if(fanTableValue.IsHermetise || fanTableValue.IsManual)
+                    continue;
+                
+                if (fanTableValue.StartPerformance <= _currentPerformance)
+                {
+                    fanTableValue.Relay.On();
+                }
+                else
+                {
+                    fanTableValue.Relay.Off();
+                }
+            }
         }
-        public int TotalPerformance => 0;
-        public int CurrentPerformance => 0;
+
+        
+
+        public int TotalPerformance => _totalPerformance;
+        public int CurrentPerformance => _currentPerformance;
 
 
         private void CreateFans()
         {
-            foreach(var info in _config.FanInfos.Values)
+            List<FanInfo> infos = _config.FanInfos.Values.ToList();
+            infos.Sort((p,o) => p.Performance - o.Performance);
+            int perfCounter = 0;
+            int prevPerf = 0;
+            foreach(var info in infos)
             {
+                if (!info.Hermetise)
+                {
+                    prevPerf = perfCounter;
+                    perfCounter += info.Performance * info.FanCount;
+                }
+
                 FanStates.Add(info.Key, new FanState(){
                     Info = info,
-                    Mode = FanModeEnum.Auto,
                     State = FanStateEnum.Stopped
                 });
-                _devProvider.GetRelay(info.RelayName).Off();
+                var fanTableItem = new FanControllerTableItem();
+                fanTableItem.Priority = info.Priority;
+                fanTableItem.IsHermetise = info.Hermetise;
+                fanTableItem.IsManual = info.IsManual;
+                fanTableItem.IsAnalog = info.IsAnalog;
+                
+                fanTableItem.CurrentPerformance = perfCounter;
+                fanTableItem.StartPerformance = prevPerf + info.StartValue;
+                fanTableItem.IsRunning = false;
+                
+                fanTableItem.Relay = _devProvider.GetRelay(info.RelayName);
+                _fanTable.Add(info.Key, fanTableItem);
+            }
+
+            _totalPerformance = perfCounter;
+        }
+
+        public void UpdateFanState(FanState fanState)
+        {
+            var key = fanState.Info.Key;
+            if(FanStates.ContainsKey(key))
+            {
+                if(fanState.Info.IsManual)
+                {
+                    if (fanState.State == FanStateEnum.Running)
+		            {
+			            FanStates[key].State = FanStateEnum.Running;
+                        _fanTable[key].Relay.On();
+                    }
+                    else if(fanState.State == FanStateEnum.Stopped)
+                    {
+			            FanStates[key].State = FanStateEnum.Stopped;
+                        _fanTable[key].Relay.Off();
+                    }
+                }
+		        FanStates[key].Info.IsManual = fanState.Info.IsManual;
             }
         }
 
-        public void UpdateState(FanState fanState)
+        
+
+        public float ValveCurrentPos
         {
-            if(FanStates.ContainsKey(fanState.Info.Key))
+            get
             {
-                if(fanState.Mode == FanModeEnum.Manual)
-                {
-                    if (fanState.State == FanStateEnum.Running)
-                        _devProvider.GetRelay(fanState.Info.RelayName).On();
-                    else if(fanState.State == FanStateEnum.Stopped)
-                        _devProvider.GetRelay(fanState.Info.RelayName).Off();
-                }
+                _valveServo ??= _devProvider.GetServo("SERVO:0");
+                return _valveServo.CurrentPosition;
             }
+        }
+
+        public float ValveSetPoint
+        {
+            get
+            {
+                _valveServo ??= _devProvider.GetServo("SERVO:0");
+                return _valveServo.SetPoint;
+            }
+        }
+
+        public bool ValveIsManual
+        {
+            get => _valveManual;
+            set
+            {
+                _valveManual = value;
+            }
+        }
+
+        public float MineCurrentPos
+        {
+            get
+            {
+                _mineServo ??= _devProvider.GetServo("SERVO:1");
+                return _mineServo.CurrentPosition;
+            }
+        }
+
+        public float MineSetPoint
+        {
+            get
+            {
+                _mineServo ??= _devProvider.GetServo("SERVO:1");
+                return _mineServo.SetPoint;
+            }
+        }
+
+        public bool MineIsManual
+        {
+            get => _mineManual;
+            set
+            {
+                _mineManual = value;
+            }
+        }
+
+        public void SetMinePosition(float position)
+        {
+            _mineServo ??= _devProvider.GetServo("SERVO:1");
+            if (position >= 0 && position <= 100)
+                _mineServo.SetPosition(position);
+        }
+        
+        public void SetValvePosition(float position)
+        {
+            _valveServo ??= _devProvider.GetServo("SERVO:0");
+            if (position >= 0 && position <= 100)
+                _valveServo.SetPosition(position);
         }
     }
 }

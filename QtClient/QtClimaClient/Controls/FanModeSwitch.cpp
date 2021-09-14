@@ -76,6 +76,7 @@ void FanModeSwitch::on_btnAccept_clicked()
 void FanModeSwitch::on_btnCancel_clicked()
 {
     emit cancelEdit();
+    reject();
 }
 
 void FanModeSwitch::paintEvent(QPaintEvent *event)

@@ -19,8 +19,8 @@
       "RelayName": "REL:0",
       "ControlPinName": "DO:2:0",
       "MonitorPinName": "DI:2:0",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 1000,
+      "MonitorTimeout": 1000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -29,8 +29,8 @@
       "RelayName": "REL:1",
       "ControlPinName": "DO:2:1",
       "MonitorPinName": "DI:2:1",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 1000,
+      "MonitorTimeout": 1000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -39,8 +39,8 @@
       "RelayName": "REL:2",
       "ControlPinName": "DO:2:2",
       "MonitorPinName": "DI:2:2",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 1000,
+      "MonitorTimeout": 1000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -49,8 +49,8 @@
       "RelayName": "REL:3",
       "ControlPinName": "DO:2:3",
       "MonitorPinName": "DI:2:3",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 1000,
+      "MonitorTimeout": 1000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -59,8 +59,8 @@
       "RelayName": "REL:4",
       "ControlPinName": "DO:2:4",
       "MonitorPinName": "DI:2:4",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 1000,
+      "MonitorTimeout": 1000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -69,8 +69,8 @@
       "RelayName": "REL:5",
       "ControlPinName": "DO:2:5",
       "MonitorPinName": "DI:2:5",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 1000,
+      "MonitorTimeout": 1000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -79,8 +79,8 @@
       "RelayName": "REL:6",
       "ControlPinName": "DO:2:6",
       "MonitorPinName": "DI:2:6",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 1000,
+      "MonitorTimeout": 1000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     },
@@ -89,8 +89,8 @@
       "RelayName": "REL:7",
       "ControlPinName": "DO:2:7",
       "MonitorPinName": "DI:2:7",
-      "StateChangeTimeout": 0,
-      "MonitorTimeout": 0,
+      "StateChangeTimeout": 1000,
+      "MonitorTimeout": 1000,
       "EnableLevel": 0,
       "MonitorLevel": 0
     }
@@ -146,7 +146,9 @@
     "RearTempPinName": "AI:1:1",
     "OutdoorTempPinName": "AI:1:6",
     "HumidityPinName": "AI:1:2",
-    "PressurePinName": "AI:1:3"
+    "PressurePinName": "AI:1:3",
+    "Valve1PinName": "AI:1:4",
+    "Valve2PinName": "AI:1:5"
   },
   "ConfigurationName": "DeviceProviderConfig"
 }

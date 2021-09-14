@@ -148,6 +148,7 @@ HEADERS += \
     Network/GenericServices/Messages/FanInfoListRsponse.h \
     Network/GenericServices/Messages/FanInfoRequest.h \
     Network/GenericServices/Messages/FanStateListResponse.h \
+    Network/GenericServices/Messages/FanStateResponse.h \
     Network/GenericServices/Messages/GetProfileRequest.h \
     Network/GenericServices/Messages/GetTempProfileResponse.h \
     Network/GenericServices/Messages/GetValveProfileResponse.h \
@@ -170,6 +171,7 @@ HEADERS += \
     Network/GenericServices/Messages/SensorsServiceResponse.h \
     Network/GenericServices/Messages/ServerInfoRequest.h \
     Network/GenericServices/Messages/TemperatureStateResponse.h \
+    Network/GenericServices/Messages/UpdateFanStateRequest.h \
     Network/GenericServices/Messages/UpdateMinMaxByDayProfileRequest.h \
     Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
     Network/GenericServices/Messages/UpdateValueByValueProfileRequest.h \

@@ -1,4 +1,6 @@
-﻿namespace Clima.Core.Conrollers.Ventilation.DataModel
+﻿using Clima.Core.Devices;
+
+namespace Clima.Core.Conrollers.Ventilation.DataModel
 {
     internal class FanControllerTableItem
     {
@@ -14,5 +16,8 @@
         internal bool IsDead { get; set; }
         internal bool IsRunning { get; set; }
         internal bool IsHermetise { get; set; }
+        internal bool IsManual { get; set; }
+        internal bool IsAnalog { get; set; }
+        internal IRelay Relay { get; set; }
     }
 }

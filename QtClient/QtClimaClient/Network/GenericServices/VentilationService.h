@@ -14,10 +14,12 @@ public:
     void GetControllerState();
     void GetFanStateList();
     void GetFanInfoList();
+    void UpdateFanState(const FanState &state);
     void CreateOrUpdateFan(const FanInfo &info);
     void RemoveFan(const QString &fanKey);
 signals:
     void FanStateListReceived(QList<FanState> response);
+    void FanStateUpdated(FanState state);
     void FanInfoListReceived(QList<FanInfo> response);
     void ControllerStateReceived(VentControllerState state);
     void CreateOrUpdateComplete();

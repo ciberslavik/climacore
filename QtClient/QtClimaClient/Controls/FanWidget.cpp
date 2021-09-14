@@ -11,15 +11,22 @@ FanWidget::FanWidget(QWidget *parent) : QWidget(parent)
     rebuildUI();
 }
 
-FanWidget::FanWidget(FanState *stateObj, QWidget *parent)
+FanWidget::FanWidget(const QString &fanKey, QWidget *parent)
 {
-    m_stateObj  = stateObj;
-    m_fanMode = (FanMode_t)m_stateObj->Mode;
-    m_fanState = (FanStateEnum_t)m_stateObj->State;
+    m_fanKey = fanKey;
 
-    m_isAnalog = m_stateObj->Info.IsAnalog;
     createUI();
     rebuildUI();
+}
+
+FanWidget::~FanWidget()
+{
+    disconnect(m_modeLabel, &QClickableLabel::labelClicked, this, &FanWidget::onModeLabelClicked);
+    disconnect(m_modeEditor, &FanModeSwitch::acceptMode, this, &FanWidget::onModeEditorAccept);
+    disconnect(m_modeEditor, &FanModeSwitch::cancelEdit, this, &FanWidget::onModeEditorCancel);
+    disconnect(m_modeEditor, &FanModeSwitch::fanModeChanged, this, &FanWidget::onModeEditorModeChanged);
+    disconnect(m_modeEditor, &FanModeSwitch::fanStateChanged, this, &FanWidget::onModeEditorStateChanged);
+
 }
 
 void FanWidget::setFanState(FanStateEnum_t state)
@@ -48,9 +55,9 @@ FanStateEnum FanWidget::fanState()
     return m_fanState;
 }
 
-FanState *FanWidget::getStateObj()
+QString FanWidget::FanKey()
 {
-    return m_stateObj;
+    return m_fanKey;
 }
 
 
@@ -100,7 +107,7 @@ void FanWidget::resizeEvent(QResizeEvent *event)
 void FanWidget::onModeLabelClicked()
 {
     //m_modeEditor->setVisible(true);
-    emit EditBegin();
+    emit EditBegin(m_fanKey);
     m_modeEditor->setFanMode(m_fanMode);
     m_modeEditor->setFanState(m_fanState);
     m_modeEditor->setParent((QWidget*)parent());
@@ -114,26 +121,26 @@ void FanWidget::onModeEditorAccept()
     setFanState(m_modeEditor->fanState());
     m_modeEditor->setVisible(false);
     m_modeEditor->close();
-    emit EditAccept();
+    emit EditAccept(m_fanKey);
 }
 
 void FanWidget::onModeEditorCancel()
 {
     m_modeEditor->setVisible(false);
     m_modeEditor->close();
-    emit EditCancel();
+    emit EditCancel(m_fanKey);
 }
 
 void FanWidget::onModeEditorModeChanged(FanMode mode)
 {
     setFanMode(m_modeEditor->fanMode());
-    emit FanModeChanged(mode);
+    emit FanModeChanged(m_fanKey, mode);
 }
 
 void FanWidget::onModeEditorStateChanged(FanStateEnum_t state)
 {
     setFanState(m_modeEditor->fanState());
-    emit FanStateChanged(state);
+    emit FanStateChanged(m_fanKey, state);
 }
 
 void FanWidget::createUI()
@@ -146,7 +153,7 @@ void FanWidget::createUI()
 
     //label->setText("Test");
     m_fanLabel->setMovie(m_fanMovie);
-    //m_fanMovie->start();
+    m_fanMovie->start();
     m_manualPixmap = QPixmap(":Images/Industry-Manual-icon.png");
     m_autoPixmap = QPixmap(":Images/Industry-Automatic-icon.png");
     m_discardPixmap = QPixmap(":Images/cancel-icon.png");
@@ -155,6 +162,7 @@ void FanWidget::createUI()
 
     connect(m_modeLabel, &QClickableLabel::labelClicked, this, &FanWidget::onModeLabelClicked);
     connect(m_modeEditor, &FanModeSwitch::acceptMode, this, &FanWidget::onModeEditorAccept);
+    connect(m_modeEditor, &FanModeSwitch::cancelEdit, this, &FanWidget::onModeEditorCancel);
     connect(m_modeEditor, &FanModeSwitch::fanModeChanged, this, &FanWidget::onModeEditorModeChanged);
     connect(m_modeEditor, &FanModeSwitch::fanStateChanged, this, &FanWidget::onModeEditorStateChanged);
 }

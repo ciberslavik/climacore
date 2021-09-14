@@ -19,23 +19,25 @@ class FanWidget : public QWidget
 public:
 
     explicit FanWidget(QWidget *parent = nullptr);
-    explicit FanWidget(FanState *stateObj, QWidget *parent = nullptr);
+    explicit FanWidget(const QString &fanKey, QWidget *parent = nullptr);
+
+    ~FanWidget();
     void setFanState(FanStateEnum_t state);
     void setFanMode(FanMode_t mode);
     FanStateEnum fanState();
     FanMode_t fanMode(){return m_fanMode;}
-    FanState *getStateObj();
+    QString FanKey();
     void setIsAnalog(bool isanalog);
     bool isAnalog(){return m_isAnalog;}
 
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 signals:
-    void FanModeChanged(FanMode_t newMode);
-    void FanStateChanged(FanStateEnum_t newState);
-    void EditBegin();
-    void EditAccept();
-    void EditCancel();
+    void FanModeChanged(const QString &fanKey, FanMode_t newMode);
+    void FanStateChanged(const QString &fanKey, FanStateEnum_t newState);
+    void EditBegin(const QString &fanKey);
+    void EditAccept(const QString &fanKey);
+    void EditCancel(const QString &fanKey);
 private slots:
     void onModeLabelClicked();
     void onModeEditorAccept();
@@ -44,7 +46,7 @@ private slots:
     void onModeEditorStateChanged(FanStateEnum_t state);
 private:
     FanStateEnum_t m_fanState;
-    FanState *m_stateObj;
+    QString m_fanKey;
     FanMode m_fanMode;
     QMovie *m_fanMovie;
     bool m_isAnalog;

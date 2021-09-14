@@ -4,7 +4,8 @@
     {
         void Open();
         void Close();
-        void SetPosition(double target);
-        double CurrentPosition { get; }
+        void SetPosition(float target);
+        float CurrentPosition { get; }
+        float SetPoint { get; }
     }
 }

@@ -127,6 +127,8 @@ namespace Clima.Core.Devices
 
                 s.HumidityPin = _ioService.Pins.AnalogInputs[_config.Sensors.HumidityPinName];
                 s.PressurePin = _ioService.Pins.AnalogInputs[_config.Sensors.PressurePinName];
+		s.Valve1OSPin = _ioService.Pins.AnalogInputs[_config.Sensors.Valve1PinName];
+		s.Valve2OSPin = _ioService.Pins.AnalogInputs[_config.Sensors.Valve2PinName];
                 return s;
             }
             else

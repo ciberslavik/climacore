@@ -122,71 +122,73 @@
     "DO:2:0": {
       "$id": "26",
       "PinName": "DO:2:0",
+      "MonitorPinName": "DI:2:0",
       "PinNumberInModule": 0
     },
     "DO:2:1": {
       "$id": "27",
       "PinName": "DO:2:1",
+      "MonitorPinName": "DI:2:1",
       "PinNumberInModule": 0
     },
     "DO:2:2": {
       "$id": "28",
       "PinName": "DO:2:2",
+      "MonitorPinName": "DI:2:2",
       "PinNumberInModule": 0
     },
     "DO:2:3": {
       "$id": "29",
       "PinName": "DO:2:3",
+      "MonitorPinName": "DI:2:3",
       "PinNumberInModule": 0
     },
     "DO:2:4": {
       "$id": "30",
       "PinName": "DO:2:4",
+      "MonitorPinName": "DI:2:4",
       "PinNumberInModule": 0
     },
     "DO:2:5": {
       "$id": "31",
       "PinName": "DO:2:5",
+      "MonitorPinName": "DI:2:5",
       "PinNumberInModule": 0
     },
     "DO:2:6": {
       "$id": "32",
       "PinName": "DO:2:6",
+      "MonitorPinName": "DI:2:6",
       "PinNumberInModule": 0
     },
     "DO:2:7": {
       "$id": "33",
       "PinName": "DO:2:7",
+      "MonitorPinName": "DI:2:7",
       "PinNumberInModule": 0
     },
     "DO:2:8": {
       "$id": "34",
       "PinName": "DO:2:8",
+      "MonitorPinName": "DI:2:8",
       "PinNumberInModule": 0
     },
     "DO:2:9": {
       "$id": "35",
       "PinName": "DO:2:9",
+      "MonitorPinName": "DI:2:9",
       "PinNumberInModule": 0
     },
     "DO:2:10": {
       "$id": "36",
       "PinName": "DO:2:10",
+      "MonitorPinName": "DI:2:10",
       "PinNumberInModule": 0
     },
     "DO:2:11": {
       "$id": "37",
       "PinName": "DO:2:11",
-      "PinNumberInModule": 0
-    },
-    "DO:3:10": {
-      "$id": "38",
-      "PinName": "DO:3:10",
-      "PinNumberInModule": 0
-    },
-    "DO:3:11": {
-      "$id": "39",
-      "PinName": "DO:3:11",
+      "MonitorPinName": "DI:2:11",
       "PinNumberInModule": 0
     }
   },

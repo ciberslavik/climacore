@@ -1,17 +1,17 @@
 #ifndef FANCONTROLSENUMS_H
 #define FANCONTROLSENUMS_H
-typedef enum class FanStateEnum
+typedef enum class FanStateEnum:int
 {
-    Running,
-    Stopped,
-    Alarm
+    Stopped = 0,
+    Running = 1,
+    Alarm = 2
 }FanStateEnum_t;
 
-typedef enum class FanMode
+typedef enum class FanMode:int
 {
-    Auto,
-    Manual,
-    Disabled
+    Auto = 0,
+    Manual = 1,
+    Disabled = 2
 }FanMode_t;
 
 #endif // FANCONTROLSENUMS_H

@@ -95,6 +95,7 @@ void ClientConnection::ConnectToHost(const QString &host, const int &port, const
         {
             m_connected = true;
             request_counter = 0;
+            m_socket->setReadBufferSize(30000);
             return;
         }
     }

@@ -38,14 +38,16 @@ private slots:
     void onProfileSelectorComplete(ProfileInfo profileInfo);
 
     void onFanStatesReceived(QList<FanState> states);
+    void onFanStateUpdated(FanState state);
 
-    void onFanStateChanged(FanStateEnum_t newState);
-    void onFanModeChanged(FanMode_t newMode);
+    void onEditFanStateChanged(const QString &fanKey, FanStateEnum_t newState);
+    void onEditFanModeChanged(const QString &fanKey, FanMode_t newMode);
+
     void on_btnConfigure_clicked();
 
-    void onBeginEditFan();
-    void onAcceptEditFan();
-    void onCancelEditFan();
+    void onBeginEditFan(const QString &fanKey);
+    void onAcceptEditFan(const QString &fanKey);
+    void onCancelEditFan(const QString &fanKey);
 private:
     Ui::VentilationOverviewFrame *ui;
     SelectProfileFrame *m_ProfileSelector;
@@ -55,6 +57,7 @@ private:
 
     VentilationService *m_ventService;
 
+    FanState m_editedOld;
 
     void createFanWidgets();
     void removeFanWidgets();

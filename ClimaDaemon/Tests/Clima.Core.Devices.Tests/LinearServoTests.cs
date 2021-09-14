@@ -18,7 +18,7 @@ namespace Clima.Core.Devices.Tests
             var servo = new LinearServo();
             servo.Configuration = config;
 
-            servo.ProcessPosition(10, 12.5);
+            servo.ProcessPosition(10, 12.5f);
         }
 
         [Test]

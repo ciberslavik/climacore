@@ -23,7 +23,7 @@ namespace Clima.Core.Devices
         private bool _isFine;
         private bool _isFineClosing;
 
-        private double _targetPos;
+        private float _targetPos;
         //private double _current;
 
         private Timer _fineTimer;
@@ -44,7 +44,7 @@ namespace Clima.Core.Devices
         {
         }
 
-        public void SetPosition(double target)
+        public void SetPosition(float target)
         {
             if (__isMoving)
             {
@@ -77,11 +77,11 @@ namespace Clima.Core.Devices
                 MoveFine(target);
         }
 
-        internal void ProcessPosition(double current, double target)
+        internal void ProcessPosition(float current, float target)
         {
         }
 
-        private void MoveFine(double target)
+        private void MoveFine(float target)
         {
             //Check moving
             Logger.Debug("Move Fine");
@@ -102,7 +102,7 @@ namespace Clima.Core.Devices
             _fineTimer = new Timer(FinePauseTimeout, null, Configuration.FinePauseTime, -1);
         }
 
-        internal void MoveCoarse(double target)
+        internal void MoveCoarse(float target)
         {
             Logger.Debug("Move Coarse");
             if (_isMoving)
@@ -121,7 +121,8 @@ namespace Clima.Core.Devices
         }
 
 
-        public double CurrentPosition => ServoFeedbackPin.Value;
+        public float CurrentPosition => ServoFeedbackPin.Value;
+        public float SetPoint => _targetPos;
         internal ServoConfig Configuration { get; set; }
         internal IDiscreteOutput ServoOpenPin { get; set; }
         internal IDiscreteOutput ServoClosePin { get; set; }

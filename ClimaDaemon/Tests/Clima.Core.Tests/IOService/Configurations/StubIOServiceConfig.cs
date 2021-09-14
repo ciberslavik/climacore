@@ -22,6 +22,7 @@ namespace Clima.Core.Tests.IOService.Configurations
             {
                 var dout = new StubDOUTConfig();
                 dout.PinName = $"DO:2:{i}";
+                dout.MonitorPinName = $"DI:2:{i}";
                 config.DiscreteOutputs.Add(dout.PinName, dout);
             }
 
