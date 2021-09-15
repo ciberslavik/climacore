@@ -41,7 +41,7 @@ void ProductionService::StartProduction(int placeHeads, QDateTime plandingDate, 
 
     ProductionConfigRequest cfg;
     cfg.Config.PlaceHeads = placeHeads;
-    cfg.Config.PlendingDate = plandingDate;
+    cfg.Config.PlandingDate = plandingDate;
     cfg.Config.StartDate = startDate;
 
     request->params = cfg.toJsonString();
@@ -75,7 +75,11 @@ void ProductionService::ProcessReply(NetworkResponse *reply)
         {
             emit PreparingStarted(resp.State.State);
         }
-        if(reply->method == "StopProduction")
+        else if(reply->method == "StartProduction")
+        {
+            emit ProductionStarted(resp.State.State);
+        }
+        else if(reply->method == "StopProduction")
         {
             emit ProductionStopped(resp.State.State);
         }

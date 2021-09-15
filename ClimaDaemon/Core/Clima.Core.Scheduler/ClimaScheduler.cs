@@ -203,8 +203,17 @@ namespace Clima.Core.Scheduler
         private void SchedulerProcess(object? o)
         {
             if (!(o is ClimaScheduler sc)) return;
-            var workingTime = _time.Now - sc._state.StartProductionDate;
-            _state.CurrentDay = workingTime.Days;
+            if (sc._state.StartProductionDate >= sc._time.Now)
+            {
+                var workingTime = _time.Now - sc._state.StartProductionDate;
+                _state.CurrentDay = workingTime.Days;
+            }
+            else if (sc._state.StartPreProductionDate >= sc._time.Now &&
+                     sc._state.StartProductionDate <= sc._time.Now)
+            {
+                _state.CurrentDay = 0;
+            }
+
             Log.Debug("Process scheduler");
             string dataToLog = "";
             //Calculate setpoints
@@ -222,6 +231,9 @@ namespace Clima.Core.Scheduler
                 _state.VentilationMinPoint,
                 _state.VentilationMaxPoint);
             dataToLog += "Vent set point:" + _state.VentilationSetPoint + " \n";
+            _state.VentilationInMeters = _state.VentilationSetPoint * _state.CurrentHeads;
+            dataToLog += "Vent Real:" + _state.VentilationInMeters;
+            
                 //Valves
             _state.ValveSetPoint = GetCurrentValve(_state.VentilationSetPoint);
             dataToLog += "Valve set point:" + _state.ValveSetPoint + " \n";
@@ -237,14 +249,18 @@ namespace Clima.Core.Scheduler
             else if (sc.SchedulerState == SchedulerState.Production)
             {
                 sc._heater.Process(_state.TemperatureSetPoint);
-                //sc._ventilation.SetPerformance(_state.);
+                
+                sc._ventilation.SetPerformance((int)_state.VentilationInMeters);
+                if(!sc._ventilation.ValveIsManual)
+                    sc._ventilation.SetValvePosition(_state.ValveSetPoint);
+                if(!sc._ventilation.MineIsManual)
+                    sc._ventilation.SetMinePosition(_state.MaineSetPoint);
             }
         }
 
         private float ProcessVent(float tempSetPoint, float minVent, float maxVent)
         {
-
-            return 0;
+            return minVent;
         }
         private float GetCurrentMinuteTemperature()
         {
@@ -416,6 +432,9 @@ namespace Clima.Core.Scheduler
                 _mineGraph = _graphProviderFactory.ValveGraphProvider()
                     .GetGraph(_config.MineProfileKey);
 
+                _state.SchedulerState = _config.LastSchedulerState;
+                _state.StartProductionDate = _config.ProductionConfig.PlandingDate;
+                _state.StartPreProductionDate = _config.ProductionConfig.StartDate;
                 ServiceState = ServiceState.Initialized;
             }
         }

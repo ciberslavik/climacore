@@ -135,7 +135,7 @@ void ProductionFrame::PreparingStarted(int state)
 
 void ProductionFrame::ProductionStarted(int state)
 {
-
+    m_liveService->GetLivestockState();
 }
 
 void ProductionFrame::onProductionStateChanged(ProductionState state)
@@ -171,6 +171,7 @@ void ProductionFrame::onProductionStateChanged(ProductionState state)
     }
 
     ui->lblStartDate->setText(state.StartDate.toString("dd.MM.yyyy hh:mm"));
+    ui->lblTotalPlending->setText(QString::number(state.CurrentHeads));
 }
 
 void ProductionFrame::LivestockStateChanged(LivestockState state)

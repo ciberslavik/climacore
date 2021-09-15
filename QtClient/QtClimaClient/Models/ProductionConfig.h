@@ -12,6 +12,6 @@ public:
     virtual ~ProductionConfig(){}
 
     QS_FIELD(int, PlaceHeads)
-    QS_FIELD(QDateTime, PlendingDate)
+    QS_FIELD(QDateTime, PlandingDate)
     QS_FIELD(QDateTime, StartDate)
 };

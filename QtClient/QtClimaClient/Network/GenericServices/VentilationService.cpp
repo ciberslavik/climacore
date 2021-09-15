@@ -157,28 +157,28 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
             ServoStateResponse rsp;
             rsp.fromJson(reply->result.toUtf8());
 
-            emit ValveStateReceived(rsp.IsManual, rsp.CurrentPosition, rsp.CurrentPosition);
+            emit ValveStateReceived(rsp.IsManual, rsp.CurrentPosition, rsp.SetPoint);
         }
         else if(reply->method == "GetMineState")
         {
             ServoStateResponse rsp;
             rsp.fromJson(reply->result.toUtf8());
 
-            emit MineStateReceived(rsp.IsManual, rsp.CurrentPosition, rsp.CurrentPosition);
+            emit MineStateReceived(rsp.IsManual, rsp.CurrentPosition, rsp.SetPoint);
         }
         else if(reply->method == "UpdateMineState")
         {
             ServoStateResponse rsp;
             rsp.fromJson(reply->result.toUtf8());
 
-            emit MineStateUpdated(rsp.IsManual, rsp.CurrentPosition, rsp.CurrentPosition);
+            emit MineStateUpdated(rsp.IsManual, rsp.CurrentPosition, rsp.SetPoint);
         }
         else if(reply->method == "UpdateValveState")
         {
             ServoStateResponse rsp;
             rsp.fromJson(reply->result.toUtf8());
 
-            emit ValveStateUpdated(rsp.IsManual, rsp.CurrentPosition, rsp.CurrentPosition);
+            emit ValveStateUpdated(rsp.IsManual, rsp.CurrentPosition, rsp.SetPoint);
         }
     }
 }

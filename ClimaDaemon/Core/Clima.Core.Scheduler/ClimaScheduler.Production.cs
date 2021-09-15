@@ -27,7 +27,13 @@ namespace Clima.Core.Scheduler
             {
                 _state.SchedulerState = SchedulerState.Production;
                 StartTimer();
-                _state.StartProductionDate = config.StartDate;
+                _config.ProductionConfig = config;
+                
+                _state.StartProductionDate = config.PlandingDate;
+                _state.StartPreProductionDate = config.StartDate;
+                LivestockPlanting(config.PlaceHeads, config.PlandingDate);
+                
+                _config.LastSchedulerState = _state.SchedulerState;
                 Save();
             }
         }

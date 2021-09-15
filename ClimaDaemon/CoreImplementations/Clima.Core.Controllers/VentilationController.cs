@@ -21,6 +21,10 @@ namespace Clima.Core.Conrollers.Ventilation
         private bool _valveManual = false;
         private IServoDrive _mineServo = null;
         private bool _mineManual = false;
+        
+        
+        private IFrequencyConverter _analogFan;
+        
         private int _currentPerformance;
         private int _totalPerformance;
         public VentilationController(IDeviceProvider devProvider)
@@ -62,8 +66,31 @@ namespace Clima.Core.Conrollers.Ventilation
         public Type ConfigType => typeof(VentilationControllerConfig);
         public ServiceState ServiceState { get; private set; }
         
-        public Dictionary<string, FanState> FanStates { get; } 
-            = new Dictionary<string, FanState>();
+        public Dictionary<string, FanState> FanStates {
+            get
+            {
+                var states = new Dictionary<string, FanState>();
+                foreach (var fanItem in _fanTable.Values)
+                {
+                    var state = new FanState();
+                    state.Info = fanItem.Info;
+                    if (fanItem.IsManual)
+                        state.Mode = FanModeEnum.Manual;
+                    else if (fanItem.IsHermetise)
+                        state.Mode = FanModeEnum.Hermetise;
+                    else
+                        state.Mode = FanModeEnum.Auto;
+
+                    if (fanItem.IsRunning)
+                        state.State = FanStateEnum.Running;
+                    else
+                        state.State = FanStateEnum.Stopped;
+                    states.Add(fanItem.Info.Key, state);
+                }
+                return states;
+            } 
+        } 
+            
 
         public string CreateOrUpdateFan(FanInfo fanInfo)
         {
@@ -74,27 +101,16 @@ namespace Clima.Core.Conrollers.Ventilation
                     if (_config.FanInfos.ContainsKey(fanInfo.Key)) //Update existing
                     {
                         _config.FanInfos[fanInfo.Key] = fanInfo;
-                        FanStates[fanInfo.Key].Info = fanInfo;
                     }
                     else //Create new for info key
                     {
                         _config.FanInfos.Add(fanInfo.Key, fanInfo);
-                        FanStates.Add(fanInfo.Key, new FanState()
-                        {
-                            Info = fanInfo,
-                            State = FanStateEnum.Stopped
-                        });
                     }
                 }
                 else //Create new key and record
                 {
                     fanInfo.Key = _config.GetNewFanInfoKey();
                     _config.FanInfos.Add(fanInfo.Key, fanInfo);
-                    FanStates.Add(fanInfo.Key, new FanState()
-                    {
-                        Info = fanInfo,
-                        State = FanStateEnum.Stopped
-                    });
                 }
             }
             catch (Exception ex)
@@ -104,6 +120,7 @@ namespace Clima.Core.Conrollers.Ventilation
             finally
             {
                 ClimaContext.Current.SaveConfiguration();
+                CreateFans();
             }
 
             return fanInfo.Key;
@@ -116,27 +133,37 @@ namespace Clima.Core.Conrollers.Ventilation
                 _config.FanInfos.Remove(fanKey);
                 ClimaContext.Current.SaveConfiguration();
             }
+            CreateFans();
         }
 
         public void SetPerformance(int performance)
         {
-            if(_currentPerformance == performance)
-                return;
+            
+            
             _currentPerformance = performance;
+            int perfCounter = 0;
             foreach (var fanTableValue in _fanTable.Values)
             {
-                if(fanTableValue.IsHermetise || fanTableValue.IsManual)
+                if(fanTableValue.IsHermetise || fanTableValue.IsManual || fanTableValue.IsAnalog)
                     continue;
                 
                 if (fanTableValue.StartPerformance <= _currentPerformance)
                 {
+                    perfCounter += fanTableValue.Info.Performance * fanTableValue.Info.FanCount;
+                    
                     fanTableValue.Relay.On();
+                    fanTableValue.IsRunning = true;
                 }
                 else
                 {
                     fanTableValue.Relay.Off();
+                    fanTableValue.IsRunning = false;
                 }
+                
             }
+
+            int powerToAnalog = _currentPerformance - perfCounter;
+            Console.WriteLine($"Power for analog:{powerToAnalog}");
         }
 
         
@@ -147,33 +174,40 @@ namespace Clima.Core.Conrollers.Ventilation
 
         private void CreateFans()
         {
+            _fanTable.Clear();
+            
             List<FanInfo> infos = _config.FanInfos.Values.ToList();
-            infos.Sort((p,o) => p.Performance - o.Performance);
+            infos.Sort((p, o) => p.Performance - o.Performance);
+
             int perfCounter = 0;
             int prevPerf = 0;
-            foreach(var info in infos)
+            foreach (var info in infos)
             {
-                if (!info.Hermetise)
+                if ((!info.Hermetise)||(!info.IsAnalog))
                 {
                     prevPerf = perfCounter;
                     perfCounter += info.Performance * info.FanCount;
                 }
-
-                FanStates.Add(info.Key, new FanState(){
-                    Info = info,
-                    State = FanStateEnum.Stopped
-                });
                 var fanTableItem = new FanControllerTableItem();
                 fanTableItem.Priority = info.Priority;
                 fanTableItem.IsHermetise = info.Hermetise;
                 fanTableItem.IsManual = info.IsManual;
                 fanTableItem.IsAnalog = info.IsAnalog;
+                if (info.IsAnalog)
+                {
+                    fanTableItem.AnalogFan = _devProvider.GetFrequencyConverter("FC:0");
+                    fanTableItem.CurrentPerformance = info.Performance * info.FanCount;
+                }
+                else
+                {
+                    fanTableItem.Relay = _devProvider.GetRelay(info.RelayName);
+                    fanTableItem.CurrentPerformance = perfCounter;
+                    fanTableItem.StartPerformance = prevPerf + info.StartValue;
+                }
                 
-                fanTableItem.CurrentPerformance = perfCounter;
-                fanTableItem.StartPerformance = prevPerf + info.StartValue;
                 fanTableItem.IsRunning = false;
+                fanTableItem.Info = info;
                 
-                fanTableItem.Relay = _devProvider.GetRelay(info.RelayName);
                 _fanTable.Add(info.Key, fanTableItem);
             }
 
@@ -183,22 +217,20 @@ namespace Clima.Core.Conrollers.Ventilation
         public void UpdateFanState(FanState fanState)
         {
             var key = fanState.Info.Key;
-            if(FanStates.ContainsKey(key))
+            if(_fanTable.ContainsKey(key))
             {
                 if(fanState.Info.IsManual)
                 {
                     if (fanState.State == FanStateEnum.Running)
 		            {
-			            FanStates[key].State = FanStateEnum.Running;
                         _fanTable[key].Relay.On();
                     }
                     else if(fanState.State == FanStateEnum.Stopped)
                     {
-			            FanStates[key].State = FanStateEnum.Stopped;
                         _fanTable[key].Relay.Off();
                     }
                 }
-		        FanStates[key].Info.IsManual = fanState.Info.IsManual;
+                _fanTable[key].IsManual = fanState.Info.IsManual;
             }
         }
 

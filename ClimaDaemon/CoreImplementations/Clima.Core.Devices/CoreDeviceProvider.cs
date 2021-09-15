@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Clima.Basics;
 using Clima.Basics.Configuration;
@@ -17,7 +18,7 @@ namespace Clima.Core.Devices
         private readonly Dictionary<string, IRelay> _relays = new Dictionary<string, IRelay>();
         private readonly Dictionary<string, IFrequencyConverter> _fcs = new Dictionary<string, IFrequencyConverter>();
         private readonly Dictionary<string, IServoDrive> _servos = new Dictionary<string, IServoDrive>();
-        private readonly Dictionary<string, IHeater> _heaters = new Dictionary<string, IHeater>();
+        private readonly ConcurrentDictionary<string, IHeater> _heaters = new ConcurrentDictionary<string, IHeater>();
         private ISensors _sensors;
 
         public CoreDeviceProvider(IIOService ioService,IConfigurationStorage configStorage)
@@ -103,11 +104,12 @@ namespace Clima.Core.Devices
         {
             if (_heaters.ContainsKey(heaterName))
                 return _heaters[heaterName];
+            
             else if (_config.Heaters.ContainsKey(heaterName))
             {
                 var heat = new Heater();
                 heat.EnablePin = _ioService.Pins.DiscreteOutputs[_config.Heaters[heaterName].PinName];
-                _heaters.Add(heaterName, heat);
+                _heaters.TryAdd(heaterName, heat);
             }
             
             return _heaters[heaterName];

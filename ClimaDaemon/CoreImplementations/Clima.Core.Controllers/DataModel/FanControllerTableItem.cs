@@ -1,4 +1,5 @@
-﻿using Clima.Core.Devices;
+﻿using Clima.Core.DataModel;
+using Clima.Core.Devices;
 
 namespace Clima.Core.Conrollers.Ventilation.DataModel
 {
@@ -19,5 +20,7 @@ namespace Clima.Core.Conrollers.Ventilation.DataModel
         internal bool IsManual { get; set; }
         internal bool IsAnalog { get; set; }
         internal IRelay Relay { get; set; }
+        internal IFrequencyConverter AnalogFan { get; set; }
+        internal FanInfo Info { get; set; }
     }
 }

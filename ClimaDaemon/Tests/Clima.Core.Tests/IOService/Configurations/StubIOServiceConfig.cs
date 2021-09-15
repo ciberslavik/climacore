@@ -49,7 +49,13 @@ namespace Clima.Core.Tests.IOService.Configurations
                 ain.Value = 36.6f;
                 config.AnalogInputs.Add(ain.PinName, ain);
             }
-
+            var ao1 = new StubAOUTConfig();
+            ao1.PinName = "AO:1:0";
+            config.AnalogOutputs.Add(ao1.PinName, ao1);
+            
+            var ao2 = new StubAOUTConfig();
+            ao2.PinName = "AO:1:1";
+            config.AnalogOutputs.Add(ao2.PinName, ao2);
             return config;
         }
 

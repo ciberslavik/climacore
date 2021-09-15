@@ -14,6 +14,7 @@ namespace Clima.Core.Scheduler
             op.OpertionType = LivestockOpType.Planted;
             
             _config.LivestockOperations.Add(op);
+            GetCurrentHeads();
             ClimaContext.Current.SaveConfiguration();
         }
 
@@ -34,6 +35,8 @@ namespace Clima.Core.Scheduler
                 else
                     result -= operation.HedCount;
             }
+
+            _state.CurrentHeads = result;
             return result;
         }
         public LivestockState GetLivestockState()

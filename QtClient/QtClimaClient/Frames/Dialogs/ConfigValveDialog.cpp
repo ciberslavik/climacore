@@ -53,7 +53,7 @@ void ConfigValveDialog::onServoStateReceived(bool isManual, float currPos, float
     else
         ui->btnAuto->setCheckable(true);
 
-    ui->barCurrent->setValue(currPos * 10);
+    ui->barCurrent->setValue((currPos * 10));
     ui->barSetPoint->setValue(setPoint * 10);
 }
 
@@ -88,7 +88,7 @@ void ConfigValveDialog::on_horizontalScrollBar_valueChanged(int value)
         switch(m_type)
         {
         case Valve:
-        m_ventService->UpdateValveState(true, value / 10);
+            m_ventService->UpdateValveState(true, value / 10);
             break;
         case Mine:
             m_ventService->UpdateMineState(true, value / 10);
@@ -114,12 +114,34 @@ void ConfigValveDialog::on_btnReject_clicked()
 
 void ConfigValveDialog::on_btnAuto_pressed()
 {
-
+    if(ui->btnManual->isChecked())
+    {
+        switch(m_type)
+        {
+        case Valve:
+            m_ventService->UpdateValveState(false, ui->horizontalScrollBar->value() / 10);
+            break;
+        case Mine:
+            m_ventService->UpdateMineState(false, ui->horizontalScrollBar->value() / 10);
+            break;
+        }
+    }
 }
 
 
 void ConfigValveDialog::on_btnManual_pressed()
 {
-
+    if(ui->btnManual->isChecked())
+    {
+        switch(m_type)
+        {
+        case Valve:
+            m_ventService->UpdateValveState(true, ui->horizontalScrollBar->value() / 10);
+            break;
+        case Mine:
+            m_ventService->UpdateMineState(true, ui->horizontalScrollBar->value() / 10);
+            break;
+        }
+    }
 }
 

@@ -58,6 +58,12 @@ namespace Clima.Core.Tests.IOService
                     Pins.AnalogInputs.Add(aiConfig.PinName, analogIn);
                 }
 
+                foreach (var aoConfig in _config.AnalogOutputs.Values)
+                {
+                    var analogOut = new StubAnalogOutput();
+                    analogOut.PinName = aoConfig.PinName;
+                    Pins.AnalogOutputs.Add(aoConfig.PinName, analogOut);
+                }
                 Console.WriteLine("Stub IO Service initialised");
                 IsInit = true;
             }
