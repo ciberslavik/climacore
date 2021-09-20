@@ -38,7 +38,7 @@ int VentProfileModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-qDebug() << "points:" << m_profile->Points.count();
+
     return m_profile->Points.count();
 }
 

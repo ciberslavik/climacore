@@ -5,7 +5,7 @@ namespace Clima.Core.IO
         public event AnalogPinValueChangedEventHandler ValueChanged;
 
         IAnalogValueConverter ValueConverter { get; set; }
-        double Value { get; }
+        float Value { get; }
         void SetValue(float value);
     }
 }

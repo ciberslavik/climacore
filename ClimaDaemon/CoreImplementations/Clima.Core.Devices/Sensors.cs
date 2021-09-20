@@ -66,7 +66,7 @@ namespace Clima.Core.Devices
             set
             {
                 _pressurePin = value;
-                Pressure = _humidityPin.Value;
+                Pressure = _pressurePin.Value;
                 _pressurePin.ValueChanged += (ea) => { Pressure = ea.NewValue; };
             }
         }

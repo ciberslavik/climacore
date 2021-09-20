@@ -1,5 +1,7 @@
 
 #include <Models/FanState.h>
+
+#include <QTimer>
 #pragma once
 
 #include <QWidget>
@@ -9,6 +11,7 @@
 #include "Services/FrameManager.h"
 #include "Frames/Graphs/SelectProfileFrame.h"
 #include "Network/GenericServices/VentilationService.h"
+#include "TimerPool.h"
 
 namespace Ui {
 class VentilationOverviewFrame;
@@ -39,8 +42,12 @@ private slots:
     void onFanStatesReceived(QList<FanState> states);
     void onFanStateUpdated(FanState state);
 
+
     void onEditFanStateChanged(const QString &fanKey, FanStateEnum_t newState);
     void onEditFanModeChanged(const QString &fanKey, FanMode_t newMode);
+
+    void onValveStateReceived(bool isManual, float currPos, float setPoint);
+    void onMineStateReceived(bool isManual, float currPos, float setPoint);
 
     void on_btnConfigure_clicked();
 
@@ -51,6 +58,9 @@ private slots:
 
     void on_btnConfigValve_clicked();
 
+    void on_btnControllerConfig_clicked();
+
+    void onUpdateTimer();
 private:
     Ui::VentilationOverviewFrame *ui;
     SelectProfileFrame *m_ProfileSelector;
@@ -62,7 +72,10 @@ private:
 
     FanState m_editedOld;
 
+    int m_updateCounter;
+    QTimer *m_updateTimer;
     void createFanWidgets();
     void removeFanWidgets();
+    void updateFanWidgets();
 };
 

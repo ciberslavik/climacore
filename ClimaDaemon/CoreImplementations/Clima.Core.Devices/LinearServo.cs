@@ -230,6 +230,10 @@ namespace Clima.Core.Devices
 
         private bool HitFineWindow(double current, double target)
         {
+            if (current <= Configuration.FullClose)
+                return true;
+            if (current >= Configuration.FullOpen)
+                return true;
             var minTarget = target - Configuration.FineAccuracy;
             var maxTarget = target + Configuration.FineAccuracy;
             if (current >= minTarget && current <= maxTarget)
@@ -240,6 +244,10 @@ namespace Clima.Core.Devices
 
         private bool HitCoarseWindow(double current, double target)
         {
+            if (current <= Configuration.FullClose)
+                return true;
+            if (current >= Configuration.FullOpen)
+                return true;
             var minTarget = target - Configuration.CoarseAccuracy;
             var maxTarget = target + Configuration.CoarseAccuracy;
             if (current >= minTarget && current <= maxTarget)

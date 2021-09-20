@@ -25,7 +25,7 @@ namespace Clima.AgavaModBusIO.Model
             set => _valueConverter = value;
         }
 
-        public double Value => _value;
+        public float Value => _value;
 
         public void SetValue(float value)
         {

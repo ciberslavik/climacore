@@ -15,7 +15,7 @@ namespace Clima.Core.Scheduler.DataModel
         internal float VentilationSetPoint { get; set; }
         internal float VentilationInMeters { get; set; }
         internal float ValveSetPoint { get; set; }
-        internal float MaineSetPoint { get; set; }
+        internal float MineSetPoint { get; set; }
         internal int CurrentDay { get; set; }
         internal int CurrentHeads { get; set; }
         internal SchedulerState SchedulerState { get; set; }

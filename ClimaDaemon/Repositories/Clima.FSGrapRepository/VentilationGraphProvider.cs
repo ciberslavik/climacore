@@ -19,7 +19,7 @@ namespace Clima.FSGrapRepository
             };
 
             foreach (var point in config.Points.Select(pointConfig =>
-                new MinMaxByDayPoint(pointConfig.Day, pointConfig.MaxValue,pointConfig.MaxValue))) graph.Points.Add(point);
+                new MinMaxByDayPoint(pointConfig.Day, pointConfig.MinValue, pointConfig.MaxValue))) graph.Points.Add(point);
 
             return graph;
         }

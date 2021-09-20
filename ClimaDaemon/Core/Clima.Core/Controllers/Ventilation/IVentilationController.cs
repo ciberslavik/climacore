@@ -23,6 +23,6 @@ namespace Clima.Core.Controllers.Ventilation
         int TotalPerformance { get; }
         int CurrentPerformance { get; }
         
-        
+        float AnalogPower { get; }
     }
 }

@@ -15,7 +15,6 @@ namespace Clima.Core.Conrollers.Ventilation.DataModel
         internal int FanId { get; set; }
         internal int Priority { get; set; }
         internal bool IsDead { get; set; }
-        internal bool IsRunning { get; set; }
         internal bool IsHermetise { get; set; }
         internal bool IsManual { get; set; }
         internal bool IsAnalog { get; set; }

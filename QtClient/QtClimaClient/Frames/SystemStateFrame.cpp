@@ -34,6 +34,8 @@ SystemStateFrame::~SystemStateFrame()
 
 void SystemStateFrame::closeEvent(QCloseEvent *event)
 {
+    Q_UNUSED(event)
+
     disconnect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
     disconnect(m_statusService,&SystemStatusService::onClimatStatusRecv,this, &SystemStateFrame::onClimatStateUpdate);
     qDebug()<<"SystemStateFrame close event";
@@ -41,6 +43,8 @@ void SystemStateFrame::closeEvent(QCloseEvent *event)
 
 void SystemStateFrame::showEvent(QShowEvent *ev)
 {
+    Q_UNUSED(ev)
+
     connect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
     connect(m_statusService,&SystemStatusService::onClimatStatusRecv,this, &SystemStateFrame::onClimatStateUpdate);
 }
@@ -55,6 +59,7 @@ void SystemStateFrame::onClimatStateUpdate(ClimatStatusResponse *data)
     ui->barValves->setValue(data->ValvePosition);
     ui->barMines->setValue(data->MinePosition);
     ui->barAnalogFan->setValue(data->AnalogFanPower);
+    ui->lblAirPerHead->setText(QString::number(data->VentilationSetPoint));
     ui->lblTempSetpoint->setText(QString::number(data->TempSetPoint, 'f', 2));
 }
 

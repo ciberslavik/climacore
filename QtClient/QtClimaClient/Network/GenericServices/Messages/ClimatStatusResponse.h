@@ -23,4 +23,5 @@ public:
     QS_FIELD(float, ValvePosition)
     QS_FIELD(float, MinePosition)
     QS_FIELD(float, TotalFanPerformance)
+    QS_FIELD(float, VentilationSetPoint)
 };

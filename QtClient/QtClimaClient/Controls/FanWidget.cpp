@@ -11,8 +11,9 @@ FanWidget::FanWidget(QWidget *parent) : QWidget(parent)
     rebuildUI();
 }
 
-FanWidget::FanWidget(const QString &fanKey, QWidget *parent)
+FanWidget::FanWidget(const QString &fanKey, const bool &isAnalog, QWidget *parent) : QWidget(parent)
 {
+    m_isAnalog = isAnalog;
     m_fanKey = fanKey;
 
     createUI();
@@ -60,10 +61,24 @@ QString FanWidget::FanKey()
     return m_fanKey;
 }
 
+void FanWidget::setAnalogValue(const float &analogPower)
+{
+    if(m_isAnalog)
+    {
+        m_analogValue = analogPower;
+        m_analogValueLabel->setText(QString::number(m_analogValue, 'f', 1));
+    }
+}
+
+float FanWidget::getAnalogValue()
+{
+    return m_analogValue;
+}
+
 
 void FanWidget::paintEvent(QPaintEvent *event)
 {
-
+    Q_UNUSED(event)
 
     QPainter painter(this);
 
@@ -94,6 +109,16 @@ void FanWidget::resizeEvent(QResizeEvent *event)
     m_modeRect.setWidth(32);
     m_modeRect.setHeight(32);
     m_modeLabel->setGeometry(m_modeRect);
+
+    if(m_isAnalog)
+    {
+        QRect anLblRect;
+        anLblRect.setX(m_modeRect.x()+m_modeRect.width()+2);
+        anLblRect.setY(3);
+        anLblRect.setWidth(38);
+        anLblRect.setHeight(15);
+        m_analogValueLabel->setGeometry(anLblRect);
+    }
 
     QRect r;
     r.setX(5);
@@ -149,6 +174,11 @@ void FanWidget::createUI()
     m_fanLabel = new QLabel(this);
     m_modeLabel = new QClickableLabel(this);
     m_modeEditor = new FanModeSwitch();
+    if(m_isAnalog)
+    {
+        m_analogValueLabel = new QLabel(this);
+        m_analogValueLabel->setText("100");
+    }
     m_modeEditor->setVisible(false);
 
     //label->setText("Test");
@@ -205,4 +235,7 @@ void FanWidget::rebuildUI()
     {
         m_stateBrush = QBrush(Qt::gray);
     }
+
+    if(m_isAnalog)
+        m_analogValueLabel->setText(QString::number(m_analogValue, 'f', 1));
 }

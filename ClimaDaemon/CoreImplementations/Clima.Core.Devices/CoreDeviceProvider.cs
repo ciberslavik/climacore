@@ -20,7 +20,7 @@ namespace Clima.Core.Devices
         private readonly Dictionary<string, IServoDrive> _servos = new Dictionary<string, IServoDrive>();
         private readonly ConcurrentDictionary<string, IHeater> _heaters = new ConcurrentDictionary<string, IHeater>();
         private ISensors _sensors;
-
+        public ISystemLogger Log { get; set; }
         public CoreDeviceProvider(IIOService ioService,IConfigurationStorage configStorage)
         {
             _ioService = ioService;
@@ -164,8 +164,9 @@ namespace Clima.Core.Devices
                 {
                     var dev = new ThyristorConverter();
                     dev.Configuration = converterConfig;
+		            
                     dev.AnalogPin = _ioService.Pins.AnalogOutputs[converterConfig.AnalogPinName];
-
+			        Log.Info($"converter pin {dev.AnalogPin}");
                     converter = dev;
                 }
 

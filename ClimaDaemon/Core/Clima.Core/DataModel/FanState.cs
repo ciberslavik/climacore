@@ -7,7 +7,7 @@ namespace Clima.Core.DataModel
     {
         private FanStateEnum _state;
         private FanModeEnum _mode;
-
+        private float _analogPower;
         public FanState()
         {
            
@@ -24,7 +24,11 @@ namespace Clima.Core.DataModel
             get => _mode;
             set => Update(ref _mode, value);
         }
-
+        public float AnalogPower
+        {
+            get=>_analogPower;
+            set => Update(ref _analogPower, value);
+        }
         public FanInfo Info { get; set; } 
     }
 

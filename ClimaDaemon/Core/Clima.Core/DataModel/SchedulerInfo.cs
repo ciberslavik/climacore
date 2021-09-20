@@ -22,5 +22,6 @@
         
         public int CurrentDay { get; set; }
         public int CurrentHeads { get; set; }
+        public float AnalogPower { get; set; }
     }
 }

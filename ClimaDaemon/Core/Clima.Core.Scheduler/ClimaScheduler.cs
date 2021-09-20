@@ -90,7 +90,13 @@ namespace Clima.Core.Scheduler
                     MineProfileName = _mineGraph.Info.Name,
                     
                     CurrentDay = this.CurrentDay,
-                    CurrentHeads = this.CurrentHeads
+                    CurrentHeads = this.CurrentHeads,
+                    TemperatureSetPoint = _state.TemperatureSetPoint,
+                    VentilationMaxPoint = _state.VentilationMaxPoint,
+                    VentilationMinPoint = _state.VentilationMinPoint,
+                    VentilationSetPoint = _state.VentilationSetPoint,
+                    ValveSetPoint = _state.ValveSetPoint,
+                    MineSetPoint = _state.MineSetPoint
                 };
             }
         }
@@ -195,6 +201,10 @@ namespace Clima.Core.Scheduler
         {
             if (!_isRunning)
             {
+                if((_state.SchedulerState == SchedulerState.Production)||(_state.SchedulerState == SchedulerState.Preparing))
+                {
+                    StartTimer();
+                }
                 _isRunning = true;
                 ServiceState = ServiceState.Running;
             }
@@ -224,21 +234,25 @@ namespace Clima.Core.Scheduler
             var dayVent = GetDayVentilation(_state.CurrentDay);
             _state.VentilationMaxPoint = dayVent.MaxValue;
             dataToLog += "Max vent:" + _state.VentilationMaxPoint + " \n";
+            dataToLog += "Max m3:" + _state.VentilationMaxPoint * _state.CurrentHeads + "\n";
+            
             _state.VentilationMinPoint = dayVent.MinValue;
-            dataToLog += "MinVent:" + _state.VentilationMinPoint + " \n";
+            dataToLog += "Min vent:" + _state.VentilationMinPoint + " \n";
+            dataToLog += "Min m3:" + _state.VentilationMinPoint * _state.CurrentHeads + "\n";
+            
             _state.VentilationSetPoint = ProcessVent(
                 _state.TemperatureSetPoint,
                 _state.VentilationMinPoint,
                 _state.VentilationMaxPoint);
             dataToLog += "Vent set point:" + _state.VentilationSetPoint + " \n";
             _state.VentilationInMeters = _state.VentilationSetPoint * _state.CurrentHeads;
-            dataToLog += "Vent Real:" + _state.VentilationInMeters;
+            dataToLog += "Vent Real:" + _state.VentilationInMeters + "\n";
             
                 //Valves
             _state.ValveSetPoint = GetCurrentValve(_state.VentilationSetPoint);
             dataToLog += "Valve set point:" + _state.ValveSetPoint + " \n";
-            _state.MaineSetPoint = GetCurrentMine(_state.VentilationSetPoint);
-            dataToLog += "Mine set point:" + _state.MaineSetPoint + " \n";
+            _state.MineSetPoint = GetCurrentMine(_state.VentilationSetPoint);
+            dataToLog += "Mine set point:" + _state.MineSetPoint + " \n";
             
             Log.Info(dataToLog);
             //_state.ValveSetPoint = Get
@@ -254,7 +268,8 @@ namespace Clima.Core.Scheduler
                 if(!sc._ventilation.ValveIsManual)
                     sc._ventilation.SetValvePosition(_state.ValveSetPoint);
                 if(!sc._ventilation.MineIsManual)
-                    sc._ventilation.SetMinePosition(_state.MaineSetPoint);
+                    sc._ventilation.SetMinePosition(_state.MineSetPoint);
+
             }
         }
 
@@ -435,6 +450,9 @@ namespace Clima.Core.Scheduler
                 _state.SchedulerState = _config.LastSchedulerState;
                 _state.StartProductionDate = _config.ProductionConfig.PlandingDate;
                 _state.StartPreProductionDate = _config.ProductionConfig.StartDate;
+                _state.StartPreparingDate = _config.PreparingConfig.StartDate;
+                GetCurrentHeads();
+
                 ServiceState = ServiceState.Initialized;
             }
         }

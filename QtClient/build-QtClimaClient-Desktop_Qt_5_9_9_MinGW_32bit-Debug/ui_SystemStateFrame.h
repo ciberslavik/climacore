@@ -271,7 +271,7 @@ public:
         label_14->setText(QApplication::translate("SystemStateFrame", "m<sup>3</sup>h/\320\263\320\276\320\273.", Q_NULLPTR));
         label_13->setText(QApplication::translate("SystemStateFrame", "\320\250\320\260\321\205\321\202\321\213", Q_NULLPTR));
         label_5->setText(QApplication::translate("SystemStateFrame", "\320\232\320\273\320\260\320\277\320\260\320\275\320\260", Q_NULLPTR));
-        label_6->setText(QApplication::translate("SystemStateFrame", "TextLabel", Q_NULLPTR));
+        label_6->setText(QApplication::translate("SystemStateFrame", "\320\222\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\321\217", Q_NULLPTR));
         lblAirPerHead->setText(QApplication::translate("SystemStateFrame", "TextLabel", Q_NULLPTR));
         label->setText(QApplication::translate("SystemStateFrame", "\320\240\320\260\320\267\321\200\320\265\320\266\320\265\320\275\320\270\320\265", Q_NULLPTR));
         barPresure->setFormat(QApplication::translate("SystemStateFrame", "%p Pa", Q_NULLPTR));

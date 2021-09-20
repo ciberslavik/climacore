@@ -1,4 +1,5 @@
 ﻿using Clima.Basics.Services.Communication;
+using Clima.Core.Controllers.Ventilation;
 using Clima.Core.Devices;
 using Clima.Core.Network.Messages;
 using Clima.Core.Scheduler;
@@ -7,13 +8,17 @@ namespace Clima.Core.Network.Services
 {
     public class SystemStatusService:INetworkService
     {
+        private readonly IClimaScheduler _scheduler;
+        private readonly IVentilationController _ventilationController;
         private readonly ISensors _sensors;
 
-        public SystemStatusService(IClimaScheduler scheduler)
+        public SystemStatusService(IClimaScheduler scheduler, IVentilationController ventilationController)
         {
+            _scheduler = scheduler;
+            _ventilationController = ventilationController;
             _sensors = ClimaContext.Current.Sensors;
         }
-
+        
         [ServiceMethod]
         public ClimatStateResponse GetClimatState(DefaultRequest request)
         {
@@ -26,7 +31,10 @@ namespace Clima.Core.Network.Services
                 Humidity = s.Humidity,
                 Pressure = s.Pressure,
                 ValvePosition = s.Valve1,
-                MinePosition = s.Valve2
+                MinePosition = s.Valve2,
+                TempSetPoint = _scheduler.SchedulerInfo.TemperatureSetPoint,
+                VentilationSetPoint = _scheduler.SchedulerInfo.VentilationSetPoint,
+                AnalogFanPower = _ventilationController.AnalogPower
             };
             
 
@@ -41,8 +49,7 @@ namespace Clima.Core.Network.Services
                 FrontTemperature = _sensors.FrontTemperature,
                 RearTemperature = _sensors.RearTemperature,
                 OutdoorTemperature = _sensors.OutdoorTemperature,
-                AverageTemperature = 0,
-                
+                AverageTemperature = 0
             };
 
             return response;

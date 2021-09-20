@@ -19,7 +19,7 @@ class FanWidget : public QWidget
 public:
 
     explicit FanWidget(QWidget *parent = nullptr);
-    explicit FanWidget(const QString &fanKey, QWidget *parent = nullptr);
+    explicit FanWidget(const QString &fanKey,const bool &isAnalog, QWidget *parent = nullptr);
 
     ~FanWidget();
     void setFanState(FanStateEnum_t state);
@@ -27,8 +27,12 @@ public:
     FanStateEnum fanState();
     FanMode_t fanMode(){return m_fanMode;}
     QString FanKey();
-    void setIsAnalog(bool isanalog);
+
     bool isAnalog(){return m_isAnalog;}
+    void setAnalogValue(const float &analogPower);
+    float getAnalogValue();
+
+
 
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
@@ -51,7 +55,9 @@ private:
     QMovie *m_fanMovie;
     bool m_isAnalog;
     QLabel *m_fanLabel;
+    QLabel *m_analogValueLabel;
     QClickableLabel *m_modeLabel;
+    float m_analogValue;
     //Rects
     QRect m_borderRect;
     QRect m_stateRect;

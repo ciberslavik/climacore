@@ -31,4 +31,5 @@ public:
     QS_FIELD(float, MineSetPoint)
     QS_FIELD(int, CurrentDay)
     QS_FIELD(int, CurrentHeads)
+    QS_FIELD(float, AnalogPower)
 };

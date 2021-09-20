@@ -5,6 +5,6 @@
         void Start();
         void Stop();
         void SetPower(float power);
-        double Power { get; }
+        float Power { get; }
     }
 }

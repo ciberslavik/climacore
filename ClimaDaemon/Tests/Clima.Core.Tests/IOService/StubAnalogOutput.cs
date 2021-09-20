@@ -1,4 +1,5 @@
-﻿using Clima.Core.IO;
+﻿using System;
+using Clima.Core.IO;
 
 namespace Clima.Core.Tests.IOService
 {
@@ -12,11 +13,12 @@ namespace Clima.Core.Tests.IOService
         public bool IsModified { get; }
         public event AnalogPinValueChangedEventHandler ValueChanged;
         public IAnalogValueConverter ValueConverter { get; set; }
-        public double Value { get; }
+        public float Value { get; private set; }
 
         public void SetValue(float value)
         {
-            throw new System.NotImplementedException();
+            Value = value;
+            Console.WriteLine($"Analog power:{value}");
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Clima.Basics;
-using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core.Conrollers.Ventilation.DataModel;
 using Clima.Core.Controllers.Configuration;
@@ -10,12 +8,12 @@ using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel;
 using Clima.Core.Devices;
 
-namespace Clima.Core.Conrollers.Ventilation
+namespace Clima.Core.Controllers
 {
     public class VentilationController : IVentilationController
     {
         private readonly IDeviceProvider _devProvider;
-        private Dictionary<string, FanControllerTableItem> _fanTable;
+        private readonly Dictionary<string, FanControllerTableItem> _fanTable;
         private VentilationControllerConfig _config;
         private IServoDrive _valveServo = null;
         private bool _valveManual = false;
@@ -23,10 +21,9 @@ namespace Clima.Core.Conrollers.Ventilation
         private bool _mineManual = false;
         
         
-        private IFrequencyConverter _analogFan;
-        
         private int _currentPerformance;
         private int _totalPerformance;
+        private float _analogPower;
         public VentilationController(IDeviceProvider devProvider)
         {
             _devProvider = devProvider;
@@ -44,7 +41,9 @@ namespace Clima.Core.Conrollers.Ventilation
                 ServiceState = ServiceState.Running;
             }
         }
-
+        public float AnalogPower =>_fanTable["FAN:0"].AnalogFan.Power; 
+        
+        
         public void Stop()
         {
             if (ServiceState == ServiceState.Running)
@@ -81,10 +80,18 @@ namespace Clima.Core.Conrollers.Ventilation
                     else
                         state.Mode = FanModeEnum.Auto;
 
-                    if (fanItem.IsRunning)
+                    if (fanItem.IsAnalog)
+                    {
+                        state.AnalogPower = _analogPower;
                         state.State = FanStateEnum.Running;
+                    }
                     else
-                        state.State = FanStateEnum.Stopped;
+                    {
+                        if (fanItem.Relay.RelayIsOn)
+                            state.State = FanStateEnum.Running;
+                        else
+                            state.State = FanStateEnum.Stopped;
+                    }
                     states.Add(fanItem.Info.Key, state);
                 }
                 return states;
@@ -142,28 +149,41 @@ namespace Clima.Core.Conrollers.Ventilation
             
             _currentPerformance = performance;
             int perfCounter = 0;
+            FanControllerTableItem analogItem = null;
             foreach (var fanTableValue in _fanTable.Values)
             {
-                if(fanTableValue.IsHermetise || fanTableValue.IsManual || fanTableValue.IsAnalog)
+                if(fanTableValue.IsHermetise || fanTableValue.IsManual)
                     continue;
-                
+                if(fanTableValue.IsAnalog)
+                {
+                    analogItem = fanTableValue;
+                    continue;
+                }
                 if (fanTableValue.StartPerformance <= _currentPerformance)
                 {
                     perfCounter += fanTableValue.Info.Performance * fanTableValue.Info.FanCount;
                     
                     fanTableValue.Relay.On();
-                    fanTableValue.IsRunning = true;
                 }
                 else
                 {
                     fanTableValue.Relay.Off();
-                    fanTableValue.IsRunning = false;
                 }
                 
             }
-
-            int powerToAnalog = _currentPerformance - perfCounter;
-            Console.WriteLine($"Power for analog:{powerToAnalog}");
+            if(analogItem is not null)
+            {
+                int powerToAnalog = _currentPerformance - perfCounter;
+                float powerPercent = (powerToAnalog / analogItem.CurrentPerformance) * 100.0f;
+                if(powerPercent < 15)
+                  powerPercent = 15;
+                if(powerPercent >100)
+                  powerPercent = 100;
+                
+                _analogPower = powerPercent;
+                analogItem.AnalogFan.SetPower(powerPercent);
+                Console.WriteLine($"Analog performance:{powerToAnalog} percent:{powerPercent}");
+            }
         }
 
         
@@ -197,6 +217,7 @@ namespace Clima.Core.Conrollers.Ventilation
                 {
                     fanTableItem.AnalogFan = _devProvider.GetFrequencyConverter("FC:0");
                     fanTableItem.CurrentPerformance = info.Performance * info.FanCount;
+                    
                 }
                 else
                 {
@@ -205,7 +226,6 @@ namespace Clima.Core.Conrollers.Ventilation
                     fanTableItem.StartPerformance = prevPerf + info.StartValue;
                 }
                 
-                fanTableItem.IsRunning = false;
                 fanTableItem.Info = info;
                 
                 _fanTable.Add(info.Key, fanTableItem);
@@ -217,20 +237,31 @@ namespace Clima.Core.Conrollers.Ventilation
         public void UpdateFanState(FanState fanState)
         {
             var key = fanState.Info.Key;
+            _fanTable[key].IsManual = fanState.Info.IsManual;
             if(_fanTable.ContainsKey(key))
             {
-                if(fanState.Info.IsManual)
+                if (!_fanTable[key].IsAnalog)
                 {
-                    if (fanState.State == FanStateEnum.Running)
-		            {
-                        _fanTable[key].Relay.On();
-                    }
-                    else if(fanState.State == FanStateEnum.Stopped)
+                    if (fanState.Info.IsManual)
                     {
-                        _fanTable[key].Relay.Off();
+                        if (fanState.State == FanStateEnum.Running)
+                        {
+                            _fanTable[key].Relay.On();
+                        }
+                        else if (fanState.State == FanStateEnum.Stopped)
+                        {
+                            _fanTable[key].Relay.Off();
+                        }
                     }
                 }
-                _fanTable[key].IsManual = fanState.Info.IsManual;
+                else
+                {
+                    if (fanState.Info.IsManual)
+                    {
+                        _fanTable[key].AnalogFan.SetPower(fanState.AnalogPower);
+                    }
+                }
+                
             }
         }
 

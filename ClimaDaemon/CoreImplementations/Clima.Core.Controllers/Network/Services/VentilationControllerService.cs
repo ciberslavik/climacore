@@ -82,7 +82,7 @@ namespace Clima.Core.Controllers.Network.Services
                 SetPoint = _ventController.ValveSetPoint
             };
         }
-
+        [ServiceMethod]
         public ServoStateResponse GetValveState(DefaultRequest request)
         {
             return new ServoStateResponse()
@@ -99,6 +99,7 @@ namespace Clima.Core.Controllers.Network.Services
             _ventController.MineIsManual = request.IsManual;
             if (request.IsManual)
                 _ventController.SetMinePosition(request.SetPoint);
+           
             return new ServoStateResponse()
             {
                 CurrentPosition = _ventController.MineCurrentPos,
@@ -110,6 +111,7 @@ namespace Clima.Core.Controllers.Network.Services
         [ServiceMethod]
         public ServoStateResponse GetMineState(DefaultRequest request)
         {
+                ClimaContext.Logger.Debug($"Servo curent pos:{_ventController.MineCurrentPos}");
             return new ServoStateResponse()
             {
                 CurrentPosition = _ventController.MineCurrentPos,

@@ -24,7 +24,7 @@ namespace Clima.Core.Devices
             throw new System.NotImplementedException();
         }
 
-        public double Power { get; }
+        public float Power { get; }
         internal IDiscreteOutput EnablePin { get; set; }
         internal IDiscreteInput AlarmPin { get; set; }
         internal IAnalogOutput AnalogPin { get; set; }

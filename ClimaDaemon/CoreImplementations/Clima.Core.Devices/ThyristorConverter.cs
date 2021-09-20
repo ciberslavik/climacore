@@ -5,22 +5,32 @@ namespace Clima.Core.Devices
 {
     public class ThyristorConverter : IFrequencyConverter
     {
+        private bool _isRunning;
         public void Start()
         {
-            throw new System.NotImplementedException();
+            if (!_isRunning)
+            {
+                _isRunning = true;
+            }
         }
 
         public void Stop()
         {
-            throw new System.NotImplementedException();
+            if (_isRunning)
+            {
+                _isRunning = false;
+            }
         }
 
         public void SetPower(float power)
         {
-            AnalogPin.SetValue(power);
+            if (_isRunning)
+            {
+                AnalogPin.SetValue(power);
+            }
         }
 
-        public double Power { get; }
+        public float Power => AnalogPin.Value;
 
         internal FrequencyConverterConfig Configuration { get; set; }
         internal IAnalogOutput AnalogPin { get; set; }
