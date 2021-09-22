@@ -5,6 +5,7 @@
 #include <Network/GenericServices/Messages/ServoStateResponse.h>
 #include <Network/GenericServices/Messages/UpdateFanStateRequest.h>
 #include <Network/GenericServices/Messages/UpdateServoStateRequest.h>
+#include <Network/GenericServices/Messages/FanRemoveRequest.h>
 
 VentilationService::VentilationService(QObject *parent) : INetworkService(parent)
 {
@@ -68,9 +69,9 @@ void VentilationService::RemoveFan(const QString &fanKey)
 {
     NetworkRequest *request = new NetworkRequest();
     request->service = "VentilationControllerService";
-    request->method = "CreateOrUpdateFan";
+    request->method = "RemoveFan";
 
-    FanInfoRequest fInfoRequest;
+    FanRemoveRequest fInfoRequest;
     fInfoRequest.FanKey = fanKey;
 
     request->params = fInfoRequest.toJsonString();

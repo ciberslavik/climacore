@@ -48,9 +48,14 @@ signals:
 
     void VentInfosResponse(QList<ProfileInfo> infos);
     void VentProfileResponse(MinMaxByDayProfile profile);
+    void VentProfileCreated();
+    void VentProfileUpdated();
 
     void ValveInfosResponse(QList<ProfileInfo> infos);
     void ValveProfileResponse(ValueByValueProfile profile);
+    void ValveProfileCreated();
+    void ValveProfileUpdated();
+
     // INetworkService interface
 public:
     QString ServiceName() override;

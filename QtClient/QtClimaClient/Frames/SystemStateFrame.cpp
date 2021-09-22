@@ -55,7 +55,8 @@ void SystemStateFrame::onClimatStateUpdate(ClimatStatusResponse *data)
     ui->lblRearTemp->setText(QString::number(data->RearTemperature, 'f', 2));
     ui->lblOutdoorTemp->setText(QString::number(data->OutdoorTemperature, 'f', 2));
     ui->lblHumidity->setText(QString::number(data->Humidity, 'f', 1));
-    ui->barPresure->setValue(data->Pressure);
+    ui->lblPressure->setText(QString::number(data->Pressure, 'f', 1));
+    ui->barPresure->setValue(data->Pressure * 10);
     ui->barValves->setValue(data->ValvePosition);
     ui->barMines->setValue(data->MinePosition);
     ui->barAnalogFan->setValue(data->AnalogFanPower);

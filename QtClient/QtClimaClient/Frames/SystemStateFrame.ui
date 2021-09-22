@@ -190,40 +190,6 @@
       <set>Qt::AlignCenter</set>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>Управляемый</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" colspan="4">
-       <widget class="QProgressBar" name="barAnalogFan">
-        <property name="value">
-         <number>24</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLabel" name="label_14">
-        <property name="maximumSize">
-         <size>
-          <width>75</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>m&lt;sup&gt;3&lt;/sup&gt;h/гол.</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" colspan="4">
-       <widget class="QProgressBar" name="barMines">
-        <property name="value">
-         <number>24</number>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0" rowspan="2">
        <widget class="QLabel" name="label_13">
         <property name="text">
@@ -231,17 +197,10 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1" colspan="4">
-       <widget class="QProgressBar" name="barValves">
-        <property name="value">
-         <number>24</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="3" colspan="2">
-       <widget class="QProgressBar" name="progressBar_4">
-        <property name="value">
-         <number>24</number>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Вентиляция</string>
         </property>
        </widget>
       </item>
@@ -252,10 +211,61 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_6">
+      <item row="5" column="0">
+       <widget class="QLabel" name="label">
         <property name="text">
-         <string>Вентиляция</string>
+         <string>Разрежение</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2" colspan="4">
+       <widget class="QProgressBar" name="barPresure">
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+        <property name="format">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>Управляемый</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="lblPressure">
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>99.9</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" colspan="5">
+       <widget class="QProgressBar" name="barValves">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="5">
+       <widget class="QProgressBar" name="barMines">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="5">
+       <widget class="QProgressBar" name="barAnalogFan">
+        <property name="value">
+         <number>24</number>
         </property>
        </widget>
       </item>
@@ -278,20 +288,23 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label">
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_14">
+        <property name="maximumSize">
+         <size>
+          <width>75</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="text">
-         <string>Разрежение</string>
+         <string>m&lt;sup&gt;3&lt;/sup&gt;h/гол.</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1" colspan="4">
-       <widget class="QProgressBar" name="barPresure">
+      <item row="4" column="3" colspan="3">
+       <widget class="QProgressBar" name="progressBar_4">
         <property name="value">
-         <number>24</number>
-        </property>
-        <property name="format">
-         <string>%p Pa</string>
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -341,12 +354,24 @@
        <property name="text">
         <string>Главное меню</string>
        </property>
+       <property name="icon">
+        <iconset resource="../Resources.qrc">
+         <normaloff>:/Images/menu.png</normaloff>:/Images/menu.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>42</width>
+         <height>42</height>
+        </size>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

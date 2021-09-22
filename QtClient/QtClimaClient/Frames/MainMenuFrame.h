@@ -35,6 +35,8 @@ private slots:
 
     void on_btnEditProfiles_clicked();
 
+    void on_btnShowHystoryMenu_clicked();
+
 private:
     Ui::MainMenuFrame *ui;
 };

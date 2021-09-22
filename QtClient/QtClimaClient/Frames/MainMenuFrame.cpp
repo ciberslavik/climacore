@@ -4,6 +4,7 @@
 #include "TemperatureOwerviewFrame.h"
 #include "VentilationConfigFrame.h"
 #include "VentilationOverviewFrame.h"
+#include "HystoryMenuFrame.h"
 #include "ui_MainMenuFrame.h"
 
 
@@ -77,3 +78,10 @@ void MainMenuFrame::on_btnEditProfiles_clicked()
     FrameManager::instance()->setCurrentFrame(pofFrame);
 }
 
+
+void MainMenuFrame::on_btnShowHystoryMenu_clicked()
+{
+    HystoryMenuFrame *hystoryMenu = new HystoryMenuFrame();
+
+    FrameManager::instance()->setCurrentFrame(hystoryMenu);
+}

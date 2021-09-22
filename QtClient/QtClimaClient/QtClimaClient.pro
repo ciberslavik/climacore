@@ -33,6 +33,8 @@ SOURCES += \
     Frames/Graphs/TempProfileEditorFrame.cpp \
     Frames/Graphs/ValveProfileEditorFrame.cpp \
     Frames/Graphs/VentProfileEditorFrame.cpp \
+    Frames/Hystory/TemperatureHystoryFrame.cpp \
+    Frames/HystoryMenuFrame.cpp \
     Frames/LightConfigFrame.cpp \
     Frames/MainMenuFrame.cpp \
     Frames/ProductionFrame.cpp \
@@ -84,6 +86,8 @@ HEADERS += \
     Frames/Graphs/ConfigProfilesFrame.h \
     Frames/Graphs/ValveProfileEditorFrame.h \
     Frames/Graphs/VentProfileEditorFrame.h \
+    Frames/Hystory/TemperatureHystoryFrame.h \
+    Frames/HystoryMenuFrame.h \
     Frames/VentControllerConfigFrame.h \
     Models/Dialogs/ValveProfileModel.h \
     Models/Dialogs/VentProfileModel.h \
@@ -155,6 +159,7 @@ HEADERS += \
     Network/GenericServices/Messages/DefaultRequest.h \
     Network/GenericServices/Messages/FanInfoListRsponse.h \
     Network/GenericServices/Messages/FanInfoRequest.h \
+    Network/GenericServices/Messages/FanRemoveRequest.h \
     Network/GenericServices/Messages/FanStateListResponse.h \
     Network/GenericServices/Messages/FanStateResponse.h \
     Network/GenericServices/Messages/GetProfileRequest.h \
@@ -226,6 +231,8 @@ FORMS += \
     Frames/Graphs/TempProfileEditorFrame.ui \
     Frames/Graphs/ValveProfileEditorFrame.ui \
     Frames/Graphs/VentProfileEditorFrame.ui \
+    Frames/Hystory/TemperatureHystoryFrame.ui \
+    Frames/HystoryMenuFrame.ui \
     Frames/LightConfigFrame.ui \
     Frames/MainMenuFrame.ui \
     Frames/ProductionFrame.ui \

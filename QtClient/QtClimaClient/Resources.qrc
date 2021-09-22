@@ -27,5 +27,13 @@
         <file>Images/add.png</file>
         <file>Images/icons8-u-turn-to-left-50.png</file>
         <file>Images/circled-right.png</file>
+        <file>Images/list.png</file>
+        <file>Images/warning.png</file>
+        <file>Images/hystory.png</file>
+        <file>Images/temperature.png</file>
+        <file>Images/ventilator.png</file>
+        <file>Images/lamp.png</file>
+        <file>Images/production.png</file>
+        <file>Images/menu.png</file>
     </qresource>
 </RCC>

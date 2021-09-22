@@ -276,5 +276,33 @@ void GraphService::ProcessReply(NetworkResponse *reply)
         {
             emit TempProfileUpdated();
         }
+        else if(reply->method == "RemoveTemperatureProfile")
+        {
+            emit TempProfileUpdated();
+        }
+        else if(reply->method == "CreateVentilationProfile")
+        {
+            emit VentProfileCreated();
+        }
+        else if(reply->method == "UpdateVentilationProfile")
+        {
+            emit VentProfileUpdated();
+        }
+        else if(reply->method == "RemoveVentilationProfile")
+        {
+            emit VentProfileUpdated();
+        }
+        else if(reply->method == "CreateValveProfile")
+        {
+            emit ValveProfileCreated();
+        }
+        else if(reply->method == "UpdateValveProfile")
+        {
+            emit ValveProfileUpdated();
+        }
+        else if(reply->method == "RemoveValveProfile")
+        {
+            emit ValveProfileUpdated();
+        }
     }
 }

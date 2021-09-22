@@ -15,6 +15,8 @@ MessageDialog::MessageDialog(const QString &title, const QString &message, const
     ui->setupUi(this);
 
     setDialogType(OkCancelDialog);
+    setWindowTitle(title);
+    ui->lblMessage->setText(message);
 }
 
 MessageDialog::~MessageDialog()

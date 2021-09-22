@@ -35,8 +35,12 @@ SelectProfileFrame::SelectProfileFrame(const ProfileType &profileType, QWidget *
     connect(m_graphService, &GraphService::TempProfileUpdated, this, &SelectProfileFrame::TempProfileUpdated);
 
     connect(m_graphService, &GraphService::VentProfileResponse, this, &SelectProfileFrame::VentGraphReceived);
-    connect(m_graphService, &GraphService::ValveProfileResponse, this, &SelectProfileFrame::ValveGraphReceived);
+    connect(m_graphService, &GraphService::VentProfileCreated, this, &SelectProfileFrame::VentProfileCreated);
+    connect(m_graphService, &GraphService::VentProfileUpdated, this, &SelectProfileFrame::VentProfileUpdated);
 
+    connect(m_graphService, &GraphService::ValveProfileResponse, this, &SelectProfileFrame::ValveGraphReceived);
+    connect(m_graphService, &GraphService::ValveProfileCreated, this, &SelectProfileFrame::ValveProfileCreated);
+    connect(m_graphService, &GraphService::ValveProfileUpdated,this, &SelectProfileFrame::ValveProfileUpdated);
 
 
 
@@ -143,6 +147,16 @@ void SelectProfileFrame::ValveGraphReceived(ValueByValueProfile profile)
         connect(m_valveEditor, &ValveProfileEditorFrame::editComplete, this, &SelectProfileFrame::onValveProfileEditorCompleted);
         FrameManager::instance()->setCurrentFrame(m_valveEditor);
     }
+}
+
+void SelectProfileFrame::ValveProfileCreated()
+{
+    m_graphService->GetValveInfos();
+}
+
+void SelectProfileFrame::ValveProfileUpdated()
+{
+    m_graphService->GetValveInfos();
 }
 
 void SelectProfileFrame::VentProfileCreated()
@@ -303,6 +317,7 @@ void SelectProfileFrame::drawValveGraph(ValueByValueProfile *profile)
 
 void SelectProfileFrame::on_btnUp_clicked()
 {
+    m_selection = ui->profilesTable->selectionModel();
     QModelIndexList indexes = m_selection->selectedIndexes();
     if(indexes.count()>0)
     {
@@ -319,6 +334,7 @@ void SelectProfileFrame::on_btnUp_clicked()
 
 void SelectProfileFrame::on_btnDown_clicked()
 {
+    m_selection = ui->profilesTable->selectionModel();
     QModelIndexList indexes = m_selection->selectedIndexes();
     if(indexes.count()>0)
     {

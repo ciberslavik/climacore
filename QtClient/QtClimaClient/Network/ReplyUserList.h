@@ -12,6 +12,7 @@ class ReplyUserList : public QSerializer
 public:
     ReplyUserList()
     {}
+    virtual ~ReplyUserList(){}
     QS_FIELD(QString, RequestType)
     QS_COLLECTION_OBJECTS(QList, User, Users)
     QS_OBJECT(User, SingleUser)

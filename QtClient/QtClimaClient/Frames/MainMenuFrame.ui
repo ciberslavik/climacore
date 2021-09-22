@@ -19,20 +19,13 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
-    <widget class="QPushButton" name="btnProduction">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>65</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Производство</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
+   <property name="horizontalSpacing">
+    <number>10</number>
+   </property>
+   <property name="verticalSpacing">
+    <number>25</number>
+   </property>
+   <item row="4" column="0">
     <widget class="QPushButton" name="btnReturn">
      <property name="minimumSize">
       <size>
@@ -41,7 +34,40 @@
       </size>
      </property>
      <property name="text">
-      <string>&lt;&lt; Назад</string>
+      <string>Назад</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/icons8-u-turn-to-left-50.png</normaloff>:/Images/icons8-u-turn-to-left-50.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QPushButton" name="btnLightConfig">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>65</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Освещение</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/lamp.png</normaloff>:/Images/lamp.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
      </property>
     </widget>
    </item>
@@ -56,31 +82,15 @@
      <property name="text">
       <string>Обзор вентиляции</string>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QPushButton" name="btnTemperature">
-     <property name="minimumSize">
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/ventilator.png</normaloff>:/Images/ventilator.png</iconset>
+     </property>
+     <property name="iconSize">
       <size>
-       <width>0</width>
-       <height>65</height>
+       <width>42</width>
+       <height>42</height>
       </size>
-     </property>
-     <property name="text">
-      <string>Температура</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QPushButton" name="btnLightConfig">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>65</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Освещение</string>
      </property>
     </widget>
    </item>
@@ -112,6 +122,94 @@
       </size>
      </property>
     </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="btnProduction">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>65</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Производство</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/production.png</normaloff>:/Images/production.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="btnShowHystoryMenu">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>65</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>65</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>История</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/hystory.png</normaloff>:/Images/hystory.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QPushButton" name="btnTemperature">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>65</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Температура</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/temperature.png</normaloff>:/Images/temperature.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

@@ -15,7 +15,7 @@ namespace Clima.Core.IO.Converters
 
             //Console.WriteLine($"VoLTAGE value :{va}");
 
-            return va/10;
+            return va;
         }
 
         public ushort[] ConvertFrom(double value)
