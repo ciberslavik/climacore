@@ -41,12 +41,12 @@ void TestModeFrame::on_btnSelectProfileTest_clicked()
 
 void TestModeFrame::closeEvent(QCloseEvent *event)
 {
-
+    Q_UNUSED(event)
 }
 
 void TestModeFrame::showEvent(QShowEvent *event)
 {
-
+    Q_UNUSED(event)
 }
 
 

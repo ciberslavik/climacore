@@ -46,7 +46,6 @@ void CMainWindow::updateData()
 {
     QString clockStr = QTime::currentTime().toString("hh:mm");
     clockStr += " " + QDate::currentDate().toString("dd.MM.yyyy");
-    ui->lblClock->setText(clockStr);
 }
 
 

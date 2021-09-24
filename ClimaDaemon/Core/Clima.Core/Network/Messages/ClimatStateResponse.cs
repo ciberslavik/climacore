@@ -19,5 +19,7 @@
         public float MinePosition { get; set; }
         public float TotalFanPerformance { get; set; }
         public float VentilationSetPoint { get; set; }
+        public float AnalogPower { get; set; }
+        public string BuildName { get; set; }
     }
 }

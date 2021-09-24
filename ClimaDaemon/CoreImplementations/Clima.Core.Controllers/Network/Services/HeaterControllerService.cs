@@ -1,4 +1,5 @@
-﻿using Clima.Basics.Services.Communication;
+﻿using System.Linq;
+using Clima.Basics.Services.Communication;
 using Clima.Core.Controllers.Heater;
 using Clima.Core.Controllers.Network.Messages;
 using Clima.Core.Network.Messages;
@@ -37,10 +38,7 @@ namespace Clima.Core.Controllers.Network.Services
         public HeaterStateListResponse GetStateList(DefaultRequest request)
         {
             var list = new HeaterStateListResponse();
-            foreach (var state in _heaterController.States.Values)
-            {
-                list.States.Add(state);
-            }
+            list.States = _heaterController.States.Values.ToList();
             return list;
         }
 

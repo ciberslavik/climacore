@@ -17,6 +17,8 @@ public:
 
     void setState(HeaterState *state);
     HeaterState *getState();
+
+
 signals:
     void onModeChanged(bool isManual);
     void onStateChanged(bool isRunning);
@@ -32,6 +34,7 @@ private slots:
     void on_btnCancel_clicked();
 
     void on_btnManual_clicked();
+    void onTxtClicked();
 
 private:
     Ui::HeaterConfigDialog *ui;

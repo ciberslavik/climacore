@@ -46,5 +46,11 @@ namespace Clima.Core.Scheduler.Network.Services
             _scheduler.SetMineProfile(request.ProfileKey);
             return new DefaultResponse();
         }
+
+        [ServiceMethod]
+        public SchedulerDebugResponse GetSchedulerDebugInfo(DefaultRequest request)
+        {
+            return new SchedulerDebugResponse();
+        }
     }
 }

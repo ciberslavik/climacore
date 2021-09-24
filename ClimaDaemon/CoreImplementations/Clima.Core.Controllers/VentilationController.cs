@@ -21,9 +21,10 @@ namespace Clima.Core.Controllers
         private bool _mineManual = false;
         
         
-        private int _currentPerformance;
+        private float _currentPerformance;
         private int _totalPerformance;
         private float _analogPower;
+        private float _analogManualPower;
         public VentilationController(IDeviceProvider devProvider)
         {
             _devProvider = devProvider;
@@ -41,7 +42,9 @@ namespace Clima.Core.Controllers
                 ServiceState = ServiceState.Running;
             }
         }
-        public float AnalogPower =>_fanTable["FAN:0"].AnalogFan.Power; 
+
+        public float VentilationSetPoint { get; }
+        public float AnalogPower =>_fanTable["FAN:0"].AnalogPower; 
         
         
         public void Stop()
@@ -143,7 +146,7 @@ namespace Clima.Core.Controllers
             CreateFans();
         }
 
-        public void SetPerformance(int performance)
+        public void SetPerformance(float performance)
         {
             
             
@@ -173,7 +176,7 @@ namespace Clima.Core.Controllers
             }
             if(analogItem is not null)
             {
-                int powerToAnalog = _currentPerformance - perfCounter;
+                float powerToAnalog = _currentPerformance - perfCounter;
                 float powerPercent = (powerToAnalog / analogItem.CurrentPerformance) * 100.0f;
                 if(powerPercent < 15)
                   powerPercent = 15;
@@ -181,15 +184,29 @@ namespace Clima.Core.Controllers
                   powerPercent = 100;
                 
                 _analogPower = powerPercent;
-                analogItem.AnalogFan.SetPower(powerPercent);
+                if (!AnalogFanIsManual)
+                {
+                    analogItem.AnalogFan.SetPower(powerPercent);
+                    analogItem.AnalogPower = powerPercent;
+                }
+                else
+                {
+                    analogItem.AnalogFan.SetPower(_analogManualPower);
+                    analogItem.AnalogPower = _analogManualPower;
+                }
+
                 Console.WriteLine($"Analog performance:{powerToAnalog} percent:{powerPercent}");
             }
         }
 
-        
+
+        public void SetAnalogSetPoint(float setPoint)
+        {
+            throw new NotImplementedException();
+        }
 
         public int TotalPerformance => _totalPerformance;
-        public int CurrentPerformance => _currentPerformance;
+        public float CurrentPerformance => _currentPerformance;
 
 
         private void CreateFans()
@@ -327,7 +344,9 @@ namespace Clima.Core.Controllers
             if (position >= 0 && position <= 100)
                 _mineServo.SetPosition(position);
         }
-        
+
+        public bool AnalogFanIsManual { get; set; }
+
         public void SetValvePosition(float position)
         {
             _valveServo ??= _devProvider.GetServo("SERVO:0");

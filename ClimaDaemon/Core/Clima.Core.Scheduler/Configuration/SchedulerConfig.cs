@@ -24,7 +24,7 @@ namespace Clima.Core.Scheduler.Configuration
         public string VentilationProfileKey { get; set; }
         public string ValveProfileKey { get; set; }
         public string MineProfileKey { get; set; }
-        
+        public string BuildName { get; set; }
         public static SchedulerConfig CreateDefault()
         {
             return new SchedulerConfig();

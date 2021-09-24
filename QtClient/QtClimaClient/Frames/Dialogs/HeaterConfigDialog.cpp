@@ -1,5 +1,6 @@
 #include "HeaterConfigDialog.h"
 #include "ui_HeaterConfigDialog.h"
+#include "Frames/Dialogs/inputdigitdialog.h"
 
 HeaterConfigDialog::HeaterConfigDialog(QWidget *parent) :
     QDialog(parent),
@@ -54,6 +55,11 @@ void HeaterConfigDialog::on_btnManual_clicked()
     }
 }
 
+void HeaterConfigDialog::onTxtClicked()
+{
+
+}
+
 void HeaterConfigDialog::on_btnManualOn_toggled(bool checked)
 {
     m_state->IsRunning = checked;
@@ -76,6 +82,7 @@ void HeaterConfigDialog::on_btnManualOn_toggled(bool checked)
 
 void HeaterConfigDialog::on_btnAccept_clicked()
 {
+
     accept();
 }
 

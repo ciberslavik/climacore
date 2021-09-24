@@ -3,7 +3,7 @@ QT      += xml
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
-
+QMAKE_CXXFLAGS += -Wno-deprecated-copy
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -16,6 +16,7 @@ SOURCES += \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
     Frames/Dialogs/ConfigValveDialog.cpp \
+    Frames/Dialogs/EditAnalogFanDialog.cpp \
     Frames/Dialogs/EditFanDialog.cpp \
     Frames/Dialogs/HeaterConfigDialog.cpp \
     Frames/Dialogs/LivestockOperationDialog.cpp \
@@ -78,6 +79,7 @@ SOURCES += \
 
 HEADERS += \
     ApplicationWorker.h \
+    Frames/Dialogs/EditAnalogFanDialog.h \
     Frames/Dialogs/EditFanDialog.h \
     Frames/Dialogs/HeaterConfigDialog.h \
     Frames/Dialogs/StartPreparingDialog.h \
@@ -215,6 +217,7 @@ FORMS += \
     Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
     Frames/Dialogs/ConfigValveDialog.ui \
+    Frames/Dialogs/EditAnalogFanDialog.ui \
     Frames/Dialogs/EditFanDialog.ui \
     Frames/Dialogs/HeaterConfigDialog.ui \
     Frames/Dialogs/LivestockOperationDialog.ui \

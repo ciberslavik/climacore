@@ -119,5 +119,18 @@ namespace Clima.Core.Controllers.Network.Services
                 SetPoint = _ventController.MineSetPoint
             };
         }
+
+        [ServiceMethod]
+        public VentilationStatusResponse GetVentilationStatus(DefaultRequest request)
+        {
+            return new VentilationStatusResponse()
+            {
+                MineCurrentPos = _ventController.MineCurrentPos,
+                MineSetPoint = _ventController.MineSetPoint,
+                ValveCurrentPos = _ventController.ValveCurrentPos,
+                ValveSetPoint = _ventController.ValveCurrentPos,
+                VentSetPoint = _ventController.CurrentPerformance
+            };
+        }
     }
 }

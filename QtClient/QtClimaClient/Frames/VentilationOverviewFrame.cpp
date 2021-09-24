@@ -124,6 +124,7 @@ void VentilationOverviewFrame::onValveStateReceived(bool isManual, float currPos
     Q_UNUSED(isManual);
     Q_UNUSED(setPoint);
     ui->pbValves->setValue(currPos);
+    ui->lblValveSetPoint->setText(QString::number(setPoint,'f',1));
 
 }
 
@@ -132,6 +133,7 @@ void VentilationOverviewFrame::onMineStateReceived(bool isManual, float currPos,
     Q_UNUSED(isManual);
     Q_UNUSED(setPoint);
     ui->pbMines->setValue(currPos);
+    ui->lblMintSetPoint->setText(QString::number(setPoint,'f',1));
 }
 
 void VentilationOverviewFrame::createFanWidgets()

@@ -16,5 +16,11 @@ public:
 
 private:
     Ui::HystoryMenuFrame *ui;
+
+    // FrameBase interface
+public:
+    virtual QString getFrameName() override{return "HystoryMenuFrame";}
+private slots:
+    void on_btnReturn_clicked();
 };
 

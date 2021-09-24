@@ -24,4 +24,6 @@ public:
     QS_FIELD(float, MinePosition)
     QS_FIELD(float, TotalFanPerformance)
     QS_FIELD(float, VentilationSetPoint)
+    QS_FIELD(float, AnalogPower)
+    QS_FIELD(QString, BuildName)
 };

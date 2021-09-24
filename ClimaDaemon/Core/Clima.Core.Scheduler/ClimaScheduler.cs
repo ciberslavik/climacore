@@ -115,7 +115,8 @@ namespace Clima.Core.Scheduler
                 }
             }
         }
-
+        public string BuildName { get; set; }
+        internal SchedulerStateObject StateObject => _state;
         #endregion Properties
 
         #region Graph managment

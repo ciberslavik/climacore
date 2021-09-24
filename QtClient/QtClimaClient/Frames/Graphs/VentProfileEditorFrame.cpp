@@ -239,7 +239,7 @@ void VentProfileEditorFrame::drawGraph()
     //plot->graph()->rescaleAxes();
 
     plot->xAxis->setRange(1,50);
-    plot->yAxis->setRange(0,10);
+    plot->yAxis->setRange(0,5);
 
     plot->replot();
 }

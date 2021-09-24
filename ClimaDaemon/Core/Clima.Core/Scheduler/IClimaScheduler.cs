@@ -34,5 +34,6 @@ namespace Clima.Core.Scheduler
         int CurrentHeads { get; }
         DateTime StartDate { get; }
         SchedulerInfo SchedulerInfo { get; }
+        string BuildName { get; set; }
     }
 }

@@ -252,7 +252,7 @@ void SelectProfileFrame::drawTemperatureGraph(ValueByDayProfile *profile)
     plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
     plot->graph(0)->setData(days, temps);
     plot->xAxis->setRange(10,60);
-    plot->yAxis->setRange(1,50);
+    plot->yAxis->setRange(0,50);
 
     plot->replot();
 }
@@ -281,8 +281,8 @@ void SelectProfileFrame::drawVentilationGraph(MinMaxByDayProfile *profile)
     plot->graph(1)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
     plot->graph(1)->setData(days, minValues);
 
-    plot->xAxis->setRange(1,50);
-    plot->yAxis->setRange(0,10);
+    plot->xAxis->setRange(0,50);
+    plot->yAxis->setRange(0,5);
 
     plot->replot();
 }
@@ -308,8 +308,8 @@ void SelectProfileFrame::drawValveGraph(ValueByValueProfile *profile)
     plot->graph(0)->setData(ValuesX, ValuesY);
 
 
-    plot->xAxis->setRange(1,100);
-    plot->yAxis->setRange(1,100);
+    plot->xAxis->setRange(0,100);
+    plot->yAxis->setRange(0,100);
 
     plot->replot();
 }

@@ -35,5 +35,6 @@
         <file>Images/lamp.png</file>
         <file>Images/production.png</file>
         <file>Images/menu.png</file>
+        <file>Images/enginer.png</file>
     </qresource>
 </RCC>
