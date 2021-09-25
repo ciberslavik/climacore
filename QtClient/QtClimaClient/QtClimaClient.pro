@@ -162,8 +162,9 @@ HEADERS += \
     Network/GenericServices/Messages/DefaultRequest.h \
     Network/GenericServices/Messages/FanInfoListRsponse.h \
     Network/GenericServices/Messages/FanInfoRequest.h \
+    Network/GenericServices/Messages/FanModeRequest.h \
+    Network/GenericServices/Messages/FanModeResponse.h \
     Network/GenericServices/Messages/FanRemoveRequest.h \
-    Network/GenericServices/Messages/FanStateListResponse.h \
     Network/GenericServices/Messages/FanStateRequest.h \
     Network/GenericServices/Messages/FanStateResponse.h \
     Network/GenericServices/Messages/GetProfileRequest.h \

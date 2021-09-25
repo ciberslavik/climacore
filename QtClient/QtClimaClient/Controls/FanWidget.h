@@ -11,7 +11,6 @@
 #include <QPoint>
 #include <QWidget>
 #include <QApplication>
-#include <Models/FanState.h>
 
 class FanWidget : public QWidget
 {
@@ -44,12 +43,12 @@ signals:
     void EditCancel(const QString &fanKey);
 private slots:
     void onModeLabelClicked();
-    void onModeEditorModeChanged(FanMode mode);
+    void onModeEditorModeChanged(FanModeEnum mode);
     void onModeEditorStateChanged(FanStateEnum_t state);
 private:
     FanStateEnum_t m_fanState;
     QString m_fanKey;
-    FanMode m_fanMode;
+    FanModeEnum m_fanMode;
     QMovie *m_fanMovie;
     bool m_isAnalog;
     QLabel *m_fanLabel;

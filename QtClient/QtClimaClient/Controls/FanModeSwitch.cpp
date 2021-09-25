@@ -15,26 +15,26 @@ FanModeSwitch::~FanModeSwitch()
     delete ui;
 }
 
-void FanModeSwitch::setFanMode(FanMode mode)
+void FanModeSwitch::setFanMode(FanModeEnum mode)
 {
     if(m_fanMode != mode)
     {
         m_fanMode = mode;
         switch (m_fanMode) {
-        case FanMode::Auto:
+        case FanModeEnum::Auto:
             ui->btnAuto->setChecked(true);
             break;
-        case FanMode::Manual:
+        case FanModeEnum::Manual:
             ui->btnManual->setChecked(true);
             break;
-        case FanMode::Disabled:
+        case FanModeEnum::Disabled:
             ui->btnDisable->setChecked(true);
             break;
         }
     }
 }
 
-FanMode FanModeSwitch::fanMode()
+FanModeEnum FanModeSwitch::fanMode()
 {
     return m_fanMode;
 }
@@ -105,7 +105,7 @@ void FanModeSwitch::on_btnAuto_toggled(bool checked)
 {
     if(checked)
     {
-        m_fanMode = FanMode::Auto;
+        m_fanMode = FanModeEnum::Auto;
         ui->grpState->setVisible(false);
         QSize mSize = size();
         mSize.setWidth(188);
@@ -119,7 +119,7 @@ void FanModeSwitch::on_btnManual_toggled(bool checked)
 {
     if(checked)
     {
-        m_fanMode = FanMode::Manual;
+        m_fanMode = FanModeEnum::Manual;
         ui->grpState->setVisible(true);
         QSize mSize = size();
         mSize.setWidth(298);
@@ -133,7 +133,7 @@ void FanModeSwitch::on_btnDisable_toggled(bool checked)
 {
     if(checked)
     {
-        m_fanMode = FanMode::Disabled;
+        m_fanMode = FanModeEnum::Disabled;
         ui->grpState->setVisible(false);
         QSize mSize = size();
         mSize.setWidth(188);

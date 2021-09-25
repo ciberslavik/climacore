@@ -1,9 +1,7 @@
 
-#include <Models/FanState.h>
 
-#include <QTimer>
 #pragma once
-
+#include <QTimer>
 #include <QWidget>
 #include <QMap>
 #include "Controls/FanWidget.h"
@@ -39,10 +37,6 @@ private slots:
     void on_pushButton_clicked();
 
 
-    void onFanStatesReceived(QList<FanState> states);
-    void onFanStateUpdated(FanState state);
-
-
     void onEditFanStateChanged(const QString &fanKey, FanStateEnum_t newState);
     void onEditFanModeChanged(const QString &fanKey, FanMode_t newMode);
 
@@ -66,11 +60,11 @@ private:
     SelectProfileFrame *m_ProfileSelector;
 
     QMap<QString, FanWidget*> m_fanWidgets;
-    QMap<QString, FanState*> m_fanStates;
+    QMap<QString, FanInfo> m_fanInfos;
 
     VentilationService *m_ventService;
 
-    FanState m_editedOld;
+    FanInfo m_editedOld;
 
     int m_updateCounter;
     QTimer *m_updateTimer;

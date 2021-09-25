@@ -21,8 +21,8 @@ VentilationOverviewFrame::VentilationOverviewFrame(QWidget *parent) :
     }
 
 
-    connect(m_ventService, &VentilationService::FanStateListReceived, this, &VentilationOverviewFrame::onFanStatesReceived);
-    connect(m_ventService, &VentilationService::FanStateUpdated, this, &VentilationOverviewFrame::onFanStateUpdated);
+    //connect(m_ventService, &VentilationService::FanStateListReceived, this, &VentilationOverviewFrame::onFanStatesReceived);
+    //connect(m_ventService, &VentilationService::FanStateUpdated, this, &VentilationOverviewFrame::onFanStateUpdated);
     connect(m_ventService, &VentilationService::MineStateReceived, this, &VentilationOverviewFrame::onMineStateReceived);
     connect(m_ventService, &VentilationService::ValveStateReceived, this, &VentilationOverviewFrame::onValveStateReceived);
 
@@ -32,8 +32,8 @@ VentilationOverviewFrame::VentilationOverviewFrame(QWidget *parent) :
 
 VentilationOverviewFrame::~VentilationOverviewFrame()
 {
-    disconnect(m_ventService, &VentilationService::FanStateListReceived, this, &VentilationOverviewFrame::onFanStatesReceived);
-    disconnect(m_ventService, &VentilationService::FanStateUpdated, this, &VentilationOverviewFrame::onFanStateUpdated);
+    //disconnect(m_ventService, &VentilationService::FanStateListReceived, this, &VentilationOverviewFrame::onFanStatesReceived);
+    //disconnect(m_ventService, &VentilationService::FanStateUpdated, this, &VentilationOverviewFrame::onFanStateUpdated);
     disconnect(m_ventService, &VentilationService::MineStateReceived, this, &VentilationOverviewFrame::onMineStateReceived);
     disconnect(m_ventService, &VentilationService::ValveStateReceived, this, &VentilationOverviewFrame::onValveStateReceived);
     delete ui;
@@ -42,10 +42,12 @@ VentilationOverviewFrame::~VentilationOverviewFrame()
 
 void VentilationOverviewFrame::closeEvent(QCloseEvent *event)
 {
+    Q_UNUSED(event)
 }
 
 void VentilationOverviewFrame::showEvent(QShowEvent *event)
 {
+    Q_UNUSED(event)
     //m_ventService->GetFanStateList();
 }
 
@@ -58,67 +60,65 @@ void VentilationOverviewFrame::on_pushButton_clicked()
 
 
 
-void VentilationOverviewFrame::onFanStatesReceived(QList<FanState> states)
-{
-    if(m_fanStates.count()>0)
-    {
-        qDeleteAll(m_fanStates);
-        m_fanStates.clear();
-    }
+//void VentilationOverviewFrame::onFanStatesReceived(QList<FanState> states)
+//{
+//    if(m_fanStates.count()>0)
+//    {
+//        qDeleteAll(m_fanStates);
+//        m_fanStates.clear();
+//    }
 
-    for(int i = 0; i < states.count(); i++)
-    {
-        FanState *state = new FanState(states.at(i));
+//    for(int i = 0; i < states.count(); i++)
+//    {
+//        FanState *state = new FanState(states.at(i));
 
-        m_fanStates.insert(state->Info.Key, state);
-    }
+//        m_fanStates.insert(state->Info.Key, state);
+//    }
 
-    if(m_fanWidgets.count()==m_fanStates.count())
-        updateFanWidgets();
-    else
-        createFanWidgets();
-}
+//    if(m_fanWidgets.count()==m_fanStates.count())
+//        updateFanWidgets();
+//    else
+//        createFanWidgets();
+//}
 
-void VentilationOverviewFrame::onFanStateUpdated(FanState state)
-{
-    QString key = state.Info.Key;
-    m_fanStates[key]->State = state.State;
-    m_fanStates[key]->Info.IsManual = state.Info.IsManual;
-    bool man = state.Info.IsManual;
+//void VentilationOverviewFrame::onFanStateUpdated(FanState state)
+//{
+//    QString key = state.Info.Key;
+//    m_fanStates[key]->State = state.State;
+//    m_fanStates[key]->Info.IsManual = state.Info.IsManual;
+//    bool man = state.Info.IsManual;
 
-    if(man)
-        m_fanWidgets[key]->setFanMode(FanMode::Manual);
-    else
-    {
-        if(m_fanStates[key]->Info.Hermetise)
-            m_fanWidgets[key]->setFanMode(FanMode::Disabled);
-        else
-            m_fanWidgets[key]->setFanMode(FanMode::Auto);
-    }
-    m_fanWidgets[key]->setFanState((FanStateEnum)state.State);
-}
+//    if(man)
+//        m_fanWidgets[key]->setFanMode(FanMode::Manual);
+//    else
+//    {
+//        if(m_fanStates[key]->Info.Hermetise)
+//            m_fanWidgets[key]->setFanMode(FanMode::Disabled);
+//        else
+//            m_fanWidgets[key]->setFanMode(FanMode::Auto);
+//    }
+//    m_fanWidgets[key]->setFanState((FanStateEnum)state.State);
+//}
 
 void VentilationOverviewFrame::onEditFanStateChanged(const QString &fanKey, FanStateEnum_t newState)
 {
     qDebug() << "FAN State changed" << fanKey << " mode:" << (int)newState;
 
-    if(m_fanStates[fanKey]->Info.IsManual)
+    if(m_fanInfos[fanKey].Mode == (int)FanModeEnum::Manual)
     {
-        m_fanStates[fanKey]->State = (int)newState;
+        m_fanInfos[fanKey].State = (int)newState;
 
-        m_ventService->SetFanState(*m_fanStates[fanKey]);
+        m_ventService->SetFanState(fanKey, newState);
     }
 }
 
 void VentilationOverviewFrame::onEditFanModeChanged(const QString &fanKey, FanMode_t newMode)
 {
     qDebug() <<"Edit mode changed:" << fanKey << " mode:" << (int)newMode;
-    if(newMode == FanMode::Auto)
-        m_fanStates[fanKey]->Info.IsManual = false;
-    else
-        m_fanStates[fanKey]->Info.IsManual = true;
 
-    m_ventService->SetFanState(*m_fanStates[fanKey]);
+        m_fanInfos[fanKey].Mode = (int)newMode;
+
+    m_ventService->SetFanMode(fanKey, newMode);
 }
 
 void VentilationOverviewFrame::onValveStateReceived(bool isManual, float currPos, float setPoint)
@@ -145,19 +145,19 @@ void VentilationOverviewFrame::createFanWidgets()
         removeFanWidgets();
     }
 
-    for(int i = 0; i < m_fanStates.count(); i++)
+    for(int i = 0; i < m_fanInfos.count(); i++)
     {
-        FanState *s = m_fanStates.values().at(i);
+        FanInfo *s = &m_fanInfos[m_fanInfos.keys().at(i)];
 
-        FanWidget *widget = new FanWidget(s->Info.Key,s->Info.IsAnalog, this);
-        if(s->Info.IsManual)
-            widget->setFanMode(FanMode::Manual);
+        FanWidget *widget = new FanWidget(s->Key, s->IsAnalog, this);
+        if(s->IsManual)
+            widget->setFanMode(FanModeEnum::Manual);
         else
         {
             if(s->Info.Hermetise)
-                widget->setFanMode(FanMode::Disabled);
+                widget->setFanMode(FanModeEnum::Disabled);
             else
-                widget->setFanMode(FanMode::Auto);
+                widget->setFanMode(FanModeEnum::Auto);
         }
         widget->setFanState((FanStateEnum)s->State);
 
@@ -213,13 +213,13 @@ void VentilationOverviewFrame::updateFanWidgets()
         FanState *s = m_fanStates.values().at(i);
         FanWidget *w = m_fanWidgets[s->Info.Key];
         if(s->Info.IsManual)
-            w->setFanMode(FanMode::Manual);
+            w->setFanMode(FanModeEnum::Manual);
         else
         {
             if(s->Info.Hermetise)
-                w->setFanMode(FanMode::Disabled);
+                w->setFanMode(FanModeEnum::Disabled);
             else
-                w->setFanMode(FanMode::Auto);
+                w->setFanMode(FanModeEnum::Auto);
         }
         w->setFanState((FanStateEnum)s->State);
         if(s->Info.IsAnalog)

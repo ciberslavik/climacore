@@ -5,7 +5,7 @@
 
 FanWidget::FanWidget(QWidget *parent) : QWidget(parent)
 {
-    m_fanMode = FanMode::Auto;
+    m_fanMode = FanModeEnum::Auto;
     m_fanState = FanStateEnum::Stopped;
     createUI();
     rebuildUI();
@@ -35,7 +35,7 @@ void FanWidget::setFanState(FanStateEnum_t state)
     }
 }
 
-void FanWidget::setFanMode(FanMode mode)
+void FanWidget::setFanMode(FanModeEnum mode)
 {
     if(m_fanMode != mode)
     {
@@ -134,7 +134,7 @@ void FanWidget::onModeLabelClicked()
         connect(&modeEditor, &FanModeSwitch::fanModeChanged, this, &FanWidget::onModeEditorModeChanged);
         connect(&modeEditor, &FanModeSwitch::fanStateChanged, this, &FanWidget::onModeEditorStateChanged);
 
-        FanMode oldMode = m_fanMode;
+        FanModeEnum oldMode = m_fanMode;
         FanStateEnum oldState = m_fanState;
 
         modeEditor.setFanMode(m_fanMode);
@@ -155,7 +155,7 @@ void FanWidget::onModeLabelClicked()
 }
 
 
-void FanWidget::onModeEditorModeChanged(FanMode mode)
+void FanWidget::onModeEditorModeChanged(FanModeEnum mode)
 {
     setFanMode(mode);
     emit FanModeChanged(m_fanKey, mode);
@@ -195,18 +195,18 @@ void FanWidget::rebuildUI()
 {
     switch(m_fanMode)
     {
-    case FanMode::Auto:
+    case FanModeEnum::Auto:
         m_modeLabel->setPixmap(m_autoPixmap);
         break;
-    case FanMode::Manual:
+    case FanModeEnum::Manual:
         m_modeLabel->setPixmap(m_manualPixmap);
         break;
-    case FanMode::Disabled:
+    case FanModeEnum::Disabled:
         m_modeLabel->setPixmap(m_discardPixmap);
         break;
     }
 
-    if(m_fanMode != FanMode::Disabled)
+    if(m_fanMode != FanModeEnum::Disabled)
     {
         switch (m_fanState)
         {

@@ -6,6 +6,7 @@
 #include <Network/GenericServices/Messages/FanStateRequest.h>
 #include <Network/GenericServices/Messages/UpdateServoStateRequest.h>
 #include <Network/GenericServices/Messages/FanRemoveRequest.h>
+#include <Network/GenericServices/Messages/FanModeRequest.h>
 
 
 VentilationService::VentilationService(QObject *parent) : INetworkService(parent)
@@ -18,14 +19,7 @@ void VentilationService::GetControllerState()
 
 }
 
-void VentilationService::GetFanStateList()
-{
-    NetworkRequest *request = new NetworkRequest();
-    request->service = "VentilationControllerService";
-    request->method = "GetFanStateList";
 
-    emit SendRequest(request);
-}
 
 void VentilationService::GetFanInfoList()
 {
@@ -45,6 +39,21 @@ void VentilationService::SetFanState(const QString &key, const FanStateEnum &sta
     FanStateRequest fsRequ;
     fsRequ.Key = key;
     fsRequ.State = (int)state;
+
+    request->params = fsRequ.toJsonString();
+
+    emit SendRequest(request);
+}
+
+void VentilationService::SetFanMode(const QString &key, const FanModeEnum &state)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "VentilationControllerService";
+    request->method = "SetFanMode";
+
+    FanModeRequest fsRequ;
+    fsRequ.Key = key;
+    fsRequ.Mode = (int)state;
 
     request->params = fsRequ.toJsonString();
 
@@ -129,15 +138,7 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
 {
     if(reply->service == ServiceName())
     {
-        if(reply->method == "GetFanStateList")
-        {
-            FanStateListResponse *response = new FanStateListResponse();
-            response->fromJson(reply->result.toUtf8());
-
-            emit FanStateListReceived(response->States);
-
-        }
-        else if(reply->method == "GetFanInfoList")
+        if(reply->method == "GetFanInfoList")
         {
             FanInfoListResponse *response = new FanInfoListResponse();
             response->fromJson(reply->result.toUtf8());
@@ -153,7 +154,7 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
         {
             FanStateResponse rsp;
             rsp.fromJson(reply->result.toUtf8());
-            emit FanStateUpdated(rsp.State);
+            //emit FanStateUpdated(rsp.State);
         }
         else if(reply->method == "GetValveState")
         {

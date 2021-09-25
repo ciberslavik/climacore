@@ -17,8 +17,10 @@ public:
     QS_FIELD(int, Performance)
     QS_FIELD(int, FanCount)
     QS_FIELD(int, Priority)
-    QS_FIELD(bool, Hermetise)
-    QS_FIELD(bool, IsManual)
+    QS_FIELD(bool, Hermetised)
     QS_FIELD(float, StartValue)
     QS_FIELD(float, StopValue)
+    QS_FIELD(int, State)
+    QS_FIELD(int, Mode)
+    QS_FIELD(float, AnalogPower)
 };

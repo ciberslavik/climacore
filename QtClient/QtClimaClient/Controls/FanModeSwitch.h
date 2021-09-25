@@ -18,8 +18,8 @@ public:
     explicit FanModeSwitch(QWidget *parent = nullptr);
     ~FanModeSwitch();
 
-    void setFanMode(FanMode mode);
-    FanMode fanMode();
+    void setFanMode(FanModeEnum mode);
+    FanModeEnum fanMode();
     void setFanState(FanStateEnum_t state);
     FanStateEnum_t fanState(){return m_fanState;}
 signals:
@@ -48,7 +48,7 @@ protected:
 private:
     Ui::FanModeSwitch *ui;
 
-    FanMode m_fanMode;
+    FanModeEnum m_fanMode;
     FanStateEnum_t m_fanState;
 
 };

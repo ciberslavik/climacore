@@ -65,7 +65,7 @@ QVariant FanInfosModel::data(const QModelIndex &index, int role) const
             return m_infos->at(index.row()).Priority;
             break;
         case 5:
-            return m_infos->at(index.row()).Hermetise;
+            return m_infos->at(index.row()).Hermetised;
             break;
 
         }

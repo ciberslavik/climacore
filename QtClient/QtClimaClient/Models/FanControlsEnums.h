@@ -7,7 +7,7 @@ typedef enum class FanStateEnum:int
     Alarm = 2
 }FanStateEnum_t;
 
-typedef enum class FanMode:int
+typedef enum class FanModeEnum:int
 {
     Auto = 0,
     Manual = 1,
