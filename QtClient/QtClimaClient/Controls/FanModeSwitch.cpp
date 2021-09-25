@@ -17,16 +17,26 @@ FanModeSwitch::~FanModeSwitch()
 
 void FanModeSwitch::setFanMode(FanMode mode)
 {
-    if(m_mode != mode)
+    if(m_fanMode != mode)
     {
-        m_mode = mode;
-        checkButton();
+        m_fanMode = mode;
+        switch (m_fanMode) {
+        case FanMode::Auto:
+            ui->btnAuto->setChecked(true);
+            break;
+        case FanMode::Manual:
+            ui->btnManual->setChecked(true);
+            break;
+        case FanMode::Disabled:
+            ui->btnDisable->setChecked(true);
+            break;
+        }
     }
 }
 
 FanMode FanModeSwitch::fanMode()
 {
-    return m_mode;
+    return m_fanMode;
 }
 
 void FanModeSwitch::setFanState(FanStateEnum_t state)
@@ -34,48 +44,26 @@ void FanModeSwitch::setFanState(FanStateEnum_t state)
     if(m_fanState != state)
     {
         m_fanState = state;
-        checkButton();
-    }
-}
-
-void FanModeSwitch::on_btnDisable_clicked()
-{
-    if(m_mode!=FanMode::Disabled)
-    {
-        m_mode = FanMode::Disabled;
-        checkButton();
-        emit fanModeChanged(m_mode);
-    }
-}
-
-void FanModeSwitch::on_btnManual_clicked()
-{
-    if(m_mode != FanMode::Manual)
-    {
-        m_mode = FanMode::Manual;
-        checkButton();
-        emit fanModeChanged(m_mode);
-    }
-}
-
-void FanModeSwitch::on_btnAuto_clicked()
-{
-    if(m_mode != FanMode::Auto)
-    {
-        m_mode = FanMode::Auto;
-        checkButton();
-        emit fanModeChanged(m_mode);
+        switch (m_fanState) {
+        case FanStateEnum::Running:
+            ui->btnOn->setChecked(true);
+            break;
+        case FanStateEnum::Stopped:
+            ui->btnOff->setChecked(true);
+            break;
+        case FanStateEnum::Alarm:
+            break;
+        }
     }
 }
 
 void FanModeSwitch::on_btnAccept_clicked()
 {
-    emit acceptMode();
+    accept();
 }
 
 void FanModeSwitch::on_btnCancel_clicked()
 {
-    emit cancelEdit();
     reject();
 }
 
@@ -94,42 +82,6 @@ void FanModeSwitch::paintEvent(QPaintEvent *event)
     pa.fillRect(borderRect, backgrountBrush);
 }
 
-void FanModeSwitch::checkButton()
-{
-    switch (m_mode) {
-        case FanMode::Auto:
-            ui->btnAuto->setChecked(true);
-        break;
-        case FanMode::Manual:
-            ui->btnManual->setChecked(true);
-            if(m_fanState == FanStateEnum_t::Running)
-            {
-                ui->btnOn->setChecked(true);
-            }
-            else
-            {
-                ui->btnOff->setChecked(true);
-            }
-        break;
-        case FanMode::Disabled:
-            ui->btnDisable->setChecked(true);
-        break;
-    }
-    if((m_mode == FanMode::Auto) || (m_mode == FanMode::Disabled))
-    {
-        ui->grpState->setVisible(false);
-        QSize mSize = size();
-        mSize.setWidth(188);
-        setGeometry(QRect(pos(),mSize));
-    }
-    else if(m_mode == FanMode::Manual)
-    {
-        ui->grpState->setVisible(true);
-        QSize mSize = size();
-        mSize.setWidth(298);
-        setGeometry(QRect(pos(),mSize));
-    }
-}
 
 void FanModeSwitch::on_btnOn_clicked()
 {
@@ -148,3 +100,45 @@ void FanModeSwitch::on_btnOff_clicked()
         emit fanStateChanged(m_fanState);
     }
 }
+
+void FanModeSwitch::on_btnAuto_toggled(bool checked)
+{
+    if(checked)
+    {
+        m_fanMode = FanMode::Auto;
+        ui->grpState->setVisible(false);
+        QSize mSize = size();
+        mSize.setWidth(188);
+        setGeometry(QRect(pos(),mSize));
+        emit fanModeChanged(m_fanMode);
+    }
+}
+
+
+void FanModeSwitch::on_btnManual_toggled(bool checked)
+{
+    if(checked)
+    {
+        m_fanMode = FanMode::Manual;
+        ui->grpState->setVisible(true);
+        QSize mSize = size();
+        mSize.setWidth(298);
+        setGeometry(QRect(pos(),mSize));
+        emit fanModeChanged(m_fanMode);
+    }
+}
+
+
+void FanModeSwitch::on_btnDisable_toggled(bool checked)
+{
+    if(checked)
+    {
+        m_fanMode = FanMode::Disabled;
+        ui->grpState->setVisible(false);
+        QSize mSize = size();
+        mSize.setWidth(188);
+        setGeometry(QRect(pos(),mSize));
+        emit fanModeChanged(m_fanMode);
+    }
+}
+

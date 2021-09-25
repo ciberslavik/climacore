@@ -7,10 +7,12 @@ namespace Clima.Core.Controllers.Ventilation
 {
     public interface IVentilationController:IService
     {
-        Dictionary<string, FanState> FanStates { get; }
+        Dictionary<string, FanInfo> FanInfos { get; }
         string CreateOrUpdateFan(FanInfo fanInfo);
-        void UpdateFanState(FanState fanState);
         void RemoveFan(string fanKey);
+        void SetFanState(string key, FanStateEnum state, float analogPower = 0f);
+        void SetFanMode(string key, FanModeEnum mode);
+        
         void SetPerformance(float performance);
         void SetValvePosition(float position);
         float ValveCurrentPos { get; }
@@ -20,11 +22,10 @@ namespace Clima.Core.Controllers.Ventilation
         float MineSetPoint { get; }
         bool MineIsManual { get; set; }
         void SetMinePosition(float position);
-        bool AnalogFanIsManual { get; set; }
-        void SetAnalogSetPoint(float setPoint);
+        bool AnalogIsManual { get; set; }
+        void SetAnalogPower(float setPoint);
         int TotalPerformance { get; }
         float CurrentPerformance { get; }
-        float VentilationSetPoint { get; }
         float AnalogPower { get; }
     }
 }

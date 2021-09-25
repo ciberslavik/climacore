@@ -9,6 +9,7 @@ class User : public QSerializer
     QS_SERIALIZABLE
 public:
         User(){}
+    virtual ~User(){}
     QS_FIELD(QString, FirstName)
     QS_FIELD(QString, LastName)
     QS_FIELD(QString, PasswordHash)

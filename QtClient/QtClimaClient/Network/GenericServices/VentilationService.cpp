@@ -3,9 +3,10 @@
 #include <Network/GenericServices/Messages/FanInfoRequest.h>
 #include <Network/GenericServices/Messages/FanStateResponse.h>
 #include <Network/GenericServices/Messages/ServoStateResponse.h>
-#include <Network/GenericServices/Messages/UpdateFanStateRequest.h>
+#include <Network/GenericServices/Messages/FanStateRequest.h>
 #include <Network/GenericServices/Messages/UpdateServoStateRequest.h>
 #include <Network/GenericServices/Messages/FanRemoveRequest.h>
+
 
 VentilationService::VentilationService(QObject *parent) : INetworkService(parent)
 {
@@ -35,14 +36,15 @@ void VentilationService::GetFanInfoList()
     emit SendRequest(request);
 }
 
-void VentilationService::UpdateFanState(const FanState &state)
+void VentilationService::SetFanState(const QString &key, const FanStateEnum &state)
 {
     NetworkRequest *request = new NetworkRequest();
     request->service = "VentilationControllerService";
     request->method = "SetFanState";
 
-    UpdateFanStateRequest fsRequ;
-    fsRequ.State = state;
+    FanStateRequest fsRequ;
+    fsRequ.Key = key;
+    fsRequ.State = (int)state;
 
     request->params = fsRequ.toJsonString();
 

@@ -44,8 +44,6 @@ signals:
     void EditCancel(const QString &fanKey);
 private slots:
     void onModeLabelClicked();
-    void onModeEditorAccept();
-    void onModeEditorCancel();
     void onModeEditorModeChanged(FanMode mode);
     void onModeEditorStateChanged(FanStateEnum_t state);
 private:
@@ -74,7 +72,7 @@ private:
 
     QPen m_borderPen;
     QPen m_statePen;
-    FanModeSwitch *m_modeEditor;
+
     void createUI();
     void rebuildUI();
 };

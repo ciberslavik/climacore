@@ -2,10 +2,9 @@
 
 namespace Clima.Core.Controllers.Network.Messages
 {
-    public class FanStateRequest
+    public class FanModeRequest
     {
         public string Key { get; set; }
-        public FanStateEnum State { get; set; }
-        public float AnalogPower { get; set; }
+        public FanModeEnum Mode { get; set; }
     }
 }

@@ -101,22 +101,24 @@ void VentilationOverviewFrame::onFanStateUpdated(FanState state)
 void VentilationOverviewFrame::onEditFanStateChanged(const QString &fanKey, FanStateEnum_t newState)
 {
     qDebug() << "FAN State changed" << fanKey << " mode:" << (int)newState;
-    FanWidget *w = dynamic_cast<FanWidget*>(sender());
-    QString key = w->FanKey();
 
-    if(m_fanStates[key]->Info.IsManual)
+    if(m_fanStates[fanKey]->Info.IsManual)
     {
-        m_fanStates[key]->State = (int)newState;
+        m_fanStates[fanKey]->State = (int)newState;
 
-        m_ventService->UpdateFanState(*m_fanStates[key]);
+        m_ventService->SetFanState(*m_fanStates[fanKey]);
     }
 }
 
 void VentilationOverviewFrame::onEditFanModeChanged(const QString &fanKey, FanMode_t newMode)
 {
     qDebug() <<"Edit mode changed:" << fanKey << " mode:" << (int)newMode;
-    m_fanStates[fanKey]->Info.IsManual = newMode == FanMode::Manual ? true : false;
-    m_ventService->UpdateFanState(*m_fanStates[fanKey]);
+    if(newMode == FanMode::Auto)
+        m_fanStates[fanKey]->Info.IsManual = false;
+    else
+        m_fanStates[fanKey]->Info.IsManual = true;
+
+    m_ventService->SetFanState(*m_fanStates[fanKey]);
 }
 
 void VentilationOverviewFrame::onValveStateReceived(bool isManual, float currPos, float setPoint)
@@ -239,26 +241,18 @@ void VentilationOverviewFrame::on_btnConfigure_clicked()
 
 void VentilationOverviewFrame::onBeginEditFan(const QString &fanKey)
 {
-    FanWidget *w = dynamic_cast<FanWidget*>(sender());
-
-    m_editedOld = FanState(*m_fanStates[fanKey]);
     m_updateTimer->stop();
     qDebug() << "Begin edit fan:" << m_editedOld.Info.Key;
-
 }
 
 void VentilationOverviewFrame::onAcceptEditFan(const QString &fanKey)
 {
-    FanWidget *w = dynamic_cast<FanWidget*>(sender());
     m_updateTimer->start();
     qDebug() << "Accept edit fan:" << fanKey;
 }
 
 void VentilationOverviewFrame::onCancelEditFan(const QString &fanKey)
 {
-    FanWidget *w = dynamic_cast<FanWidget*>(sender());
-
-    m_ventService->UpdateFanState(m_editedOld);
     m_updateTimer->start();
     qDebug() << "Cancel edit fan:" << fanKey;
 }

@@ -5,7 +5,7 @@
 #include <Network/GenericServices/Messages/FanStateListResponse.h>
 #include <Network/GenericServices/Messages/FanInfoListRsponse.h>
 #include <Models/VentControllerState.h>
-
+#include <Models/FanControlsEnums.h>
 class VentilationService : public INetworkService
 {
     Q_OBJECT
@@ -14,7 +14,7 @@ public:
     void GetControllerState();
     void GetFanStateList();
     void GetFanInfoList();
-    void UpdateFanState(const FanState &state);
+    void SetFanState(const QString &key, const FanStateEnum &state);
     void CreateOrUpdateFan(const FanInfo &info);
     void RemoveFan(const QString &fanKey);
 

@@ -2,14 +2,14 @@
 #include <QObject>
 #include <Services/QSerializer.h>
 
-
-class FanStateResponse:public QSerializer
+class FanStateRequest:public QSerializer
 {
     Q_GADGET
     QS_SERIALIZABLE;
 public:
-    FanStateResponse(){}
-    virtual ~FanStateResponse(){}
+    FanStateRequest(){}
+    virtual ~FanStateRequest(){}
+
     QS_FIELD(QString, Key)
     QS_FIELD(int, State)
 };

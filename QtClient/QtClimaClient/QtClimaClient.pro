@@ -10,6 +10,7 @@ QMAKE_CXXFLAGS += -Wno-deprecated-copy
 
 SOURCES += \
     ApplicationWorker.cpp \
+    Controls/AnalogModeSwitch.cpp \
     Controls/FanModeSwitch.cpp \
     Controls/FanWidget.cpp \
     Controls/QClickableLabel.cpp \
@@ -79,6 +80,7 @@ SOURCES += \
 
 HEADERS += \
     ApplicationWorker.h \
+    Controls/AnalogModeSwitch.h \
     Frames/Dialogs/EditAnalogFanDialog.h \
     Frames/Dialogs/EditFanDialog.h \
     Frames/Dialogs/HeaterConfigDialog.h \
@@ -129,7 +131,6 @@ HEADERS += \
     Models/Dialogs/TempProfileModel.h \
     Models/FanInfo.h \
     Models/FanInfosModel.h \
-    Models/FanState.h \
     Models/Graphs/MinMaxByDayPoint.h \
     Models/Graphs/MinMaxByDayProfile.h \
     Models/Graphs/ProfileInfo.h \
@@ -163,6 +164,7 @@ HEADERS += \
     Network/GenericServices/Messages/FanInfoRequest.h \
     Network/GenericServices/Messages/FanRemoveRequest.h \
     Network/GenericServices/Messages/FanStateListResponse.h \
+    Network/GenericServices/Messages/FanStateRequest.h \
     Network/GenericServices/Messages/FanStateResponse.h \
     Network/GenericServices/Messages/GetProfileRequest.h \
     Network/GenericServices/Messages/GetTempProfileResponse.h \
@@ -188,7 +190,6 @@ HEADERS += \
     Network/GenericServices/Messages/ServoStateResponse.h \
     Network/GenericServices/Messages/SetProfileRequest.h \
     Network/GenericServices/Messages/TemperatureStateResponse.h \
-    Network/GenericServices/Messages/UpdateFanStateRequest.h \
     Network/GenericServices/Messages/UpdateMinMaxByDayProfileRequest.h \
     Network/GenericServices/Messages/UpdateServoStateRequest.h \
     Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
@@ -214,6 +215,7 @@ HEADERS += \
     TimerPool.h
 
 FORMS += \
+    Controls/AnalogModeSwitch.ui \
     Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
     Frames/Dialogs/ConfigValveDialog.ui \

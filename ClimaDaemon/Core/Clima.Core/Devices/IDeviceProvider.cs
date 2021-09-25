@@ -9,8 +9,6 @@ namespace Clima.Core.Devices
         IRelay GetRelay(string relayName);
         List<RelayInfo> GetRelayInfos();
         IFrequencyConverter GetFrequencyConverter(string converterName);
-        IDiscreteFan GetDiscreteFan(string fanName);
-        IAnalogFan GetAnalogFan(string fanName);
         IServoDrive GetServo(string servoName);
         IHeater GetHeater(string heaterName);
         ISensors GetSensors();

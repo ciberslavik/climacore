@@ -4,6 +4,7 @@
 
 #include <QDialog>
 #include <QWidget>
+#include <QDebug>
 
 namespace Ui {
     class FanModeSwitch;
@@ -27,11 +28,6 @@ signals:
     void fanStateChanged(FanStateEnum_t state);
     void fanModeChanged(FanMode_t mode);
 private slots:
-    void on_btnDisable_clicked();
-
-    void on_btnManual_clicked();
-
-    void on_btnAuto_clicked();
 
     void on_btnAccept_clicked();
 
@@ -41,15 +37,20 @@ private slots:
 
     void on_btnOff_clicked();
 
+    void on_btnAuto_toggled(bool checked);
+
+    void on_btnManual_toggled(bool checked);
+
+    void on_btnDisable_toggled(bool checked);
+
 protected:
     void paintEvent(QPaintEvent *event) override;
 private:
     Ui::FanModeSwitch *ui;
 
-    FanMode m_mode;
+    FanMode m_fanMode;
     FanStateEnum_t m_fanState;
 
-    void checkButton();
 };
 
 #endif // FANSTATESWITCH_H

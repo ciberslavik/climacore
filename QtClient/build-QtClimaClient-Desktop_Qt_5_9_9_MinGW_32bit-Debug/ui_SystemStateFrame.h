@@ -43,18 +43,19 @@ public:
     QLabel *lblTempSetpoint;
     QGroupBox *groupBox_3;
     QGridLayout *gridLayout_3;
-    QLabel *label_11;
-    QProgressBar *barAnalogFan;
-    QLabel *label_14;
-    QProgressBar *barMines;
     QLabel *label_13;
-    QProgressBar *barValves;
-    QProgressBar *progressBar_4;
-    QLabel *label_5;
     QLabel *label_6;
-    QLabel *lblAirPerHead;
+    QLabel *label_5;
     QLabel *label;
     QProgressBar *barPresure;
+    QLabel *label_11;
+    QLabel *lblPressure;
+    QProgressBar *barValves;
+    QProgressBar *barMines;
+    QProgressBar *barAnalogFan;
+    QLabel *lblAirPerHead;
+    QLabel *label_14;
+    QProgressBar *progressBar_4;
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton_2;
     QPushButton *btnMainMenu;
@@ -151,62 +152,20 @@ public:
         groupBox_3->setAlignment(Qt::AlignCenter);
         gridLayout_3 = new QGridLayout(groupBox_3);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
-        label_11 = new QLabel(groupBox_3);
-        label_11->setObjectName(QStringLiteral("label_11"));
-
-        gridLayout_3->addWidget(label_11, 0, 0, 1, 1);
-
-        barAnalogFan = new QProgressBar(groupBox_3);
-        barAnalogFan->setObjectName(QStringLiteral("barAnalogFan"));
-        barAnalogFan->setValue(24);
-
-        gridLayout_3->addWidget(barAnalogFan, 0, 1, 1, 4);
-
-        label_14 = new QLabel(groupBox_3);
-        label_14->setObjectName(QStringLiteral("label_14"));
-        label_14->setMaximumSize(QSize(75, 16777215));
-
-        gridLayout_3->addWidget(label_14, 4, 2, 1, 1);
-
-        barMines = new QProgressBar(groupBox_3);
-        barMines->setObjectName(QStringLiteral("barMines"));
-        barMines->setValue(24);
-
-        gridLayout_3->addWidget(barMines, 1, 1, 1, 4);
-
         label_13 = new QLabel(groupBox_3);
         label_13->setObjectName(QStringLiteral("label_13"));
 
         gridLayout_3->addWidget(label_13, 1, 0, 2, 1);
-
-        barValves = new QProgressBar(groupBox_3);
-        barValves->setObjectName(QStringLiteral("barValves"));
-        barValves->setValue(24);
-
-        gridLayout_3->addWidget(barValves, 3, 1, 1, 4);
-
-        progressBar_4 = new QProgressBar(groupBox_3);
-        progressBar_4->setObjectName(QStringLiteral("progressBar_4"));
-        progressBar_4->setValue(24);
-
-        gridLayout_3->addWidget(progressBar_4, 4, 3, 1, 2);
-
-        label_5 = new QLabel(groupBox_3);
-        label_5->setObjectName(QStringLiteral("label_5"));
-
-        gridLayout_3->addWidget(label_5, 3, 0, 1, 1);
 
         label_6 = new QLabel(groupBox_3);
         label_6->setObjectName(QStringLiteral("label_6"));
 
         gridLayout_3->addWidget(label_6, 4, 0, 1, 1);
 
-        lblAirPerHead = new QLabel(groupBox_3);
-        lblAirPerHead->setObjectName(QStringLiteral("lblAirPerHead"));
-        lblAirPerHead->setMinimumSize(QSize(50, 0));
-        lblAirPerHead->setMaximumSize(QSize(60, 16777215));
+        label_5 = new QLabel(groupBox_3);
+        label_5->setObjectName(QStringLiteral("label_5"));
 
-        gridLayout_3->addWidget(lblAirPerHead, 4, 1, 1, 1);
+        gridLayout_3->addWidget(label_5, 3, 0, 1, 1);
 
         label = new QLabel(groupBox_3);
         label->setObjectName(QStringLiteral("label"));
@@ -215,9 +174,57 @@ public:
 
         barPresure = new QProgressBar(groupBox_3);
         barPresure->setObjectName(QStringLiteral("barPresure"));
-        barPresure->setValue(24);
+        barPresure->setMaximum(1000);
 
-        gridLayout_3->addWidget(barPresure, 5, 1, 1, 4);
+        gridLayout_3->addWidget(barPresure, 5, 2, 1, 4);
+
+        label_11 = new QLabel(groupBox_3);
+        label_11->setObjectName(QStringLiteral("label_11"));
+
+        gridLayout_3->addWidget(label_11, 0, 0, 1, 1);
+
+        lblPressure = new QLabel(groupBox_3);
+        lblPressure->setObjectName(QStringLiteral("lblPressure"));
+        lblPressure->setMaximumSize(QSize(60, 16777215));
+
+        gridLayout_3->addWidget(lblPressure, 5, 1, 1, 1);
+
+        barValves = new QProgressBar(groupBox_3);
+        barValves->setObjectName(QStringLiteral("barValves"));
+        barValves->setValue(24);
+
+        gridLayout_3->addWidget(barValves, 3, 1, 1, 5);
+
+        barMines = new QProgressBar(groupBox_3);
+        barMines->setObjectName(QStringLiteral("barMines"));
+        barMines->setValue(24);
+
+        gridLayout_3->addWidget(barMines, 1, 1, 1, 5);
+
+        barAnalogFan = new QProgressBar(groupBox_3);
+        barAnalogFan->setObjectName(QStringLiteral("barAnalogFan"));
+        barAnalogFan->setValue(24);
+
+        gridLayout_3->addWidget(barAnalogFan, 0, 1, 1, 5);
+
+        lblAirPerHead = new QLabel(groupBox_3);
+        lblAirPerHead->setObjectName(QStringLiteral("lblAirPerHead"));
+        lblAirPerHead->setMinimumSize(QSize(50, 0));
+        lblAirPerHead->setMaximumSize(QSize(60, 16777215));
+
+        gridLayout_3->addWidget(lblAirPerHead, 4, 1, 1, 1);
+
+        label_14 = new QLabel(groupBox_3);
+        label_14->setObjectName(QStringLiteral("label_14"));
+        label_14->setMaximumSize(QSize(75, 16777215));
+
+        gridLayout_3->addWidget(label_14, 4, 2, 1, 1);
+
+        progressBar_4 = new QProgressBar(groupBox_3);
+        progressBar_4->setObjectName(QStringLiteral("progressBar_4"));
+        progressBar_4->setValue(0);
+
+        gridLayout_3->addWidget(progressBar_4, 4, 3, 1, 3);
 
 
         verticalLayout->addWidget(groupBox_3);
@@ -240,6 +247,10 @@ public:
         btnMainMenu->setObjectName(QStringLiteral("btnMainMenu"));
         btnMainMenu->setMinimumSize(QSize(0, 45));
         btnMainMenu->setFont(font3);
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/Images/menu.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnMainMenu->setIcon(icon);
+        btnMainMenu->setIconSize(QSize(42, 42));
 
         horizontalLayout->addWidget(btnMainMenu);
 
@@ -267,14 +278,15 @@ public:
         label_2->setText(QApplication::translate("SystemStateFrame", "\320\227\320\260\320\264\320\260\320\275\320\275\320\260\321\217", Q_NULLPTR));
         lblTempSetpoint->setText(QApplication::translate("SystemStateFrame", "10", Q_NULLPTR));
         groupBox_3->setTitle(QApplication::translate("SystemStateFrame", "\320\222\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\321\217", Q_NULLPTR));
-        label_11->setText(QApplication::translate("SystemStateFrame", "\320\243\320\277\321\200\320\260\320\262\320\273\321\217\320\265\320\274\321\213\320\271", Q_NULLPTR));
-        label_14->setText(QApplication::translate("SystemStateFrame", "m<sup>3</sup>h/\320\263\320\276\320\273.", Q_NULLPTR));
         label_13->setText(QApplication::translate("SystemStateFrame", "\320\250\320\260\321\205\321\202\321\213", Q_NULLPTR));
-        label_5->setText(QApplication::translate("SystemStateFrame", "\320\232\320\273\320\260\320\277\320\260\320\275\320\260", Q_NULLPTR));
         label_6->setText(QApplication::translate("SystemStateFrame", "\320\222\320\265\320\275\321\202\320\270\320\273\321\217\321\206\320\270\321\217", Q_NULLPTR));
-        lblAirPerHead->setText(QApplication::translate("SystemStateFrame", "TextLabel", Q_NULLPTR));
+        label_5->setText(QApplication::translate("SystemStateFrame", "\320\232\320\273\320\260\320\277\320\260\320\275\320\260", Q_NULLPTR));
         label->setText(QApplication::translate("SystemStateFrame", "\320\240\320\260\320\267\321\200\320\265\320\266\320\265\320\275\320\270\320\265", Q_NULLPTR));
-        barPresure->setFormat(QApplication::translate("SystemStateFrame", "%p Pa", Q_NULLPTR));
+        barPresure->setFormat(QString());
+        label_11->setText(QApplication::translate("SystemStateFrame", "\320\243\320\277\321\200\320\260\320\262\320\273\321\217\320\265\320\274\321\213\320\271", Q_NULLPTR));
+        lblPressure->setText(QApplication::translate("SystemStateFrame", "99.9", Q_NULLPTR));
+        lblAirPerHead->setText(QApplication::translate("SystemStateFrame", "TextLabel", Q_NULLPTR));
+        label_14->setText(QApplication::translate("SystemStateFrame", "m<sup>3</sup>h/\320\263\320\276\320\273.", Q_NULLPTR));
         pushButton_2->setText(QApplication::translate("SystemStateFrame", "\320\222\321\213\320\272\320\273 \321\215\320\272\321\200\320\260\320\275", Q_NULLPTR));
         btnMainMenu->setText(QApplication::translate("SystemStateFrame", "\320\223\320\273\320\260\320\262\320\275\320\276\320\265 \320\274\320\265\320\275\321\216", Q_NULLPTR));
     } // retranslateUi

@@ -7,14 +7,16 @@ namespace Clima.Core.DataModel
     public class FanInfo:ObservableObject, IComparable<FanInfo>
     {
         private bool _isAnalog = false;
+        private float _analogPower;
         private string _key;
         private string _fanName;
         private string _relayName;
         private int _performance;
         private int _fanCount;
         private int _priority;
-        private bool _hermetise;
-        private bool _isManual;
+        private bool _hermetised;
+        private FanModeEnum _mode;
+        private FanStateEnum _state;
         private float _startValue;
         private float _stopValue;
 
@@ -67,18 +69,11 @@ namespace Clima.Core.DataModel
             set => Update(ref _priority, value);
         }
 
-        public bool Hermetise
+        public bool Hermetised
         {
-            get => _hermetise;
-            set => Update(ref _hermetise, value);
+            get => _hermetised;
+            set => Update(ref _hermetised, value);
         }
-
-        public bool IsManual
-        {
-            get => _isManual;
-            set => Update(ref _isManual, value);
-        }
-
         public float StartValue
         {
             get => _startValue;
@@ -92,6 +87,25 @@ namespace Clima.Core.DataModel
         }
 
         [IgnoreDataMember] public int TotalPerformance => Performance * FanCount;
+
+        public FanModeEnum Mode
+        {
+            get => _mode;
+            set => _mode = value;
+        }
+
+        public FanStateEnum State
+        {
+            get => _state;
+            set => _state = value;
+        }
+
+        public float AnalogPower
+        {
+            get => _analogPower;
+            set => _analogPower = value;
+        }
+
         public int CompareTo(FanInfo? other)
         {
             if (other is null)
@@ -99,5 +113,21 @@ namespace Clima.Core.DataModel
             
             return Priority - other.Priority;
         }
+    }
+    public enum FanStateEnum : int
+    {
+        [EnumMember]
+        Stopped = 0,
+        [EnumMember]
+        Running = 1,
+        [EnumMember]
+        Alarm = 2
+    }
+
+    public enum FanModeEnum : int
+    {
+        Auto = 0,
+        Manual = 1,
+        Hermetise = 2
     }
 }

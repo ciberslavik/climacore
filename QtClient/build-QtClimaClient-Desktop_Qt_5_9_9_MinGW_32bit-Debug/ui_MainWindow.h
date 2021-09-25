@@ -34,7 +34,7 @@ public:
     QLabel *lblStatus_2;
     QLabel *label_3;
     QLabel *lblStatus;
-    QLabel *lblClock;
+    QLabel *lblBuildName;
     QFrame *mainFrame;
     QLabel *lblTitle;
 
@@ -102,11 +102,11 @@ public:
 
         gridLayout->addWidget(lblStatus, 3, 5, 1, 1);
 
-        lblClock = new QLabel(centralwidget);
-        lblClock->setObjectName(QStringLiteral("lblClock"));
-        lblClock->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        lblBuildName = new QLabel(centralwidget);
+        lblBuildName->setObjectName(QStringLiteral("lblBuildName"));
+        lblBuildName->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
-        gridLayout->addWidget(lblClock, 0, 6, 1, 1);
+        gridLayout->addWidget(lblBuildName, 0, 6, 1, 1);
 
         mainFrame = new QFrame(centralwidget);
         mainFrame->setObjectName(QStringLiteral("mainFrame"));
@@ -141,7 +141,7 @@ public:
         lblStatus_2->setText(QApplication::translate("MainWindow", "\320\222\321\213\321\200\320\260\321\211\320\270\320\262\320\260\320\275\320\270\320\265", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "\320\224\320\265\320\275\321\214", Q_NULLPTR));
         lblStatus->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
-        lblClock->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
+        lblBuildName->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
         lblTitle->setText(QApplication::translate("MainWindow", "TextLabel", Q_NULLPTR));
     } // retranslateUi
 

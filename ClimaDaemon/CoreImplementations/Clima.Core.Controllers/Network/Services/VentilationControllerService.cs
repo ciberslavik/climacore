@@ -1,4 +1,5 @@
-﻿using Clima.Basics.Services.Communication;
+﻿using System.Linq;
+using Clima.Basics.Services.Communication;
 using Clima.Core.Controllers.Network.Messages;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel;
@@ -20,11 +21,8 @@ namespace Clima.Core.Controllers.Network.Services
         {
             var response = new FanInfosResponse();
 
-            foreach (var fanState in _ventController.FanStates.Values)
-            {
-                response.Infos.Add(fanState.Info);
-            }
-
+            response.Infos = _ventController.FanInfos.Values.ToList();
+            
             return response;
         }
 
@@ -34,40 +32,18 @@ namespace Clima.Core.Controllers.Network.Services
             _ventController.CreateOrUpdateFan(request.Info);
             return new DefaultResponse();
         }
-
+        
         [ServiceMethod]
-        public FanStateResponse GetFanState(FanStateRequest request)
+        public FanStateResponse SetFanState(FanStateRequest request)
         {
-            FanState st = _ventController.FanStates[request.RequestFanKey];
-            if (st is not null)
-                return new FanStateResponse() {State = st};
-            
             return new FanStateResponse();
         }
 
         [ServiceMethod]
-        public FanStateResponse SetFanState(FanStateRequest request)
+        public FanModeResponse SetFanMode(FanModeRequest request)
         {
-            _ventController.UpdateFanState(request.State);
-            return new FanStateResponse()
-            {
-                State = _ventController.FanStates[request.State.Info.Key]
-            };
-
+            return new FanModeResponse();
         }
-
-        [ServiceMethod]
-        public FanStateListResponse GetFanStateList(DefaultRequest request)
-        {
-            var response = new FanStateListResponse();
-            foreach (var fanState in _ventController.FanStates.Values)
-            {
-                response.States.Add(fanState);
-            }
-
-            return response;
-        }
-
         [ServiceMethod]
         public ServoStateResponse UpdateValveState(UpdateServoStateRequest request)
         {
@@ -132,5 +108,6 @@ namespace Clima.Core.Controllers.Network.Services
                 VentSetPoint = _ventController.CurrentPerformance
             };
         }
+        
     }
 }

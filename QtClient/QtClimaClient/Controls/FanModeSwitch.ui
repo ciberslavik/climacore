@@ -216,22 +216,6 @@
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QClickableLineEdit" name="txtAnalogPower">
-        <property name="minimumSize">
-         <size>
-          <width>70</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>70</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -287,13 +271,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QClickableLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">Controls/qclickablelineedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../Resources.qrc"/>
  </resources>

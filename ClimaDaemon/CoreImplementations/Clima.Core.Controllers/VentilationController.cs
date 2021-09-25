@@ -43,8 +43,8 @@ namespace Clima.Core.Controllers
             }
         }
 
-        public float VentilationSetPoint { get; }
-        public float AnalogPower =>_fanTable["FAN:0"].AnalogPower; 
+        
+        public float AnalogPower =>_fanTable["FAN:0"].Info.AnalogPower; 
         
         
         public void Stop()
@@ -68,34 +68,13 @@ namespace Clima.Core.Controllers
         public Type ConfigType => typeof(VentilationControllerConfig);
         public ServiceState ServiceState { get; private set; }
         
-        public Dictionary<string, FanState> FanStates {
+        public Dictionary<string, FanInfo> FanInfos {
             get
             {
-                var states = new Dictionary<string, FanState>();
+                var states = new Dictionary<string, FanInfo>();
                 foreach (var fanItem in _fanTable.Values)
                 {
-                    var state = new FanState();
-                    state.Info = fanItem.Info;
-                    if (fanItem.IsManual)
-                        state.Mode = FanModeEnum.Manual;
-                    else if (fanItem.IsHermetise)
-                        state.Mode = FanModeEnum.Hermetise;
-                    else
-                        state.Mode = FanModeEnum.Auto;
-
-                    if (fanItem.IsAnalog)
-                    {
-                        state.AnalogPower = _analogPower;
-                        state.State = FanStateEnum.Running;
-                    }
-                    else
-                    {
-                        if (fanItem.Relay.RelayIsOn)
-                            state.State = FanStateEnum.Running;
-                        else
-                            state.State = FanStateEnum.Stopped;
-                    }
-                    states.Add(fanItem.Info.Key, state);
+                    states.Add(fanItem.Info.Key, fanItem.Info);
                 }
                 return states;
             } 
@@ -155,9 +134,10 @@ namespace Clima.Core.Controllers
             FanControllerTableItem analogItem = null;
             foreach (var fanTableValue in _fanTable.Values)
             {
-                if(fanTableValue.IsHermetise || fanTableValue.IsManual)
+                if(fanTableValue.Info.Hermetised || fanTableValue.Info.Mode == FanModeEnum.Manual)
                     continue;
-                if(fanTableValue.IsAnalog)
+                
+                if(fanTableValue.Info.IsAnalog)
                 {
                     analogItem = fanTableValue;
                     continue;
@@ -184,15 +164,15 @@ namespace Clima.Core.Controllers
                   powerPercent = 100;
                 
                 _analogPower = powerPercent;
-                if (!AnalogFanIsManual)
+                if (!AnalogIsManual)
                 {
                     analogItem.AnalogFan.SetPower(powerPercent);
-                    analogItem.AnalogPower = powerPercent;
+                    analogItem.Info.AnalogPower = powerPercent;
                 }
                 else
                 {
                     analogItem.AnalogFan.SetPower(_analogManualPower);
-                    analogItem.AnalogPower = _analogManualPower;
+                    analogItem.Info.AnalogPower = _analogManualPower;
                 }
 
                 Console.WriteLine($"Analog performance:{powerToAnalog} percent:{powerPercent}");
@@ -200,7 +180,7 @@ namespace Clima.Core.Controllers
         }
 
 
-        public void SetAnalogSetPoint(float setPoint)
+        public void SetAnalogPower(float setPoint)
         {
             throw new NotImplementedException();
         }
@@ -214,22 +194,19 @@ namespace Clima.Core.Controllers
             _fanTable.Clear();
             
             List<FanInfo> infos = _config.FanInfos.Values.ToList();
-            infos.Sort((p, o) => p.Performance - o.Performance);
+            infos.Sort((p, o) => p.Priority - o.Priority);
 
             int perfCounter = 0;
             int prevPerf = 0;
             foreach (var info in infos)
             {
-                if ((!info.Hermetise)||(!info.IsAnalog))
+                if ((!info.Hermetised)||(!info.IsAnalog))
                 {
                     prevPerf = perfCounter;
                     perfCounter += info.Performance * info.FanCount;
                 }
                 var fanTableItem = new FanControllerTableItem();
-                fanTableItem.Priority = info.Priority;
-                fanTableItem.IsHermetise = info.Hermetise;
-                fanTableItem.IsManual = info.IsManual;
-                fanTableItem.IsAnalog = info.IsAnalog;
+                fanTableItem.Info = info;
                 if (info.IsAnalog)
                 {
                     fanTableItem.AnalogFan = _devProvider.GetFrequencyConverter("FC:0");
@@ -251,34 +228,41 @@ namespace Clima.Core.Controllers
             _totalPerformance = perfCounter;
         }
 
-        public void UpdateFanState(FanState fanState)
+        public void SetFanMode(string key, FanModeEnum mode)
         {
-            var key = fanState.Info.Key;
-            _fanTable[key].IsManual = fanState.Info.IsManual;
+            
+        }
+        public void SetFanState(string key, FanStateEnum state, float analogPower )
+        {
             if(_fanTable.ContainsKey(key))
             {
-                if (!_fanTable[key].IsAnalog)
+                if (_fanTable[key].Info.IsAnalog)
                 {
-                    if (fanState.Info.IsManual)
+                    if (_fanTable[key].Info.Mode == FanModeEnum.Manual)
                     {
-                        if (fanState.State == FanStateEnum.Running)
-                        {
-                            _fanTable[key].Relay.On();
-                        }
-                        else if (fanState.State == FanStateEnum.Stopped)
-                        {
-                            _fanTable[key].Relay.Off();
-                        }
+                        _fanTable[key].AnalogFan.SetPower(analogPower);
                     }
                 }
                 else
                 {
-                    if (fanState.Info.IsManual)
+                    if (_fanTable[key].Info.State != state)
                     {
-                        _fanTable[key].AnalogFan.SetPower(fanState.AnalogPower);
+                        _fanTable[key].Info.State = state;
+
+                        if (_fanTable[key].Info.Mode == FanModeEnum.Manual)
+                        {
+                            if (_fanTable[key].Info.State == FanStateEnum.Running)
+                            {
+                                _fanTable[key].Relay.On();
+                            }
+                            else if (_fanTable[key].Info.State == FanStateEnum.Stopped)
+                            {
+                                _fanTable[key].Relay.Off();
+                            }
+                        }
                     }
                 }
-                
+
             }
         }
 
@@ -345,7 +329,7 @@ namespace Clima.Core.Controllers
                 _mineServo.SetPosition(position);
         }
 
-        public bool AnalogFanIsManual { get; set; }
+        public bool AnalogIsManual { get; set; }
 
         public void SetValvePosition(float position)
         {
