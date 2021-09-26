@@ -6,7 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Communication\Clima.NetworkServer.Serialization.Newtonsoft\Clima.NetworkServer.Serialization.Newtonsoft.csproj" />
-      <ProjectReference Include="..\..\Communication\Clima.NetworkServer.Transport.TcpSocket\Clima.NetworkServer.Transport.TcpSocket.csproj" />
+      <ProjectReference Include="..\..\Communication\Clima.NetworkServer.Transport.AsyncSocket\Clima.NetworkServer.Transport.AsyncSocket.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Basics\Clima.Basics.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Core.Scheduler\Clima.Core.Scheduler.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />

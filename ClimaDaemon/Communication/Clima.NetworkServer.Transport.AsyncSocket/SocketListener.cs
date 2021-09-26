@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Clima.Basics.Services;
-using Clima.NetworkServer.Transport;
+using SocketAsyncServer;
 
-namespace SocketAsyncServer
+namespace Clima.NetworkServer.Transport.AsyncSocket
 {
     /// <summary>
     /// Based on example from http://msdn2.microsoft.com/en-us/library/system.net.sockets.socketasynceventargs.aspx
@@ -17,43 +15,43 @@ namespace SocketAsyncServer
     /// After accepting a connection, all data read from the client is sent back. 
     /// The read and echo back to the client pattern is continued until the client disconnects.
     /// </summary>
-    internal sealed class SocketListener:IServer
+    public class SocketListener:IServer
     {
         /// <summary>
         /// The socket used to listen for incoming connection requests.
         /// </summary>
-        private Socket listenSocket;
+        private Socket _listenSocket;
 
         private SocketServerConfig _config;
         /// <summary>
         /// Mutex to synchronize server execution.
         /// </summary>
-        private static Mutex mutex = new Mutex();
+        private static Mutex _mutex = new Mutex();
 
         /// <summary>
         /// Buffer size to use for each socket I/O operation.
         /// </summary>
-        private Int32 bufferSize;
+        private Int32 _bufferSize;
 
         /// <summary>
         /// The total number of clients connected to the server.
         /// </summary>
-        private Int32 numConnectedSockets;
+        private Int32 _numConnectedSockets;
 
         /// <summary>
         /// the maximum number of connections the sample is designed to handle simultaneously.
         /// </summary>
-        private Int32 numConnections;
+        private Int32 _numConnections;
 
         /// <summary>
         /// Pool of reusable SocketAsyncEventArgs objects for write, read and accept socket operations.
         /// </summary>
-        private SocketAsyncEventArgsPool readWritePool;
+        private SocketAsyncEventArgsPool _readWritePool;
 
         /// <summary>
         /// Controls the total number of clients connected to the server.
         /// </summary>
-        private Semaphore semaphoreAcceptedClients;
+        private Semaphore _semaphoreAcceptedClients;
 
         /// <summary>
         /// Create an uninitialized server instance.  
@@ -66,7 +64,7 @@ namespace SocketAsyncServer
         {
             
         }
-
+        public ISystemLogger Log { get; set; }
         /// <summary>
         /// Close the socket associated with the client.
         /// </summary>
@@ -82,12 +80,12 @@ namespace SocketAsyncServer
             token.Dispose();
 
             // Decrement the counter keeping track of the total number of clients connected to the server.
-            this.semaphoreAcceptedClients.Release();
-            Interlocked.Decrement(ref this.numConnectedSockets);
-            Console.WriteLine("A client has been disconnected from the server. There are {0} clients connected to the server", this.numConnectedSockets);
+            this._semaphoreAcceptedClients.Release();
+            Interlocked.Decrement(ref this._numConnectedSockets);
+            Console.WriteLine("A client has been disconnected from the server. There are {0} clients connected to the server", this._numConnectedSockets);
 
             // Free the SocketAsyncEventArg so they can be reused by another client.
-            this.readWritePool.Push(e);
+            this._readWritePool.Push(e);
         }
 
         /// <summary>
@@ -133,16 +131,19 @@ namespace SocketAsyncServer
             {
                 try
                 {
-                    SocketAsyncEventArgs readEventArgs = this.readWritePool.Pop();
+                    SocketAsyncEventArgs readEventArgs = this._readWritePool.Pop();
                     if (readEventArgs != null)
                     {
                         // Get the socket for the accepted client connection and put it into the 
                         // ReadEventArg object user token.
-                        readEventArgs.UserToken = new Token(s, this.bufferSize);
+                        var token = new Token(s, this._bufferSize);
+                        token.MessageReceived += TokenOnMessageReceived;
+                        token.Disconnected += TokenOnDisconnected;
+                        readEventArgs.UserToken = token;
 
-                        Interlocked.Increment(ref this.numConnectedSockets);
+                        Interlocked.Increment(ref this._numConnectedSockets);
                         Console.WriteLine("Client connection accepted. There are {0} clients connected to the server",
-                            this.numConnectedSockets);
+                            this._numConnectedSockets);
 
                         if (!s.ReceiveAsync(readEventArgs))
                         {
@@ -167,6 +168,16 @@ namespace SocketAsyncServer
                 // Accept the next connection request.
                 this.StartAccept(e);
             }
+        }
+
+        private void TokenOnDisconnected(object? sender, MessageEventArgs e)
+        {
+            ClientDisconnected?.Invoke(sender, e);
+        }
+
+        private void TokenOnMessageReceived(object? sender, MessageEventArgs e)
+        {
+            MessageReceived?.Invoke(sender, e); 
         }
 
         private void ProcessError(SocketAsyncEventArgs e)
@@ -254,39 +265,40 @@ namespace SocketAsyncServer
         /// <param name="port">Port where the server will listen for connection requests.</param>
         public void Start()
         {
+            Log.Debug("Starting socket server");
             // Get host related information.
             IPAddress[] addressList = Dns.GetHostEntry(Environment.MachineName).AddressList;
 
             // Get endpoint for the listener.
             IPEndPoint localEndPoint = new IPEndPoint(addressList[addressList.Length - 1], _config.Port);
-
+            Log.Debug($"Listening on:{localEndPoint.Address.ToString()}");
             // Create the socket which listens for incoming connections.
-            this.listenSocket = new Socket(localEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            this.listenSocket.ReceiveBufferSize = this.bufferSize;
-            this.listenSocket.SendBufferSize = this.bufferSize;
+            this._listenSocket = new Socket(localEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            this._listenSocket.ReceiveBufferSize = this._bufferSize;
+            this._listenSocket.SendBufferSize = this._bufferSize;
 
             if (localEndPoint.AddressFamily == AddressFamily.InterNetworkV6)
             {
                 // Set dual-mode (IPv4 & IPv6) for the socket listener.
                 // 27 is equivalent to IPV6_V6ONLY socket option in the winsock snippet below,
                 // based on http://blogs.msdn.com/wndp/archive/2006/10/24/creating-ip-agnostic-applications-part-2-dual-mode-sockets.aspx
-                this.listenSocket.SetSocketOption(SocketOptionLevel.IPv6, (SocketOptionName)27, false);
-                this.listenSocket.Bind(new IPEndPoint(IPAddress.IPv6Any, localEndPoint.Port));
+                this._listenSocket.SetSocketOption(SocketOptionLevel.IPv6, (SocketOptionName)27, false);
+                this._listenSocket.Bind(new IPEndPoint(IPAddress.IPv6Any, localEndPoint.Port));
             }
             else
             {
                 // Associate the socket with the local endpoint.
-                this.listenSocket.Bind(localEndPoint);
+                this._listenSocket.Bind(localEndPoint);
             }
 
             // Start the server.
-            this.listenSocket.Listen(this.numConnections);
+            this._listenSocket.Listen(this._numConnections);
 
             // Post accepts on the listening socket.
             this.StartAccept(null);
 
             // Blocks the current thread to receive incoming messages.
-            mutex.WaitOne();
+            _mutex.WaitOne();
         }
 
         /// <summary>
@@ -307,8 +319,8 @@ namespace SocketAsyncServer
                 acceptEventArg.AcceptSocket = null;
             }
 
-            this.semaphoreAcceptedClients.WaitOne();
-            if (!this.listenSocket.AcceptAsync(acceptEventArg))
+            this._semaphoreAcceptedClients.WaitOne();
+            if (!this._listenSocket.AcceptAsync(acceptEventArg))
             {
                 this.ProcessAccept(acceptEventArg);
             }
@@ -319,8 +331,8 @@ namespace SocketAsyncServer
         /// </summary>
         public void Stop()
         {
-            this.listenSocket.Close();
-            mutex.ReleaseMutex();
+            this._listenSocket.Close();
+            _mutex.ReleaseMutex();
         }
 
         public void Init(object config)
@@ -333,27 +345,29 @@ namespace SocketAsyncServer
             {
                 throw new ArgumentException("SocketListener Init");
             }
-            
-            numConnectedSockets = 0;
-            numConnections = _config.MaxConnections;
-            bufferSize = _config.BufferSize;
+            Log.Debug("Socket server initialize...");
+            _numConnectedSockets = 0;
+            _numConnections = _config.MaxConnections;
+            _bufferSize = _config.BufferSize;
 
-            this.readWritePool = new SocketAsyncEventArgsPool(numConnections);
-            this.semaphoreAcceptedClients = new Semaphore(numConnections, numConnections);
+            this._readWritePool = new SocketAsyncEventArgsPool(_numConnections);
+            this._semaphoreAcceptedClients = new Semaphore(_numConnections, _numConnections);
 
             // Preallocate pool of SocketAsyncEventArgs objects.
-            for (Int32 i = 0; i < this.numConnections; i++)
+            for (Int32 i = 0; i < this._numConnections; i++)
             {
                 SocketAsyncEventArgs readWriteEventArg = new SocketAsyncEventArgs();
                 readWriteEventArg.Completed += new EventHandler<SocketAsyncEventArgs>(OnIOCompleted);
-                readWriteEventArg.SetBuffer(new Byte[this.bufferSize], 0, this.bufferSize);
+                readWriteEventArg.SetBuffer(new Byte[this._bufferSize], 0, this._bufferSize);
 
                 // Add SocketAsyncEventArg to the pool.
-                this.readWritePool.Push(readWriteEventArg);
+                this._readWritePool.Push(readWriteEventArg);
             }
+            Log.Debug("Socket server initialized");
         }
 
-        public Type ConfigType { get; }
+        public Type ConfigType => typeof(SocketServerConfig);
+        
         public ServiceState ServiceState { get; }
         public void Dispose()
         {

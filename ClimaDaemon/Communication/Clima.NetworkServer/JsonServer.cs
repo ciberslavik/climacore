@@ -130,7 +130,8 @@ namespace Clima.NetworkServer
                     try
                     {
                         var data = _serializer.Serialize(response);
-                        await _server.SendAsync(e.ConnectionId, data);
+                        e.Result = data;
+                        //await _server.SendAsync(e.ConnectionId, data);
                     }
                     catch (Exception exception)
                     {

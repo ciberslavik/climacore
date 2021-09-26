@@ -36,13 +36,23 @@ namespace Clima.Core.Controllers.Network.Services
         [ServiceMethod]
         public FanStateResponse SetFanState(FanStateRequest request)
         {
-            return new FanStateResponse();
+            _ventController.SetFanState(request.Key, request.State);
+            return new FanStateResponse()
+            {
+                Key = request.Key,
+                State = _ventController.FanInfos[request.Key].State
+            };
         }
 
         [ServiceMethod]
         public FanModeResponse SetFanMode(FanModeRequest request)
         {
-            return new FanModeResponse();
+            _ventController.SetFanMode(request.Key, request.Mode);
+            return new FanModeResponse()
+            {
+                Key = request.Key,
+                Mode = _ventController.FanInfos[request.Key].Mode
+            };
         }
         [ServiceMethod]
         public ServoStateResponse UpdateValveState(UpdateServoStateRequest request)

@@ -230,7 +230,13 @@ namespace Clima.Core.Controllers
 
         public void SetFanMode(string key, FanModeEnum mode)
         {
-            
+            if (_fanTable.ContainsKey(key))
+            {
+                if (_fanTable[key].Info.Mode != mode)
+                {
+                    _fanTable[key].Info.Mode = mode;
+                }
+            }
         }
         public void SetFanState(string key, FanStateEnum state, float analogPower )
         {

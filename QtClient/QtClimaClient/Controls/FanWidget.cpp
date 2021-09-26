@@ -147,6 +147,11 @@ void FanWidget::onModeLabelClicked()
             emit FanModeChanged(m_fanKey, oldMode);
             setFanState(oldState);
             emit FanStateChanged(m_fanKey, oldState);
+            emit EditCancel(m_fanKey);
+        }
+        else
+        {
+            emit EditAccept(m_fanKey);
         }
 
         disconnect(&modeEditor, &FanModeSwitch::fanModeChanged, this, &FanWidget::onModeEditorModeChanged);

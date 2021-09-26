@@ -7,8 +7,6 @@ using Clima.Basics.Services.Communication;
 using Clima.Basics.Services.Communication.Messages;
 using Clima.Communication;
 using Clima.NetworkServer;
-using Clima.NetworkServer.Transport;
-using Clima.NetworkServer.Transport.TcpSocket;
 
 namespace Clima.ServiceContainer.CastleWindsor.Installers
 {

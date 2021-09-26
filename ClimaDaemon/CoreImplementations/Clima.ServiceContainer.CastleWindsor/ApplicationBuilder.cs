@@ -20,6 +20,8 @@ using Clima.Core.Tests.IOService;
 using Clima.Core.Tests.IOService.Configurations;
 using Clima.Logger;
 using Clima.NetworkServer;
+using Clima.NetworkServer.Transport;
+using Clima.NetworkServer.Transport.AsyncSocket;
 using Clima.ServiceContainer.CastleWindsor.Installers;
 using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
@@ -50,8 +52,8 @@ namespace Clima.ServiceContainer.CastleWindsor
             _container.Install(new SchedulerInstaller(_logger));
             _serviceProvider = new CastleServiceProvider(_container);
             _container.Register(Component.For<IServiceProvider>().Instance(_serviceProvider));
-            
 
+            //_container.Register(Component.For<IServer>().ImplementedBy<SocketListener>())
             _container.Install(new NetworkInstaller(_logger));
             
             _logger.Info("Register core services");
@@ -96,7 +98,6 @@ namespace Clima.ServiceContainer.CastleWindsor
                     _logger.Debug($"Initialize :{service.GetType().Name}");
 
                     service.Init(serviceConfig);
-Thread.Sleep(100);
                 }
             }
 
