@@ -214,7 +214,7 @@ namespace Clima.Core.Scheduler
         private void SchedulerProcess(object? o)
         {
             if (!(o is ClimaScheduler sc)) return;
-            if (sc._state.StartProductionDate >= sc._time.Now)
+            if (sc._state.StartProductionDate <= sc._time.Now)
             {
                 var workingTime = _time.Now - sc._state.StartProductionDate;
                 _state.CurrentDay = workingTime.Days;

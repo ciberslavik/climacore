@@ -17,7 +17,7 @@ class FanModeSwitch : public QDialog
 public:
     explicit FanModeSwitch(QWidget *parent = nullptr);
     ~FanModeSwitch();
-
+    void setTitle(const QString &title);
     void setFanMode(FanModeEnum mode);
     FanModeEnum fanMode();
     void setFanState(FanStateEnum_t state);

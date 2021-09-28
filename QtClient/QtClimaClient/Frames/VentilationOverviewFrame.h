@@ -42,7 +42,7 @@ private slots:
 
     void onValveStateReceived(bool isManual, float currPos, float setPoint);
     void onMineStateReceived(bool isManual, float currPos, float setPoint);
-
+    void onVentilationStatusReceived(float valvePos,float valveSetpoint,float minePos, float mineSetpoint,float ventilationSp);
     void on_btnConfigure_clicked();
 
     void onBeginEditFan(const QString &fanKey);

@@ -7,6 +7,7 @@
 #include <Network/GenericServices/Messages/UpdateServoStateRequest.h>
 #include <Network/GenericServices/Messages/FanRemoveRequest.h>
 #include <Network/GenericServices/Messages/FanModeRequest.h>
+#include <Network/GenericServices/Messages/VentilationStatusResponse.h>
 
 
 VentilationService::VentilationService(QObject *parent) : INetworkService(parent)
@@ -134,6 +135,15 @@ void VentilationService::UpdateMineState(bool isManual, float setPoint)
     emit SendRequest(request);
 }
 
+void VentilationService::GetVentilationStatus()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "VentilationControllerService";
+    request->method = "GetVentilationStatus";
+
+    emit SendRequest(request);
+}
+
 void VentilationService::ProcessReply(NetworkResponse *reply)
 {
     if(reply->service == ServiceName())
@@ -183,6 +193,17 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
             rsp.fromJson(reply->result.toUtf8());
 
             emit ValveStateUpdated(rsp.IsManual, rsp.CurrentPosition, rsp.SetPoint);
+        }
+        else if(reply->method == "GetVentilationStatus")
+        {
+            VentilationStatusResponse rsp;
+            rsp.fromJson(reply->result.toUtf8());
+
+            emit VentilationStatusReceived(rsp.ValveCurrentPos,
+                                           rsp.ValveSetPoint,
+                                           rsp.MineCurrentPos,
+                                           rsp.MineSetPoint,
+                                           rsp.VentSetPoint);
         }
     }
 }

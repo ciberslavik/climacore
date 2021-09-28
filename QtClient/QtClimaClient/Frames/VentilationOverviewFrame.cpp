@@ -24,6 +24,7 @@ VentilationOverviewFrame::VentilationOverviewFrame(QWidget *parent) :
     connect(m_ventService, &VentilationService::FanInfoListReceived, this, &VentilationOverviewFrame::onFanInfosReceived);
     connect(m_ventService, &VentilationService::MineStateReceived, this, &VentilationOverviewFrame::onMineStateReceived);
     connect(m_ventService, &VentilationService::ValveStateReceived, this, &VentilationOverviewFrame::onValveStateReceived);
+    connect(m_ventService, &VentilationService::VentilationStatusReceived, this, &VentilationOverviewFrame::onVentilationStatusReceived);
 
     m_updateTimer = TimerPool::instance()->getUpdateTimer();
     connect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
@@ -34,6 +35,7 @@ VentilationOverviewFrame::~VentilationOverviewFrame()
     disconnect(m_ventService, &VentilationService::FanInfoListReceived, this, &VentilationOverviewFrame::onFanInfosReceived);
     disconnect(m_ventService, &VentilationService::MineStateReceived, this, &VentilationOverviewFrame::onMineStateReceived);
     disconnect(m_ventService, &VentilationService::ValveStateReceived, this, &VentilationOverviewFrame::onValveStateReceived);
+    disconnect(m_ventService, &VentilationService::VentilationStatusReceived, this, &VentilationOverviewFrame::onVentilationStatusReceived);
 
     disconnect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
     delete ui;
@@ -158,6 +160,15 @@ void VentilationOverviewFrame::onMineStateReceived(bool isManual, float currPos,
     ui->lblMintSetPoint->setText(QString::number(setPoint,'f',1));
 }
 
+void VentilationOverviewFrame::onVentilationStatusReceived(float valvePos, float valveSetpoint, float minePos, float mineSetpoint, float ventilationSp)
+{
+    ui->pbValves->setValue(valvePos);
+    ui->pbMines->setValue(minePos);
+    ui->lblValveSetPoint->setText(QString::number(valveSetpoint, 'f', 1));
+    ui->lblMintSetPoint->setText(QString::number(mineSetpoint, 'f', 1));
+    ui->lblVentSetPoint->setText(QString::number(ventilationSp, 'f', 2));
+}
+
 void VentilationOverviewFrame::createFanWidgets()
 {
     if(m_fanWidgets.count()>0)
@@ -170,6 +181,7 @@ void VentilationOverviewFrame::createFanWidgets()
         FanInfo *s = &m_fanInfos[m_fanInfos.keys().at(i)];
 
         FanWidget *widget = new FanWidget(s->Key, s->IsAnalog, this);
+        widget->setFanName(s->FanName);
         if(s->Mode == (int)FanModeEnum::Manual)
             widget->setFanMode(FanModeEnum::Manual);
         else
@@ -192,6 +204,8 @@ void VentilationOverviewFrame::createFanWidgets()
         if(s->IsAnalog)
         {
             widget->setAnalogValue(s->AnalogPower);
+            widget->setAnalogMax(s->StartValue);
+            widget->setAnalogMin(s->StopValue);
             ui->layAnalogFans->addWidget(widget);
             widget->setMaximumSize(QSize(110,1100));
         }
@@ -311,18 +325,15 @@ void VentilationOverviewFrame::onUpdateTimer()
 {
     switch (m_updateCounter) {
     case 0:
-        m_ventService->GetMineState();
+        m_ventService->GetVentilationStatus();
         break;
     case 1:
-        m_ventService->GetValveState();
-        break;
-    case 2:
         m_ventService->GetFanInfoList();
         break;
     default:
         break;
     }
-    if(m_updateCounter == 2)
+    if(m_updateCounter == 1)
         m_updateCounter = 0;
     else
         m_updateCounter++;

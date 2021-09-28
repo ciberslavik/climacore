@@ -26,6 +26,7 @@ public:
     void GetMineState();
     void UpdateMineState(bool isManual, float setPoint);
 
+    void GetVentilationStatus();
 signals:
     void FanInfoListReceived(QList<FanInfo> response);
     void ControllerStateReceived(VentControllerState state);
@@ -36,6 +37,8 @@ signals:
 
     void MineStateReceived(bool isManual, float currPos, float setPoint);
     void MineStateUpdated(bool isManual, float currPos, float setPoint);
+
+    void VentilationStatusReceived(float valvePos,float valveSetpoint,float minePos, float mineSetpoint,float ventilationSp);
     // INetworkService interface
 public:
     QString ServiceName(){return "VentilationControllerService";}

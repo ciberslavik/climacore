@@ -1,3 +1,4 @@
+#include "AnalogModeSwitch.h"
 #include "FanWidget.h"
 
 #include <QPainter>
@@ -56,6 +57,11 @@ QString FanWidget::FanKey()
     return m_fanKey;
 }
 
+void FanWidget::setFanName(const QString &name)
+{
+    m_fanName = name;
+}
+
 void FanWidget::setAnalogValue(const float &analogPower)
 {
     if(m_isAnalog)
@@ -68,6 +74,16 @@ void FanWidget::setAnalogValue(const float &analogPower)
 float FanWidget::getAnalogValue()
 {
     return m_analogValue;
+}
+
+void FanWidget::setAnalogMax(float max)
+{
+    m_analogMax = max;
+}
+
+void FanWidget::setAnalogMin(float min)
+{
+    m_analogMin = min;
 }
 
 
@@ -139,6 +155,7 @@ void FanWidget::onModeLabelClicked()
 
         modeEditor.setFanMode(m_fanMode);
         modeEditor.setFanState(m_fanState);
+        modeEditor.setTitle(m_fanName);
         modeEditor.setParent((QWidget*)parent());
 
         if(modeEditor.exec() == QDialog::Rejected)
@@ -156,6 +173,23 @@ void FanWidget::onModeLabelClicked()
 
         disconnect(&modeEditor, &FanModeSwitch::fanModeChanged, this, &FanWidget::onModeEditorModeChanged);
         disconnect(&modeEditor, &FanModeSwitch::fanStateChanged, this, &FanWidget::onModeEditorStateChanged);
+    }
+    else
+    {
+        AnalogModeSwitch modeEditor(this);
+        modeEditor.setMaxLimit(m_analogMax);
+        modeEditor.setMinLimit(m_analogMin);
+        modeEditor.setManualPower(m_analogValue);
+        modeEditor.setMode(m_fanMode);
+        modeEditor.setTitle(m_fanName);
+        if(modeEditor.exec() == QDialog::Rejected)
+        {
+            emit EditCancel(m_fanKey);
+        }
+        else
+        {
+            emit EditAccept(m_fanKey);
+        }
     }
 }
 

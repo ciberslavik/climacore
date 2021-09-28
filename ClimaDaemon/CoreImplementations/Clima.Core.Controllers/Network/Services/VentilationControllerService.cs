@@ -114,7 +114,7 @@ namespace Clima.Core.Controllers.Network.Services
                 MineCurrentPos = _ventController.MineCurrentPos,
                 MineSetPoint = _ventController.MineSetPoint,
                 ValveCurrentPos = _ventController.ValveCurrentPos,
-                ValveSetPoint = _ventController.ValveCurrentPos,
+                ValveSetPoint = _ventController.ValveSetPoint,
                 VentSetPoint = _ventController.CurrentPerformance
             };
         }

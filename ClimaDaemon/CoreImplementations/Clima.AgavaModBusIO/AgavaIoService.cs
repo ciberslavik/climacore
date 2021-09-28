@@ -65,20 +65,37 @@ namespace Clima.AgavaModBusIO
 
             Log.Info($"IO System  initialization complete Thread:{Thread.CurrentThread.ManagedThreadId}");
             IsInit = true;
+            ServiceState = ServiceState.Initialized;
         }
 
         public void Start()
         {
             if (IsInit)
             {
+                if (IsRunning)
+                {
+                    Log.Error("Agava io service already running");
+                    return;
+                }
+                
                 Log.Info("Starting IO Server.");
                 _cycleCounter = 0;
-                _cycleTimer = new Timer(CycleFunc, _modules, 100, _config.IOProcessorCycleTime);
+                _cycleTimer = new Timer(CycleFunc, _modules,
+                    _config.IOProcessorCycleTime,
+                    _config.IOProcessorCycleTime);
+                ServiceState = ServiceState.Running;
+                IsRunning = true;
             }
         }
 
         public void Stop()
         {
+            if (IsInit && IsRunning)
+            {
+                _cycleTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                IsRunning = false;
+                ServiceState = ServiceState.Stopped;
+            }
         }
 
         

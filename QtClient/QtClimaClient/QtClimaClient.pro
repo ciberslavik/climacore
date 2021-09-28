@@ -195,6 +195,7 @@ HEADERS += \
     Network/GenericServices/Messages/UpdateServoStateRequest.h \
     Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
     Network/GenericServices/Messages/UpdateValueByValueProfileRequest.h \
+    Network/GenericServices/Messages/VentilationStatusResponse.h \
     Network/GenericServices/ProductionService.h \
     Network/GenericServices/SchedulerControlService.h \
     Network/GenericServices/SensorsService.h \

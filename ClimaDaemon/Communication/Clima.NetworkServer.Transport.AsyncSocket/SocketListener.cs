@@ -267,10 +267,10 @@ namespace Clima.NetworkServer.Transport.AsyncSocket
         {
             Log.Debug("Starting socket server");
             // Get host related information.
-            IPAddress[] addressList = Dns.GetHostEntry(Environment.MachineName).AddressList;
+            //IPAddress[] addressList = Dns.GetHostEntry(Environment.MachineName).AddressList;
 
             // Get endpoint for the listener.
-            IPEndPoint localEndPoint = new IPEndPoint(addressList[addressList.Length - 1], _config.Port);
+            IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, _config.Port);
             Log.Debug($"Listening on:{localEndPoint.Address.ToString()}");
             // Create the socket which listens for incoming connections.
             this._listenSocket = new Socket(localEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);

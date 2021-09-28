@@ -27,10 +27,13 @@ public:
     FanMode_t fanMode(){return m_fanMode;}
     QString FanKey();
 
+    void setFanName(const QString &name);
     bool isAnalog(){return m_isAnalog;}
     void setAnalogValue(const float &analogPower);
     float getAnalogValue();
 
+    void setAnalogMax(float max);
+    void setAnalogMin(float min);
 
 
     void paintEvent(QPaintEvent *event) override;
@@ -48,6 +51,7 @@ private slots:
 private:
     FanStateEnum_t m_fanState;
     QString m_fanKey;
+    QString m_fanName;
     FanModeEnum m_fanMode;
     QMovie *m_fanMovie;
     bool m_isAnalog;
@@ -55,6 +59,7 @@ private:
     QLabel *m_analogValueLabel;
     QClickableLabel *m_modeLabel;
     float m_analogValue;
+
     //Rects
     QRect m_borderRect;
     QRect m_stateRect;
@@ -71,6 +76,10 @@ private:
 
     QPen m_borderPen;
     QPen m_statePen;
+
+    float m_analogMax;
+    float m_analogMin;
+
 
     void createUI();
     void rebuildUI();

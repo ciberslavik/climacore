@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QWidget>
-
+#include <QDialog>
+#include "Models/FanControlsEnums.h"
 namespace Ui {
 class AnalogModeSwitch;
 }
 
-class AnalogModeSwitch : public QWidget
+class AnalogModeSwitch : public QDialog
 {
     Q_OBJECT
 
@@ -14,8 +14,8 @@ public:
     explicit AnalogModeSwitch(QWidget *parent = nullptr);
     ~AnalogModeSwitch();
     bool getMode();
-    void setMode(const bool &mode);
-
+    void setMode(const FanModeEnum &mode);
+    void setTitle(const QString &title);
     float getManualPower();
     void setManualPower(const float &power);
 

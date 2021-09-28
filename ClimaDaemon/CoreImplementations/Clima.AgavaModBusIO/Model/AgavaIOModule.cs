@@ -8,22 +8,37 @@ namespace Clima.AgavaModBusIO.Model
 {
     public class AgavaIOModule
     {
-        private byte _moduleID;
+        private readonly byte _moduleId;
         private IOPinCollection _pins;
-
+        private ushort _doRegister;
+        private ushort _diRegister;
         private AgavaIOModule(byte moduleId)
         {
-            _moduleID = moduleId;
+            _moduleId = moduleId;
             _pins = new IOPinCollection();
             _pins.AnalogOutputChanged += OnAnalogOutputChanged;
             _pins.DiscreteOutputChanged += OnDiscreteOutputChanged;
+            _diRegister = 0x0000;
+            _doRegister = 0x0000;
         }
 
         private void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
         {
-            Console.WriteLine($"Discr out in module:{_moduleID} pin:{ea.Pin.PinName} to:{ea.NewState}");
+            Console.WriteLine($"Discr out in module:{_moduleId} pin:{ea.Pin.PinName} to:{ea.NewState}");
+            if (ea.Pin is AgavaDOutput output)
+            {
+                if (ea.NewState)
+                {
+                    _doRegister |= output.PinMask;
+                }
+                else
+                {
+                    _doRegister &= (ushort)(~output.PinMask);
+                }
+            }
         }
 
+        internal ushort DORegister => _doRegister;
         public event AnalogPinValueChangedEventHandler AnalogOutputChanged;
 
         #region Create module functions
@@ -127,16 +142,16 @@ namespace Clima.AgavaModBusIO.Model
 
         private void CreateDiscrIn(in int mDiCount)
         {
-            var pinName = $"DI:{_moduleID}:{mDiCount}";
-            var pin = new AgavaDInput(_moduleID, mDiCount);
+            var pinName = $"DI:{_moduleId}:{mDiCount}";
+            var pin = new AgavaDInput(_moduleId, mDiCount);
             pin.PinName = pinName;
             _pins.AddDiscreteInput(pinName, pin);
         }
 
         private void CreateAnalogOut(in int mAoCount)
         {
-            var pinName = $"AO:{_moduleID}:{mAoCount}";
-            var pin = new AgavaAOutput(_moduleID, mAoCount);
+            var pinName = $"AO:{_moduleId}:{mAoCount}";
+            var pin = new AgavaAOutput(_moduleId, mAoCount);
 
             pin.PinName = pinName;
             _pins.AddAnalogOutput(pinName, pin);
@@ -144,8 +159,8 @@ namespace Clima.AgavaModBusIO.Model
 
         private void CreateAnalogIn(in int mAiCount)
         {
-            var pinName = $"AI:{_moduleID}:{mAiCount}";
-            var pin = new AgavaAInput(_moduleID, mAiCount);
+            var pinName = $"AI:{_moduleId}:{mAiCount}";
+            var pin = new AgavaAInput(_moduleId, mAiCount);
 
             pin.PinName = pinName;
             _pins.AddAnalogInput(pinName, pin);
@@ -153,15 +168,21 @@ namespace Clima.AgavaModBusIO.Model
 
         private void CreateDiscrOut(in int mDoCount)
         {
-            var pinName = $"DO:{_moduleID}:{mDoCount}";
-            var pin = new AgavaDOutput(_moduleID, mDoCount);
+            var pinName = $"DO:{_moduleId}:{mDoCount}";
+            var pin = new AgavaDOutput(_moduleId, mDoCount);
             pin.PinName = pinName;
+            pin.PinStateChanged += OnDOPinStateChanged;
             _pins.AddDiscreteOutput(pinName, pin);
+        }
+
+        private void OnDOPinStateChanged(DiscretePinStateChangedEventArgs ea)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion Create module functions
 
-        public byte ModuleId => _moduleID;
+        public byte ModuleId => _moduleId;
 
         public bool IsDiscreteModified => _pins.IsDiscreteModified;
         public bool IsAnalogModified => _pins.IsAnalogModified;
@@ -196,7 +217,7 @@ namespace Clima.AgavaModBusIO.Model
             for (var i = 0; i < data.Length; i++)
             for (var j = 0; j < sizeof(ushort) * 8; j++)
             {
-                var pinName = $"DI:{_moduleID}:{j + i * 16}";
+                var pinName = $"DI:{_moduleId}:{j + i * 16}";
                 if (GetPinByName(pinName) is AgavaDInput pin)
                 {
                     if ((data[i] & (1 << j)) > 0)
@@ -217,7 +238,7 @@ namespace Clima.AgavaModBusIO.Model
             var result = new ushort[regCount];
             var regBuffer = new bool[_pins.DiscreteOutputs.Count];
             for (var pinIndex = 0; pinIndex < _pins.DiscreteOutputs.Count; pinIndex++)
-                regBuffer[pinIndex] = _pins.DiscreteOutputs[$"DO:{_moduleID}:{pinIndex}"].State;
+                regBuffer[pinIndex] = _pins.DiscreteOutputs[$"DO:{_moduleId}:{pinIndex}"].State;
 
 
             return ConvertBoolArrayToUshortArray(regBuffer);

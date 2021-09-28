@@ -145,17 +145,19 @@ namespace Clima.Core.Controllers
                 if (fanTableValue.StartPerformance <= _currentPerformance)
                 {
                     perfCounter += fanTableValue.Info.Performance * fanTableValue.Info.FanCount;
-                    
+                    fanTableValue.Info.State = FanStateEnum.Running;
                     fanTableValue.Relay.On();
                 }
                 else
                 {
+                    fanTableValue.Info.State = FanStateEnum.Stopped;
                     fanTableValue.Relay.Off();
                 }
                 
             }
             if(analogItem is not null)
             {
+                analogItem.Info.State = FanStateEnum.Running;
                 float powerToAnalog = _currentPerformance - perfCounter;
                 float powerPercent = (powerToAnalog / analogItem.CurrentPerformance) * 100.0f;
                 if(powerPercent < 15)

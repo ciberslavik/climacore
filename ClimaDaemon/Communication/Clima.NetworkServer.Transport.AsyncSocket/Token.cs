@@ -115,7 +115,7 @@ namespace Clima.NetworkServer.Transport.AsyncSocket
                     String.Format(CultureInfo.CurrentCulture, "Adding {0} bytes on buffer which has {1} bytes, the listener buffer will overflow.", count, this.currentIndex));
             }
 
-            _sb.Append(Encoding.ASCII.GetString(args.Buffer, args.Offset, count));
+            _sb.Append(Encoding.UTF8.GetString(args.Buffer, args.Offset, count));
             this.currentIndex += count;
         }
 

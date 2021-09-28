@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <Nullable>enable</Nullable>
+        <RuntimeIdentifiers>win-x64;linux-x64;linux-arm;</RuntimeIdentifiers>
     </PropertyGroup>
 
     <ItemGroup>

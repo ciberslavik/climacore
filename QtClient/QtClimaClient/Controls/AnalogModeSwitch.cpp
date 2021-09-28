@@ -4,7 +4,7 @@
 #include <Frames/Dialogs/inputdigitdialog.h>
 
 AnalogModeSwitch::AnalogModeSwitch(QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::AnalogModeSwitch)
 {
     ui->setupUi(this);
@@ -23,12 +23,17 @@ bool AnalogModeSwitch::getMode()
         return true;
 }
 
-void AnalogModeSwitch::setMode(const bool &mode)
+void AnalogModeSwitch::setMode(const FanModeEnum &mode)
 {
-    if(mode)
+    if(mode == FanModeEnum::Manual)
         ui->btnManual->setChecked(true);
-    else
+    else if (mode == FanModeEnum::Auto)
         ui->btnAuto->setChecked(true);
+}
+
+void AnalogModeSwitch::setTitle(const QString &title)
+{
+    ui->lblTitle->setText(title);
 }
 
 float AnalogModeSwitch::getManualPower()
@@ -63,13 +68,13 @@ void AnalogModeSwitch::setMinLimit(const float &minLimit)
 
 void AnalogModeSwitch::on_btnAccept_clicked()
 {
-    emit AcceptEdit();
+    accept();
 }
 
 
 void AnalogModeSwitch::on_btnReject_clicked()
 {
-    emit RejectEdit();
+    reject();
 }
 
 void AnalogModeSwitch::onTxtClicked()

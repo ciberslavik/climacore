@@ -15,6 +15,11 @@ FanModeSwitch::~FanModeSwitch()
     delete ui;
 }
 
+void FanModeSwitch::setTitle(const QString &title)
+{
+    ui->lblTitle->setText(title);
+}
+
 void FanModeSwitch::setFanMode(FanModeEnum mode)
 {
     if(m_fanMode != mode)

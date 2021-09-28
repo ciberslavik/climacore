@@ -133,11 +133,8 @@ namespace Clima.ServiceContainer.CastleWindsor
             var services = _container.ResolveAll<IService>();
             foreach (var service in services)
             {
-
                 service.Start();
             }
-            
-            
         }
     }
 }

@@ -12,6 +12,23 @@ StartProductionDialog::StartProductionDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->txtHeadsCount, &QClickableLineEdit::clicked, this, &StartProductionDialog::onTxtClicked);
+    connect(ui->txtStartDay, &QClickableLineEdit::clicked, this, &StartProductionDialog::onTxtClicked);
+    connect(ui->txtStartMonth, &QClickableLineEdit::clicked, this, &StartProductionDialog::onTxtClicked);
+    connect(ui->txtStartYear, &QClickableLineEdit::clicked, this, &StartProductionDialog::onTxtClicked);
+
+    connect(ui->txtPlendingDay, &QClickableLineEdit::clicked, this, &StartProductionDialog::onTxtClicked);
+    connect(ui->txtPlendingMonth, &QClickableLineEdit::clicked, this, &StartProductionDialog::onTxtClicked);
+    connect(ui->txtPlendingYear, &QClickableLineEdit::clicked, this, &StartProductionDialog::onTxtClicked);
+
+    QDateTime currDate = QDateTime::currentDateTime();
+
+    ui->txtStartDay->setText(currDate.toString("dd"));
+    ui->txtStartMonth->setText(currDate.toString("MM"));
+    ui->txtStartYear->setText(currDate.toString("yyyy"));
+
+    ui->txtPlendingDay->setText(currDate.toString("dd"));
+    ui->txtPlendingMonth->setText(currDate.toString("MM"));
+    ui->txtPlendingYear->setText(currDate.toString("yyyy"));
 }
 
 StartProductionDialog::~StartProductionDialog()
@@ -21,12 +38,18 @@ StartProductionDialog::~StartProductionDialog()
 
 QDateTime StartProductionDialog::getStartDate()
 {
-    return ui->dteStartDate->dateTime();
+    QString dateStr = ui->txtStartDay->text() + "." + ui->txtStartMonth->text() + "." + ui->txtStartYear->text();
+    QDateTime t = QDateTime::fromString(dateStr,"dd.MM.yyyy");
+
+    return t;
 }
 
 QDateTime StartProductionDialog::getPlendingDate()
 {
-    return ui->dtePlendingDate->dateTime();
+    QString dateStr = ui->txtPlendingDay->text() + "." + ui->txtPlendingMonth->text() + "." + ui->txtPlendingYear->text();
+    QDateTime t = QDateTime::fromString(dateStr,"dd.MM.yyyy");
+
+    return t;
 }
 
 int StartProductionDialog::getHeadsCount()
