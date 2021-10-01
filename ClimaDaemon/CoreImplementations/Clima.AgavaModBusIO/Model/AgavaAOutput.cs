@@ -13,8 +13,9 @@ namespace Clima.AgavaModBusIO.Model
         public AgavaAOutput(byte moduleAddress, int pinNumberInModule)
         {
             _moduleId = moduleAddress;
-            _regAddress = (ushort) (pinNumberInModule * 2);
+            _regAddress = (ushort)(10004 + (pinNumberInModule * 2));
             _pinNumberInModule = pinNumberInModule;
+            _value = 0f;
         }
 
         public event AnalogPinValueChangedEventHandler ValueChanged;
@@ -56,11 +57,17 @@ namespace Clima.AgavaModBusIO.Model
             request.ModuleID = _moduleId;
             request.RegisterAddress = _regAddress;
             request.RequestType = RequestType.WriteMultipleRegisters;
-            var buff = BitConverter.GetBytes(_value);
-            var outBuff = new ushort[buff.Length / 2];
+            
+            if (ValueConverter is not null)
+            {
+                request.Data = ValueConverter.ConvertFrom(_value);
+            }
+            else
+            {
+                request.Data = new ushort[] {0, 0};
+            }
 
-            Buffer.BlockCopy(buff, 0, outBuff, 0, buff.Length);
-
+            request.DataCount = 2;
             return request;
         }
 

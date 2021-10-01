@@ -135,7 +135,7 @@ namespace Clima.AgavaModBusIO
                     if (module.IsDiscreteModified)
                     {
                         var request = AgavaRequest.WriteHoldingRegisterRequest(
-                            moduleId, 10000, module.GetDORawData());
+                            moduleId, 10000,new ushort[]{module.DORegister});
                         _master.WriteRequest(request);
                         module.AcceptModify();
                     }

@@ -27,7 +27,10 @@ public:
 signals:
     void AcceptEdit();
     void RejectEdit();
-    void ModeChanged(bool isManual);
+    void fanModeChanged(const FanModeEnum &mode);
+    void fanStateChanged(const FanStateEnum &state);
+    void fanValueChanged(const float &value);
+
 private slots:
     void on_btnAccept_clicked();
 

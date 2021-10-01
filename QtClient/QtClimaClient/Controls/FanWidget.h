@@ -41,6 +41,8 @@ public:
 signals:
     void FanModeChanged(const QString &fanKey, FanMode_t newMode);
     void FanStateChanged(const QString &fanKey, FanStateEnum_t newState);
+    void FanAnalogValueChanged(const float &value);
+
     void EditBegin(const QString &fanKey);
     void EditAccept(const QString &fanKey);
     void EditCancel(const QString &fanKey);
@@ -48,6 +50,7 @@ private slots:
     void onModeLabelClicked();
     void onModeEditorModeChanged(FanModeEnum mode);
     void onModeEditorStateChanged(FanStateEnum_t state);
+    void onModeEditorValueChanged(const float &value);
 private:
     FanStateEnum_t m_fanState;
     QString m_fanKey;

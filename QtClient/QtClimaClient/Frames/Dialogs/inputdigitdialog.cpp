@@ -33,6 +33,11 @@ InputDigitDialog::InputDigitDialog(QLineEdit *edit, QWidget *parent) :
     _first_key = true;
 }
 
+void InputDigitDialog::setTitle(const QString &title)
+{
+    ui->lblTitle->setText(title);
+}
+
 InputDigitDialog::~InputDigitDialog()
 {
     delete ui;
@@ -46,11 +51,7 @@ void InputDigitDialog::onDigitButtonPressed()
         ui->txtEdit->clear();
         _first_key = false;
     }
-    //ui->txtEdit->setText(ui->txtEdit->text()+button->text());
-    double new_value = (ui->txtEdit->text()+button->text()).toDouble();
-    QString new_label = QString::number(new_value,'g',15);
-    ui->txtEdit->setText(new_label);
-
+    ui->txtEdit->setText(ui->txtEdit->text()+button->text());
 }
 
 void InputDigitDialog::onDotButtonPressed()
@@ -58,7 +59,7 @@ void InputDigitDialog::onDotButtonPressed()
     if(ui->txtEdit->text().contains('.'))
         return;
 
-    ui->txtEdit->setText(ui->txtEdit->text()+'.');
+    ui->txtEdit->setText(ui->txtEdit->text() + '.');
 }
 
 void InputDigitDialog::onDeleteButtonPressed()
@@ -79,3 +80,22 @@ void InputDigitDialog::onCancelButtonPressed()
 {
     reject();
 }
+
+void InputDigitDialog::on_pushButton_clicked()
+{
+    QString txt = ui->txtEdit->text();
+
+    if(txt.isEmpty())
+        return;
+
+    if(txt.startsWith('-'))
+    {
+        txt = txt.remove(0, 1);
+    }
+    else
+    {
+        txt = '-' + txt;
+    }
+    ui->txtEdit->setText(txt);
+}
+

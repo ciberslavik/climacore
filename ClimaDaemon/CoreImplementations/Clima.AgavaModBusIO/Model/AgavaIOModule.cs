@@ -2,6 +2,7 @@
 using Clima.Basics.Services;
 using Clima.Core;
 using Clima.Core.IO;
+using Clima.Core.IO.Converters;
 using NModbus;
 
 namespace Clima.AgavaModBusIO.Model
@@ -16,15 +17,13 @@ namespace Clima.AgavaModBusIO.Model
         {
             _moduleId = moduleId;
             _pins = new IOPinCollection();
-            _pins.AnalogOutputChanged += OnAnalogOutputChanged;
-            _pins.DiscreteOutputChanged += OnDiscreteOutputChanged;
             _diRegister = 0x0000;
             _doRegister = 0x0000;
         }
 
         private void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
         {
-            Console.WriteLine($"Discr out in module:{_moduleId} pin:{ea.Pin.PinName} to:{ea.NewState}");
+            
             if (ea.Pin is AgavaDOutput output)
             {
                 if (ea.NewState)
@@ -35,6 +34,7 @@ namespace Clima.AgavaModBusIO.Model
                 {
                     _doRegister &= (ushort)(~output.PinMask);
                 }
+                Console.WriteLine($"Discr out in module:{_moduleId} pin:{ea.Pin.PinName} to:{ea.NewState} \n {Convert.ToString(_doRegister,2)}");
             }
         }
 
@@ -152,9 +152,15 @@ namespace Clima.AgavaModBusIO.Model
         {
             var pinName = $"AO:{_moduleId}:{mAoCount}";
             var pin = new AgavaAOutput(_moduleId, mAoCount);
-
+            pin.ValueConverter = new VoltageToPercentConverter();
             pin.PinName = pinName;
+            pin.ValueChanged += OnAnalogValueChanged;
             _pins.AddAnalogOutput(pinName, pin);
+        }
+
+        private void OnAnalogValueChanged(AnalogPinValueChangedEventArgs ea)
+        {
+            //throw new NotImplementedException();
         }
 
         private void CreateAnalogIn(in int mAiCount)
@@ -171,14 +177,10 @@ namespace Clima.AgavaModBusIO.Model
             var pinName = $"DO:{_moduleId}:{mDoCount}";
             var pin = new AgavaDOutput(_moduleId, mDoCount);
             pin.PinName = pinName;
-            pin.PinStateChanged += OnDOPinStateChanged;
+            pin.PinStateChanged += OnDiscreteOutputChanged;
             _pins.AddDiscreteOutput(pinName, pin);
         }
-
-        private void OnDOPinStateChanged(DiscretePinStateChangedEventArgs ea)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         #endregion Create module functions
 
@@ -214,58 +216,16 @@ namespace Clima.AgavaModBusIO.Model
 
         public void SetDIRawData(ushort[] data)
         {
-            for (var i = 0; i < data.Length; i++)
-            for (var j = 0; j < sizeof(ushort) * 8; j++)
+            if (data.Length > 0)
             {
-                var pinName = $"DI:{_moduleId}:{j + i * 16}";
-                if (GetPinByName(pinName) is AgavaDInput pin)
+                foreach (var pin in _pins.DiscreteInputs.Values)
                 {
-                    if ((data[i] & (1 << j)) > 0)
-                        pin.SetState(true);
-                    else
-                        pin.SetState(false);
-                }
-                else
-                {
-                    return;
+                    if (pin is AgavaDInput input)
+                    {
+                        input.SetState((data[0] & input.PinMask) > 0);   
+                    }
                 }
             }
-        }
-
-        public ushort[] GetDORawData()
-        {
-            var regCount = _pins.DiscreteOutputs.Count / 16 + 1;
-            var result = new ushort[regCount];
-            var regBuffer = new bool[_pins.DiscreteOutputs.Count];
-            for (var pinIndex = 0; pinIndex < _pins.DiscreteOutputs.Count; pinIndex++)
-                regBuffer[pinIndex] = _pins.DiscreteOutputs[$"DO:{_moduleId}:{pinIndex}"].State;
-
-
-            return ConvertBoolArrayToUshortArray(regBuffer);
-        }
-
-        private static ushort BoolArrayToUshort(bool[] source, int offset)
-        {
-            ushort result = 0;
-            // This assumes the array never contains more than 8 elements!
-
-            for (var i = 0; i < source.Length - offset; i++)
-                if (source[i + offset])
-                    result |= (ushort) (1 << i);
-
-            return result;
-        }
-
-        private static ushort[] ConvertBoolArrayToUshortArray(bool[] boolArr)
-        {
-            var byteArr = new ushort[(boolArr.Length + 15) / 16];
-            for (var i = 0; i < byteArr.Length; i++) byteArr[i] = BoolArrayToUshort(boolArr, i * 16);
-            return byteArr;
-        }
-
-        protected virtual void OnAnalogOutputChanged(AnalogPinValueChangedEventArgs ea)
-        {
-            AnalogOutputChanged?.Invoke(ea);
         }
     }
 }

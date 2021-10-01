@@ -17,16 +17,10 @@ namespace Clima.Core.IO.Converters
         public double ConvertTo(ushort[] value)
         {
             //Console.WriteLine($"PT1000 value:{value:F4}");
-            if (value.Length >= 2)
-            {
-                //Console.WriteLine($"vv:{value[0]} {value[1]}");
-            }
-
-            var va = (float) value[0];
-
+            var va = (ushort)value[1] << 16 | (ushort)value[0];
             //Console.Write($"PT1000 raw value:{va} ");
 
-            double v = va;
+            double v = (float)va / 100f;
             double t;
 
             var A = 3.9083e-3;
@@ -40,7 +34,6 @@ namespace Clima.Core.IO.Converters
             if (v / Ro >= 1.0)
                 t = (Math.Sqrt(Math.Pow(A, 2) - (1.0 - v / Ro) *
                     0.0004 * B) - A) / (0.0002 * B);
-
             else
                 t = D1 * (v * A / Ro - 1.0) +
                     D2 * Math.Pow(v * A / Ro - 1.0, 2) +

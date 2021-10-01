@@ -14,6 +14,7 @@ class InputDigitDialog : public QDialog
 
 public:
     explicit InputDigitDialog(QLineEdit *edit, QWidget *parent = nullptr);
+    void setTitle(const QString &title);
     ~InputDigitDialog();
 private slots:
     void onDigitButtonPressed();
@@ -21,6 +22,8 @@ private slots:
     void onDeleteButtonPressed();
     void onOkButtonPressed();
     void onCancelButtonPressed();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::InputDigitDialog *ui;

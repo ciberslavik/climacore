@@ -7,20 +7,23 @@ namespace Clima.Core.IO.Converters
         public VoltageToPercentConverter()
         {
         }
-
-
         public double ConvertTo(ushort[] value)
         {
-            double va = value[0];
-
-            //Console.WriteLine($"VoLTAGE value :{va}");
+            var v = (ushort)value[1] << 16 | (ushort)value[0];
+            
+            double va = v / 10f;
 
             return va;
         }
 
         public ushort[] ConvertFrom(double value)
         {
-            return new ushort[2];
+            var v = (int)(value * 10);
+            var buff = new ushort[2];
+            buff[1] = (ushort) (v >> 16);
+            buff[0] = (ushort) (v & 0xffff);
+
+            return buff;
         }
     }
 }

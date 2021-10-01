@@ -39,6 +39,11 @@ namespace Clima.Core.Controllers
             
             if (ServiceState == ServiceState.Initialized)
             {
+                if (_fanTable.ContainsKey("FAN:0"))
+                {
+                    _fanTable["FAN:0"].AnalogFan.Start();
+                    
+                }
                 ServiceState = ServiceState.Running;
             }
         }
@@ -57,11 +62,13 @@ namespace Clima.Core.Controllers
 
         public void Init(object config)
         {
+            
             if (config is VentilationControllerConfig cfg)
             {
                 _config = cfg;
                 
                 CreateFans();
+                ServiceState = ServiceState.Initialized;
             }
         }
 
@@ -128,7 +135,6 @@ namespace Clima.Core.Controllers
         public void SetPerformance(float performance)
         {
             
-            
             _currentPerformance = performance;
             int perfCounter = 0;
             FanControllerTableItem analogItem = null;
@@ -142,19 +148,23 @@ namespace Clima.Core.Controllers
                     analogItem = fanTableValue;
                     continue;
                 }
-                if (fanTableValue.StartPerformance <= _currentPerformance)
+
+                if (fanTableValue.Info.Mode == FanModeEnum.Auto)
                 {
-                    perfCounter += fanTableValue.Info.Performance * fanTableValue.Info.FanCount;
-                    fanTableValue.Info.State = FanStateEnum.Running;
-                    fanTableValue.Relay.On();
+                    if (fanTableValue.StartPerformance <= _currentPerformance)
+                    {
+                        perfCounter += fanTableValue.Info.Performance * fanTableValue.Info.FanCount;
+                        fanTableValue.Info.State = FanStateEnum.Running;
+                        fanTableValue.Relay.On();
+                    }
+                    else
+                    {
+                        fanTableValue.Info.State = FanStateEnum.Stopped;
+                        fanTableValue.Relay.Off();
+                    }
                 }
-                else
-                {
-                    fanTableValue.Info.State = FanStateEnum.Stopped;
-                    fanTableValue.Relay.Off();
-                }
-                
             }
+            
             if(analogItem is not null)
             {
                 analogItem.Info.State = FanStateEnum.Running;
@@ -166,12 +176,12 @@ namespace Clima.Core.Controllers
                   powerPercent = 100;
                 
                 _analogPower = powerPercent;
-                if (!AnalogIsManual)
+                if (analogItem.Info.Mode == FanModeEnum.Auto)
                 {
                     analogItem.AnalogFan.SetPower(powerPercent);
                     analogItem.Info.AnalogPower = powerPercent;
                 }
-                else
+                else if(analogItem.Info.Mode == FanModeEnum.Manual)
                 {
                     analogItem.AnalogFan.SetPower(_analogManualPower);
                     analogItem.Info.AnalogPower = _analogManualPower;
@@ -255,18 +265,19 @@ namespace Clima.Core.Controllers
                 {
                     if (_fanTable[key].Info.State != state)
                     {
-                        _fanTable[key].Info.State = state;
+                        
 
                         if (_fanTable[key].Info.Mode == FanModeEnum.Manual)
                         {
-                            if (_fanTable[key].Info.State == FanStateEnum.Running)
+                            if (state == FanStateEnum.Running)
                             {
                                 _fanTable[key].Relay.On();
                             }
-                            else if (_fanTable[key].Info.State == FanStateEnum.Stopped)
+                            else if (state == FanStateEnum.Stopped)
                             {
                                 _fanTable[key].Relay.Off();
                             }
+                            _fanTable[key].Info.State = state;
                         }
                     }
                 }
@@ -336,9 +347,7 @@ namespace Clima.Core.Controllers
             if (position >= 0 && position <= 100)
                 _mineServo.SetPosition(position);
         }
-
-        public bool AnalogIsManual { get; set; }
-
+        
         public void SetValvePosition(float position)
         {
             _valveServo ??= _devProvider.GetServo("SERVO:0");

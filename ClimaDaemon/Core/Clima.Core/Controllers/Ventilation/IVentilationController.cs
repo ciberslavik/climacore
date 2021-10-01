@@ -22,7 +22,6 @@ namespace Clima.Core.Controllers.Ventilation
         float MineSetPoint { get; }
         bool MineIsManual { get; set; }
         void SetMinePosition(float position);
-        bool AnalogIsManual { get; set; }
         void SetAnalogPower(float setPoint);
         int TotalPerformance { get; }
         float CurrentPerformance { get; }

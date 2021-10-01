@@ -182,6 +182,10 @@ void FanWidget::onModeLabelClicked()
         modeEditor.setManualPower(m_analogValue);
         modeEditor.setMode(m_fanMode);
         modeEditor.setTitle(m_fanName);
+
+        connect(&modeEditor, &AnalogModeSwitch::fanModeChanged, this, &FanWidget::onModeEditorModeChanged);
+        connect(&modeEditor, &AnalogModeSwitch::fanStateChanged, this, &FanWidget::onModeEditorStateChanged);
+        connect(&modeEditor, &AnalogModeSwitch::fanValueChanged, this, &FanWidget::onModeEditorValueChanged);
         if(modeEditor.exec() == QDialog::Rejected)
         {
             emit EditCancel(m_fanKey);
@@ -190,6 +194,10 @@ void FanWidget::onModeLabelClicked()
         {
             emit EditAccept(m_fanKey);
         }
+
+        disconnect(&modeEditor, &AnalogModeSwitch::fanModeChanged, this, &FanWidget::onModeEditorModeChanged);
+        disconnect(&modeEditor, &AnalogModeSwitch::fanStateChanged, this, &FanWidget::onModeEditorStateChanged);
+        disconnect(&modeEditor, &AnalogModeSwitch::fanValueChanged, this, &FanWidget::onModeEditorValueChanged);
     }
 }
 
@@ -204,6 +212,11 @@ void FanWidget::onModeEditorStateChanged(FanStateEnum_t state)
 {
     setFanState(state);
     emit FanStateChanged(m_fanKey, state);
+}
+
+void FanWidget::onModeEditorValueChanged(const float &value)
+{
+
 }
 
 void FanWidget::createUI()
