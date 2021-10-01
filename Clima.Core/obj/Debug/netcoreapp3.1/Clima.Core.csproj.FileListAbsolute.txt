@@ -1,8 +1,0 @@
-/home/cibers/ClimaProject/climacore/Clima.Core/bin/Debug/netcoreapp3.1/Clima.Core.deps.json
-/home/cibers/ClimaProject/climacore/Clima.Core/bin/Debug/netcoreapp3.1/Clima.Core.dll
-/home/cibers/ClimaProject/climacore/Clima.Core/bin/Debug/netcoreapp3.1/Clima.Core.pdb
-/home/cibers/ClimaProject/climacore/Clima.Core/obj/Debug/netcoreapp3.1/Clima.Core.AssemblyInfoInputs.cache
-/home/cibers/ClimaProject/climacore/Clima.Core/obj/Debug/netcoreapp3.1/Clima.Core.AssemblyInfo.cs
-/home/cibers/ClimaProject/climacore/Clima.Core/obj/Debug/netcoreapp3.1/Clima.Core.csproj.CoreCompileInputs.cache
-/home/cibers/ClimaProject/climacore/Clima.Core/obj/Debug/netcoreapp3.1/Clima.Core.dll
-/home/cibers/ClimaProject/climacore/Clima.Core/obj/Debug/netcoreapp3.1/Clima.Core.pdb
