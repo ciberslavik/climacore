@@ -2,6 +2,7 @@
 
 #include <Network/GenericServices/Messages/SchedulerInfoResponse.h>
 #include <Network/GenericServices/Messages/SetProfileRequest.h>
+#include <Network/GenericServices/Messages/VentilationParamsRequest.h>
 
 SchedulerControlService::SchedulerControlService(QObject *parent) : INetworkService(parent)
 {
@@ -60,12 +61,44 @@ void SchedulerControlService::SetMineProfile(const QString &profileKey)
     emit SendRequest(request);
 }
 
-void SchedulerControlService::GetSchedulerInfo()
+void SchedulerControlService::GetProfilesInfo()
 {
     NetworkRequest *request = new NetworkRequest();
     request->jsonrpc = "0.1a";
     request->service = "SchedulerControlService";
-    request->method = "GetSchedulerInfo";
+    request->method = "GetProfilesInfo";
+    emit SendRequest(request);
+}
+
+void SchedulerControlService::GetProcessInfo()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "SchedulerControlService";
+    request->method = "GetProcessInfo";
+    emit SendRequest(request);
+}
+
+void SchedulerControlService::GetVentilationParams()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "SchedulerControlService";
+    request->method = "GetVentilationParams";
+    emit SendRequest(request);
+}
+
+void SchedulerControlService::UpdateVentilationParams(VentilationParams parameters)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "SchedulerControlService";
+    request->method = "UpdateVentParameters";
+
+    VentilationParamsRequest pr;
+    pr.Parameters = parameters;
+
+    request->params = pr.toJsonString();
     emit SendRequest(request);
 }
 
@@ -73,11 +106,17 @@ void SchedulerControlService::ProcessReply(NetworkResponse *reply)
 {
     if(reply->service == "SchedulerControlService")
     {
-        if(reply->method == "GetSchedulerInfo")
+        if(reply->method == "GetProfilesInfo")
         {
-            SchedulerInfoResponse info;
+            SchedulerProfilesInfo info;
             info.fromJson(reply->result.toUtf8());
-            emit SchedulerInfoReceived(info.Info);
+            emit SchedulerProfilesInfoReceived(info);
+        }
+        else if(reply->method == "GetProcessInfo")
+        {
+            SchedulerProcessInfo info;
+            info.fromJson(reply->result.toUtf8());
+            emit SchedulerProcessInfoReceived(info);
         }
         else if(reply->method == "SetTemperatureProfile" ||
                 reply->method == "SetVentilationProfile" ||
@@ -85,6 +124,18 @@ void SchedulerControlService::ProcessReply(NetworkResponse *reply)
                 reply->method == "SetMineProfile")
         {
             emit SchedulerUpdated();
+        }
+        else if(reply->method == "GetVentilationParams")
+        {
+            VentilationParams params;
+            params.fromJson(reply->result.toUtf8());
+            emit VentilationParamsReceived(params);
+        }
+        else if(reply->method == "UpdateVentilationParams")
+        {
+            VentilationParams params;
+            params.fromJson(reply->result.toUtf8());
+            emit VentilationParamsUpdated(params);
         }
     }
 }

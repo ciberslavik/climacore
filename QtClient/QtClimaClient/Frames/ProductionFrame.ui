@@ -143,11 +143,11 @@
       </size>
      </property>
      <property name="text">
-      <string/>
+      <string>Назад</string>
      </property>
      <property name="icon">
       <iconset resource="../Resources.qrc">
-       <normaloff>:/Images/icons8-u-turn-to-left-50.png</normaloff>:/Images/icons8-u-turn-to-left-50.png</iconset>
+       <normaloff>:/Images/return.png</normaloff>:/Images/return.png</iconset>
      </property>
      <property name="iconSize">
       <size>

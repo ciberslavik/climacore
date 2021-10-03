@@ -27,7 +27,7 @@ VentilationOverviewFrame::VentilationOverviewFrame(QWidget *parent) :
     connect(m_ventService, &VentilationService::VentilationStatusReceived, this, &VentilationOverviewFrame::onVentilationStatusReceived);
 
     m_updateTimer = TimerPool::instance()->getUpdateTimer();
-    connect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
+
 }
 
 VentilationOverviewFrame::~VentilationOverviewFrame()
@@ -50,12 +50,14 @@ void VentilationOverviewFrame::closeEvent(QCloseEvent *event)
 void VentilationOverviewFrame::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
+    connect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
     //m_ventService->GetFanStateList();
 }
 
 
 void VentilationOverviewFrame::on_pushButton_clicked()
 {
+    disconnect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
     FrameManager::instance()->PreviousFrame();
 }
 
@@ -317,7 +319,7 @@ void VentilationOverviewFrame::on_btnConfigValve_clicked()
 void VentilationOverviewFrame::on_btnControllerConfig_clicked()
 {
     VentControllerConfigFrame *configFrame = new VentControllerConfigFrame();
-
+    disconnect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
     FrameManager::instance()->setCurrentFrame(configFrame);
 }
 

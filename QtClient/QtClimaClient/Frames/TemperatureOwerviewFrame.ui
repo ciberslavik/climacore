@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>644</width>
-    <height>325</height>
+    <width>648</width>
+    <height>375</height>
    </rect>
   </property>
   <property name="font">
@@ -156,8 +156,24 @@
    </item>
    <item row="5" column="0">
     <widget class="QPushButton" name="btnReturn">
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>55</height>
+      </size>
+     </property>
      <property name="text">
-      <string>&lt;&lt;Назад</string>
+      <string>Назад</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../Resources.qrc">
+       <normaloff>:/Images/return.png</normaloff>:/Images/return.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>42</width>
+       <height>42</height>
+      </size>
      </property>
     </widget>
    </item>
@@ -296,17 +312,19 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>QClickableLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">Controls/qclickablelineedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
    <header location="global">Controls/qcustomplot.h</header>
    <container>1</container>
   </customwidget>
-  <customwidget>
-   <class>QClickableLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">Controls/qclickablelineedit.h</header>
-  </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

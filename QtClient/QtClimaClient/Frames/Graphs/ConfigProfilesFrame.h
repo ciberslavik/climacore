@@ -20,7 +20,7 @@ public:
 
 private slots:
     void on_btnReturn_clicked();
-    void onSchedulerInfoReceived(SchedulerInfo info);
+    void onSchedulerInfoReceived(SchedulerProfilesInfo info);
 
     void on_btnSelectTempGraph_clicked();
 

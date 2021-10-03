@@ -25,7 +25,6 @@
         <file>Images/line-chart.png</file>
         <file>Images/remove.png</file>
         <file>Images/add.png</file>
-        <file>Images/icons8-u-turn-to-left-50.png</file>
         <file>Images/circled-right.png</file>
         <file>Images/list.png</file>
         <file>Images/warning.png</file>
@@ -36,5 +35,7 @@
         <file>Images/production.png</file>
         <file>Images/menu.png</file>
         <file>Images/enginer.png</file>
+        <file>Images/accept.png</file>
+        <file>Images/return.png</file>
     </qresource>
 </RCC>

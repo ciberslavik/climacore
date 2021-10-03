@@ -24,12 +24,10 @@ namespace Clima.Core.Scheduler
         private readonly IVentilationController _ventilation;
         private readonly IGraphProviderFactory _graphProviderFactory;
         private readonly IDeviceProvider _deviceProvider;
-        
+
+        private VentilationParams _ventilationParameters;
         private SchedulerStateObject _state;
-        
-        private IServoDrive _valveServo;
-        private IServoDrive _mineServo;
-        
+
         private readonly object _threadLock = new object();
         private Timer _schedulerTimer;
         private bool _schedulerTimerRunning;
@@ -71,11 +69,29 @@ namespace Clima.Core.Scheduler
         public Type ConfigType => typeof(SchedulerConfig);
         public ServiceState ServiceState { get; private set; }
 
-        public SchedulerInfo SchedulerInfo
+        public SchedulerProcessInfo SchedulerProcessInfo
         {
             get
             {
-                return new SchedulerInfo()
+                return new SchedulerProcessInfo()
+                {
+                    CurrentDay = this.CurrentDay,
+                    CurrentHeads = this.CurrentHeads,
+                    TemperatureSetPoint = _state.TemperatureSetPoint,
+                    VentilationMaxPoint = _state.VentilationMaxPoint,
+                    VentilationMinPoint = _state.VentilationMinPoint,
+                    VentilationSetPoint = _state.VentilationSetPoint,
+                    ValveSetPoint = _state.ValveSetPoint,
+                    MineSetPoint = _state.MineSetPoint
+                };
+            }
+        }
+
+        public SchedulerProfilesInfo SchedulerProfilesInfo
+        {
+            get
+            {
+                return new SchedulerProfilesInfo()
                 {
                     TemperatureProfileKey = _temperatureGraph.Info.Key,
                     TemperatureProfileName = _temperatureGraph.Info.Name,
@@ -88,15 +104,6 @@ namespace Clima.Core.Scheduler
                     
                     MineProfileKey = _mineGraph.Info.Key,
                     MineProfileName = _mineGraph.Info.Name,
-                    
-                    CurrentDay = this.CurrentDay,
-                    CurrentHeads = this.CurrentHeads,
-                    TemperatureSetPoint = _state.TemperatureSetPoint,
-                    VentilationMaxPoint = _state.VentilationMaxPoint,
-                    VentilationMinPoint = _state.VentilationMinPoint,
-                    VentilationSetPoint = _state.VentilationSetPoint,
-                    ValveSetPoint = _state.ValveSetPoint,
-                    MineSetPoint = _state.MineSetPoint
                 };
             }
         }
@@ -117,6 +124,13 @@ namespace Clima.Core.Scheduler
         }
         public string BuildName { get; set; }
         internal SchedulerStateObject StateObject => _state;
+
+        public VentilationParams VentilationParameters
+        {
+            get => _ventilationParameters;
+            set => _ventilationParameters = value;
+        }
+
         #endregion Properties
 
         #region Graph managment
@@ -169,35 +183,7 @@ namespace Clima.Core.Scheduler
             
         }
         #endregion Graph managment
-
-        /*public void SetSchedulerState(SchedulerState newState)
-        {
-            if (SchedulerState.State == newState)
-                return;
-            switch (newState)
-            {
-                case Scheduler.SchedulerState.Stopped:
-                    
-                    break;
-                case Scheduler.SchedulerState.Alarm:
-                    
-                    break;
-                case Scheduler.SchedulerState.Cleaning:
-                    
-                    break;
-                case Scheduler.SchedulerState.Brooding:
-                    _schedulerTimer = new Timer(SchedulerProcess, this, 
-                        _config.SchedulerPeriodSeconds * 1000,
-                        _config.SchedulerPeriodSeconds * 1000);
-                    break;
-                case Scheduler.SchedulerState.Growing:
-                    
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
-            }
-        }*/
-
+        
         public void Start()
         {
             if (!_isRunning)
@@ -210,7 +196,7 @@ namespace Clima.Core.Scheduler
                 ServiceState = ServiceState.Running;
             }
         }
-
+        
         private void SchedulerProcess(object? o)
         {
             if (!(o is ClimaScheduler sc)) return;
@@ -265,7 +251,7 @@ namespace Clima.Core.Scheduler
             {
                 sc._heater.Process(_state.TemperatureSetPoint);
                 
-                sc._ventilation.SetPerformance((int)_state.VentilationInMeters);
+                sc._ventilation.ProcessController((int)_state.VentilationInMeters);
                 if(!sc._ventilation.ValveIsManual)
                     sc._ventilation.SetValvePosition(_state.ValveSetPoint);
                 if(!sc._ventilation.MineIsManual)
@@ -282,7 +268,7 @@ namespace Clima.Core.Scheduler
         {
             return 0f;
         }
-
+            
         internal float GetDayTemperature(int dayNumber)
         {
             //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
@@ -491,6 +477,8 @@ namespace Clima.Core.Scheduler
                 }
             }
         }
+        
+        
 #nullable disable
     }
 }

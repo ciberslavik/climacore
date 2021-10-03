@@ -42,14 +42,13 @@ namespace Clima.Core.Controllers
                 if (_fanTable.ContainsKey("FAN:0"))
                 {
                     _fanTable["FAN:0"].AnalogFan.Start();
-                    
                 }
                 ServiceState = ServiceState.Running;
             }
         }
 
         
-        public float AnalogPower =>_fanTable["FAN:0"].Info.AnalogPower; 
+        public float AnalogPower => _fanTable["FAN:0"].Info.AnalogPower; 
         
         
         public void Stop()
@@ -57,6 +56,7 @@ namespace Clima.Core.Controllers
             if (ServiceState == ServiceState.Running)
             {
                 ServiceState = ServiceState.Stopped;
+                _fanTable["FAN:0"].AnalogFan.Stop();
             }
         }
 
@@ -132,7 +132,7 @@ namespace Clima.Core.Controllers
             CreateFans();
         }
 
-        public void SetPerformance(float performance)
+        public void ProcessController(float performance)
         {
             
             _currentPerformance = performance;
@@ -258,6 +258,7 @@ namespace Clima.Core.Controllers
                 {
                     if (_fanTable[key].Info.Mode == FanModeEnum.Manual)
                     {
+                        _analogManualPower = analogPower;
                         _fanTable[key].AnalogFan.SetPower(analogPower);
                     }
                 }
@@ -265,8 +266,6 @@ namespace Clima.Core.Controllers
                 {
                     if (_fanTable[key].Info.State != state)
                     {
-                        
-
                         if (_fanTable[key].Info.Mode == FanModeEnum.Manual)
                         {
                             if (state == FanStateEnum.Running)
@@ -281,12 +280,10 @@ namespace Clima.Core.Controllers
                         }
                     }
                 }
-
             }
         }
 
         
-
         public float ValveCurrentPos
         {
             get

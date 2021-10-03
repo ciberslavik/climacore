@@ -2,6 +2,9 @@
 
 #include <Network/INetworkService.h>
 #include <Models/SchedulerInfo.h>
+#include <Models/SchedulerProcessInfo.h>
+#include <Models/SchedulerProfilesInfo.h>
+#include <Models/VentilationParams.h>
 #include <QObject>
 
 class SchedulerControlService : public INetworkService
@@ -15,10 +18,17 @@ public:
     void SetValveProfile(const QString &profileKey);
     void SetMineProfile(const QString &profileKey);
 
-    void GetSchedulerInfo();
+    void GetProfilesInfo();
+    void GetProcessInfo();
+
+    void GetVentilationParams();
+    void UpdateVentilationParams(VentilationParams parameters);
 signals:
-    void SchedulerInfoReceived(SchedulerInfo info);
+    void SchedulerProfilesInfoReceived(SchedulerProfilesInfo profilesInfo);
+    void SchedulerProcessInfoReceived(SchedulerProcessInfo processInfo);
     void SchedulerUpdated();
+    void VentilationParamsReceived(VentilationParams params);
+    void VentilationParamsUpdated(VentilationParams params);
     // INetworkService interface
 public:
     QString ServiceName() override{return "SchedulerControlService";}

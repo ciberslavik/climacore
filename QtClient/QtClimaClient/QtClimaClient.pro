@@ -147,9 +147,12 @@ HEADERS += \
     Models/ProductionState.h \
     Models/RelayInfo.h \
     Models/SchedulerInfo.h \
+    Models/SchedulerProcessInfo.h \
+    Models/SchedulerProfilesInfo.h \
     Models/SensorsData.h \
     Models/SystemState.h \
     Models/VentControllerState.h \
+    Models/VentilationParams.h \
     Network/AuthRequest.h \
     Network/ClientConnection.h \
     Network/GenericServices/DeviceProviderService.h \
@@ -162,6 +165,7 @@ HEADERS += \
     Network/GenericServices/Messages/DefaultRequest.h \
     Network/GenericServices/Messages/FanInfoListRsponse.h \
     Network/GenericServices/Messages/FanInfoRequest.h \
+    Network/GenericServices/Messages/FanKeyRequest.h \
     Network/GenericServices/Messages/FanModeRequest.h \
     Network/GenericServices/Messages/FanModeResponse.h \
     Network/GenericServices/Messages/FanRemoveRequest.h \
@@ -195,6 +199,8 @@ HEADERS += \
     Network/GenericServices/Messages/UpdateServoStateRequest.h \
     Network/GenericServices/Messages/UpdateValueByDayProfileRequest.h \
     Network/GenericServices/Messages/UpdateValueByValueProfileRequest.h \
+    Network/GenericServices/Messages/VentilationParamsRequest.h \
+    Network/GenericServices/Messages/VentilationParamsResponse.h \
     Network/GenericServices/Messages/VentilationStatusResponse.h \
     Network/GenericServices/ProductionService.h \
     Network/GenericServices/SchedulerControlService.h \

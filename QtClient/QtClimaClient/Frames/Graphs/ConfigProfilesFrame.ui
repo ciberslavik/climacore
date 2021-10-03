@@ -83,7 +83,7 @@
       <widget class="QPushButton" name="btnReturn">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>200</width>
          <height>55</height>
         </size>
        </property>
@@ -92,7 +92,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../Resources.qrc">
-         <normaloff>:/Images/icons8-u-turn-to-left-50.png</normaloff>:/Images/icons8-u-turn-to-left-50.png</iconset>
+         <normaloff>:/Images/return.png</normaloff>:/Images/return.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -101,6 +101,19 @@
         </size>
        </property>
       </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>

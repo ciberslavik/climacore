@@ -13,8 +13,9 @@ namespace Clima.Core.Controllers.Ventilation
         void SetFanState(string key, FanStateEnum state, float analogPower = 0f);
         void SetFanMode(string key, FanModeEnum mode);
         
-        void SetPerformance(float performance);
+        void ProcessController(float performance);
         void SetValvePosition(float position);
+        
         float ValveCurrentPos { get; }
         float ValveSetPoint { get; }
         bool ValveIsManual { get; set; }

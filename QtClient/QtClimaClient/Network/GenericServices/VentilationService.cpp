@@ -8,6 +8,7 @@
 #include <Network/GenericServices/Messages/FanRemoveRequest.h>
 #include <Network/GenericServices/Messages/FanModeRequest.h>
 #include <Network/GenericServices/Messages/VentilationStatusResponse.h>
+#include <Network/GenericServices/Messages/FanKeyRequest.h>
 
 
 VentilationService::VentilationService(QObject *parent) : INetworkService(parent)
@@ -27,6 +28,18 @@ void VentilationService::GetFanInfoList()
     NetworkRequest *request = new NetworkRequest();
     request->service = "VentilationControllerService";
     request->method = "GetFanInfoList";
+
+    emit SendRequest(request);
+}
+
+void VentilationService::GetFanInfo(const QString &fanKey)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "VentilationControllerService";
+    request->method = "GetFanInfo";
+    FanKeyRequest r;
+    r.FanKey = fanKey;
+    request->params = r.toJsonString();
 
     emit SendRequest(request);
 }
@@ -204,6 +217,12 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
                                            rsp.MineCurrentPos,
                                            rsp.MineSetPoint,
                                            rsp.VentSetPoint);
+        }
+        else if(reply->method == "GetFanInfo")
+        {
+            FanInfo info;
+            info.fromJson(reply->result.toUtf8());
+            emit FanInfoReceived(info);
         }
     }
 }

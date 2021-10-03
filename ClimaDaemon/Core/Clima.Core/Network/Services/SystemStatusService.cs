@@ -32,10 +32,9 @@ namespace Clima.Core.Network.Services
                 Pressure = s.Pressure,
                 ValvePosition = s.Valve1,
                 MinePosition = s.Valve2,
-                TempSetPoint = _scheduler.SchedulerInfo.TemperatureSetPoint,
-                VentilationSetPoint = _scheduler.SchedulerInfo.VentilationSetPoint,
-                AnalogFanPower = _ventilationController.AnalogPower,
-                BuildName = _scheduler.BuildName
+                TempSetPoint = _scheduler.SchedulerProcessInfo.TemperatureSetPoint,
+                VentilationSetPoint = _scheduler.SchedulerProcessInfo.VentilationSetPoint,
+                AnalogFanPower = _ventilationController.AnalogPower
             };
             
 

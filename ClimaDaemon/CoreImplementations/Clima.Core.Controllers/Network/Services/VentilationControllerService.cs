@@ -27,6 +27,11 @@ namespace Clima.Core.Controllers.Network.Services
         }
 
         [ServiceMethod]
+        public FanInfo GetFanInfo(FanKeyRequest request)
+        {
+            return _ventController.FanInfos[request.FanKey];
+        }
+        [ServiceMethod]
         public DefaultResponse CreateOrUpdateFan(FanInfoRequest request)
         {
             _ventController.CreateOrUpdateFan(request.Info);

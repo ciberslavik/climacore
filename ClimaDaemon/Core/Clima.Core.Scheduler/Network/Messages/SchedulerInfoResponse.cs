@@ -9,6 +9,6 @@ namespace Clima.Core.Scheduler.Network.Messages
             
         }
 
-        public SchedulerInfo Info { get; set; } = new SchedulerInfo();
+        public SchedulerProcessInfo ProcessInfo { get; set; } = new SchedulerProcessInfo();
     }
 }

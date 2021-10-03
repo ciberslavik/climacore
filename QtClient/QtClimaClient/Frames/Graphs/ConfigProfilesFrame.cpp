@@ -13,10 +13,10 @@ ConfigProfilesFrame::ConfigProfilesFrame(QWidget *parent) :
     if(service != nullptr)
     {
         m_schedService = dynamic_cast<SchedulerControlService*>(service);
-        connect(m_schedService, &SchedulerControlService::SchedulerInfoReceived, this, &ConfigProfilesFrame::onSchedulerInfoReceived);
+        connect(m_schedService, &SchedulerControlService::SchedulerProfilesInfoReceived, this, &ConfigProfilesFrame::onSchedulerInfoReceived);
     }
 
-    m_schedService->GetSchedulerInfo();
+    m_schedService->GetProfilesInfo();
 }
 
 ConfigProfilesFrame::~ConfigProfilesFrame()
@@ -29,7 +29,7 @@ void ConfigProfilesFrame::on_btnReturn_clicked()
     FrameManager::instance()->PreviousFrame();
 }
 
-void ConfigProfilesFrame::onSchedulerInfoReceived(SchedulerInfo info)
+void ConfigProfilesFrame::onSchedulerInfoReceived(SchedulerProfilesInfo info)
 {
     ui->lblTemperatureName->setText(info.TemperatureProfileName);
     ui->lblVentilationName->setText(info.VentilationProfileName);
