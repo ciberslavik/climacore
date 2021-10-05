@@ -18,5 +18,6 @@
         public float ValvePosition { get; set; }
         public float MinePosition { get; set; }
         public float VentilationSetPoint { get; set; }
+        public float TotalVentilation { get; set; }
     }
 }

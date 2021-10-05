@@ -5,17 +5,22 @@ using Clima.Core.Controllers.Configuration;
 using Clima.Core.Controllers.Heater;
 using Clima.Core.DataModel;
 using Clima.Core.Devices;
+using Clima.Core.IO;
 
 namespace Clima.Core.Controllers
 {
     public class HeaterController:IHeaterController
     {
+        private readonly IIOService _ioService;
         private readonly IDeviceProvider _deviceProvider;
+
         private HeaterControllerConfig _config;
         private Dictionary<string, HeaterState> _heaters;
-        public HeaterController(IDeviceProvider deviceProvider)
+        public HeaterController(IIOService ioService, IDeviceProvider deviceProvider)
         {
+            _ioService = ioService;
             _deviceProvider = deviceProvider;
+
             _heaters = new Dictionary<string, HeaterState>();
         }
         public ISystemLogger Log { get; set; }
@@ -33,7 +38,7 @@ namespace Clima.Core.Controllers
         {
             foreach (var heater in _heaters.Values)
             {
-                _deviceProvider.GetHeater(heater.Info.Key).Off();
+                _ioService.Pins.DiscreteOutputs[heater.Info.PinName].SetState(false);
             }
         }
         public void Init(object config)
@@ -89,9 +94,9 @@ namespace Clima.Core.Controllers
             if (_heaters[key].Info.IsManual)
             {
                 if (newState.IsRunning)
-                    _deviceProvider.GetHeater(key).On();
+                    _ioService.Pins.DiscreteOutputs[_heaters[key].Info.PinName].SetState(true);
                 else
-                    _deviceProvider.GetHeater(key).Off();
+                    _ioService.Pins.DiscreteOutputs[_heaters[key].Info.PinName].SetState(false);
             }
         }
 
@@ -106,40 +111,41 @@ namespace Clima.Core.Controllers
 
         public Dictionary<string, HeaterState> States => _heaters;
 
-        public void Process(float setpoint)
+        private void ProcessHeater(float setpoint, string key)
         {
-            Log.Debug($"Heater process value:{setpoint}");
-
-            var currFront = _deviceProvider.GetSensors().FrontTemperature;
-            var currRear = _deviceProvider.GetSensors().RearTemperature;
-
-            var heat1On = setpoint - _heaters["HEAT:0"].Info.Hysteresis;
-            var heat1Off = setpoint -(_heaters["HEAT:0"].Info.Hysteresis * 0.5f);
-            var heat2On = setpoint - _heaters["HEAT:1"].Info.Hysteresis;
-            var heat2Off = setpoint - (_heaters["HEAT:1"].Info.Hysteresis * 0.5f);
+            HeaterInfo info = _heaters[key].Info;
             
-            if (!_heaters["HEAT:0"].Info.IsManual)
+            if (!info.IsManual)
             {
-                if (currFront <= heat1On)
+                //Get current temperature in selected zone
+                float currTemp = 0;
+                if (info.ControlZone == 0)
+                    currTemp = _deviceProvider.GetSensors().FrontTemperature;
+                else if (info.ControlZone == 1)
+                    currTemp = _deviceProvider.GetSensors().RearTemperature;
+                
+                //Calculate start and stop temperatures
+                var heatOn = setpoint - info.Hysteresis;
+                var heatOff = setpoint - (info.Hysteresis * 0.5);
+                Log.Debug($"curr:{currTemp} setpoint:{setpoint} on temp:{heatOn} off temp:{heatOff}");
+                if (currTemp < heatOn)
                 {
-                    _deviceProvider.GetHeater("HEAT:0").On();
+                    _ioService.Pins.DiscreteOutputs[info.PinName].SetState(true);
+                    _heaters[key].IsRunning = true;
                 }
-                else if (currFront >= heat1Off)
+
+                if (currTemp > heatOff)
                 {
-                    _deviceProvider.GetHeater("HEAT:0").Off();
+                    _ioService.Pins.DiscreteOutputs[info.PinName].SetState(false);
+                    _heaters[key].IsRunning = false;
                 }
             }
-
-            if (!_heaters["HEAT:1"].Info.IsManual)
+        }
+        public void Process(float setpoint)
+        {
+            foreach (var key in _heaters.Keys)
             {
-                if (currRear <= heat2On)
-                {
-                    _deviceProvider.GetHeater("HEAT:1").On();
-                }
-                else if (currRear >= heat2Off)
-                {
-                    _deviceProvider.GetHeater("HEAT:1").Off();
-                }
+                ProcessHeater(setpoint, key);
             }
         }
     }

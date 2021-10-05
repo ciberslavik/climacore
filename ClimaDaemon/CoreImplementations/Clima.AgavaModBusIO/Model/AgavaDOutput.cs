@@ -6,12 +6,10 @@ namespace Clima.AgavaModBusIO.Model
     public class AgavaDOutput : AgavaPinBase, IDiscreteOutput
     {
         private bool _state;
-        private bool _prevState;
-        private ushort _pinMask;
         internal AgavaDOutput(byte moduleId, int pinNumberInModule)
         {
             _pinNumberInModule = pinNumberInModule;
-            _pinMask = (ushort)(1 << pinNumberInModule);
+            PinMask = (ushort)(1 << pinNumberInModule);
             _regAddress = (ushort) (10000 + _pinNumberInModule / 16);
             _moduleId = moduleId;
         }
@@ -25,9 +23,8 @@ namespace Clima.AgavaModBusIO.Model
         {
             if (_state != state)
             {
-                _prevState = _state;
                 _state = state;
-                OnPinStateChanged(new DiscretePinStateChangedEventArgs(this, _prevState, _state));
+                OnPinStateChanged(new DiscretePinStateChangedEventArgs(this, _state));
             }
         }
 
@@ -36,7 +33,8 @@ namespace Clima.AgavaModBusIO.Model
             PinStateChanged?.Invoke(ea);
         }
 
-        internal ushort PinMask => _pinMask;
+        internal ushort PinMask { get; }
+
         public override PinType PinType => PinType.Discrete;
         public override PinDir Direction => PinDir.Output;
     }

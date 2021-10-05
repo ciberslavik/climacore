@@ -36,17 +36,25 @@ namespace Clima.ServiceContainer.CastleWindsor
         private const bool isDebug = true;
         public ApplicationBuilder()
         {
+            _logger = new ConsoleSystemLogger();
+            ClimaContext.Logger = _logger;
         }
 
+        private void LogException(object sender, UnhandledExceptionEventArgs args)
+        {
+            if(args.ExceptionObject is Exception ex)
+                _logger.Exception(ex);
+        }
         public void Initialize()
         {
             _container = new WindsorContainer();
             //Register logger
-            _container.Register(Component.For<ISystemLogger>().ImplementedBy<ConsoleSystemLogger>());
-            _logger = _container.Resolve<ISystemLogger>();
-            ClimaContext.Logger = _logger;
+            _container.Register(Component.For<ISystemLogger>().Instance(_logger));
+            
             _container.Install(new BasicsInstaller(_logger));
 
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(LogException);
+            
             //if parameter is true then stub io service else real io service
             _container.Install(new CoreServicesInstaller(true, _logger));
             _container.Install(new SchedulerInstaller(_logger));

@@ -7,6 +7,7 @@
 
 #include <Network/GenericServices/SensorsService.h>
 #include <Network/GenericServices/ServerInfoService.h>
+#include "GlobalContext.h"
 
 SystemStateFrame::SystemStateFrame(QWidget *parent) :
     FrameBase(parent),
@@ -56,12 +57,20 @@ void SystemStateFrame::onClimatStateUpdate(ClimatStatusResponse *data)
     ui->lblOutdoorTemp->setText(QString::number(data->OutdoorTemperature, 'f', 2));
     ui->lblHumidity->setText(QString::number(data->Humidity, 'f', 1));
     ui->lblPressure->setText(QString::number(data->Pressure, 'f', 1));
-    ui->barPresure->setValue(data->Pressure);
+    //ui->barPresure->setValue(data->Pressure);
     ui->barValves->setValue(data->ValvePosition);
     ui->barMines->setValue(data->MinePosition);
     ui->barAnalogFan->setValue(data->AnalogFanPower);
-    ui->lblAirPerHead->setText(QString::number(data->VentilationSetPoint));
+    ui->lblAnalogPower->setText(QString::number(data->AnalogFanPower, 'f', 2) + " %");
+    ui->lblAirPerHead->setText(QString::number(data->VentilationSetPoint, 'f', 3));
     ui->lblTempSetpoint->setText(QString::number(data->TempSetPoint, 'f', 2));
+
+    float realVent = data->VentilationSetPoint * GlobalContext::CurrentHeads;
+
+    float percent = (realVent / data->TotalVentilation * 100);
+    qDebug() << "Ventilation :" << ((int)percent);
+
+    ui->lblVentPower->setText(QString::number(percent, 'f', 2) + " %");
 }
 
 

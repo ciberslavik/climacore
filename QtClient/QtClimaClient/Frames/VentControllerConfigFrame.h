@@ -25,10 +25,13 @@ private:
     SchedulerControlService *m_scheduler;
     VentilationService *m_ventilation;
     FanInfo m_analogFan;
+    VentilationParams m_ventParams;
 private slots:
     void on_btnReturn_clicked();
     void onTxtClicked();
     void onSchedulerProcessInfoReceived(SchedulerProcessInfo info);
+    void onVentilationParamsReceived(VentilationParams params);
+    void onVentilationParamsUpdated(VentilationParams params);
     void onFanInfoReceived(FanInfo info);
     void onFanUpdated();
     // QWidget interface

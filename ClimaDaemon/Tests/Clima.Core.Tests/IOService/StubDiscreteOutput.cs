@@ -14,7 +14,7 @@ namespace Clima.Core.Tests.IOService
         internal StubDiscreteInput MonitorPin { get; set; }
         public void SetState(bool state, bool queued = true)
         {
-            //ClimaContext.Logger.Error($"Pin:{PinName} to {state}");
+            ClimaContext.Logger.Error($"Pin:{PinName} to {state}");
             if (MonitorPin is not null)
             {
                 MonitorPin.SetState(state);

@@ -8,6 +8,9 @@ class GlobalContext : public QObject
 public:
     explicit GlobalContext(QObject *parent = nullptr);
 
+    static int CurrentHeads;
+    static int TotalFanPerformance;
+    static int CurrentDay;
 signals:
 
 };

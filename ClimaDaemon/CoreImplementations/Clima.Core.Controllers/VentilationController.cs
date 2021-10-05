@@ -170,10 +170,12 @@ namespace Clima.Core.Controllers
                 analogItem.Info.State = FanStateEnum.Running;
                 float powerToAnalog = _currentPerformance - perfCounter;
                 float powerPercent = (powerToAnalog / analogItem.CurrentPerformance) * 100.0f;
-                if(powerPercent < 15)
-                  powerPercent = 15;
-                if(powerPercent >100)
-                  powerPercent = 100;
+                
+                if(powerPercent < analogItem.Info.StopValue)
+                  powerPercent = analogItem.Info.StopValue;
+                if(powerPercent > analogItem.Info.StartValue)
+                  powerPercent = analogItem.Info.StartValue;
+                
                 
                 _analogPower = powerPercent;
                 if (analogItem.Info.Mode == FanModeEnum.Auto)
@@ -223,7 +225,6 @@ namespace Clima.Core.Controllers
                 {
                     fanTableItem.AnalogFan = _devProvider.GetFrequencyConverter("FC:0");
                     fanTableItem.CurrentPerformance = info.Performance * info.FanCount;
-                    
                 }
                 else
                 {

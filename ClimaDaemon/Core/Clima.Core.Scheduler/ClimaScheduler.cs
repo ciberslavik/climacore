@@ -122,13 +122,15 @@ namespace Clima.Core.Scheduler
                 }
             }
         }
-        public string BuildName { get; set; }
-        internal SchedulerStateObject StateObject => _state;
-
+        
         public VentilationParams VentilationParameters
         {
-            get => _ventilationParameters;
-            set => _ventilationParameters = value;
+            get => _config.VentilationParams;
+            set
+            {
+                _config.VentilationParams = value;
+                Save();
+            }
         }
 
         #endregion Properties
@@ -188,7 +190,7 @@ namespace Clima.Core.Scheduler
         {
             if (!_isRunning)
             {
-                if((_state.SchedulerState == SchedulerState.Production)||(_state.SchedulerState == SchedulerState.Preparing))
+                if(_state.SchedulerState is SchedulerState.Production or SchedulerState.Preparing)
                 {
                     StartTimer();
                 }
@@ -200,46 +202,51 @@ namespace Clima.Core.Scheduler
         private void SchedulerProcess(object? o)
         {
             if (!(o is ClimaScheduler sc)) return;
+            
             if (sc._state.StartProductionDate <= sc._time.Now)
             {
                 var workingTime = _time.Now - sc._state.StartProductionDate;
-                _state.CurrentDay = workingTime.Days;
+                sc._state.CurrentDay = workingTime.Days;
             }
-            else if (sc._state.StartPreProductionDate >= sc._time.Now &&
-                     sc._state.StartProductionDate <= sc._time.Now)
+            else if (sc._state.StartPreProductionDate <= sc._time.Now &&
+                     sc._state.StartProductionDate >= sc._time.Now)
             {
-                _state.CurrentDay = 0;
+                sc._state.CurrentDay = 0;
             }
 
             Log.Debug("Process scheduler");
             string dataToLog = "";
             //Calculate setpoints
                 //Temperature
-            _state.TemperatureSetPoint = GetDayTemperature(_state.CurrentDay);
-            dataToLog += "Temp set point:" + _state.TemperatureSetPoint + " \n";
+            sc._state.TemperatureSetPoint = GetDayTemperature(sc._state.CurrentDay);
+            dataToLog += "Temp set point:" + sc._state.TemperatureSetPoint + " \n";
                 //Ventilation
-            var dayVent = GetDayVentilation(_state.CurrentDay);
-            _state.VentilationMaxPoint = dayVent.MaxValue;
-            dataToLog += "Max vent:" + _state.VentilationMaxPoint + " \n";
-            dataToLog += "Max m3:" + _state.VentilationMaxPoint * _state.CurrentHeads + "\n";
+            var dayVent = GetDayVentilation(sc._state.CurrentDay);
+            sc._state.VentilationMaxPoint = dayVent.MaxValue;
+            dataToLog += "\tMax vent:" + sc._state.VentilationMaxPoint + " \n";
+            dataToLog += "\tMax m3:" + sc._state.VentilationMaxPoint * sc._state.CurrentHeads + "\n";
             
-            _state.VentilationMinPoint = dayVent.MinValue;
-            dataToLog += "Min vent:" + _state.VentilationMinPoint + " \n";
-            dataToLog += "Min m3:" + _state.VentilationMinPoint * _state.CurrentHeads + "\n";
+            sc._state.VentilationMinPoint = dayVent.MinValue;
+            dataToLog += "\tMin vent:" + sc._state.VentilationMinPoint + " \n";
+            dataToLog += "\tMin m3:" + sc._state.VentilationMinPoint * sc._state.CurrentHeads + "\n";
+
+            sc._state.VentilationInMeters = ProcessVent(
+                sc._state.TemperatureSetPoint,
+                sc._state.VentilationMinPoint * sc._state.CurrentHeads,
+                sc._state.VentilationMaxPoint * sc._state.CurrentHeads);
+            sc._state.VentilationSetPoint = sc._state.VentilationInMeters / sc._state.CurrentHeads;
             
-            _state.VentilationSetPoint = ProcessVent(
-                _state.TemperatureSetPoint,
-                _state.VentilationMinPoint,
-                _state.VentilationMaxPoint);
-            dataToLog += "Vent set point:" + _state.VentilationSetPoint + " \n";
-            _state.VentilationInMeters = _state.VentilationSetPoint * _state.CurrentHeads;
-            dataToLog += "Vent Real:" + _state.VentilationInMeters + "\n";
+            dataToLog += "\tVent set point:" + sc._state.VentilationSetPoint + " \n";
             
+            dataToLog += "\tVent Real:" + _state.VentilationInMeters + "\n";
+            var ventPercent = sc._state.VentilationInMeters / _ventilation.TotalPerformance * 100;
+            dataToLog += "\tVent percent:" + ventPercent + "\n";
                 //Valves
-            _state.ValveSetPoint = GetCurrentValve(_state.VentilationSetPoint);
-            dataToLog += "Valve set point:" + _state.ValveSetPoint + " \n";
-            _state.MineSetPoint = GetCurrentMine(_state.VentilationSetPoint);
-            dataToLog += "Mine set point:" + _state.MineSetPoint + " \n";
+            
+            _state.ValveSetPoint = GetCurrentValve(ventPercent);
+            dataToLog += "\tValve set point:" + _state.ValveSetPoint + " \n";
+            _state.MineSetPoint = GetCurrentMine(ventPercent);
+            dataToLog += "\tMine set point:" + _state.MineSetPoint + " \n";
             
             Log.Info(dataToLog);
             //_state.ValveSetPoint = Get
@@ -262,7 +269,29 @@ namespace Clima.Core.Scheduler
 
         private float ProcessVent(float tempSetPoint, float minVent, float maxVent)
         {
-            return minVent;
+            //Calculate temperature controller
+            var currFront = _deviceProvider.GetSensors().FrontTemperature;
+            var currRear = _deviceProvider.GetSensors().RearTemperature;
+
+            var currAvg = (currFront + currRear) / 2;
+            var error = (currAvg - tempSetPoint) * _config.VentilationParams.Proportional;
+            
+            
+
+            var ventDiff = maxVent - minVent;
+
+            var inPercent = (ventDiff / 100) * error;
+            
+
+            var result = minVent + inPercent;
+            if (result < minVent)
+                result = minVent;
+            if (result > maxVent)
+                result = maxVent;
+            Log.Debug($"t avg:{currAvg} setpoint:{tempSetPoint} min:{minVent} max:{maxVent}\n\terror:{error} "+
+                      $"\tP:{_config.VentilationParams.Proportional}\n"+
+                      $"\tpercent: {inPercent} diff:{ventDiff} \n\tresult:{result}");
+            return result;
         }
         private float GetCurrentMinuteTemperature()
         {

@@ -53,7 +53,7 @@ namespace Clima.Basics.Services.Communication
                             logBuf += $"            method: [{responseType.Name} {methodInfo.Name}({requestType.Name})]\r\n";
                             _serviceExecutor.RegisterHandler(serviceType.Name, methodInfo.Name, (p) =>
                             {
-                                Log.Debug($"method handler:{methodInfo.Name}");
+                                //Log.Debug($"method handler:{methodInfo.Name}");
                                 var resolveMethod = _serviceProvider.GetType()
                                     .GetMethod(nameof(_serviceProvider.Resolve));
 
@@ -85,7 +85,7 @@ namespace Clima.Basics.Services.Communication
                     }
                 }
                 
-                Log.Info(logBuf);
+                //Log.Info(logBuf);
             }
         }
     }

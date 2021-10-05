@@ -19,9 +19,8 @@ namespace Clima.AgavaModBusIO.Model
         {
             if (_state != state)
             {
-                var prevState = _state;
                 _state = state;
-                var eventargs = new DiscretePinStateChangedEventArgs(this, prevState, _state);
+                var eventargs = new DiscretePinStateChangedEventArgs(this, _state);
                 OnPinStateChanged(eventargs);
                 Console.WriteLine($"Pin: {PinName} to {_state}");
             }

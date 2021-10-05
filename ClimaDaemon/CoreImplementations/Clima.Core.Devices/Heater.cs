@@ -1,4 +1,6 @@
-﻿using Clima.Core.IO;
+﻿using System;
+using Clima.Basics.Services;
+using Clima.Core.IO;
 
 namespace Clima.Core.Devices
 {
@@ -8,11 +10,14 @@ namespace Clima.Core.Devices
         {
         }
         public IDiscreteOutput EnablePin { get; set; }
+        
+        public string HeaterName { get; set; }
 
         public void On()
         {
             if (EnablePin is not null)
             {
+                Log.Debug($"Heater:{HeaterName} On");
                 EnablePin.SetState(true);
             }
         }
@@ -21,6 +26,7 @@ namespace Clima.Core.Devices
         {
             if (EnablePin is not null)
             {
+                Log.Debug($"Heater:{HeaterName} Off");
                 EnablePin.SetState(false);
             }
         }
@@ -37,5 +43,6 @@ namespace Clima.Core.Devices
                 return false;
             }
         }
+        internal ISystemLogger Log { get; set; }
     }
 }

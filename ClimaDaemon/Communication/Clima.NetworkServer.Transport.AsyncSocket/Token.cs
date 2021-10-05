@@ -73,7 +73,7 @@ namespace Clima.NetworkServer.Transport.AsyncSocket
                 received = received.Substring(0, received.IndexOf(_endMessageToken, StringComparison.Ordinal)); 
             }
             
-            Console.WriteLine("Received: \"{0}\". The server has read {1} bytes.", received, received.Length);
+            //Console.WriteLine("Received: \"{0}\". The server has read {1} bytes.", received, received.Length);
             
             if (received == "GetSessionID")
             {

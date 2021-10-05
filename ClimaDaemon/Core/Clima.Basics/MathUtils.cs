@@ -19,5 +19,6 @@ namespace Clima.Basics
         {
             return start + (end - start) * Clamp01(x);
         }
+        
     }
 }

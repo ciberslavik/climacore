@@ -108,7 +108,9 @@ namespace Clima.Core.Devices
             else if (_config.Heaters.ContainsKey(heaterName))
             {
                 var heat = new Heater();
+                heat.Log = Log;
                 heat.EnablePin = _ioService.Pins.DiscreteOutputs[_config.Heaters[heaterName].PinName];
+                heat.HeaterName = _config.Heaters[heaterName].HeaterName;
                 _heaters.TryAdd(heaterName, heat);
             }
             
@@ -129,8 +131,9 @@ namespace Clima.Core.Devices
 
                 s.HumidityPin = _ioService.Pins.AnalogInputs[_config.Sensors.HumidityPinName];
                 s.PressurePin = _ioService.Pins.AnalogInputs[_config.Sensors.PressurePinName];
-		s.Valve1OSPin = _ioService.Pins.AnalogInputs[_config.Sensors.Valve1PinName];
-		s.Valve2OSPin = _ioService.Pins.AnalogInputs[_config.Sensors.Valve2PinName];
+		        s.Valve1OSPin = _ioService.Pins.AnalogInputs[_config.Sensors.Valve1PinName];
+		        s.Valve2OSPin = _ioService.Pins.AnalogInputs[_config.Sensors.Valve2PinName];
+                _sensors = s;
                 return s;
             }
             else

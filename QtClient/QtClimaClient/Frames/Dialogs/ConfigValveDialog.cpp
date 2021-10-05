@@ -28,6 +28,7 @@ ConfigValveDialog::ConfigValveDialog(ValveType valveType, QWidget *parent) :
 
     m_updateTimer = TimerPool::instance()->getUpdateTimer();
     connect(m_updateTimer, &QTimer::timeout, this, &ConfigValveDialog::updateState);
+    m_first = true;
 }
 
 ConfigValveDialog::~ConfigValveDialog()
@@ -49,10 +50,20 @@ ConfigValveDialog::~ConfigValveDialog()
 void ConfigValveDialog::onServoStateReceived(bool isManual, float currPos, float setPoint)
 {
     if(isManual)
+    {
         ui->btnManual->setChecked(true);
+        ui->grpManual->setEnabled(true);
+    }
     else
-        ui->btnAuto->setCheckable(true);
-
+    {
+        ui->btnAuto->setChecked(true);
+        ui->grpManual->setEnabled(false);
+    }
+    if(m_first)
+    {
+        m_first = false;
+        ui->txtManualValue->setText(QString::number(setPoint, 'f', 1));
+    }
     ui->barCurrent->setValue((currPos * 10));
     ui->barSetPoint->setValue(setPoint * 10);
 }
@@ -80,26 +91,6 @@ void ConfigValveDialog::showEvent(QShowEvent *event)
     Q_UNUSED(event);
 }
 
-
-void ConfigValveDialog::on_horizontalScrollBar_valueChanged(int value)
-{
-    if(ui->btnManual->isChecked())
-    {
-        switch(m_type)
-        {
-        case Valve:
-            m_ventService->UpdateValveState(true, value / 10);
-            break;
-        case Mine:
-            m_ventService->UpdateMineState(true, value / 10);
-            break;
-        }
-    }
-
-    ui->barSetPoint->setValue(value);
-}
-
-
 void ConfigValveDialog::on_btnAccept_clicked()
 {
     accept();
@@ -111,36 +102,117 @@ void ConfigValveDialog::on_btnReject_clicked()
     reject();
 }
 
-
-void ConfigValveDialog::on_btnAuto_pressed()
+void ConfigValveDialog::on_btnMinus_clicked()
 {
+    float value = ui->txtManualValue->text().toFloat();
+
+    value = value - 1;
+
+    if(value < 0)
+        value = 0;
+
+    ui->txtManualValue->setText(QString::number(value, 'f', 1));
     if(ui->btnManual->isChecked())
     {
-        switch(m_type)
-        {
-        case Valve:
-            m_ventService->UpdateValveState(false, ui->horizontalScrollBar->value() / 10);
+
+        switch (m_type) {
+            case ConfigValveDialog::Valve:
+                m_ventService->UpdateValveState(true, value);
             break;
-        case Mine:
-            m_ventService->UpdateMineState(false, ui->horizontalScrollBar->value() / 10);
+            case ConfigValveDialog::Mine:
+                m_ventService->UpdateValveState(true, value);
             break;
+
+        }
+    }
+}
+
+void ConfigValveDialog::on_btnPlus_clicked()
+{
+    float value = ui->txtManualValue->text().toFloat();
+
+    value = value + 1;
+
+    if(value > 100)
+        value = 100;
+
+    ui->txtManualValue->setText(QString::number(value, 'f', 1));
+    if(ui->btnManual->isChecked())
+    {
+
+        switch (m_type) {
+            case ConfigValveDialog::Valve:
+                m_ventService->UpdateValveState(true, value);
+            break;
+            case ConfigValveDialog::Mine:
+                m_ventService->UpdateValveState(true, value);
+            break;
+
+        }
+    }
+}
+
+void ConfigValveDialog::on_btnAuto_toggled(bool checked)
+{
+    Q_UNUSED(checked)
+
+    if(ui->btnAuto->isChecked())
+    {
+        ui->grpManual->setEnabled(false);
+    }
+    if(ui->btnManual->isChecked())
+    {
+        ui->grpManual->setEnabled(true);
+    }
+    float manual = ui->txtManualValue->text().toFloat();
+
+    switch (m_type) {
+        case ConfigValveDialog::Valve:
+            m_ventService->UpdateValveState(ui->btnManual->isChecked(), manual);
+        break;
+        case ConfigValveDialog::Mine:
+            m_ventService->UpdateMineState(ui->btnManual->isChecked(), manual);
+        break;
+    }
+}
+
+
+
+
+
+void ConfigValveDialog::on_btnOpen_clicked()
+{
+    ui->txtManualValue->setText(QString::number(100, 'f', 1));
+    if(ui->btnManual->isChecked())
+    {
+
+        switch (m_type) {
+            case ConfigValveDialog::Valve:
+                m_ventService->UpdateValveState(true, 100);
+            break;
+            case ConfigValveDialog::Mine:
+                m_ventService->UpdateValveState(true, 100);
+            break;
+
         }
     }
 }
 
 
-void ConfigValveDialog::on_btnManual_pressed()
+void ConfigValveDialog::on_btnClose_clicked()
 {
+    ui->txtManualValue->setText(QString::number(0, 'f', 1));
     if(ui->btnManual->isChecked())
     {
-        switch(m_type)
-        {
-        case Valve:
-            m_ventService->UpdateValveState(true, ui->horizontalScrollBar->value() / 10);
+
+        switch (m_type) {
+            case ConfigValveDialog::Valve:
+                m_ventService->UpdateValveState(true, 0);
             break;
-        case Mine:
-            m_ventService->UpdateMineState(true, ui->horizontalScrollBar->value() / 10);
+            case ConfigValveDialog::Mine:
+                m_ventService->UpdateValveState(true, 0);
             break;
+
         }
     }
 }

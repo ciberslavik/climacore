@@ -21,7 +21,7 @@ namespace Clima.NetworkServer
         public event EventHandler<ThreadExceptionEventArgs> UnhandledException;
         public ISystemLogger Logger { get; set; }
         public bool IsDisposed { get; private set; }
-        public IExceptionTranslator ExceptionTranslator { get; }
+        private IExceptionTranslator ExceptionTranslator { get; }
         public IServer Server => _server;
         public object SessionManager => _sessionManager;
 
@@ -55,12 +55,12 @@ namespace Clima.NetworkServer
             try
             {
                 RequestContext.CurrentContextHolder.Value = context;
-                Logger.Debug("HandleMessage");
+                //Logger.Debug("HandleMessage");
                 request = (RequestMessage) _serializer.Deserialize(e.Data, _messageTypeProvider, null);
                 context.RequestMessage = request;
                 try
                 {
-                    Logger.Debug($"Execute service:{request.Service}");
+                    //Logger.Debug($"Execute service:{request.Service}");
 
                     var result = _executor.Execute(request.Service, request.Method, request.Parameters);
                     if (result is Task task)

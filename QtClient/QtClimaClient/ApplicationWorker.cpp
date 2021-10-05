@@ -47,7 +47,7 @@ void ApplicationWorker::onConnctionEstabilished()
 
 void ApplicationWorker::onReplyReceived(NetworkResponse *reply)
 {
-    qDebug()<<"Service:"<< reply->service << " method:" << reply->method << " rsult:" << reply->result;
+    //qDebug()<<"Service:"<< reply->service << " method:" << reply->method << " rsult:" << reply->result;
     if(m_services->contains(reply->service))
     {
         m_services->value(reply->service)->ProcessReply(reply);
@@ -56,6 +56,6 @@ void ApplicationWorker::onReplyReceived(NetworkResponse *reply)
 
 void ApplicationWorker::onSendRequest(NetworkRequest *request)
 {
-    qDebug() << "OnSendRequest";
+    //qDebug() << "OnSendRequest";
     m_connection->SendRequest(request);
 }

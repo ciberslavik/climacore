@@ -34,12 +34,11 @@ namespace Clima.AgavaModBusIO.Model
                 {
                     _doRegister &= (ushort)(~output.PinMask);
                 }
-                Console.WriteLine($"Discr out in module:{_moduleId} pin:{ea.Pin.PinName} to:{ea.NewState} \n {Convert.ToString(_doRegister,2)}");
+                Console.WriteLine($"DO in module:{_moduleId} pin:{ea.Pin.PinName} to:{ea.NewState})");
             }
         }
 
         internal ushort DORegister => _doRegister;
-        public event AnalogPinValueChangedEventHandler AnalogOutputChanged;
 
         #region Create module functions
 
@@ -160,7 +159,7 @@ namespace Clima.AgavaModBusIO.Model
 
         private void OnAnalogValueChanged(AnalogPinValueChangedEventArgs ea)
         {
-            //throw new NotImplementedException();
+            
         }
 
         private void CreateAnalogIn(in int mAiCount)
@@ -185,6 +184,7 @@ namespace Clima.AgavaModBusIO.Model
         #endregion Create module functions
 
         public byte ModuleId => _moduleId;
+            
 
         public bool IsDiscreteModified => _pins.IsDiscreteModified;
         public bool IsAnalogModified => _pins.IsAnalogModified;

@@ -125,7 +125,7 @@ void ClientConnection::SendRequest(NetworkRequest *request)
 
         delete request;
         message = message + "<EOF>";
-        qDebug() << "Send Rquest:" << message;
+        //qDebug() << "Send Rquest:" << message;
         m_socket->write(message.toUtf8(),message.toUtf8().size());
         m_socket->flush();
     }
@@ -151,7 +151,7 @@ void ClientConnection::onReadyRead()
             }
             else
             {
-                qDebug()<< "Reply:" << data;
+                //qDebug()<< "Reply:" << data;
                 QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
                 QJsonObject currentObject = doc.object();
 

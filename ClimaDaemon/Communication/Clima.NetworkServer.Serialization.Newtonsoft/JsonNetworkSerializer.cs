@@ -99,8 +99,7 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
                 try
                 {
                     var reqMsg = (IRequestMessage)JsonSerializer.Deserialize(sr, msgType);
-                    Console.WriteLine(reqMsg.Parameters);
-
+                    
                     using (var paramSr = new StringReader((string)reqMsg.Parameters))
                     {
                         var tmpMsg = JsonSerializer.Deserialize(paramSr, type);

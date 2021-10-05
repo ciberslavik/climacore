@@ -3,6 +3,7 @@
 #include <Network/GenericServices/Messages/SchedulerInfoResponse.h>
 #include <Network/GenericServices/Messages/SetProfileRequest.h>
 #include <Network/GenericServices/Messages/VentilationParamsRequest.h>
+#include <Network/GenericServices/Messages/VentilationParamsResponse.h>
 
 SchedulerControlService::SchedulerControlService(QObject *parent) : INetworkService(parent)
 {
@@ -127,15 +128,15 @@ void SchedulerControlService::ProcessReply(NetworkResponse *reply)
         }
         else if(reply->method == "GetVentilationParams")
         {
-            VentilationParams params;
+            VentilationParamsResponse params;
             params.fromJson(reply->result.toUtf8());
-            emit VentilationParamsReceived(params);
+            emit VentilationParamsReceived(params.Parameters);
         }
         else if(reply->method == "UpdateVentilationParams")
         {
-            VentilationParams params;
+            VentilationParamsResponse params;
             params.fromJson(reply->result.toUtf8());
-            emit VentilationParamsUpdated(params);
+            emit VentilationParamsUpdated(params.Parameters);
         }
     }
 }

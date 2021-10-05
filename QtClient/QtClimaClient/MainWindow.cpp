@@ -1,3 +1,4 @@
+#include "GlobalContext.h"
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
@@ -77,6 +78,8 @@ void CMainWindow::onProductionStateChanged(ProductionState newState)
     };
     ui->lblHeads->setText(QString::number(newState.CurrentHeads));
     ui->lblDay->setText(QString::number(newState.CurrentDay));
+    GlobalContext::CurrentDay = newState.CurrentDay;
+    GlobalContext::CurrentHeads = newState.CurrentHeads;
 }
 
 void CMainWindow::updateUI()

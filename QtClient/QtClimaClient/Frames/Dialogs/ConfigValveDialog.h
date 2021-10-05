@@ -25,7 +25,6 @@ public:
 private slots:
     void onServoStateReceived(bool isManual, float currPos, float setPoint);
     void updateState();
-    void on_horizontalScrollBar_valueChanged(int value);
 
     void on_btnAccept_clicked();
 
@@ -34,6 +33,16 @@ private slots:
     void on_btnAuto_pressed();
 
     void on_btnManual_pressed();
+
+    void on_btnMinus_clicked();
+
+    void on_btnAuto_toggled(bool checked);
+
+    void on_btnPlus_clicked();
+
+    void on_btnOpen_clicked();
+
+    void on_btnClose_clicked();
 
 private:
     Ui::ConfigValveDialog *ui;
@@ -44,6 +53,7 @@ private:
 
     ValveType m_type;
     QTimer *m_updateTimer;
+    bool m_first;
     // QWidget interface
 protected:
     void closeEvent(QCloseEvent *event) override;

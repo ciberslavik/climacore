@@ -32,6 +32,9 @@ VentControllerConfigFrame::VentControllerConfigFrame(QWidget *parent) :
     }
 
     connect(m_scheduler, &SchedulerControlService::SchedulerProcessInfoReceived, this, &VentControllerConfigFrame::onSchedulerProcessInfoReceived);
+    connect(m_scheduler, &SchedulerControlService::VentilationParamsReceived, this, &VentControllerConfigFrame::onVentilationParamsReceived);
+    connect(m_scheduler, &SchedulerControlService::VentilationParamsUpdated, this, &VentControllerConfigFrame::onVentilationParamsUpdated);
+
     connect(m_ventilation, &VentilationService::FanInfoReceived, this, &VentControllerConfigFrame::onFanInfoReceived);
 
     connect(ui->txtAnalogMax, &QClickableLineEdit::clicked, this, &VentControllerConfigFrame::onTxtClicked);
@@ -84,25 +87,40 @@ void VentControllerConfigFrame::onSchedulerProcessInfoReceived(SchedulerProcessI
     m_ventilation->GetFanInfo("FAN:0");
 }
 
+void VentControllerConfigFrame::onVentilationParamsReceived(VentilationParams params)
+{
+    ui->txtProportional->setText(QString::number(params.Proportional, 'f', 4));
+    m_ventParams = params;
+}
+
+void VentControllerConfigFrame::onVentilationParamsUpdated(VentilationParams params)
+{
+    m_ventParams = params;
+}
+
 void VentControllerConfigFrame::onFanInfoReceived(FanInfo info)
 {
     m_analogFan = info;
-    ui->txtAnalogMax->setText(QString::number(info.StopValue));
-    ui->txtAnalogMin->setText(QString::number(info.StartValue));
+    ui->txtAnalogMax->setText(QString::number(info.StartValue));
+    ui->txtAnalogMin->setText(QString::number(info.StopValue));
 
     int analogPerformance = info.Performance * info.FanCount;
 
-    float min = (analogPerformance / 100) * info.StartValue;
-    float max = (analogPerformance / 100) * info.StopValue;
+    float min = (analogPerformance / 100) * info.StopValue;
+    float max = (analogPerformance / 100) * info.StartValue;
 
     ui->lblAnalogMin->setText(QString::number(min, 'f', 0));
     ui->lblAnalogMax->setText(QString::number(max, 'f', 0));
 
+    m_scheduler->GetVentilationParams();
 }
 
 void VentControllerConfigFrame::onFanUpdated()
 {
+    float proportional = ui->txtProportional->text().toFloat();
+    m_ventParams.Proportional = proportional;
 
+    m_scheduler->UpdateVentilationParams(m_ventParams);
 }
 
 

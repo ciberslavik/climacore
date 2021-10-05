@@ -1,4 +1,6 @@
-﻿using Clima.Core.IO;
+﻿using System.Threading;
+using Clima.Basics;
+using Clima.Core.IO;
 
 namespace Clima.Core.Devices
 {
@@ -11,11 +13,21 @@ namespace Clima.Core.Devices
         private IAnalogInput _pressurePin;
         private IAnalogInput _valve1Pin;
         private IAnalogInput _valve2Pin;
-
+        private Timer _movingAvgTimer;
+        private MovingAverageFilter _pressureFilter;
+        private float _pressure;
         public Sensors()
         {
+            _pressureFilter = new MovingAverageFilter(5);
+            _movingAvgTimer = new Timer(MovingAvgUpdate, null, 3000, 1000);
         }
 
+        private void MovingAvgUpdate(object? o)
+        {
+            _pressure = _pressureFilter.Calculate(_pressurePin.Value);
+        }
+
+        
         internal IAnalogInput FrontTempPin
         {
             get => _frontTempPin;
@@ -66,8 +78,11 @@ namespace Clima.Core.Devices
             set
             {
                 _pressurePin = value;
-                Pressure = _pressurePin.Value;
-                _pressurePin.ValueChanged += (ea) => { Pressure = ea.NewValue; };
+                _pressure = _pressurePin.Value;
+                //_pressurePin.ValueChanged += (ea) =>
+                //{
+                //    _pressure = _pressureFilter.Calculate(ea.NewValue);
+                //};
             }
         }
 
@@ -95,7 +110,9 @@ namespace Clima.Core.Devices
         public float RearTemperature { get; private set; }
         public float OutdoorTemperature { get; private set; }
         public float Humidity { get; private set; }
-        public float Pressure { get; private set; }
+
+        public float Pressure => _pressure; //Filter.Calculate(_pressurePin.Value);
+        
         public float Valve1 { get; private set;  }
         public float Valve2 { get; private set;  }
     }

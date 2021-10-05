@@ -150,7 +150,7 @@ namespace Clima.Core.Devices
 
         private void MonitorPinOnPinStateChanged(DiscretePinStateChangedEventArgs ea)
         {
-            ClimaContext.Logger.Debug($"monitor from:{ea.PrevState} to {ea.NewState}");
+            ClimaContext.Logger.Debug($"monitor pin:{ea.NewState}");
             if (_state == RelayState.TryOn)
             {
                 if (GetMonitorState(ea.NewState))

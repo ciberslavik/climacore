@@ -37,5 +37,9 @@
         <file>Images/enginer.png</file>
         <file>Images/accept.png</file>
         <file>Images/return.png</file>
+        <file>Images/close_door.png</file>
+        <file>Images/open_door.png</file>
+        <file>Images/minus.png</file>
+        <file>Images/plus.png</file>
     </qresource>
 </RCC>
