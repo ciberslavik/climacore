@@ -63,6 +63,9 @@ void VentilationOverviewFrame::on_pushButton_clicked()
 
 void VentilationOverviewFrame::onFanInfosReceived(QList<FanInfo> infos)
 {
+    qSort(infos.begin(), infos.end(),
+          [](const FanInfo &a, const FanInfo &b) -> bool { return a.Priority < b.Priority; });
+
     if(m_fanInfos.count() > 0)
     {
         m_fanInfos.clear();
@@ -75,6 +78,8 @@ void VentilationOverviewFrame::onFanInfosReceived(QList<FanInfo> infos)
             m_fanInfos.insert(info.Key, info);
         }
     }
+
+
     if(m_fanWidgets.count() == m_fanInfos.count())
         updateFanWidgets();
     else

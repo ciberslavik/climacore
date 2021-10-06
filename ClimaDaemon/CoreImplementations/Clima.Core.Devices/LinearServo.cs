@@ -46,6 +46,7 @@ namespace Clima.Core.Devices
 
         public void SetPosition(float target)
         {
+            _targetPos = target;
             if (__isMoving)
             {
                 _isMoving = false;
@@ -98,7 +99,6 @@ namespace Clima.Core.Devices
 
             _isFine = true;
             _isMoving = true;
-            _targetPos = target;
             _fineTimer = new Timer(FinePauseTimeout, null, Configuration.FinePauseTime, -1);
         }
 
@@ -108,7 +108,7 @@ namespace Clima.Core.Devices
             if (_isMoving)
                 return;
             var current = ServoFeedbackPin.Value;
-            _targetPos = target;
+            
             //Evaluate moving direction
             if (current > target)
                 //Moving close

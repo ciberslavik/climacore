@@ -102,7 +102,6 @@ namespace Clima.Core.Controllers.Network.Services
         [ServiceMethod]
         public ServoStateResponse GetMineState(DefaultRequest request)
         {
-                ClimaContext.Logger.Debug($"Servo curent pos:{_ventController.MineCurrentPos}");
             return new ServoStateResponse()
             {
                 CurrentPosition = _ventController.MineCurrentPos,

@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Clima.Basics\Clima.Basics.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="DataModel\DataBaseModel\Authorization" />
+    </ItemGroup>
+
 </Project>

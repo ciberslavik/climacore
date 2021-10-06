@@ -16,11 +16,9 @@ namespace Clima.Core.Controllers
         private readonly Dictionary<string, FanControllerTableItem> _fanTable;
         private VentilationControllerConfig _config;
         private IServoDrive _valveServo = null;
-        private bool _valveManual = false;
         private IServoDrive _mineServo = null;
-        private bool _mineManual = false;
-        
-        
+
+
         private float _currentPerformance;
         private int _totalPerformance;
         private float _analogPower;
@@ -43,6 +41,7 @@ namespace Clima.Core.Controllers
                 {
                     _fanTable["FAN:0"].AnalogFan.Start();
                 }
+                
                 ServiceState = ServiceState.Running;
             }
         }
@@ -62,11 +61,9 @@ namespace Clima.Core.Controllers
 
         public void Init(object config)
         {
-            
             if (config is VentilationControllerConfig cfg)
             {
                 _config = cfg;
-                
                 CreateFans();
                 ServiceState = ServiceState.Initialized;
             }
@@ -289,7 +286,7 @@ namespace Clima.Core.Controllers
         {
             get
             {
-                _valveServo ??= _devProvider.GetServo("SERVO:0");
+                _valveServo ??= _devProvider.GetServo(_config.ValveServoName);
                 return _valveServo.CurrentPosition;
             }
         }
@@ -298,25 +295,18 @@ namespace Clima.Core.Controllers
         {
             get
             {
-                _valveServo ??= _devProvider.GetServo("SERVO:0");
+                _valveServo ??= _devProvider.GetServo(_config.ValveServoName);
                 return _valveServo.SetPoint;
             }
         }
 
-        public bool ValveIsManual
-        {
-            get => _valveManual;
-            set
-            {
-                _valveManual = value;
-            }
-        }
+        public bool ValveIsManual { get; set; } = false;
 
         public float MineCurrentPos
         {
             get
             {
-                _mineServo ??= _devProvider.GetServo("SERVO:1");
+                _mineServo ??= _devProvider.GetServo(_config.MineServoName);
                 return _mineServo.CurrentPosition;
             }
         }
@@ -325,30 +315,23 @@ namespace Clima.Core.Controllers
         {
             get
             {
-                _mineServo ??= _devProvider.GetServo("SERVO:1");
+                _mineServo ??= _devProvider.GetServo(_config.MineServoName);
                 return _mineServo.SetPoint;
             }
         }
 
-        public bool MineIsManual
-        {
-            get => _mineManual;
-            set
-            {
-                _mineManual = value;
-            }
-        }
+        public bool MineIsManual { get; set; } = false;
 
         public void SetMinePosition(float position)
         {
-            _mineServo ??= _devProvider.GetServo("SERVO:1");
+            _mineServo ??= _devProvider.GetServo(_config.MineServoName);
             if (position >= 0 && position <= 100)
                 _mineServo.SetPosition(position);
         }
         
         public void SetValvePosition(float position)
         {
-            _valveServo ??= _devProvider.GetServo("SERVO:0");
+            _valveServo ??= _devProvider.GetServo(_config.ValveServoName);
             if (position >= 0 && position <= 100)
                 _valveServo.SetPosition(position);
         }

@@ -13,6 +13,8 @@ namespace Clima.Core.Controllers.Configuration
         }
         
         public Dictionary<string, FanInfo> FanInfos { get; set; } = new Dictionary<string, FanInfo>();
+        public string ValveServoName { get; set; }
+        public string MineServoName { get; set; }
         [IgnoreDataMember]
         public string ConfigurationName => FileName;
         [IgnoreDataMember]

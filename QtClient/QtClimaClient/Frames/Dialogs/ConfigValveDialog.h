@@ -30,10 +30,6 @@ private slots:
 
     void on_btnReject_clicked();
 
-    void on_btnAuto_pressed();
-
-    void on_btnManual_pressed();
-
     void on_btnMinus_clicked();
 
     void on_btnAuto_toggled(bool checked);

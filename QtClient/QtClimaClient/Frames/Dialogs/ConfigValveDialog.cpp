@@ -20,9 +20,11 @@ ConfigValveDialog::ConfigValveDialog(ValveType valveType, QWidget *parent) :
     {
     case Valve:
         connect(m_ventService, &VentilationService::ValveStateReceived, this, &ConfigValveDialog::onServoStateReceived);
+        ui->lblTitle->setText("Клапана");
         break;
     case Mine:
         connect(m_ventService, &VentilationService::MineStateReceived, this, &ConfigValveDialog::onServoStateReceived);
+        ui->lblTitle->setText("Шахты");
         break;
     }
 
@@ -114,15 +116,13 @@ void ConfigValveDialog::on_btnMinus_clicked()
     ui->txtManualValue->setText(QString::number(value, 'f', 1));
     if(ui->btnManual->isChecked())
     {
-
         switch (m_type) {
             case ConfigValveDialog::Valve:
                 m_ventService->UpdateValveState(true, value);
             break;
             case ConfigValveDialog::Mine:
-                m_ventService->UpdateValveState(true, value);
+                m_ventService->UpdateMineState(true, value);
             break;
-
         }
     }
 }
@@ -139,15 +139,13 @@ void ConfigValveDialog::on_btnPlus_clicked()
     ui->txtManualValue->setText(QString::number(value, 'f', 1));
     if(ui->btnManual->isChecked())
     {
-
         switch (m_type) {
             case ConfigValveDialog::Valve:
                 m_ventService->UpdateValveState(true, value);
             break;
             case ConfigValveDialog::Mine:
-                m_ventService->UpdateValveState(true, value);
+                m_ventService->UpdateMineState(true, value);
             break;
-
         }
     }
 }
@@ -185,15 +183,13 @@ void ConfigValveDialog::on_btnOpen_clicked()
     ui->txtManualValue->setText(QString::number(100, 'f', 1));
     if(ui->btnManual->isChecked())
     {
-
         switch (m_type) {
             case ConfigValveDialog::Valve:
                 m_ventService->UpdateValveState(true, 100);
             break;
             case ConfigValveDialog::Mine:
-                m_ventService->UpdateValveState(true, 100);
+                m_ventService->UpdateMineState(true, 100);
             break;
-
         }
     }
 }
@@ -204,15 +200,13 @@ void ConfigValveDialog::on_btnClose_clicked()
     ui->txtManualValue->setText(QString::number(0, 'f', 1));
     if(ui->btnManual->isChecked())
     {
-
         switch (m_type) {
             case ConfigValveDialog::Valve:
                 m_ventService->UpdateValveState(true, 0);
             break;
             case ConfigValveDialog::Mine:
-                m_ventService->UpdateValveState(true, 0);
+                m_ventService->UpdateMineState(true, 0);
             break;
-
         }
     }
 }

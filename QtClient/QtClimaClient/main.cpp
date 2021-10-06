@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     ClientConnection *conn = new ClientConnection(&a);
+
     ApplicationWorker *worker = new ApplicationWorker(conn,&a);
 
     conn->ConnectToHost("10.0.10.146", 5911);
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
 
     if(!conn->isConnected())
     {
-        qDebug()<< "Not connected";
+        qDebug() << "Not connected";
         delete conn;
         delete worker;
         return 0;
@@ -74,4 +75,9 @@ int main(int argc, char *argv[])
 
     conn->Disconnect();
     return result;
+}
+
+void ProcessSocketError(const QString &message)
+{
+
 }

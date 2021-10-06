@@ -21,9 +21,6 @@ namespace ConsoleServer
             _logger.Log(LogLevel.Information, "Start building the application...");
             _builder = new ApplicationBuilder();
             _builder.Initialize();
-            while (!stoppingToken.IsCancellationRequested)
-                //_logger.LogInformation("Worker running at:{Time}", DateTime.Now);
-                await Task.Delay(1000, stoppingToken);
         }
     }
 }

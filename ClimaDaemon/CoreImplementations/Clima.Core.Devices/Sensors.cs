@@ -18,7 +18,7 @@ namespace Clima.Core.Devices
         private float _pressure;
         public Sensors()
         {
-            _pressureFilter = new MovingAverageFilter(5);
+            _pressureFilter = new MovingAverageFilter(10);
             _movingAvgTimer = new Timer(MovingAvgUpdate, null, 3000, 1000);
         }
 

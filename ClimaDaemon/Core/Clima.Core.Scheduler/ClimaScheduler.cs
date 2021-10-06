@@ -259,11 +259,12 @@ namespace Clima.Core.Scheduler
                 sc._heater.Process(_state.TemperatureSetPoint);
                 
                 sc._ventilation.ProcessController((int)_state.VentilationInMeters);
+                
                 if(!sc._ventilation.ValveIsManual)
                     sc._ventilation.SetValvePosition(_state.ValveSetPoint);
+                
                 if(!sc._ventilation.MineIsManual)
                     sc._ventilation.SetMinePosition(_state.MineSetPoint);
-
             }
         }
 
