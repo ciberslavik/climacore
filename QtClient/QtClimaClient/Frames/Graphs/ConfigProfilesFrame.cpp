@@ -35,6 +35,7 @@ void ConfigProfilesFrame::onSchedulerInfoReceived(SchedulerProfilesInfo info)
     ui->lblVentilationName->setText(info.VentilationProfileName);
     ui->lblValveName->setText(info.ValveProfileName);
     ui->lblMineName->setText(info.MineProfileName);
+    m_profilesInfo = info;
 }
 
 
@@ -44,6 +45,7 @@ void ConfigProfilesFrame::on_btnSelectTempGraph_clicked()
     m_currentProfile = 0;
 
     m_selector = new SelectProfileFrame(ProfileType::Temperature);
+    m_selector->setSelectedKey(m_profilesInfo.TemperatureProfileKey);
     connect(m_selector, &SelectProfileFrame::ProfileSelected, this, &ConfigProfilesFrame::onProfileSelected);
 
     FrameManager::instance()->setCurrentFrame(m_selector);
@@ -55,6 +57,7 @@ void ConfigProfilesFrame::on_btnSelectVentGraph_clicked()
     m_currentProfile = 1;
 
     m_selector = new SelectProfileFrame(ProfileType::Ventilation);
+    m_selector->setSelectedKey(m_profilesInfo.VentilationProfileKey);
     connect(m_selector, &SelectProfileFrame::ProfileSelected, this, &ConfigProfilesFrame::onProfileSelected);
 
     FrameManager::instance()->setCurrentFrame(m_selector);
@@ -67,6 +70,7 @@ void ConfigProfilesFrame::on_btnSelectValveGraph_clicked()
     m_currentProfile = 2;
 
     m_selector = new SelectProfileFrame(ProfileType::ValveByVent);
+    m_selector->setSelectedKey(m_profilesInfo.ValveProfileKey);
     connect(m_selector, &SelectProfileFrame::ProfileSelected, this, &ConfigProfilesFrame::onProfileSelected);
 
     FrameManager::instance()->setCurrentFrame(m_selector);
@@ -79,6 +83,7 @@ void ConfigProfilesFrame::on_btnSelectMineGraph_clicked()
     m_currentProfile = 3;
 
     m_selector = new SelectProfileFrame(ProfileType::ValveByVent);
+    m_selector->setSelectedKey(m_profilesInfo.MineProfileKey);
     connect(m_selector, &SelectProfileFrame::ProfileSelected, this, &ConfigProfilesFrame::onProfileSelected);
 
     FrameManager::instance()->setCurrentFrame(m_selector);

@@ -1,0 +1,19 @@
+[Unit]
+Description=Clima core service
+DefaultDependecies=no
+After=clima-daemon.service
+
+[Service]
+Type=simple
+TimeoutStartSec=700
+ExecStart=/opt/QtClimaClient/bin/QtClimaClient.sh
+WorkingDirectory=/opt/QtClimaClient/bin/
+PIDFile=/opt/QtClimaClient/bin/pidfile.pid
+
+# ensure the service restarts after crashing
+#Restart=always
+# amount of time to wait before restarting the service              
+#RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -37,6 +37,7 @@ private:
     int m_currentProfile;
     SelectProfileFrame *m_selector;
 
+    SchedulerProfilesInfo m_profilesInfo;
     // FrameBase interface
 public:
     QString getFrameName() override{return "ConfigProfilesFrame";}

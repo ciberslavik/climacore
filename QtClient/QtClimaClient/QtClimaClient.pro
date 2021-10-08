@@ -1,5 +1,5 @@
 QT       += core gui network printsupport
-QT      += xml
+QT      += xml sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11

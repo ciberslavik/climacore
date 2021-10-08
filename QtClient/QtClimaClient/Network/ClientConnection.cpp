@@ -14,71 +14,8 @@ ClientConnection::ClientConnection(QObject *parent):QObject(parent)
     readBuffer = new QByteArray();
     connect(m_socket, &QIODevice::readyRead, this, &ClientConnection::onReadyRead);
     connect(m_socket, &QTcpSocket::connected, this, &ClientConnection::socketConnected);
-    connect(m_socket, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error),
-          [=](QAbstractSocket::SocketError socketError)
-    {
+    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &ClientConnection::socketError);
 
-        switch (socketError) {
-        case QAbstractSocket::ConnectionRefusedError:
-            break;
-        case QAbstractSocket::RemoteHostClosedError:
-            qDebug() << "";
-            break;
-        case QAbstractSocket::HostNotFoundError:
-            qDebug() << "";
-            break;
-        case QAbstractSocket::SocketAccessError:
-            qDebug() << "";
-            break;
-        case QAbstractSocket::SocketResourceError:
-            qDebug() << "";
-            break;
-        case QAbstractSocket::SocketTimeoutError:
-            qDebug() << "";
-            break;
-        case QAbstractSocket::DatagramTooLargeError:
-            break;
-        case QAbstractSocket::NetworkError:
-            break;
-        case QAbstractSocket::AddressInUseError:
-            break;
-        case QAbstractSocket::SocketAddressNotAvailableError:
-            break;
-        case QAbstractSocket::UnsupportedSocketOperationError:
-            break;
-        case QAbstractSocket::UnfinishedSocketOperationError:
-            break;
-        case QAbstractSocket::ProxyAuthenticationRequiredError:
-            break;
-        case QAbstractSocket::SslHandshakeFailedError:
-            break;
-        case QAbstractSocket::ProxyConnectionRefusedError:
-            break;
-        case QAbstractSocket::ProxyConnectionClosedError:
-            break;
-        case QAbstractSocket::ProxyConnectionTimeoutError:
-            break;
-        case QAbstractSocket::ProxyNotFoundError:
-            break;
-        case QAbstractSocket::ProxyProtocolError:
-            break;
-        case QAbstractSocket::OperationError:
-            break;
-        case QAbstractSocket::SslInternalError:
-            break;
-        case QAbstractSocket::SslInvalidUserDataError:
-            break;
-        case QAbstractSocket::TemporaryError:
-            break;
-        case QAbstractSocket::UnknownSocketError:
-            break;
-
-        }
-        qDebug()<<"Socket error:" << m_socket->errorString();
-        //QMessageBox *mb = new QMessageBox(FrameManager::instance()->MainWindow());
-        //mb->setText("Network error:" + m_socket->errorString());
-        //mb->exec();
-    });
 }
 
 void ClientConnection::ConnectToHost(const QString &host, const int &port, const int &waitTimeout)
@@ -177,4 +114,67 @@ void ClientConnection::socketConnected()
     QString sessionIdRequest = "GetSessionID<EOF>";
     m_socket->write(sessionIdRequest.toUtf8(),sessionIdRequest.toUtf8().length());
     m_socket->flush();
+}
+
+void ClientConnection::socketError(QAbstractSocket::SocketError error)
+{
+
+    switch (error) {
+    case QAbstractSocket::ConnectionRefusedError:
+        break;
+    case QAbstractSocket::RemoteHostClosedError:
+        qDebug() << "";
+        break;
+    case QAbstractSocket::HostNotFoundError:
+        qDebug() << "";
+        break;
+    case QAbstractSocket::SocketAccessError:
+        qDebug() << "";
+        break;
+    case QAbstractSocket::SocketResourceError:
+        qDebug() << "";
+        break;
+    case QAbstractSocket::SocketTimeoutError:
+        qDebug() << "";
+        break;
+    case QAbstractSocket::DatagramTooLargeError:
+        break;
+    case QAbstractSocket::NetworkError:
+        break;
+    case QAbstractSocket::AddressInUseError:
+        break;
+    case QAbstractSocket::SocketAddressNotAvailableError:
+        break;
+    case QAbstractSocket::UnsupportedSocketOperationError:
+        break;
+    case QAbstractSocket::UnfinishedSocketOperationError:
+        break;
+    case QAbstractSocket::ProxyAuthenticationRequiredError:
+        break;
+    case QAbstractSocket::SslHandshakeFailedError:
+        break;
+    case QAbstractSocket::ProxyConnectionRefusedError:
+        break;
+    case QAbstractSocket::ProxyConnectionClosedError:
+        break;
+    case QAbstractSocket::ProxyConnectionTimeoutError:
+        break;
+    case QAbstractSocket::ProxyNotFoundError:
+        break;
+    case QAbstractSocket::ProxyProtocolError:
+        break;
+    case QAbstractSocket::OperationError:
+        break;
+    case QAbstractSocket::SslInternalError:
+        break;
+    case QAbstractSocket::SslInvalidUserDataError:
+        break;
+    case QAbstractSocket::TemporaryError:
+        break;
+    case QAbstractSocket::UnknownSocketError:
+        break;
+
+    }
+    emit ConnectionError(m_socket->errorString());
+
 }

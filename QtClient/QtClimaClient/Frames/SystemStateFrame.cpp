@@ -22,14 +22,14 @@ SystemStateFrame::SystemStateFrame(QWidget *parent) :
     {
         m_statusService = dynamic_cast<SystemStatusService*>(service);
     }
-
-
     m_updateTmer = TimerPool::instance()->getUpdateTimer();
 }
 
 SystemStateFrame::~SystemStateFrame()
 {
     disconnect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
+    disconnect(m_statusService,&SystemStatusService::onClimatStatusRecv,this, &SystemStateFrame::onClimatStateUpdate);
+
     delete ui;
 }
 
@@ -85,6 +85,5 @@ void SystemStateFrame::on_btnMainMenu_clicked()
 {
     MainMenuFrame *mainMenu = new MainMenuFrame();
     FrameManager::instance()->setCurrentFrame(mainMenu);
-
 }
 

@@ -27,6 +27,7 @@ public:
     explicit SelectProfileFrame(const ProfileType &profileType, QWidget *parent = nullptr);
     ~SelectProfileFrame();
     QString getFrameName() override;
+    void setSelectedKey(const QString &key);
 
 signals:
     void ProfileSelected(ProfileInfo profileInfo);
@@ -75,7 +76,7 @@ private:
     ProfileType m_profileType;
     bool m_needEdit = false;
     GraphService *m_graphService;
-
+    QString m_selectedKey;
     ValueByDayProfile *m_curTempProfile;
     MinMaxByDayProfile *m_curVentProfile;
     ValueByValueProfile *m_currValveProfile;
