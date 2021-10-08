@@ -16,6 +16,8 @@ ApplicationWorker::ApplicationWorker(ClientConnection *connection, QObject *pare
             this,
             &ApplicationWorker::onReplyReceived);
 
+    connect(m_connection, &ClientConnection::ConnectionError, this, &ApplicationWorker::onConnectionError);
+
     m_services = new QMap<QString, INetworkService*>();
     _instance = this;
 }
@@ -58,4 +60,9 @@ void ApplicationWorker::onSendRequest(NetworkRequest *request)
 {
     //qDebug() << "OnSendRequest";
     m_connection->SendRequest(request);
+}
+
+void ApplicationWorker::onConnectionError(const QString &message)
+{
+    qDebug() << "Connection error:" << message;
 }

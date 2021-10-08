@@ -70,6 +70,11 @@ QString SelectProfileFrame::getFrameName()
     return "SelectProfileFrame";
 }
 
+void SelectProfileFrame::setSelectedKey(const QString &key)
+{
+    m_selectedKey = key;
+}
+
 void SelectProfileFrame::ProfileInfosReceived(QList<ProfileInfo> infos)
 {
 
@@ -87,7 +92,15 @@ void SelectProfileFrame::ProfileInfosReceived(QList<ProfileInfo> infos)
     ui->profilesTable->resizeRowsToContents();
 
     m_selection = ui->profilesTable->selectionModel();
-    selectRow(0);
+
+    int i = 0;
+    for(i = 0; i < infos.count(); i++)
+    {
+        if(infos[i].Key == m_selectedKey)
+            break;
+    }
+
+    selectRow(i);
 }
 
 

@@ -23,6 +23,20 @@
 #include <QMetaType>
 #include <Services/FrameManager.h>
 #include <Frames/TestModeFrame.h>
+#include <QSqlDatabase>
+#include <QSqlError>
+
+void dbTest()
+{
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL", "ClimaDB");
+    db.setHostName("localhost");
+    db.setPort(3306);
+
+    if(!db.open())
+    {
+        qDebug() << "Database connection error :" << db.lastError().text();
+    }
+}
 int main(int argc, char *argv[])
 {
     //qRegisterMetatype<MainMenuFrame*>("MainMenuFrame");
@@ -32,6 +46,7 @@ int main(int argc, char *argv[])
 
     ApplicationWorker *worker = new ApplicationWorker(conn,&a);
 
+    dbTest();
     conn->ConnectToHost("10.0.10.146", 5911);
     //conn->ConnectToHost("11.0.10.109", 5911);
     //conn->ConnectToHost("127.0.0.1", 5911);

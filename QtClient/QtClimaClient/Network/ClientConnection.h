@@ -2,6 +2,7 @@
 
 #include "NetworkResponse.h"
 #include "NetworkRequest.h"
+#include <QAbstractSocket>
 #include <QApplication>
 #include <QObject>
 #include <QTcpSocket>
@@ -20,11 +21,13 @@ public:
 signals:
     void ReplyReceived(NetworkResponse *reply);
     void ConnectionEstabilished();
+    void ConnectionError(const QString &message);
 public slots:
     void SendRequest(NetworkRequest *request);
 private slots:
     void onReadyRead();
     void socketConnected();
+    void socketError(QAbstractSocket::SocketError error);
     //void onSoketError();
 private:
     QTcpSocket *m_socket;

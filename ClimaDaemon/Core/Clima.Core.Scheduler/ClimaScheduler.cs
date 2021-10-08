@@ -416,12 +416,26 @@ namespace Clima.Core.Scheduler
             var smallerNumberCloseToInput = (from n1 in _ventilationGraph.Points
                 where n1.Day < dayNumber
                 orderby n1.Day descending
-                select n1).First();
+                select n1).FirstOrDefault();
 
             var largerNumberCloseToInput = (from n1 in _ventilationGraph.Points
                 where n1.Day > dayNumber
                 orderby n1.Day
-                select n1).First();
+                select n1).FirstOrDefault();
+
+            if (largerNumberCloseToInput is null)
+            {
+                if (smallerNumberCloseToInput is null)
+                {
+                    return new MinMaxByDayPoint(dayNumber, _ventilationGraph.Points.First().MinValue,
+                        _ventilationGraph.Points.First().MaxValue);
+                }
+                else
+                {
+                    return new MinMaxByDayPoint(dayNumber, smallerNumberCloseToInput.MinValue,
+                        smallerNumberCloseToInput.MaxValue);
+                }
+            }
 
             var periodDays = largerNumberCloseToInput.Day - smallerNumberCloseToInput.Day;
             float diff = dayNumber - smallerNumberCloseToInput.Day;

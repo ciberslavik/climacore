@@ -27,6 +27,7 @@ private slots:
     void onConnctionEstabilished();
     void onReplyReceived(NetworkResponse *reply);
     void onSendRequest(NetworkRequest *request);
+    void onConnectionError(const QString &message);
 private:
     ClientConnection *m_connection;
     int m_requestCounter;
