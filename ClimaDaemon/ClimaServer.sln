@@ -69,6 +69,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.NetworkServer.Transpo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.HystoryDB", "Repositories\Clima.HystoryDB\Clima.HystoryDB.csproj", "{C5671794-A333-4B10-8558-80F5FC7308F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clima.History.MySQL", "Repositories\Clima.History.MySQL\Clima.History.MySQL.csproj", "{E92F157E-1F07-4125-AFE9-956A915C07CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +181,10 @@ Global
 		{C5671794-A333-4B10-8558-80F5FC7308F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5671794-A333-4B10-8558-80F5FC7308F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5671794-A333-4B10-8558-80F5FC7308F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E92F157E-1F07-4125-AFE9-956A915C07CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E92F157E-1F07-4125-AFE9-956A915C07CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E92F157E-1F07-4125-AFE9-956A915C07CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E92F157E-1F07-4125-AFE9-956A915C07CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -211,6 +217,7 @@ Global
 		{694E5666-87C6-4768-A3D0-3A0ED9177FD5} = {8AF32912-494D-4DAD-AF03-1ED5AABEF7DD}
 		{CD42ED27-1512-4C0F-96C9-5CE1D7D99107} = {097481DE-74BF-4033-92CC-4CD24774B69E}
 		{C5671794-A333-4B10-8558-80F5FC7308F5} = {95E95B63-A53C-4E7D-9E8A-56E1344541FD}
+		{E92F157E-1F07-4125-AFE9-956A915C07CA} = {95E95B63-A53C-4E7D-9E8A-56E1344541FD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E8C0318C-3AF4-4615-9360-4283C4059C31}

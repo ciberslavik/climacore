@@ -20,9 +20,9 @@ HeaterConfigDialog::~HeaterConfigDialog()
 void HeaterConfigDialog::setState(HeaterState *state)
 {
     m_state = state;
-    ui->btnManual->setChecked(m_state->Info.IsManual);
+    //ui->btnManual->setChecked(m_state->Info.IsManual);
 
-    ui->btnManualOn->setEnabled(m_state->Info.IsManual);
+    //ui->btnManualOn->setEnabled(m_state->Info.IsManual);
     ui->btnManualOn->setChecked(m_state->IsRunning);
 }
 
@@ -39,7 +39,7 @@ void HeaterConfigDialog::on_btnAuto_toggled(bool checked)
         ui->txtSetPoint->setEnabled(false);
         ui->btnManualOn->setEnabled(false);
 
-        m_state->Info.IsManual = false;
+        //m_state->Info.IsManual = false;
         emit onModeChanged(false);
     }
 }
@@ -50,7 +50,7 @@ void HeaterConfigDialog::on_btnManual_clicked()
         ui->txtSetPoint->setEnabled(true);
         ui->btnManualOn->setEnabled(true);
 
-        m_state->Info.IsManual = true;
+        //m_state->Info.IsManual = true;
         emit onModeChanged(true);
     }
 }

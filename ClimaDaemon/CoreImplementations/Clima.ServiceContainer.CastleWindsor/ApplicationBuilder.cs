@@ -18,6 +18,7 @@ using Clima.Core.IO;
 using Clima.Core.Scheduler;
 using Clima.Core.Tests.IOService;
 using Clima.Core.Tests.IOService.Configurations;
+using Clima.History.MySQL;
 using Clima.Logger;
 using Clima.NetworkServer;
 using Clima.NetworkServer.Transport;
@@ -47,6 +48,8 @@ namespace Clima.ServiceContainer.CastleWindsor
         }
         public void Initialize()
         {
+            MyClient c = new MyClient();
+            //c.ConnectToServer();
             _container = new WindsorContainer();
             //Register logger
             _container.Register(Component.For<ISystemLogger>().Instance(_logger));

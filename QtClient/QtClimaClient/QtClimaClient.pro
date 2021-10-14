@@ -35,6 +35,7 @@ SOURCES += \
     Frames/Graphs/TempProfileEditorFrame.cpp \
     Frames/Graphs/ValveProfileEditorFrame.cpp \
     Frames/Graphs/VentProfileEditorFrame.cpp \
+    Frames/HeaterControllerFrame.cpp \
     Frames/Hystory/TemperatureHystoryFrame.cpp \
     Frames/HystoryMenuFrame.cpp \
     Frames/LightConfigFrame.cpp \
@@ -90,6 +91,7 @@ HEADERS += \
     Frames/Graphs/ConfigProfilesFrame.h \
     Frames/Graphs/ValveProfileEditorFrame.h \
     Frames/Graphs/VentProfileEditorFrame.h \
+    Frames/HeaterControllerFrame.h \
     Frames/Hystory/TemperatureHystoryFrame.h \
     Frames/HystoryMenuFrame.h \
     Frames/VentControllerConfigFrame.h \
@@ -138,7 +140,7 @@ HEADERS += \
     Models/Graphs/ValueByDayProfile.h \
     Models/Graphs/ValueByValuePoint.h \
     Models/Graphs/ValueByValueProfile.h \
-    Models/HeaterInfo.h \
+    Models/HeaterParams.h \
     Models/HeaterState.h \
     Models/LightTimersModel.h \
     Models/LivestockState.h \
@@ -177,6 +179,8 @@ HEADERS += \
     Network/GenericServices/Messages/GetVentProfileResponse.h \
     Network/GenericServices/Messages/GraphInfosRequest.h \
     Network/GenericServices/Messages/GraphInfosResponce.h \
+    Network/GenericServices/Messages/HeaterParamsListResponse.h \
+    Network/GenericServices/Messages/HeaterParamsRequest.h \
     Network/GenericServices/Messages/HeaterStateListResponse.h \
     Network/GenericServices/Messages/HeaterStateRequest.h \
     Network/GenericServices/Messages/HeaterStateResponse.h \
@@ -244,6 +248,7 @@ FORMS += \
     Frames/Graphs/TempProfileEditorFrame.ui \
     Frames/Graphs/ValveProfileEditorFrame.ui \
     Frames/Graphs/VentProfileEditorFrame.ui \
+    Frames/HeaterControllerFrame.ui \
     Frames/Hystory/TemperatureHystoryFrame.ui \
     Frames/HystoryMenuFrame.ui \
     Frames/LightConfigFrame.ui \
@@ -295,7 +300,14 @@ DISTFILES += \
     Images/ok.png \
     Images/power-button-off.png \
     Images/remove.png \
-    Images/save.png
+    Images/save.png \
+    mysql/README \
+    mysql/mysql.json \
+    mysql/mysql.pro.user \
+    mysql/mysql.pro.user.aa93cc6
 
 RESOURCES += \
     Resources.qrc
+
+SUBDIRS += \
+    mysql/mysql.pro

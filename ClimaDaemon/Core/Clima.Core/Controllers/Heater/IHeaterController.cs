@@ -8,8 +8,11 @@ namespace Clima.Core.Controllers.Heater
     {
         public HeaterState GetHeaterState(string key);
         public Dictionary<string, HeaterState> States { get; }
-        public void SetHeaterState(HeaterState newState);
-        public HeaterInfo UpdateHeaterInfo(HeaterInfo info);
+        public Dictionary<string, HeaterParams> Params { get; }
+        public float SetPoint { get; }
+        public void UpdateHeaterState(string key, HeaterState newState);
+        public List<HeaterParams> UpdateHeaterParams(List<HeaterParams> heaterParams);
+        
         public void StopHeater();
         public void Process(float setpoint);
     }

@@ -10,9 +10,13 @@ class HeaterControllerService : public INetworkService
 public:
     explicit HeaterControllerService(QObject *parent = nullptr);
     void GetHeaterStates();
-    void UpdateHeaterState(HeaterState state);
+    void GetHeaterParams();
+    void UpdateHeaterParams(QList<HeaterParams> heaterParams);
+    void UpdateHeaterState(const QString &key, HeaterState state);
 signals:
-    void HeaterStateListReceived(QList<HeaterState> states);
+    void HeaterStateListReceived(float setpoint, QList<HeaterState> states);
+    void HeaterParamsListReceived(QList<HeaterParams> heaterParams);
+    void HeaterParamsUpdated(QList<HeaterParams> heaterParams);
     void HeaterStateUpdated(HeaterState state);
     // INetworkService interface
 public:

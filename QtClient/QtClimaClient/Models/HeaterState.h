@@ -1,7 +1,7 @@
 #pragma once
 #include <QObject>
 #include <Services/QSerializer.h>
-#include "HeaterInfo.h"
+#include "HeaterParams.h"
 
 class HeaterState:public QSerializer
 {
@@ -11,7 +11,7 @@ public:
     HeaterState(){}
     virtual ~HeaterState(){}
 
-    QS_OBJECT(HeaterInfo, Info)
     QS_FIELD(float, SetPoint)
+    QS_FIELD(float, CorrectedSetPoint)
     QS_FIELD(bool, IsRunning)
 };

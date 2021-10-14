@@ -10,6 +10,6 @@ class HeaterStateListResponse:public QSerializer
 public:
     HeaterStateListResponse(){}
     virtual ~HeaterStateListResponse(){}
-
+    QS_FIELD(float, SetPoint)
     QS_COLLECTION_OBJECTS(QList, HeaterState, States)
 };

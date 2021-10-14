@@ -37,6 +37,8 @@ private slots:
 
     void on_btnShowHystoryMenu_clicked();
 
+    void on_btnHeaterConfig_clicked();
+
 private:
     Ui::MainMenuFrame *ui;
 };
