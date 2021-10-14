@@ -9,7 +9,7 @@ namespace Clima.Core.Controllers.Network.Messages
         public HeaterStateListResponse()
         {
         }
-
+        public float SetPoint { get; set; }
         public List<HeaterState> States { get; set; } = new List<HeaterState>();
     }
 }

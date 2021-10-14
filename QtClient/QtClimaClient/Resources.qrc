@@ -41,5 +41,6 @@
         <file>Images/open_door.png</file>
         <file>Images/minus.png</file>
         <file>Images/plus.png</file>
+        <file>Images/heater.png</file>
     </qresource>
 </RCC>

@@ -25,7 +25,7 @@ TemperatureConfigFrame::TemperatureConfigFrame(QWidget *parent) :
     }
 
     connect(m_heaterService, &HeaterControllerService::HeaterStateUpdated, this, &TemperatureConfigFrame::onHeaterStateReceived);
-    connect(m_heaterService, &HeaterControllerService::HeaterStateListReceived, this, &TemperatureConfigFrame::onHeaterStateListReceived);
+
 
     service = ApplicationWorker::Instance()->GetNetworkService("SchedulerControlService");
     if(service != nullptr)
@@ -119,21 +119,21 @@ void TemperatureConfigFrame::onHeater1StateChanged(bool isRunning)
 {
     HeaterState state(m_states[0]);
 
-    //state.Info.Key = "HEAT:0";
-    if(state.Info.IsManual)
-    {
-        state.IsRunning = isRunning;
-        m_heaterService->UpdateHeaterState(state);
-    }
+//    //state.Info.Key = "HEAT:0";
+//    if(state.Info.IsManual)
+//    {
+//        state.IsRunning = isRunning;
+//        m_heaterService->UpdateHeaterState(state);
+//    }
 }
 
 void TemperatureConfigFrame::onHeater1ModeChanged(bool isManual)
 {
-    HeaterState state(m_states[0]);
+//    HeaterState state(m_states[0]);
 
-    state.Info.Key = "HEAT:0";
-    state.Info.IsManual = isManual;
-    m_heaterService->UpdateHeaterState(state);
+//    state.Info.Key = "HEAT:0";
+//    state.Info.IsManual = isManual;
+//    m_heaterService->UpdateHeaterState(state);
 }
 
 void TemperatureConfigFrame::onHeater2StateChanged(bool isRunning)
@@ -141,19 +141,19 @@ void TemperatureConfigFrame::onHeater2StateChanged(bool isRunning)
     HeaterState state(m_states[1]);
 
     //state.Info.Key = "HEAT:0";
-    if(state.Info.IsManual)
-    {
-        state.IsRunning = isRunning;
-        m_heaterService->UpdateHeaterState(state);
-    }
+//    if(state.Info.IsManual)
+//    {
+//        state.IsRunning = isRunning;
+//        m_heaterService->UpdateHeaterState(state);
+//    }
 }
 
 void TemperatureConfigFrame::onHeater2ModeChanged(bool isManual)
 {
-    HeaterState state;
-    state.Info.Key = "HEAT:1";
-    state.Info.IsManual = isManual;
-    m_heaterService->UpdateHeaterState(state);
+//    HeaterState state;
+//    state.Info.Key = "HEAT:1";
+//    state.Info.IsManual = isManual;
+//    m_heaterService->UpdateHeaterState(state);
 }
 
 void TemperatureConfigFrame::onHeaterStateReceived(HeaterState state)

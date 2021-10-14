@@ -5,10 +5,8 @@
         public HeaterState()
         {
         }
-        
-        public HeaterInfo Info { get; set; }
         public float SetPoint { get; set; }
-        
+        public float CorrectedSetPoint { get; set; }
         public bool IsRunning { get; set; } = false;
 
     }

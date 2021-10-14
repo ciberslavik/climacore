@@ -5,6 +5,8 @@
 #include "VentilationConfigFrame.h"
 #include "VentilationOverviewFrame.h"
 #include "HystoryMenuFrame.h"
+#include "HeaterControllerFrame.h"
+
 #include "ui_MainMenuFrame.h"
 
 
@@ -85,3 +87,11 @@ void MainMenuFrame::on_btnShowHystoryMenu_clicked()
 
     FrameManager::instance()->setCurrentFrame(hystoryMenu);
 }
+
+void MainMenuFrame::on_btnHeaterConfig_clicked()
+{
+    HeaterControllerFrame *heaterFrame = new HeaterControllerFrame();
+
+    FrameManager::instance()->setCurrentFrame(heaterFrame);
+}
+

@@ -1,6 +1,8 @@
 #include "HeaterControllerService.h"
 
 #include <Network/GenericServices/Messages/DefaultRequest.h>
+#include <Network/GenericServices/Messages/HeaterParamsListResponse.h>
+#include <Network/GenericServices/Messages/HeaterParamsRequest.h>
 #include <Network/GenericServices/Messages/HeaterStateListResponse.h>
 #include <Network/GenericServices/Messages/HeaterStateRequest.h>
 #include <Network/GenericServices/Messages/HeaterStateResponse.h>
@@ -20,15 +22,40 @@ void HeaterControllerService::GetHeaterStates()
     emit SendRequest(request);
 }
 
-void HeaterControllerService::UpdateHeaterState(HeaterState state)
+void HeaterControllerService::GetHeaterParams()
+{
+    DefaultRequest *request = new DefaultRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "HeaterControllerService";
+    request->method = "GetHeaterParamsList";
+
+    emit SendRequest(request);
+}
+
+void HeaterControllerService::UpdateHeaterParams(QList<HeaterParams> heaterParams)
 {
     NetworkRequest *request = new NetworkRequest();
     request->jsonrpc = "0.1a";
     request->service = "HeaterControllerService";
-    request->method = "SetHeaterState";
+    request->method = "UpdateHeaterParamsList";
+
+    HeaterParamsRequest par;
+    par.ParamsList = heaterParams;
+
+    request->params = par.toJsonString();
+
+    emit SendRequest(request);
+}
+
+void HeaterControllerService::UpdateHeaterState(const QString &key, HeaterState state)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->jsonrpc = "0.1a";
+    request->service = "HeaterControllerService";
+    request->method = "UpdateHeaterState";
     HeaterStateRequest st;
 
-    st.Key = state.Info.Key;
+    st.Key = key;
     st.State = state;
     request->params = st.toJsonString();
 
@@ -44,13 +71,25 @@ void HeaterControllerService::ProcessReply(NetworkResponse *reply)
             HeaterStateListResponse resp;
             resp.fromJson(reply->result.toUtf8());
 
-            emit HeaterStateListReceived(resp.States);
+            emit HeaterStateListReceived(resp.SetPoint, resp.States);
         }
         else if(reply->method == "SetHeaterState")
         {
             HeaterStateResponse resp;
             resp.fromJson(reply->result.toUtf8());
             emit HeaterStateUpdated(resp.State);
+        }
+        else if(reply->method == "GetHeaterParamsList")
+        {
+            HeaterParamsListResponse resp;
+            resp.fromJson(reply->result.toUtf8());
+            emit HeaterParamsListReceived(resp.ParamsList);
+        }
+        else if(reply->method == "UpdateHeaterParamsList")
+        {
+            HeaterParamsListResponse resp;
+            resp.fromJson(reply->result.toUtf8());
+            emit HeaterParamsUpdated(resp.ParamsList);
         }
     }
 }

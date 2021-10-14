@@ -25,9 +25,9 @@ namespace Clima.Core.Controllers.Network.Services
         }
         
         [ServiceMethod]
-        public HeaterStateResponse SetHeaterState(HeaterStateRequest request)
+        public HeaterStateResponse UpdateHeaterState(HeaterStateRequest request)
         {
-            _heaterController.SetHeaterState(request.State);
+            _heaterController.UpdateHeaterState(request.Key, request.State);
             return new HeaterStateResponse()
             {
                 State = _heaterController.GetHeaterState(request.Key)
@@ -39,13 +39,20 @@ namespace Clima.Core.Controllers.Network.Services
         {
             var list = new HeaterStateListResponse();
             list.States = _heaterController.States.Values.ToList();
+            list.SetPoint = _heaterController.SetPoint;
             return list;
         }
 
         [ServiceMethod]
-        public HeaterInfoResponse UpdateHeaterInfo(HeaterInfoRequest request)
+        public HeaterParamsListResponse UpdateHeaterParamsList(HeaterParamsRequest request)
         {
-            return new HeaterInfoResponse() {Info = _heaterController.UpdateHeaterInfo(request.Info)};
+            return new HeaterParamsListResponse() {ParamsList = _heaterController.UpdateHeaterParams(request.ParamsList)};
+        }
+
+        [ServiceMethod]
+        public HeaterParamsListResponse GetHeaterParamsList(DefaultRequest request)
+        {
+            return new HeaterParamsListResponse() {ParamsList = _heaterController.Params.Values.ToList()};
         }
     }
 }

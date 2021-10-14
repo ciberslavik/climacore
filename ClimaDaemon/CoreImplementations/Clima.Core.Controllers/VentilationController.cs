@@ -21,6 +21,7 @@ namespace Clima.Core.Controllers
 
         private float _currentPerformance;
         private int _totalPerformance;
+        private int _discreteDelta;
         private float _analogPower;
         private float _analogManualPower;
         public VentilationController(IDeviceProvider devProvider)
@@ -29,6 +30,7 @@ namespace Clima.Core.Controllers
             _fanTable = new Dictionary<string, FanControllerTableItem>();
 
             ServiceState = ServiceState.NotInitialized;
+            _discreteDelta = 500;
         }
         public void Start()
         {
@@ -321,6 +323,12 @@ namespace Clima.Core.Controllers
         }
 
         public bool MineIsManual { get; set; } = false;
+
+        public int DiscreteDelta
+        {
+            get => _discreteDelta;
+            set => _discreteDelta = value;
+        }
 
         public void SetMinePosition(float position)
         {
