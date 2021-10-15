@@ -6,4 +6,17 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Installers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Clima.Bootstrapper\Clima.Bootstrapper.csproj" />
+    <ProjectReference Include="..\Core\Clima.DataModel\Clima.DataModel.csproj" />
+    <ProjectReference Include="..\Implementations\Clima.DataRepository.MySQL\Clima.DataRepository.MySQL.csproj" />
+    <ProjectReference Include="..\UI\Clima.UI.ViewModels\Clima.UI.ViewModels.csproj" />
+    <ProjectReference Include="..\UI\Clima.UI.WPF.Views\Clima.UI.WPF.Views.csproj" />
+    <ProjectReference Include="..\UI\Themes\Clima.UI.WPF.ThemeDark\Clima.UI.WPF.ThemeDark.csproj" />
+  </ItemGroup>
+
 </Project>
