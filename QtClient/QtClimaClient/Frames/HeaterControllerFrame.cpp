@@ -49,7 +49,7 @@ void HeaterControllerFrame::on_btnReturn_clicked()
     FrameManager::instance()->PreviousFrame();
 }
 
-void HeaterControllerFrame::onHeaterStateListReceived(float setpoint, QList<HeaterState> heaterStates)
+void HeaterControllerFrame::onHeaterStateListReceived(float setpoint, float front, float rear,  QList<HeaterState> heaterStates)
 {
        if(heaterStates.at(0).IsRunning)
         {
@@ -68,10 +68,12 @@ void HeaterControllerFrame::onHeaterStateListReceived(float setpoint, QList<Heat
         }
         else
         {
-            ui->lblState2->setStyleSheet("QLabel { background-color: lightgreen }");
+            ui->lblState2->setStyleSheet("QLabel { background-color: lightgray }");
             ui->lblState2->setText("Выкл.");
         }
         ui->lblTempSetPoint->setText(QString::number(setpoint,'f',2));
+        ui->lblFrontTemp->setText(QString::number(front, 'f', 2));
+        ui->lblRearTemp->setText(QString::number(rear, 'f', 2));
 }
 
 void HeaterControllerFrame::onHeaterParamsListReceived(QList<HeaterParams> heaterParams)

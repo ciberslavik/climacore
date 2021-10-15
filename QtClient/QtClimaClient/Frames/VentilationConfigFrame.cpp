@@ -7,6 +7,7 @@
 #include <Frames/Dialogs/EditFanDialog.h>
 
 #include <Services/FrameManager.h>
+#include <QScrollBar>
 
 VentilationConfigFrame::VentilationConfigFrame(QWidget *parent) :
     FrameBase(parent),
@@ -75,6 +76,7 @@ void VentilationConfigFrame::on_btnEdit_clicked()
             ui->tableView->update();
         }
     }
+    delete dlg;
 }
 
 
@@ -98,6 +100,7 @@ void VentilationConfigFrame::on_btnAdd_clicked()
         m_infosModel->setFanInfoList(&m_infos);
         ui->tableView->setModel(m_infosModel);
     }
+    delete dlg;
 }
 
 
@@ -174,6 +177,7 @@ void VentilationConfigFrame::selectRow(int index)
     QItemSelection selection(left, right);
     m_selection->clear();
     m_selection->select(selection, QItemSelectionModel::Select);
+    ui->tableView->verticalScrollBar()->setValue(index);
 }
 
 void VentilationConfigFrame::closeEvent(QCloseEvent *event)

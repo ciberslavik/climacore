@@ -27,7 +27,7 @@ VentilationOverviewFrame::VentilationOverviewFrame(QWidget *parent) :
     connect(m_ventService, &VentilationService::VentilationStatusReceived, this, &VentilationOverviewFrame::onVentilationStatusReceived);
 
     m_updateTimer = TimerPool::instance()->getUpdateTimer();
-
+    m_needConfig = false;
 }
 
 VentilationOverviewFrame::~VentilationOverviewFrame()
@@ -84,6 +84,16 @@ void VentilationOverviewFrame::onFanInfosReceived(QList<FanInfo> infos)
         updateFanWidgets();
     else
         createFanWidgets();
+
+    if(m_needConfig)
+    {
+        m_needConfig = false;
+        VentilationConfigFrame *frame = new VentilationConfigFrame();
+        qDebug()<<"Ventilation editor in FanInfosReceived";
+        frame->setService(m_ventService);
+        disconnect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
+        FrameManager::instance()->setCurrentFrame(frame);
+    }
 }
 
 
@@ -174,6 +184,16 @@ void VentilationOverviewFrame::onVentilationStatusReceived(float valvePos, float
     ui->lblValveSetPoint->setText(QString::number(valveSetpoint, 'f', 1));
     ui->lblMintSetPoint->setText(QString::number(mineSetpoint, 'f', 1));
     ui->lblVentSetPoint->setText(QString::number(ventilationSp, 'f', 2));
+
+    if(m_needConfig)
+    {
+        m_needConfig = false;
+        VentilationConfigFrame *frame = new VentilationConfigFrame();
+        qDebug()<<"Ventilation editor in VentilationStatus";
+        frame->setService(m_ventService);
+        disconnect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
+        FrameManager::instance()->setCurrentFrame(frame);
+    }
 }
 
 void VentilationOverviewFrame::createFanWidgets()
@@ -273,11 +293,8 @@ void VentilationOverviewFrame::updateFanWidgets()
 
 void VentilationOverviewFrame::on_btnConfigure_clicked()
 {
-    VentilationConfigFrame *frame = new VentilationConfigFrame();
+    m_needConfig = true;
 
-    frame->setService(m_ventService);
-
-    FrameManager::instance()->setCurrentFrame(frame);
 }
 
 void VentilationOverviewFrame::onBeginEditFan(const QString &fanKey)

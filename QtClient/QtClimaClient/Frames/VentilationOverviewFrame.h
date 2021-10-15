@@ -63,7 +63,7 @@ private:
     QMap<QString, FanInfo> m_fanInfos;
 
     VentilationService *m_ventService;
-
+    bool m_needConfig;
     FanInfo m_editedOld;
 
     int m_updateCounter;

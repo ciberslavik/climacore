@@ -71,7 +71,7 @@ void HeaterControllerService::ProcessReply(NetworkResponse *reply)
             HeaterStateListResponse resp;
             resp.fromJson(reply->result.toUtf8());
 
-            emit HeaterStateListReceived(resp.SetPoint, resp.States);
+            emit HeaterStateListReceived(resp.SetPoint, resp.Front, resp.Rear, resp.States);
         }
         else if(reply->method == "SetHeaterState")
         {

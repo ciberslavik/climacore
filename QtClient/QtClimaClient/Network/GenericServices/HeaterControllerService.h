@@ -14,7 +14,7 @@ public:
     void UpdateHeaterParams(QList<HeaterParams> heaterParams);
     void UpdateHeaterState(const QString &key, HeaterState state);
 signals:
-    void HeaterStateListReceived(float setpoint, QList<HeaterState> states);
+    void HeaterStateListReceived(float setpoint, float front, float rear, QList<HeaterState> states);
     void HeaterParamsListReceived(QList<HeaterParams> heaterParams);
     void HeaterParamsUpdated(QList<HeaterParams> heaterParams);
     void HeaterStateUpdated(HeaterState state);

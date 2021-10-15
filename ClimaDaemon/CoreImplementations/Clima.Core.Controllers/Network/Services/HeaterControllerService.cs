@@ -40,6 +40,8 @@ namespace Clima.Core.Controllers.Network.Services
             var list = new HeaterStateListResponse();
             list.States = _heaterController.States.Values.ToList();
             list.SetPoint = _heaterController.SetPoint;
+            list.Front = ClimaContext.Current.Sensors.FrontTemperature;
+            list.Rear = ClimaContext.Current.Sensors.RearTemperature;
             return list;
         }
 

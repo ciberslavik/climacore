@@ -27,9 +27,9 @@ EditFanDialog::EditFanDialog(QWidget *parent) :
     connect(ui->txtMinPerf, &QClickableLineEdit::clicked, this, &EditFanDialog::onTxtDigitClicked);
     connect(ui->txtFanName, &QClickableLineEdit::clicked, this, &EditFanDialog::onTxtTextClicked);
 
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 11; i++)
     {
-        ui->cboPrio->addItem(QString::number(i + 1));
+        ui->cboPrio->addItem(QString::number(i));
     }
 }
 

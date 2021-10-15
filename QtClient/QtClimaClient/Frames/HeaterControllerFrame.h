@@ -32,7 +32,7 @@ public:
     virtual QString getFrameName() override {return "HeaterControllerFrame";}
 private slots:
     void on_btnReturn_clicked();
-    void onHeaterStateListReceived(float setpoint, QList<HeaterState> heaterStates);
+    void onHeaterStateListReceived(float setpoint, float front, float rear, QList<HeaterState> heaterStates);
     void onHeaterParamsListReceived(QList<HeaterParams> heaterParams);
     void onHeaterUpdated(HeaterState state);
     void onTxtCorrection1Clicked();

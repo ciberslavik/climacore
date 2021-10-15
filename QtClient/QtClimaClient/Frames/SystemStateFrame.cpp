@@ -68,7 +68,7 @@ void SystemStateFrame::onClimatStateUpdate(ClimatStatusResponse *data)
     float realVent = data->VentilationSetPoint * GlobalContext::CurrentHeads;
 
     float percent = (realVent / data->TotalVentilation * 100);
-    qDebug() << "Ventilation :" << ((int)percent);
+
 
     ui->lblVentPower->setText(QString::number(percent, 'f', 2) + " %");
 }
