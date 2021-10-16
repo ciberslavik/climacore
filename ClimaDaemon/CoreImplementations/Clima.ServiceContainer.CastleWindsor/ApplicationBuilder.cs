@@ -34,7 +34,7 @@ namespace Clima.ServiceContainer.CastleWindsor
         private IServiceProvider _serviceProvider;
        
         private ISystemLogger _logger;
-        private const bool isDebug = false;
+        private const bool isDebug = true;
         public ApplicationBuilder()
         {
             _logger = new ConsoleSystemLogger();

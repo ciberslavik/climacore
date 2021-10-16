@@ -2,6 +2,8 @@
 
 #include <QAbstractTableModel>
 #include <Models/FanInfo.h>
+#include "Models/FanControlsEnums.h"
+#include <QColor>
 
 class FanInfosModel : public QAbstractTableModel
 {

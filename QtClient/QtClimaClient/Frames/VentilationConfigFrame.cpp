@@ -159,6 +159,8 @@ void VentilationConfigFrame::onFanInfoListReceived(QList<FanInfo> infos)
     m_infosModel->setFanInfoList(&m_infos);
 
     ui->tableView->setModel(m_infosModel);
+    ui->tableView->resizeColumnsToContents();
+    ui->tableView->resizeRowsToContents();
 }
 
 void VentilationConfigFrame::onCreateOrUpdateComplete()

@@ -47,9 +47,9 @@ int main(int argc, char *argv[])
     ApplicationWorker *worker = new ApplicationWorker(conn,&a);
 
     dbTest();
-    conn->ConnectToHost("10.0.10.146", 5911);
+    //conn->ConnectToHost("10.0.10.146", 5911);
     //conn->ConnectToHost("11.0.10.109", 5911);
-    //conn->ConnectToHost("127.0.0.1", 5911);
+    conn->ConnectToHost("127.0.0.1", 5911);
     //conn->ConnectToHost("192.168.0.10", 5911);
 
     if(!conn->isConnected())
