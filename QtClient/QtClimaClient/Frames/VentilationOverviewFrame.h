@@ -35,7 +35,7 @@ public:
     virtual QString getFrameName() override{return "VentilationOverviewFrame";}
 private slots:
     void on_pushButton_clicked();
-    void onFanInfosReceived(QList<FanInfo> infos);
+    void onFanInfosReceived(QMap<QString, FanInfo> infos);
 
     void onEditFanStateChanged(const QString &fanKey, FanStateEnum_t newState);
     void onEditFanModeChanged(const QString &fanKey, FanMode_t newMode);

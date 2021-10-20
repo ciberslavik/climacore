@@ -165,6 +165,7 @@ HEADERS += \
     Network/GenericServices/Messages/ClimatStatusResponse.h \
     Network/GenericServices/Messages/CreateGraphRequest.h \
     Network/GenericServices/Messages/DefaultRequest.h \
+    Network/GenericServices/Messages/FanInfoListRequest.h \
     Network/GenericServices/Messages/FanInfoListRsponse.h \
     Network/GenericServices/Messages/FanInfoRequest.h \
     Network/GenericServices/Messages/FanKeyRequest.h \

@@ -5,6 +5,9 @@ using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Basics.Services.Communication;
 using Clima.Configuration.FileSystem;
+using Clima.Core.Hystory;
+using Clima.History.Service;
+
 using Clima.NetworkServer.Serialization.Newtonsoft;
 using Clima.Serialization.Newtonsoft;
 
@@ -37,7 +40,15 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                 Component
                     .For<IConfigurationStorage>()
                     .ImplementedBy<FSConfigurationStorage>()
-                    .LifestyleSingleton());
+                    .LifestyleSingleton(),
+                Component
+                    .For<IHistoryService>()
+                    .ImplementedBy<HistoryService>()
+                    .LifestyleSingleton());/*,
+                Component
+                    .For<IHistoryRepository>()
+                    .ImplementedBy<SQLiteHistoryRepository>()
+                    .LifestyleSingleton());*/
         }
     }
 }

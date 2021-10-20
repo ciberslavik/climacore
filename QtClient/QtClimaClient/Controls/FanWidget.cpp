@@ -60,6 +60,7 @@ QString FanWidget::FanKey()
 void FanWidget::setFanName(const QString &name)
 {
     m_fanName = name;
+    m_nameLabel->setText(m_fanName);
 }
 
 void FanWidget::setAnalogValue(const float &analogPower)
@@ -130,12 +131,19 @@ void FanWidget::resizeEvent(QResizeEvent *event)
         anLblRect.setHeight(15);
         m_analogValueLabel->setGeometry(anLblRect);
     }
+    QRect nameRect;
+    nameRect.setY(m_modeRect.y()+m_modeRect.height());
+    nameRect.setX(3);
+    nameRect.setHeight(15);
+    nameRect.setWidth(event->size().width()-6);
+
+    m_nameLabel->setGeometry(nameRect);
 
     QRect r;
     r.setX(5);
-    r.setY(40);
+    r.setY(50);
     r.setWidth(event->size().width()-10);
-    r.setHeight(event->size().height()-42);
+    r.setHeight(event->size().height()-52);
     m_fanLabel->setGeometry(r);
     m_fanMovie->setScaledSize(r.size());
 }
@@ -224,6 +232,11 @@ void FanWidget::createUI()
     m_fanMovie = new QMovie(":/Images/Fan.gif");
     m_fanLabel = new QLabel(this);
     m_modeLabel = new QClickableLabel(this);
+    m_nameLabel = new QLabel(this);
+
+    QFont f(this->font());
+    f.setPointSize(12);
+    m_nameLabel->setFont(f);
 
     if(m_isAnalog)
     {
@@ -284,4 +297,6 @@ void FanWidget::rebuildUI()
 
     if(m_isAnalog)
         m_analogValueLabel->setText(QString::number(m_analogValue, 'f', 1));
+
+    m_nameLabel->setText(m_fanName);
 }

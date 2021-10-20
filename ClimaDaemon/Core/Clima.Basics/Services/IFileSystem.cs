@@ -5,6 +5,7 @@
         string AppBasePath { get; }
         string DataStoragePath { get; }
         string ConfigurationPath { get; }
+        string LocalDatabasePath { get; }
         bool FolderExist(string path);
         bool FileExist(string path);
         void CreateDirectory(string path);

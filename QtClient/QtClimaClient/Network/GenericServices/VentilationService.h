@@ -13,6 +13,7 @@ public:
 
     void GetControllerState();
     void GetFanInfoList();
+    void UpdateFanInfoList(const QMap<QString, FanInfo> &infos);
     void GetFanInfo(const QString &fanKey);
 
     void SetFanState(const QString &key, const FanStateEnum &state);
@@ -30,7 +31,7 @@ public:
     void GetVentilationStatus();
 
 signals:
-    void FanInfoListReceived(QList<FanInfo> response);
+    void FanInfoListReceived(QMap<QString, FanInfo> response);
     void FanInfoReceived(FanInfo info);
     void ControllerStateReceived(VentControllerState state);
     void CreateOrUpdateComplete();

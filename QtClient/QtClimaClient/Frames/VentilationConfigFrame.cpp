@@ -3,6 +3,7 @@
 #include "ui_VentilationConfigFrame.h"
 
 #include <ApplicationWorker.h>
+#include <TimerPool.h>
 
 #include <Frames/Dialogs/EditFanDialog.h>
 
@@ -17,34 +18,32 @@ VentilationConfigFrame::VentilationConfigFrame(QWidget *parent) :
     setTitle("Настройка вентиляторов");
 
     m_infosModel = new FanInfosModel();
-    // ui->tableView->setModel(m_infosModel);
+    ui->tableView->setModel(m_infosModel);
     m_selection = ui->tableView->selectionModel();
+
+    INetworkService *service = ApplicationWorker::Instance()->GetNetworkService("VentilationControllerService");
+    if(service != nullptr)
+    {
+        m_ventService = dynamic_cast<VentilationService*>(service);
+    }
+
+    connect(m_ventService, &VentilationService::FanInfoListReceived, this, &VentilationConfigFrame::onFanInfoListReceived);
+
+    m_currentState = EditorState::Initialize;
+    m_running = false;
 
 }
 
 VentilationConfigFrame::~VentilationConfigFrame()
 {
     disconnect(m_ventService, &VentilationService::FanInfoListReceived, this, &VentilationConfigFrame::onFanInfoListReceived);
-    disconnect(m_ventService, &VentilationService::CreateOrUpdateComplete, this, &VentilationConfigFrame::onCreateOrUpdateComplete);
+
     delete ui;
 }
 
 QString VentilationConfigFrame::getFrameName()
 {
     return "VentilatilationConfigFrame";
-}
-
-void VentilationConfigFrame::setService(VentilationService *service)
-{
-    m_ventService = service;
-    connect(m_ventService, &VentilationService::FanInfoListReceived, this, &VentilationConfigFrame::onFanInfoListReceived);
-    connect(m_ventService, &VentilationService::CreateOrUpdateComplete, this, &VentilationConfigFrame::onCreateOrUpdateComplete);
-}
-
-void VentilationConfigFrame::on_btnSelectGraph_clicked()
-{
-    // SelectGraphFrame *selectFrame = new SelectGraphFrame();
-    //FrameManager::instance()->setCurrentFrame(selectFrame);
 }
 
 
@@ -63,58 +62,33 @@ void VentilationConfigFrame::on_btnEdit_clicked()
     if(indexes.count() > 0)
     {
         int index = indexes.at(0).row();
+        int prevPrio = m_infos[m_infosModel->getRowKey(index)].Priority;
 
-        dlg->setInfo(&m_infos[index]);
+        dlg->setInfo(m_infos[m_infosModel->getRowKey(index)]);
 
         if(dlg->exec() == QDialog::Accepted)
         {
+            FanInfo editedInfo = dlg->getInfo();
 
-            m_ventService->CreateOrUpdateFan(m_infos[index]);
-            qSort(m_infos.begin(),m_infos.end(),
-                  [](const FanInfo &a, const FanInfo &b) -> bool { return a.Priority < b.Priority; });
+            //m_infos[editedInfo.Key] = editedInfo;
 
-            ui->tableView->update();
+            foreach (const FanInfo &fi, m_infos.values())
+            {
+                if(fi.Priority == editedInfo.Priority)
+                {
+                    m_infos[fi.Key].Priority = prevPrio;
+
+                    break;
+                }
+            }
+            m_infos[editedInfo.Key] = editedInfo;
+            m_dataChanged = true;
+            m_infosModel->updateFanInfoList(m_infos.values());
+            //ui->tableView->update();
         }
     }
     delete dlg;
 }
-
-
-void VentilationConfigFrame::on_btnAdd_clicked()
-{
-    FanInfo newFan;
-    EditFanDialog *dlg = new EditFanDialog(FrameManager::instance()->MainWindow());
-    dlg->setInfo(&newFan);
-
-    if(dlg->exec() == QDialog::Accepted)
-    {
-        ui->tableView->setModel(nullptr);
-
-        m_ventService->CreateOrUpdateFan(newFan);
-
-        m_infos.append(newFan);
-
-        qSort(m_infos.begin(),m_infos.end(),
-              [](const FanInfo &a, const FanInfo &b) -> bool { return a.Priority < b.Priority; });
-
-        m_infosModel->setFanInfoList(&m_infos);
-        ui->tableView->setModel(m_infosModel);
-    }
-    delete dlg;
-}
-
-
-void VentilationConfigFrame::on_btnDelete_clicked()
-{
-
-}
-
-
-void VentilationConfigFrame::on_btnCancel_clicked()
-{
-
-}
-
 
 void VentilationConfigFrame::on_btnDown_clicked()
 {
@@ -149,23 +123,45 @@ void VentilationConfigFrame::on_btnUp_clicked()
         selectRow(0);
 }
 
-void VentilationConfigFrame::onFanInfoListReceived(QList<FanInfo> infos)
+void VentilationConfigFrame::onFanInfoListReceived(QMap<QString, FanInfo> infos)
 {
-    m_infos = infos;
+    if(!m_running)
+    {
+        m_infos = QMap<QString, FanInfo>(infos);
 
-    qSort(m_infos.begin(),m_infos.end(),
-          [](const FanInfo &a, const FanInfo &b) -> bool { return a.Priority < b.Priority; });
+        m_infosModel->setFanInfoList(m_infos.values());
 
-    m_infosModel->setFanInfoList(&m_infos);
+        m_dataChanged = false;
 
-    ui->tableView->setModel(m_infosModel);
-    ui->tableView->resizeColumnsToContents();
-    ui->tableView->resizeRowsToContents();
-}
+        ui->tableView->resizeColumnsToContents();
+        ui->tableView->resizeRowsToContents();
+        m_running = true;
+        connect(TimerPool::instance()->getUpdateTimer(), &QTimer::timeout, this, &VentilationConfigFrame::onTimeout);
+        TimerPool::instance()->getUpdateTimer()->setInterval(2000);
+    }
+    else
+    {
+        if(m_infos.count() == infos.count())
+        {
+            int totalPerf = 0;
+            foreach (const FanInfo &info, infos.values())
+            {
+                FanInfo tmp = m_infos[info.Key];
+                tmp.State = info.State;
+                tmp.Mode = info.Mode;
+                if(tmp.IsAnalog)
+                {
+                    tmp.AnalogPower = info.AnalogPower;
+                }
+                if(!tmp.Hermetised)
+                    totalPerf += tmp.Performance * tmp.FanCount;
 
-void VentilationConfigFrame::onCreateOrUpdateComplete()
-{
-    m_ventService->GetFanInfoList();
+                m_infos[info.Key] = tmp;
+            }
+            m_infosModel->updateFanInfoList(m_infos.values());
+            ui->lblTotalPerf->setText(QString::number(totalPerf));
+        }
+    }
 }
 
 void VentilationConfigFrame::selectRow(int index)
@@ -173,7 +169,7 @@ void VentilationConfigFrame::selectRow(int index)
     QModelIndex left;
     QModelIndex right;
 
-    left = m_infosModel->index(index, 0, QModelIndex());
+    left = m_infosModel->index(index, 1, QModelIndex());
     right = m_infosModel->index(index, m_infosModel->columnCount()-1, QModelIndex());
 
     QItemSelection selection(left, right);
@@ -182,13 +178,42 @@ void VentilationConfigFrame::selectRow(int index)
     ui->tableView->verticalScrollBar()->setValue(index);
 }
 
-void VentilationConfigFrame::closeEvent(QCloseEvent *event)
+void VentilationConfigFrame::updateStatus(const QList<FanInfo> &infos)
 {
 
 }
 
+void VentilationConfigFrame::updateInfo(const QList<FanInfo> &infos)
+{
+
+}
+
+void VentilationConfigFrame::closeEvent(QCloseEvent *event)
+{
+    disconnect(TimerPool::instance()->getUpdateTimer(), &QTimer::timeout, this, &VentilationConfigFrame::onTimeout);
+    Q_UNUSED(event)
+}
+
 void VentilationConfigFrame::showEvent(QShowEvent *event)
 {
+    Q_UNUSED(event)
     m_ventService->GetFanInfoList();
+}
+
+
+void VentilationConfigFrame::on_btnAccept_clicked()
+{
+    if(m_dataChanged)
+    {
+        m_ventService->UpdateFanInfoList(m_infos);
+    }
+}
+
+void VentilationConfigFrame::onTimeout()
+{
+    if(m_running)
+    {
+        m_ventService->GetFanInfoList();
+    }
 }
 

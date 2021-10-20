@@ -61,24 +61,9 @@ void VentilationOverviewFrame::on_pushButton_clicked()
     FrameManager::instance()->PreviousFrame();
 }
 
-void VentilationOverviewFrame::onFanInfosReceived(QList<FanInfo> infos)
+void VentilationOverviewFrame::onFanInfosReceived(QMap<QString, FanInfo> infos)
 {
-    qSort(infos.begin(), infos.end(),
-          [](const FanInfo &a, const FanInfo &b) -> bool { return a.Priority < b.Priority; });
-
-    if(m_fanInfos.count() > 0)
-    {
-        m_fanInfos.clear();
-    }
-
-    if(infos.count() > 0)
-    {
-        foreach(const FanInfo &info, infos)
-        {
-            m_fanInfos.insert(info.Key, info);
-        }
-    }
-
+    m_fanInfos = infos;
 
     if(m_fanWidgets.count() == m_fanInfos.count())
         updateFanWidgets();
@@ -90,54 +75,10 @@ void VentilationOverviewFrame::onFanInfosReceived(QList<FanInfo> infos)
         m_needConfig = false;
         VentilationConfigFrame *frame = new VentilationConfigFrame();
         qDebug()<<"Ventilation editor in FanInfosReceived";
-        frame->setService(m_ventService);
         disconnect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
         FrameManager::instance()->setCurrentFrame(frame);
     }
 }
-
-
-
-
-//void VentilationOverviewFrame::onFanStatesReceived(QList<FanState> states)
-//{
-//    if(m_fanStates.count()>0)
-//    {
-//        qDeleteAll(m_fanStates);
-//        m_fanStates.clear();
-//    }
-
-//    for(int i = 0; i < states.count(); i++)
-//    {
-//        FanState *state = new FanState(states.at(i));
-
-//        m_fanStates.insert(state->Info.Key, state);
-//    }
-
-//    if(m_fanWidgets.count()==m_fanStates.count())
-//        updateFanWidgets();
-//    else
-//        createFanWidgets();
-//}
-
-//void VentilationOverviewFrame::onFanStateUpdated(FanState state)
-//{
-//    QString key = state.Info.Key;
-//    m_fanStates[key]->State = state.State;
-//    m_fanStates[key]->Info.IsManual = state.Info.IsManual;
-//    bool man = state.Info.IsManual;
-
-//    if(man)
-//        m_fanWidgets[key]->setFanMode(FanMode::Manual);
-//    else
-//    {
-//        if(m_fanStates[key]->Info.Hermetise)
-//            m_fanWidgets[key]->setFanMode(FanMode::Disabled);
-//        else
-//            m_fanWidgets[key]->setFanMode(FanMode::Auto);
-//    }
-//    m_fanWidgets[key]->setFanState((FanStateEnum)state.State);
-//}
 
 void VentilationOverviewFrame::onEditFanStateChanged(const QString &fanKey, FanStateEnum_t newState)
 {
@@ -166,7 +107,6 @@ void VentilationOverviewFrame::onValveStateReceived(bool isManual, float currPos
     Q_UNUSED(setPoint);
     ui->pbValves->setValue(currPos);
     ui->lblValveSetPoint->setText(QString::number(setPoint,'f',1));
-
 }
 
 void VentilationOverviewFrame::onMineStateReceived(bool isManual, float currPos, float setPoint)
@@ -190,7 +130,6 @@ void VentilationOverviewFrame::onVentilationStatusReceived(float valvePos, float
         m_needConfig = false;
         VentilationConfigFrame *frame = new VentilationConfigFrame();
         qDebug()<<"Ventilation editor in VentilationStatus";
-        frame->setService(m_ventService);
         disconnect(m_updateTimer, &QTimer::timeout, this, &VentilationOverviewFrame::onUpdateTimer);
         FrameManager::instance()->setCurrentFrame(frame);
     }
@@ -219,9 +158,6 @@ void VentilationOverviewFrame::createFanWidgets()
                 widget->setFanMode(FanModeEnum::Auto);
         }
         widget->setFanState((FanStateEnum)s->State);
-
-        //widget->setMaximumSize(QSize(130,130));
-        //widget->setMinimumSize(QSize(130,130));
 
         connect(widget, &FanWidget::FanModeChanged, this, &VentilationOverviewFrame::onEditFanModeChanged);
         connect(widget, &FanWidget::FanStateChanged, this, &VentilationOverviewFrame::onEditFanStateChanged);
@@ -273,6 +209,8 @@ void VentilationOverviewFrame::updateFanWidgets()
     {
         FanInfo *s = &m_fanInfos[m_fanInfos.keys().at(i)];
         FanWidget *w = m_fanWidgets[s->Key];
+
+        w->setFanName(s->FanName);
         if(s->Mode == (int)FanModeEnum::Manual)
             w->setFanMode(FanModeEnum::Manual);
         else

@@ -84,8 +84,17 @@ namespace Clima.Core.Controllers
                 }
                 return states;
             } 
-        } 
-            
+        }
+
+        public void UpdateFanInfos(Dictionary<string, FanInfo> infos)
+        {
+            if (_config.FanInfos.Count == infos.Count)
+            {
+                _config.FanInfos = infos;
+                ClimaContext.Current.SaveConfiguration();
+                CreateFans();
+            }
+        }
 
         public string CreateOrUpdateFan(FanInfo fanInfo)
         {
@@ -218,18 +227,22 @@ namespace Clima.Core.Controllers
                     prevPerf = perfCounter;
                     perfCounter += info.Performance * info.FanCount;
                 }
+                
                 var fanTableItem = new FanControllerTableItem();
                 fanTableItem.Info = info;
                 if (info.IsAnalog)
                 {
                     fanTableItem.AnalogFan = _devProvider.GetFrequencyConverter("FC:0");
                     fanTableItem.CurrentPerformance = info.Performance * info.FanCount;
+                    fanTableItem.StartPerformance = info.StartValue;
+                    fanTableItem.StopPerformance = info.StopValue;
                 }
                 else
                 {
                     fanTableItem.Relay = _devProvider.GetRelay(info.RelayName);
                     fanTableItem.CurrentPerformance = perfCounter;
                     fanTableItem.StartPerformance = prevPerf + info.StartValue;
+                    fanTableItem.StopPerformance = prevPerf + info.StopValue;
                 }
                 
                 fanTableItem.Info = info;

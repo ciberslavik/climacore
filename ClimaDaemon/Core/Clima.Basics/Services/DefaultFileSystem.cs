@@ -11,6 +11,12 @@ namespace Clima.Basics.Services
             _appBasePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             _dataStoragePath = Path.Combine(_appBasePath, "Data");
             _configurationPath = Path.Combine(_dataStoragePath, "Config");
+
+            var dbdir = Path.Combine(_dataStoragePath, "database");
+            if (!Directory.Exists(dbdir))
+                Directory.CreateDirectory(dbdir);
+            
+            LocalDatabasePath = Path.Combine(_dataStoragePath, "database", "local.db");
         }
 
         private readonly string _appBasePath;
@@ -22,7 +28,7 @@ namespace Clima.Basics.Services
         public string DataStoragePath => _dataStoragePath;
 
         public string ConfigurationPath => _configurationPath;
-
+        public string LocalDatabasePath { get; private set; }
         public bool FolderExist(string path)
         {
             return Directory.Exists(path);

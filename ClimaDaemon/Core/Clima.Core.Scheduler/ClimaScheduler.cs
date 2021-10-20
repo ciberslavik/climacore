@@ -276,7 +276,8 @@ namespace Clima.Core.Scheduler
 
             var currAvg = (currFront + currRear) / 2;
             var error = (currAvg - tempSetPoint) * _config.VentilationParams.Proportional;
-            
+            if (error <= 0)
+                return minVent;
             
 
             var ventDiff = maxVent - minVent;

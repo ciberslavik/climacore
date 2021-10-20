@@ -11,6 +11,7 @@
       <ProjectReference Include="..\..\Core\Clima.Basics\Clima.Basics.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Core.Scheduler\Clima.Core.Scheduler.csproj" />
       <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />
+      <ProjectReference Include="..\..\Core\Clima.History.Service\Clima.History.Service.csproj" />
       <ProjectReference Include="..\..\Repositories\Clima.FSGrapRepository\Clima.FSGrapRepository.csproj" />
       <ProjectReference Include="..\..\Repositories\Clima.FSLightRepository\Clima.FSLightRepository.csproj" />
       <ProjectReference Include="..\..\Repositories\Clima.History.MySQL\Clima.History.MySQL.csproj" />

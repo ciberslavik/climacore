@@ -21,11 +21,18 @@ namespace Clima.Core.Controllers.Network.Services
         {
             var response = new FanInfosResponse();
 
-            response.Infos = _ventController.FanInfos.Values.ToList();
+            response.Infos = _ventController.FanInfos;
             
             return response;
         }
-
+        
+        [ServiceMethod]
+        public DefaultResponse UpdateFanInfoList(FanInfosRequest request)
+        {
+            _ventController.UpdateFanInfos(request.Infos);
+            
+            return new DefaultResponse();
+        }
         [ServiceMethod]
         public FanInfo GetFanInfo(FanKeyRequest request)
         {

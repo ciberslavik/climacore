@@ -9,6 +9,7 @@
 #include <Network/GenericServices/Messages/FanModeRequest.h>
 #include <Network/GenericServices/Messages/VentilationStatusResponse.h>
 #include <Network/GenericServices/Messages/FanKeyRequest.h>
+#include <Network/GenericServices/Messages/FanInfoListRequest.h>
 
 
 VentilationService::VentilationService(QObject *parent) : INetworkService(parent)
@@ -28,6 +29,20 @@ void VentilationService::GetFanInfoList()
     NetworkRequest *request = new NetworkRequest();
     request->service = "VentilationControllerService";
     request->method = "GetFanInfoList";
+
+    emit SendRequest(request);
+}
+
+void VentilationService::UpdateFanInfoList(const QMap<QString, FanInfo> &infos)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "VentilationControllerService";
+    request->method = "UpdateFanInfoList";
+
+    FanInfoListRequest rq;
+    rq.Infos = infos;
+
+    request->params = rq.toJsonString();
 
     emit SendRequest(request);
 }

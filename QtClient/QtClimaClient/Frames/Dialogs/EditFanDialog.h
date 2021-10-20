@@ -15,8 +15,8 @@ class EditFanDialog : public QDialog
 public:
     explicit EditFanDialog(QWidget *parent = nullptr);
     ~EditFanDialog();
-    FanInfo *getInfo();
-    void setInfo(FanInfo *info);
+    FanInfo getInfo();
+    void setInfo(const FanInfo &info);
 private slots:
     void on_btnAccept_clicked();
 
@@ -28,7 +28,7 @@ private slots:
     void onRelayListReceived(QList<RelayInfo> relayList);
 private:
     Ui::EditFanDialog *ui;
-    FanInfo *m_fanInfo;
+    FanInfo m_fanInfo;
     DeviceProviderService *m_devProvider;
 };
 

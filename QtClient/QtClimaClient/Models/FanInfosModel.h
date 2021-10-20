@@ -20,10 +20,16 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    void setFanInfoList(const QList<FanInfo> *infos);
-    QList<FanInfo> *getFanInfoList()const;
-private:
-    const QList<FanInfo> *m_infos ;
+    void setFanInfoList(const QList<FanInfo> &infos);
+    void updateFanInfoList(const QList<FanInfo> &infos);
 
+    QString getRowKey(int row);
+
+    void generateUpdate();
+private:
+    QList<FanInfo> m_infos;
+
+    QColor getModeColor(const FanInfo &info) const;
+    QString getModeString(const FanInfo &info) const;
 };
 

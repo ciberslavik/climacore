@@ -60,6 +60,7 @@ private:
     bool m_isAnalog;
     QLabel *m_fanLabel;
     QLabel *m_analogValueLabel;
+    QLabel *m_nameLabel;
     QClickableLabel *m_modeLabel;
     float m_analogValue;
 

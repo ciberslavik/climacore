@@ -38,40 +38,44 @@ EditFanDialog::~EditFanDialog()
     delete ui;
 }
 
-FanInfo *EditFanDialog::getInfo()
+FanInfo EditFanDialog::getInfo()
 {
-
-    m_fanInfo->FanName = ui->txtFanName->text();
-    m_fanInfo->FanCount = ui->txtCount->text().toInt();
-    m_fanInfo->Performance = ui->txtPerf->text().toInt();
-    m_fanInfo->StartValue = ui->txtMinPerf->text().toInt();
-    m_fanInfo->RelayName = ui->cboRelaySelect->currentText();
-    m_fanInfo->Priority = ui->cboPrio->currentText().toInt();
     return m_fanInfo;
 }
 
-void EditFanDialog::setInfo(FanInfo *info)
+void EditFanDialog::setInfo(const FanInfo &info)
 {
     m_fanInfo = info;
 
-    ui->txtFanName->setText(m_fanInfo->FanName);
-    ui->txtCount->setText(QString::number(m_fanInfo->FanCount));
-    ui->txtPerf->setText(QString::number(m_fanInfo->Performance));
-    ui->txtMinPerf->setText(QString::number(m_fanInfo->StartValue));
-    ui->cboRelaySelect->setCurrentText(m_fanInfo->RelayName);
-    ui->cboPrio->setCurrentText(QString::number(m_fanInfo->Priority));
+    ui->txtFanName->setText(m_fanInfo.FanName);
+    ui->txtCount->setText(QString::number(m_fanInfo.FanCount));
+    ui->txtPerf->setText(QString::number(m_fanInfo.Performance));
+    ui->txtMinPerf->setText(QString::number(m_fanInfo.StartValue));
+    ui->cboRelaySelect->setCurrentText(m_fanInfo.RelayName);
+    ui->cboPrio->setCurrentText(QString::number(m_fanInfo.Priority));
 
-    ui->lblTotalPerf->setText(QString::number(m_fanInfo->Performance * m_fanInfo->FanCount));
+    if(m_fanInfo.Hermetised)
+        ui->chkHerm->setCheckState(Qt::CheckState::Checked);
+    else
+        ui->chkHerm->setCheckState(Qt::CheckState::Unchecked);
+
+    ui->lblTotalPerf->setText(QString::number(m_fanInfo.Performance * m_fanInfo.FanCount));
 }
 
 void EditFanDialog::on_btnAccept_clicked()
 {
-    m_fanInfo->FanName = ui->txtFanName->text();
-    m_fanInfo->FanCount = ui->txtCount->text().toInt();
-    m_fanInfo->Performance = ui->txtPerf->text().toInt();
-    m_fanInfo->StartValue = ui->txtMinPerf->text().toInt();
-    m_fanInfo->RelayName = ui->cboRelaySelect->currentText();
-    m_fanInfo->Priority = ui->cboPrio->currentText().toInt();
+    m_fanInfo.FanName = ui->txtFanName->text();
+    m_fanInfo.FanCount = ui->txtCount->text().toInt();
+    m_fanInfo.Performance = ui->txtPerf->text().toInt();
+    m_fanInfo.StartValue = ui->txtMinPerf->text().toInt();
+    m_fanInfo.RelayName = ui->cboRelaySelect->currentText();
+    m_fanInfo.Priority = ui->cboPrio->currentText().toInt();
+
+    if(ui->chkHerm->checkState()==Qt::CheckState::Checked)
+        m_fanInfo.Hermetised = true;
+    else if(ui->chkHerm->checkState()==Qt::CheckState::Unchecked)
+        m_fanInfo.Hermetised = false;
+
     accept();
 }
 
@@ -130,8 +134,8 @@ void EditFanDialog::onRelayListReceived(QList<RelayInfo> relayList)
     for(int i = 0; i<relayList.count(); i++)
     {
         ui->cboRelaySelect->addItem(relayList.at(i).Name);
-
     }
+    ui->cboRelaySelect->setCurrentText(m_fanInfo.RelayName);
 }
 
 

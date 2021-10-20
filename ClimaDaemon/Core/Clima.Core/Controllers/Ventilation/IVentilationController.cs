@@ -8,6 +8,7 @@ namespace Clima.Core.Controllers.Ventilation
     public interface IVentilationController:IService
     {
         Dictionary<string, FanInfo> FanInfos { get; }
+        void UpdateFanInfos(Dictionary<string, FanInfo> infos);
         string CreateOrUpdateFan(FanInfo fanInfo);
         void RemoveFan(string fanKey);
         void SetFanState(string key, FanStateEnum state, float analogPower = 0f);

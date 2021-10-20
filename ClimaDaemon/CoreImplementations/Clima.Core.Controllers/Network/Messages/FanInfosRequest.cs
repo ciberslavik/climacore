@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Clima.Core.DataModel;
 
 namespace Clima.Core.Controllers.Network.Messages
 {
-    public class FanInfosResponse
+    public class FanInfosRequest
     {
-        public FanInfosResponse()
+        public FanInfosRequest()
         {
+            
         }
-
         public Dictionary<string, FanInfo> Infos { get; set; } = new Dictionary<string, FanInfo>();
     }
 }
