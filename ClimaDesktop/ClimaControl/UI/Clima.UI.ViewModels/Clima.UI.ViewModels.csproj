@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Security\" />
+    <Folder Include="Dialogs\" />
   </ItemGroup>
 
 </Project>

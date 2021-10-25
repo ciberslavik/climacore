@@ -4,21 +4,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clima.UI.WPF.Views"
+        xmlns:viewModels="clr-namespace:Clima.UI.ViewModels;assembly=Clima.UI.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindowView" Height="450" Width="800"
-        Icon="{DynamicResource ApplicationImage}"
-        Style="{DynamicResource VS2012WindowStyle}"
-        TextOptions.TextFormattingMode="Display">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Clima.UI.WPF.Views;component/Resources/Images.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="/Clima.UI.WPF.Views;component/Resources/CustomizedWindowStyle.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="/Clima.UI.WPF.Views;component/Resources/CustomizedControlStyles.xaml"></ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+        Title="{Binding Path=Title}" Height="450" Width="800"
+        TextOptions.TextFormattingMode="Display"
+        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}">
+    
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="File"/>
+            <MenuItem Header="Edit"/>
+            <MenuItem Header="Tools">
+                <MenuItem Header="Configuration" Command="{Binding Path=ShowConfiguration}"/>
+            </MenuItem>
+            <MenuItem Header="Help"/>
+        </Menu>
+        <ToolBarTray Grid.Row="1">
+            <ToolBar Header="Test">
+                <Button Content="C"/>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TreeView Grid.Column="0">
+                <TreeViewItem Header="ROOT"/>
+            </TreeView>
+            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center"
+                          VerticalAlignment="Stretch"/>
+        </Grid>
+        <StatusBar Grid.Row="3">
+            <Label Content="Status"></Label>
+        </StatusBar>
     </Grid>
 </Window>

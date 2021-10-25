@@ -38,6 +38,10 @@ namespace Clima.Bootstrapper.Installers
                 Classes.FromAssemblyInDirectory(asmFilter)
                     .BasedOn<IViewModel>()
                     .WithServiceFromInterface()
+                    .LifestyleTransient(),
+                Component
+                    .For<IViewFactory>()
+                    .ImplementedBy<WindsorViewFactory>()
                     .LifestyleTransient()
                 );
 

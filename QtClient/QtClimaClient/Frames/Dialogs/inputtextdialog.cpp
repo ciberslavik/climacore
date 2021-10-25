@@ -11,60 +11,60 @@
 #define WHITESPACE_MARKER -1
 struct KeyboardLayoutEntry{
     int key;
-    const char16_t *label;
+    const QString label;
 };
 
 KeyboardLayoutEntry keyboardLayout[] = {
-    { Qt::Key_1, u"1" },
-    { Qt::Key_2, u"2" },
-    { Qt::Key_3, u"3" },
-    { Qt::Key_4, u"4" },
-    { Qt::Key_5, u"5" },
-    { Qt::Key_6, u"6" },
-    { Qt::Key_7, u"7" },
-    { Qt::Key_8, u"8" },
-    { Qt::Key_9, u"9" },
-    { Qt::Key_0, u"0" },
-    { Qt::Key_Backspace, u"<-" },
+    { Qt::Key_1, "1" },
+    { Qt::Key_2, "2" },
+    { Qt::Key_3, "3" },
+    { Qt::Key_4, "4" },
+    { Qt::Key_5, "5" },
+    { Qt::Key_6, "6" },
+    { Qt::Key_7, "7" },
+    { Qt::Key_8, "8" },
+    { Qt::Key_9, "9" },
+    { Qt::Key_0, "0" },
+    { Qt::Key_Backspace, "<-" },
     { NEXT_ROW_MARKER, 0 },
-    { Qt::Key_Q, u"Й" },
-    { Qt::Key_W, u"Ц" },
-    { Qt::Key_E, u"У" },
-    { Qt::Key_R, u"К" },
-    { Qt::Key_T, u"Е" },
-    { Qt::Key_Z, u"Н" },
-    { Qt::Key_U, u"Г" },
-    { Qt::Key_I, u"Ш" },
-    { Qt::Key_O, u"Щ" },
-    { Qt::Key_P, u"З" },
-    { Qt::Key_BracketLeft, u"Х" },
-    { Qt::Key_BracketRight, u"Ъ" },
+    { Qt::Key_Q, "Й" },
+    { Qt::Key_W, "Ц" },
+    { Qt::Key_E, "У" },
+    { Qt::Key_R, "К" },
+    { Qt::Key_T, "Е" },
+    { Qt::Key_Z, "Н" },
+    { Qt::Key_U, "Г" },
+    { Qt::Key_I, "Ш" },
+    { Qt::Key_O, "Щ" },
+    { Qt::Key_P, "З" },
+    { Qt::Key_BracketLeft, "Х" },
+    { Qt::Key_BracketRight, "Ъ" },
     { NEXT_ROW_MARKER, 0 },
-    { Qt::Key_A, u"Ф" },
-    { Qt::Key_S, u"Ы" },
-    { Qt::Key_D, u"В" },
-    { Qt::Key_F, u"А" },
-    { Qt::Key_G, u"П" },
-    { Qt::Key_H, u"Р" },
-    { Qt::Key_J, u"О" },
-    { Qt::Key_K, u"Л" },
-    { Qt::Key_L, u"Д" },
-    { Qt::Key_Semicolon, u"Ж" },
-    { Qt::Key_QuoteDbl, u"Э" },
+    { Qt::Key_A, "Ф" },
+    { Qt::Key_S, "Ы" },
+    { Qt::Key_D, "В" },
+    { Qt::Key_F, "А" },
+    { Qt::Key_G, "П" },
+    { Qt::Key_H, "Р" },
+    { Qt::Key_J, "О" },
+    { Qt::Key_K, "Л" },
+    { Qt::Key_L, "Д" },
+    { Qt::Key_Semicolon, "Ж" },
+    { Qt::Key_QuoteDbl, "Э" },
     { NEXT_ROW_MARKER, 0 },
-    { Qt::Key_Y, u"Я" },
-    { Qt::Key_X, u"Ч" },
-    { Qt::Key_C, u"С" },
-    { Qt::Key_V, u"М" },
-    { Qt::Key_B, u"И" },
-    { Qt::Key_N, u"Т" },
-    { Qt::Key_M, u"Ь" },
-    { Qt::Key_Comma, u"Б" },
-    { Qt::Key_Period, u"Ю" },
-    { Qt::Key_Slash, u"." },
-    { Qt::Key_Enter, u"Enter" },
+    { Qt::Key_Y, "Я" },
+    { Qt::Key_X, "Ч" },
+    { Qt::Key_C, "С" },
+    { Qt::Key_V, "М" },
+    { Qt::Key_B, "И" },
+    { Qt::Key_N, "Т" },
+    { Qt::Key_M, "Ь" },
+    { Qt::Key_Comma, "Б" },
+    { Qt::Key_Period, "Ю" },
+    { Qt::Key_Slash, "." },
+    { Qt::Key_Enter, "Enter" },
     { NEXT_ROW_MARKER, 0 },
-    { Qt::Key_Space, u" " }
+    { Qt::Key_Space, " " }
 };
 
 const static int layoutSize = (sizeof(keyboardLayout) / sizeof(KeyboardLayoutEntry));
@@ -73,7 +73,7 @@ static QString keyToCharacter(int key)
 {
     for (int i = 0; i < layoutSize; ++i) {
         if (keyboardLayout[i].key == key)
-            return QString::fromUtf16(keyboardLayout[i].label);
+            return keyboardLayout[i].label;
     }
 
     return QString();
@@ -122,7 +122,7 @@ InputTextDialog::InputTextDialog(QWidget *parent) :
         //button->setLayout(grid);
         button->setFixedWidth(50);
         button->setFixedHeight(50);
-        button->setText(QString::fromUtf16(keyboardLayout[i].label));
+        button->setText(keyboardLayout[i].label);
         QFont font = button->font();
         font.setWeight(16);
         button->setFont(font);
@@ -169,7 +169,12 @@ QString InputTextDialog::getText()
 
 void InputTextDialog::setText(QString text)
 {
-   textbox->setText(text);
+    textbox->setText(text);
+}
+
+void InputTextDialog::setTitle(const QString &title)
+{
+    lblTitle->setText(title);
 }
 
 void InputTextDialog::buttonClicked(int key)
