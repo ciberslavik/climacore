@@ -280,7 +280,7 @@ void FanWidget::rebuildUI()
             m_fanMovie->start();
             break;
         case FanStateEnum::Stopped:
-            m_stateBrush = QBrush(Qt::GlobalColor::darkGreen);
+            m_stateBrush = QBrush(Qt::GlobalColor::black);
             m_fanMovie->stop();
             break;
         case FanStateEnum::Alarm:
