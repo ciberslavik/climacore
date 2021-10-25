@@ -203,10 +203,7 @@ void VentilationConfigFrame::showEvent(QShowEvent *event)
 
 void VentilationConfigFrame::on_btnAccept_clicked()
 {
-    if(m_dataChanged)
-    {
-        m_ventService->UpdateFanInfoList(m_infos);
-    }
+    m_ventService->UpdateFanInfoList(m_infos);
 }
 
 void VentilationConfigFrame::onTimeout()
