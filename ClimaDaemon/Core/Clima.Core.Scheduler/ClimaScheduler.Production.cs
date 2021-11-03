@@ -43,7 +43,7 @@ namespace Clima.Core.Scheduler
             if (_state.SchedulerState != SchedulerState.Stopped)
             {
                 _state.SchedulerState = SchedulerState.Stopped;
-                StopTimer(TimeSpan.FromSeconds(20));
+                //StopTimer(TimeSpan.FromSeconds(20));
                 _heater.StopHeater();
                 _ventilation.ProcessController(0);
                 Save();

@@ -69,11 +69,11 @@ namespace Clima.Core.DataModel
             set => Update(ref _priority, value);
         }
 
-        public bool Hermetised
+        /*public bool Hermetised
         {
             get => _hermetised;
             set => Update(ref _hermetised, value);
-        }
+        }*/
         public float StartValue
         {
             get => _startValue;
@@ -128,6 +128,6 @@ namespace Clima.Core.DataModel
     {
         Auto = 0,
         Manual = 1,
-        Hermetise = 2
+        Disabled = 2
     }
 }

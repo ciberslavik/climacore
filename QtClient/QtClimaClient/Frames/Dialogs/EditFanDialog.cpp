@@ -7,6 +7,7 @@
 
 #include <Network/INetworkService.h>
 #include "ApplicationWorker.h"
+#include "Models/FanControlsEnums.h"
 
 EditFanDialog::EditFanDialog(QWidget *parent) :
     QDialog(parent),

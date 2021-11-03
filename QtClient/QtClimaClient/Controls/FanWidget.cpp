@@ -212,14 +212,20 @@ void FanWidget::onModeLabelClicked()
 
 void FanWidget::onModeEditorModeChanged(FanModeEnum mode)
 {
-    setFanMode(mode);
-    emit FanModeChanged(m_fanKey, mode);
+    if(m_fanMode != mode)
+    {
+        setFanMode(mode);
+        emit FanModeChanged(m_fanKey, mode);
+    }
 }
 
 void FanWidget::onModeEditorStateChanged(FanStateEnum_t state)
 {
-    setFanState(state);
-    emit FanStateChanged(m_fanKey, state);
+    if(m_fanState != state)
+    {
+        setFanState(state);
+        emit FanStateChanged(m_fanKey, state);
+    }
 }
 
 void FanWidget::onModeEditorValueChanged(const float &value)
@@ -260,14 +266,15 @@ void FanWidget::rebuildUI()
 {
     switch(m_fanMode)
     {
-    case FanModeEnum::Auto:
-        m_modeLabel->setPixmap(m_autoPixmap);
+        case FanModeEnum::Auto:
+            m_modeLabel->setPixmap(m_autoPixmap);
         break;
-    case FanModeEnum::Manual:
-        m_modeLabel->setPixmap(m_manualPixmap);
+        case FanModeEnum::Manual:
+            m_modeLabel->setPixmap(m_manualPixmap);
         break;
-    case FanModeEnum::Disabled:
-        m_modeLabel->setPixmap(m_discardPixmap);
+        case FanModeEnum::Disabled:
+            m_modeLabel->setPixmap(m_discardPixmap);
+            m_fanMovie->stop();
         break;
     }
 
@@ -275,24 +282,25 @@ void FanWidget::rebuildUI()
     {
         switch (m_fanState)
         {
-        case FanStateEnum::Running:
-            m_stateBrush = QBrush(Qt::green);
-            m_fanMovie->start();
+            case FanStateEnum::Running:
+                m_stateBrush = QBrush(Qt::green);
+                m_fanMovie->start();
             break;
-        case FanStateEnum::Stopped:
-            m_stateBrush = QBrush(Qt::GlobalColor::black);
-            m_fanMovie->stop();
+            case FanStateEnum::Stopped:
+                m_stateBrush = QBrush(Qt::GlobalColor::black);
+                m_fanMovie->stop();
             break;
-        case FanStateEnum::Alarm:
-            m_stateBrush = QBrush(Qt::red);
-            m_modeLabel->setPixmap(m_alertPixmap);
-            m_fanMovie->stop();
+            case FanStateEnum::Alarm:
+                m_stateBrush = QBrush(Qt::red);
+                m_modeLabel->setPixmap(m_alertPixmap);
+                m_fanMovie->stop();
             break;
         }
     }
     else
     {
         m_stateBrush = QBrush(Qt::gray);
+
     }
 
     if(m_isAnalog)

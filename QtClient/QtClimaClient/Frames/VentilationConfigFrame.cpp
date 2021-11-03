@@ -31,6 +31,7 @@ VentilationConfigFrame::VentilationConfigFrame(QWidget *parent) :
 
     m_currentState = EditorState::Initialize;
     m_running = false;
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 }
 
@@ -81,6 +82,11 @@ void VentilationConfigFrame::on_btnEdit_clicked()
                     break;
                 }
             }
+            if(editedInfo.Hermetised)
+                editedInfo.Mode = (int)FanModeEnum::Disabled;
+            else
+                editedInfo.Mode = (int)FanModeEnum::Auto;
+
             m_infos[editedInfo.Key] = editedInfo;
             m_dataChanged = true;
             m_infosModel->updateFanInfoList(m_infos.values());
@@ -129,9 +135,15 @@ void VentilationConfigFrame::onFanInfoListReceived(QMap<QString, FanInfo> infos)
     {
         m_infos = QMap<QString, FanInfo>(infos);
 
+        foreach (const FanInfo &i, m_infos) {
+            if(i.Mode == (int)FanModeEnum::Disabled)
+                m_infos[i.Key].Hermetised = true;
+            else
+                m_infos[i.Key].Hermetised = false;
+        }
         m_infosModel->setFanInfoList(m_infos.values());
 
-        m_dataChanged = false;
+
 
         ui->tableView->resizeColumnsToContents();
         ui->tableView->resizeRowsToContents();
@@ -153,7 +165,7 @@ void VentilationConfigFrame::onFanInfoListReceived(QMap<QString, FanInfo> infos)
                 {
                     tmp.AnalogPower = info.AnalogPower;
                 }
-                if(!tmp.Hermetised)
+                if(tmp.Mode != (int)FanModeEnum::Disabled)
                     totalPerf += tmp.Performance * tmp.FanCount;
 
                 m_infos[info.Key] = tmp;
@@ -203,6 +215,12 @@ void VentilationConfigFrame::showEvent(QShowEvent *event)
 
 void VentilationConfigFrame::on_btnAccept_clicked()
 {
+    foreach (const FanInfo &i, m_infos) {
+        if(i.Hermetised)
+            m_infos[i.Key].Mode = (int)FanModeEnum::Disabled;
+        else
+            m_infos[i.Key].Mode = (int)FanModeEnum::Auto;
+    }
     m_ventService->UpdateFanInfoList(m_infos);
 }
 

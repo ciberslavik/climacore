@@ -62,6 +62,7 @@ private slots:
 
     void on_btnDelete_clicked();
 
+    void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 private:
     Ui::SelectProfileFrame *ui;
 

@@ -17,7 +17,7 @@ namespace Clima.Serialization.Newtonsoft
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 //ContractResolver = new ProjectContractResolver(),
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Include
                 //Converters =
                 //{
                 //    new KeyValuePairConverter(),

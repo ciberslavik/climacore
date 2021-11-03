@@ -10,15 +10,27 @@ namespace Clima.History.MySQL
             MySqlConnection conn = null;
             var sb = new MySqlConnectionStringBuilder()
             {
-                Server = "127.0.0.1",
+                Server = "10.0.10.147",
                 Port = 3306,
                 UserID = "root",
                 Password = "041087",
-                Database = "ClimaDB"
+                Database = "ClimaDB",
+                ConnectionTimeout = 2
             };
 
+            sb.SslMode = MySqlSslMode.None;
+            
             conn = new MySqlConnection(sb.ConnectionString);
-            conn.Open();
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return;
+            }
+            
 
             var cmd = conn.CreateCommand();
             cmd.CommandText = "SELECT * FROM AuthUsers";

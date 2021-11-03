@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Clima.Core.DataModel;
 using Clima.Core.Scheduler.Configuration;
 
@@ -25,10 +26,14 @@ namespace Clima.Core.Scheduler
 
         private int GetCurrentHeads()
         {
+            
             _config.LivestockOperations.Sort();
             int result = 0;
-
-            foreach (var operation in _config.LivestockOperations)
+            
+            var ops = _config.LivestockOperations
+                .Where((p) => p.OpertionDate >= _config.ProductionConfig.StartDate);
+            
+            foreach (var operation in ops)
             {
                 if (operation.OpertionType == LivestockOpType.Planted)
                     result += operation.HedCount;
@@ -43,7 +48,11 @@ namespace Clima.Core.Scheduler
         {
             _config.LivestockOperations.Sort();
             var result = new LivestockState();
-            foreach (var operation in _config.LivestockOperations)
+            
+            var ops = _config.LivestockOperations
+                .Where((p) => p.OpertionDate >= _config.ProductionConfig.StartDate);
+            
+            foreach (var operation in ops)
             {
                 switch (operation.OpertionType)
                 {

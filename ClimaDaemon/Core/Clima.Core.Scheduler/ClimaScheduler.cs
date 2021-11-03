@@ -24,8 +24,7 @@ namespace Clima.Core.Scheduler
         private readonly IVentilationController _ventilation;
         private readonly IGraphProviderFactory _graphProviderFactory;
         private readonly IDeviceProvider _deviceProvider;
-
-        private VentilationParams _ventilationParameters;
+        
         private SchedulerStateObject _state;
 
         private readonly object _threadLock = new object();
@@ -46,17 +45,19 @@ namespace Clima.Core.Scheduler
             IHeaterController heater,
             IVentilationController ventilation,
             IGraphProviderFactory graphProviderFactory,
-            IDeviceProvider _deviceProvider)
+            IDeviceProvider deviceProvider)
         {
             _time = timeProvider;
             _heater = heater;
             _ventilation = ventilation;
             _graphProviderFactory = graphProviderFactory;
-            this._deviceProvider = _deviceProvider;
+            _deviceProvider = deviceProvider;
             _schedulerTimerRunning = false;
 
             _state = new SchedulerStateObject();
             _state.SchedulerState = SchedulerState.Stopped;
+            _config = SchedulerConfig.CreateDefault();
+            
             
             ServiceState = ServiceState.NotInitialized;
         }
@@ -192,10 +193,15 @@ namespace Clima.Core.Scheduler
             {
                 if(_state.SchedulerState is SchedulerState.Production or SchedulerState.Preparing)
                 {
-                    StartTimer();
+                    
+                }
+                else if(_state.SchedulerState == SchedulerState.Stopped)
+                {
+                    _ventilation.Stop();
                 }
                 _isRunning = true;
                 ServiceState = ServiceState.Running;
+                StartTimer();
             }
         }
         
@@ -216,55 +222,57 @@ namespace Clima.Core.Scheduler
 
             Log.Debug("Process scheduler");
             string dataToLog = "";
-            //Calculate setpoints
-                //Temperature
-            sc._state.TemperatureSetPoint = GetDayTemperature(sc._state.CurrentDay);
-            dataToLog += "Temp set point:" + sc._state.TemperatureSetPoint + " \n";
-                //Ventilation
-            var dayVent = GetDayVentilation(sc._state.CurrentDay);
-            sc._state.VentilationMaxPoint = dayVent.MaxValue;
-            dataToLog += "\tMax vent:" + sc._state.VentilationMaxPoint + " \n";
-            dataToLog += "\tMax m3:" + sc._state.VentilationMaxPoint * sc._state.CurrentHeads + "\n";
-            
-            sc._state.VentilationMinPoint = dayVent.MinValue;
-            dataToLog += "\tMin vent:" + sc._state.VentilationMinPoint + " \n";
-            dataToLog += "\tMin m3:" + sc._state.VentilationMinPoint * sc._state.CurrentHeads + "\n";
+            if (sc.SchedulerState == SchedulerState.Production)
+            {
 
-            sc._state.VentilationInMeters = ProcessVent(
-                sc._state.TemperatureSetPoint,
-                sc._state.VentilationMinPoint * sc._state.CurrentHeads,
-                sc._state.VentilationMaxPoint * sc._state.CurrentHeads);
-            sc._state.VentilationSetPoint = sc._state.VentilationInMeters / sc._state.CurrentHeads;
-            
-            dataToLog += "\tVent set point:" + sc._state.VentilationSetPoint + " \n";
-            
-            dataToLog += "\tVent Real:" + _state.VentilationInMeters + "\n";
-            var ventPercent = sc._state.VentilationInMeters / _ventilation.TotalPerformance * 100;
-            dataToLog += "\tVent percent:" + ventPercent + "\n";
+                //Calculate setpoints
+                //Temperature
+                sc._state.TemperatureSetPoint = GetDayTemperature(sc._state.CurrentDay);
+                dataToLog += "Temp set point:" + sc._state.TemperatureSetPoint + " \n";
+                //Ventilation
+                var dayVent = GetDayVentilation(sc._state.CurrentDay);
+                sc._state.VentilationMaxPoint = dayVent.MaxValue;
+                dataToLog += "\tMax vent:" + sc._state.VentilationMaxPoint + " \n";
+                dataToLog += "\tMax m3:" + sc._state.VentilationMaxPoint * sc._state.CurrentHeads + "\n";
+
+                sc._state.VentilationMinPoint = dayVent.MinValue;
+                dataToLog += "\tMin vent:" + sc._state.VentilationMinPoint + " \n";
+                dataToLog += "\tMin m3:" + sc._state.VentilationMinPoint * sc._state.CurrentHeads + "\n";
+
+                sc._state.VentilationInMeters = ProcessVent(
+                    sc._state.TemperatureSetPoint,
+                    sc._state.VentilationMinPoint * sc._state.CurrentHeads,
+                    sc._state.VentilationMaxPoint * sc._state.CurrentHeads);
+                sc._state.VentilationSetPoint = sc._state.VentilationInMeters / sc._state.CurrentHeads;
+
+                dataToLog += "\tVent set point:" + sc._state.VentilationSetPoint + " \n";
+
+                dataToLog += "\tVent Real:" + _state.VentilationInMeters + "\n";
+                var ventPercent = sc._state.VentilationInMeters / _ventilation.TotalPerformance * 100;
+                dataToLog += "\tVent percent:" + ventPercent + "\n";
                 //Valves
-            
-            _state.ValveSetPoint = GetCurrentValve(ventPercent);
-            dataToLog += "\tValve set point:" + _state.ValveSetPoint + " \n";
-            _state.MineSetPoint = GetCurrentMine(ventPercent);
-            dataToLog += "\tMine set point:" + _state.MineSetPoint + " \n";
-            
-            Log.Info(dataToLog);
-            //_state.ValveSetPoint = Get
-            if (sc.SchedulerState == SchedulerState.Preparing)
-            {
-                sc._heater.Process(sc._pConfig.TemperatureSetPoint);
-            }
-            else if (sc.SchedulerState == SchedulerState.Production)
-            {
+
+                _state.ValveSetPoint = GetCurrentValve(ventPercent);
+                dataToLog += "\tValve set point:" + _state.ValveSetPoint + " \n";
+                _state.MineSetPoint = GetCurrentMine(ventPercent);
+                dataToLog += "\tMine set point:" + _state.MineSetPoint + " \n";
+
+                Log.Info(dataToLog);
                 sc._heater.Process(_state.TemperatureSetPoint);
-                
-                sc._ventilation.ProcessController((int)_state.VentilationInMeters);
-                
-                if(!sc._ventilation.ValveIsManual)
+
+                sc._ventilation.ProcessController((int) _state.VentilationInMeters);
+
+
+                if (!sc._ventilation.ValveIsManual)
                     sc._ventilation.SetValvePosition(_state.ValveSetPoint);
-                
-                if(!sc._ventilation.MineIsManual)
+
+                if (!sc._ventilation.MineIsManual)
                     sc._ventilation.SetMinePosition(_state.MineSetPoint);
+            }
+            else if (sc.SchedulerState == SchedulerState.Stopped)
+            {
+                sc._ventilation.ProcessController(0);
+                _ventilation.Stop();
             }
         }
 
@@ -299,8 +307,8 @@ namespace Clima.Core.Scheduler
         {
             return 0f;
         }
-            
-        internal float GetDayTemperature(int dayNumber)
+
+        private float GetDayTemperature(int dayNumber)
         {
             //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
             //соседними точками для текущего дня
@@ -507,7 +515,6 @@ namespace Clima.Core.Scheduler
         {
             lock (_threadLock)
             {
-                if (_schedulerTimer is not null)
                 {
                     ManualResetEvent waitHandle = new ManualResetEvent(false);
                     if (_schedulerTimer.Dispose(waitHandle))
@@ -517,7 +524,6 @@ namespace Clima.Core.Scheduler
                     }
 
                     waitHandle.Close();
-                    _schedulerTimer = null;
                     _schedulerTimerRunning = false;
                 }
             }

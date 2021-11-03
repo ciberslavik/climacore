@@ -24,6 +24,10 @@ namespace Clima.Core.Controllers
         private int _discreteDelta;
         private float _analogPower;
         private float _analogManualPower;
+
+        private LogFileWriter _log;
+        public ISystemLogger Log { get; set; }
+        
         public VentilationController(IDeviceProvider devProvider)
         {
             _devProvider = devProvider;
@@ -31,6 +35,7 @@ namespace Clima.Core.Controllers
 
             ServiceState = ServiceState.NotInitialized;
             _discreteDelta = 500;
+            _log = new LogFileWriter("Ventilation.log");
         }
         public void Start()
         {
@@ -142,13 +147,13 @@ namespace Clima.Core.Controllers
 
         public void ProcessController(float performance)
         {
-            
+            Log.Debug("Process");
             _currentPerformance = performance;
             int perfCounter = 0;
             FanControllerTableItem analogItem = null;
             foreach (var fanTableValue in _fanTable.Values)
             {
-                if(fanTableValue.Info.Hermetised || fanTableValue.Info.Mode == FanModeEnum.Manual)
+                if(fanTableValue.Info.Mode == FanModeEnum.Manual)
                     continue;
                 
                 if(fanTableValue.Info.IsAnalog)
@@ -170,6 +175,11 @@ namespace Clima.Core.Controllers
                         fanTableValue.Info.State = FanStateEnum.Stopped;
                         fanTableValue.Relay.Off();
                     }
+                }
+                else if (fanTableValue.Info.Mode == FanModeEnum.Disabled)
+                {
+                    fanTableValue.Info.State = FanStateEnum.Stopped;
+                    fanTableValue.Relay.Off();
                 }
             }
             
@@ -211,7 +221,7 @@ namespace Clima.Core.Controllers
         public float CurrentPerformance => _currentPerformance;
 
 
-        private void CreateFans()
+        private void CreateFans2()
         {
             _fanTable.Clear();
             
@@ -220,9 +230,11 @@ namespace Clima.Core.Controllers
 
             int perfCounter = 0;
             int prevPerf = 0;
+
+            string creationLog="";
             foreach (var info in infos)
             {
-                if ((!info.Hermetised)||(!info.IsAnalog))
+                if ((!info.IsAnalog)||(info.Mode != FanModeEnum.Disabled))
                 {
                     prevPerf = perfCounter;
                     perfCounter += info.Performance * info.FanCount;
@@ -243,16 +255,96 @@ namespace Clima.Core.Controllers
                     fanTableItem.CurrentPerformance = perfCounter;
                     fanTableItem.StartPerformance = prevPerf + info.StartValue;
                     fanTableItem.StopPerformance = prevPerf + info.StopValue;
+                    
+                    if (info.Mode == FanModeEnum.Auto)
+                    {
+                        fanTableItem.Relay.Off();
+                        info.State = FanStateEnum.Stopped;
+                    }
+                    
                 }
                 
                 fanTableItem.Info = info;
+                _log.WriteLine(fanTableItem.Info.FanName + " start:" + fanTableItem.StartPerformance + " stop:" +
+                               fanTableItem.StopPerformance+"\n");
                 
                 _fanTable.Add(info.Key, fanTableItem);
             }
-
+            Log.Debug(creationLog);
             _totalPerformance = perfCounter;
         }
 
+        private void CreateFans()
+        {
+            _fanTable.Clear();
+            
+            List<FanInfo> infos = _config.FanInfos.Values.ToList();
+            infos.Sort((p, o) => p.Priority - o.Priority);
+
+            var perfCounter = 0;
+            var totalPerfCounter = 0;
+            
+            foreach (var info in infos)
+            {
+                //Create new table item and set info
+                var tableItem = new FanControllerTableItem();
+                tableItem.Info = info;
+                
+                //Calculate fan performance
+                var fanPerformance = info.Performance * info.FanCount;
+                
+                //Calculate total performance
+                totalPerfCounter += fanPerformance;
+                
+                
+                if (info.IsAnalog)
+                {
+                    //Initialize analog fan
+                    tableItem.AnalogFan = _devProvider.GetFrequencyConverter("FC:0");
+                    tableItem.CurrentPerformance = info.Performance * info.FanCount;
+                    tableItem.StartPerformance = info.StartValue;
+                    tableItem.StopPerformance = info.StopValue;
+                }
+                else
+                {
+                    //Initialize discrete fan
+                    
+                    tableItem.Relay = _devProvider.GetRelay(info.RelayName);
+                    
+                    switch (info.Mode)
+                    {
+                        case FanModeEnum.Auto:
+                        {
+                            tableItem.StartPerformance = perfCounter + info.StartValue;
+                            tableItem.StopPerformance = perfCounter + info.StopValue;
+                            
+                            perfCounter += fanPerformance;
+                            tableItem.CurrentPerformance = perfCounter;
+                        }
+                            break;
+                        case FanModeEnum.Manual:
+                        {
+
+                        }
+                            break;
+                        case FanModeEnum.Disabled:
+                        {
+
+                        }
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+                _fanTable.Add(info.Key, tableItem);
+                
+                _log.WriteLine(tableItem.Info.FanName + " perf:" + tableItem.CurrentPerformance + " start:" + tableItem.StartPerformance + " stop:" +
+                               tableItem.StopPerformance);
+            }
+
+            _totalPerformance = totalPerfCounter;
+        }
+        
         public void SetFanMode(string key, FanModeEnum mode)
         {
             if (_fanTable.ContainsKey(key))
@@ -262,8 +354,10 @@ namespace Clima.Core.Controllers
                     _fanTable[key].Info.Mode = mode;
                 }
             }
+            CreateFans();
+            ClimaContext.Current.SaveConfiguration();
         }
-        public void SetFanState(string key, FanStateEnum state, float analogPower )
+        public void SetFanState(string key, FanStateEnum state, float analogPower)
         {
             if(_fanTable.ContainsKey(key))
             {

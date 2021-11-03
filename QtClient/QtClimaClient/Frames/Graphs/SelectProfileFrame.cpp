@@ -57,6 +57,7 @@ SelectProfileFrame::SelectProfileFrame(const ProfileType &profileType, QWidget *
     }
     //
 
+    ui->profilesTable->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 }
 
@@ -101,6 +102,7 @@ void SelectProfileFrame::ProfileInfosReceived(QList<ProfileInfo> infos)
     }
 
     selectRow(i);
+    connect(ui->profilesTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &SelectProfileFrame::onSelectionChanged);
 }
 
 
@@ -245,6 +247,7 @@ void SelectProfileFrame::selectRow(int row)
         m_graphService->GetValveProfile(key);
         break;
     }
+    ui->profilesTable->verticalScrollBar()->setValue(row);
 }
 
 void SelectProfileFrame::drawTemperatureGraph(ValueByDayProfile *profile)
@@ -262,7 +265,13 @@ void SelectProfileFrame::drawTemperatureGraph(ValueByDayProfile *profile)
         days[i] = profile->Points[i].Day;
         temps[i] = profile->Points[i].Value;
     }
+    QCPScatterStyle ss;
+    ss.setShape(QCPScatterStyle::ScatterShape::ssCircle);
+    ss.setSize(5);
+
+
     plot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
+    plot->graph(0)->valueAxis()->setTickLabels(true);
     plot->graph(0)->setData(days, temps);
     plot->xAxis->setRange(10,60);
     plot->yAxis->setRange(0,50);
@@ -460,6 +469,32 @@ void SelectProfileFrame::on_btnDelete_clicked()
                 m_graphService->RemoveValveProfile(key);
                 break;
             }
+        }
+    }
+}
+
+void SelectProfileFrame::onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    if(selected.indexes().count() > 0)
+    {
+        int row = selected.indexes().at(0).row();
+
+        QString key = m_infoModel->infos()->at(row).Key;
+
+        switch(m_profileType)
+        {
+        case ProfileType::Temperature:
+            m_needEdit = false;
+            m_graphService->GetTemperatureProfile(key);
+            break;
+        case ProfileType::Ventilation:
+            m_needEdit = false;
+            m_graphService->GetVentilationProfile(key);
+            break;
+        case ProfileType::ValveByVent:
+            m_needEdit = false;
+            m_graphService->GetValveProfile(key);
+            break;
         }
     }
 }

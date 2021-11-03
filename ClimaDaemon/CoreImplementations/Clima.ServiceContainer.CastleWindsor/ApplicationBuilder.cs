@@ -36,7 +36,7 @@ namespace Clima.ServiceContainer.CastleWindsor
         private IServiceProvider _serviceProvider;
        
         private ISystemLogger _logger;
-        private const bool isDebug = true;
+        private const bool isDebug = false;
         public ApplicationBuilder()
         {
             _logger = new ConsoleSystemLogger();
@@ -68,18 +68,11 @@ namespace Clima.ServiceContainer.CastleWindsor
             //_container.Register(Component.For<IServer>().ImplementedBy<SocketListener>())
             _container.Install(new NetworkInstaller(_logger));
 
-            /*var repo = _container.Resolve<IHistoryRepository>();
-            var rand = new Random();*/
+            MyClient client = new MyClient();
+            
+            client.ConnectToServer();
             
             
-                /*repo.AddClimatePoint(new ClimatStateHystoryItem()
-                {
-                    Front = 10.5f,
-                    Rear = 15.2f,
-                    Outdoor = 22.1f,
-                    Humidity = 55.3f,
-                    Pressure = 35.8f
-                });*/
             
 
             _logger.Info("Register core services");

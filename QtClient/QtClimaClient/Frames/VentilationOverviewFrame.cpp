@@ -96,7 +96,7 @@ void VentilationOverviewFrame::onEditFanModeChanged(const QString &fanKey, FanMo
 {
     qDebug() <<"Edit mode changed:" << fanKey << " mode:" << (int)newMode;
 
-        m_fanInfos[fanKey].Mode = (int)newMode;
+    m_fanInfos[fanKey].Mode = (int)newMode;
 
     m_ventService->SetFanMode(fanKey, newMode);
 }
@@ -152,10 +152,7 @@ void VentilationOverviewFrame::createFanWidgets()
             widget->setFanMode(FanModeEnum::Manual);
         else
         {
-            if(s->Hermetised)
-                widget->setFanMode(FanModeEnum::Disabled);
-            else
-                widget->setFanMode(FanModeEnum::Auto);
+            widget->setFanMode((FanMode_t)s->Mode);
         }
         widget->setFanState((FanStateEnum)s->State);
 
@@ -215,10 +212,7 @@ void VentilationOverviewFrame::updateFanWidgets()
             w->setFanMode(FanModeEnum::Manual);
         else
         {
-            if(s->Hermetised)
-                w->setFanMode(FanModeEnum::Disabled);
-            else
-                w->setFanMode(FanModeEnum::Auto);
+            w->setFanMode((FanMode_t)s->Mode);
         }
         w->setFanState((FanStateEnum)s->State);
         if(s->IsAnalog)
@@ -286,13 +280,13 @@ void VentilationOverviewFrame::on_btnControllerConfig_clicked()
 void VentilationOverviewFrame::onUpdateTimer()
 {
     switch (m_updateCounter) {
-    case 0:
-        m_ventService->GetVentilationStatus();
+        case 0:
+            m_ventService->GetVentilationStatus();
         break;
-    case 1:
-        m_ventService->GetFanInfoList();
+        case 1:
+            m_ventService->GetFanInfoList();
         break;
-    default:
+        default:
         break;
     }
     if(m_updateCounter == 1)

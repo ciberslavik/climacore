@@ -48,7 +48,6 @@ namespace Clima.Core.Devices
             {
                 var relay = new MonitoredRelay(new DefaultTimer());
                 relay.Configuration = _config.MonitoredRelays[relayName];
-                //relay.RelayPin = _ioService.Pins.DiscreteOutputs[_config.MonitoredRelays[relayName].ControlPinName];
                 relay.EnablePin = _ioService.Pins.DiscreteOutputs[_config.MonitoredRelays[relayName].ControlPinName];
                 relay.MonitorPin = _ioService.Pins.DiscreteInputs[_config.MonitoredRelays[relayName].MonitorPinName];
                 _relays.Add(relayName, relay);

@@ -114,8 +114,7 @@ QString FanInfosModel::getRowKey(int row)
 
 QColor FanInfosModel::getModeColor(const FanInfo &info) const
 {
-    if(info.Hermetised)
-        return QColor(Qt::lightGray);
+
 
     if(info.State == (int)FanModeEnum::Disabled)
         return QColor(Qt::lightGray);
@@ -140,10 +139,7 @@ QString FanInfosModel::getModeString(const FanInfo &info) const
 {
     QString modeChar;
     QString stateChar;
-    if(info.Hermetised)
-        modeChar = 'D';
-    else
-    {
+
         if(info.Mode == (int)FanModeEnum::Auto)
         {
             modeChar = 'A';
@@ -156,7 +152,7 @@ QString FanInfosModel::getModeString(const FanInfo &info) const
         {
             modeChar = 'D';
         }
-    }
+
     if(info.State == (int)FanStateEnum::Running)
     {
         stateChar = 'R';
