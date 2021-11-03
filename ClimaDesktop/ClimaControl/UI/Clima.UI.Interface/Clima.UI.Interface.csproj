@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\Security\" />
-    <Folder Include="Views\" />
+    <Folder Include="ViewModels\Dialogs\" />
   </ItemGroup>
 
 </Project>

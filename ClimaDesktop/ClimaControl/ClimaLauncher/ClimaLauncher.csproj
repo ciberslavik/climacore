@@ -4,10 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Installers\" />
+    <Folder Include="Updater\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,5 +20,9 @@
     <ProjectReference Include="..\UI\Clima.UI.WPF.Views\Clima.UI.WPF.Views.csproj" />
     <ProjectReference Include="..\UI\Themes\Clima.UI.WPF.ThemeDark\Clima.UI.WPF.ThemeDark.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="$(SolutionDir)\VersionIncrement.exe $(OutDir)\version.xml" />
+  </Target>
 
 </Project>

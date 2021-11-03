@@ -49,6 +49,7 @@ SOURCES += \
     Frames/VentControllerConfigFrame.cpp \
     Frames/VentelationStateFrame.cpp \
     Frames/VentilationConfigFrame.cpp \
+    Frames/VentilationMenuFrame.cpp \
     Frames/VentilationOverviewFrame.cpp \
     GlobalContext.cpp \
     Models/Authorization/User.cpp \
@@ -95,6 +96,7 @@ HEADERS += \
     Frames/Hystory/TemperatureHystoryFrame.h \
     Frames/HystoryMenuFrame.h \
     Frames/VentControllerConfigFrame.h \
+    Frames/VentilationMenuFrame.h \
     Models/Dialogs/ValveProfileModel.h \
     Models/Dialogs/VentProfileModel.h \
     Models/FanControlsEnums.h \
@@ -263,6 +265,7 @@ FORMS += \
     Frames/VentControllerConfigFrame.ui \
     Frames/VentelationStateFrame.ui \
     Frames/VentilationConfigFrame.ui \
+    Frames/VentilationMenuFrame.ui \
     Frames/VentilationOverviewFrame.ui \
     MainWindow.ui
 

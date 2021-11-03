@@ -1,0 +1,4 @@
+﻿namespace Clima.DataModel.Networking
+{
+    
+}

@@ -2,7 +2,8 @@
 
 namespace Clima.Shell
 {
-    public class Class1
+    public interface IShell
     {
+
     }
 }

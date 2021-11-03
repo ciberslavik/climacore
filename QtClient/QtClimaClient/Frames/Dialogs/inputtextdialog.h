@@ -22,7 +22,7 @@ public:
 
     QString getText();
     void setText(QString text);
-
+    void setTitle(const QString &title);
 private slots:
     void buttonClicked(int key);
 private:

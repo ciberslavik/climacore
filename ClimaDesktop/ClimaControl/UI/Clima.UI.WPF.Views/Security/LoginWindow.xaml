@@ -8,13 +8,11 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance security:ILoginWindowViewModel, IsDesignTimeCreatable=False}"
         Title="{Binding Title}" Height="250" Width="400"
-        x:Name="LoginDialogWindow"
-        Style="{DynamicResource VS2012WindowStyle}">
+        x:Name="LoginDialogWindow">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Clima.UI.WPF.Views;component/Resources/Images.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="/Clima.UI.WPF.Views;component/Resources/CustomizedWindowStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/Clima.UI.WPF.Views;component/Resources/CustomizedControlStyles.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -22,6 +20,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -52,10 +51,10 @@
         <TextBlock Grid.Column="0" Grid.Row="2" Margin="15,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Center"
                    Text="Пароль"/>
 
-        <TextBox Grid.Column="1" Grid.Row="1" Margin="8" Width="180" Text="{Binding Path=User.Login, Mode=TwoWay}"/>
-        <PasswordBox Grid.Column="1" Grid.Row="2" Margin="8" Width="180"/>
-
-        <StackPanel Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="8" Width="180" Text="{Binding Path=Login, Mode=TwoWay}"/>
+        <PasswordBox Grid.Column="1" Grid.Row="2" Margin="8" Width="180" />
+        <CheckBox Grid.Row="3" Grid.Column="1" Margin="8" Content="Запомнить меня"></CheckBox>
+        <StackPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button 
                 Width="100" 
                 Height="35" 

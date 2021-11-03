@@ -4,9 +4,9 @@
     <SolidColorBrush x:Key="GeometryOkBrush" Color="#00E500"/>
     <SolidColorBrush x:Key="GeometryCancelBrush" Color="#FF0000"/>
     <SolidColorBrush x:Key="DialogBackgroundBrush" Color="#2D2D30"/>
-    <SolidColorBrush x:Key="TextBrush" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#1E1E1E"/>
-    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#272729"/>
+    <SolidColorBrush x:Key="TextBrush" Color="#000000"/>
+    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#FFBDBCBC"/>
     <SolidColorBrush x:Key="ButtonOverBrush" Color="#565661"/>
 
     <SolidColorBrush x:Key="MenuBorderLightColor" Color="#565656"/>

@@ -374,6 +374,7 @@ void SelectProfileFrame::on_btnDown_clicked()
 void SelectProfileFrame::on_btnAdd_clicked()
 {
     InputTextDialog *inputDialog = new InputTextDialog();
+    inputDialog->setTitle("Добавление графика");
     if(inputDialog->exec() == QDialog::Accepted)
     {
         QString name = inputDialog->getText();
