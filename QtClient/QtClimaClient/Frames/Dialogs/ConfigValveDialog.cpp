@@ -20,10 +20,12 @@ ConfigValveDialog::ConfigValveDialog(ValveType valveType, QWidget *parent) :
     {
     case Valve:
         connect(m_ventService, &VentilationService::ValveStateReceived, this, &ConfigValveDialog::onServoStateReceived);
+        m_ventService->GetValveState();
         ui->lblTitle->setText("Клапана");
         break;
     case Mine:
         connect(m_ventService, &VentilationService::MineStateReceived, this, &ConfigValveDialog::onServoStateReceived);
+        m_ventService->GetMineState();
         ui->lblTitle->setText("Шахты");
         break;
     }

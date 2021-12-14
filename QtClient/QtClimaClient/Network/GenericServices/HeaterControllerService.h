@@ -22,6 +22,6 @@ signals:
 public:
     QString ServiceName() override{return "HeaterControllerService";};
     QList<QString> Methods() override{return QList<QString>();};
-    void ProcessReply(NetworkResponse *reply) override;
+    void ProcessReply(const NetworkResponse &reply) override;
 };
 

@@ -6,6 +6,13 @@ namespace Clima.Core.Controllers.Light
     {
         public LightTimerItem()
         {
+            OnTime = DateTime.MinValue;
+            OffTime = DateTime.MinValue;
+        }
+        public LightTimerItem(DateTime onTime, DateTime offTime)
+        {
+            OnTime = onTime;
+            OffTime = offTime;
         }
         public DateTime OnTime { get; set; }
         public DateTime OffTime { get; set; }
@@ -27,7 +34,10 @@ namespace Clima.Core.Controllers.Light
 
         public int CompareTo(LightTimerItem? other)
         {
-            return (OnTime.Second - other.OnTime.Second);
+            if (other is null)
+                return 1;
+            else
+                return (OnTime.Second - other.OnTime.Second);
         }
     }
 }

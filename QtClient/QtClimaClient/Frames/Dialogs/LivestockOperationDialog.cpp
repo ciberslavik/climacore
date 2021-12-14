@@ -7,7 +7,12 @@ LivestockOperationDialog::LivestockOperationDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->txtHeads->setText("0");
-    ui->dateEdit->setDateTime(QDateTime::currentDateTime());
+
+    QDateTime opDate = QDateTime::currentDateTime();
+
+    ui->txtDay->setText(opDate.toString("dd"));
+    ui->txtMonth->setText(opDate.toString("MM"));
+    ui->txtYear->setText(opDate.toString("yyyy"));
 }
 
 LivestockOperationDialog::~LivestockOperationDialog()
@@ -24,7 +29,9 @@ void LivestockOperationDialog::setHeads(int heads)
 void LivestockOperationDialog::setOperationDate(QDateTime opDate)
 {
     m_opDate = opDate;
-    ui->dateEdit->setDateTime(m_opDate);
+    ui->txtDay->setText(opDate.toString("dd"));
+    ui->txtMonth->setText(opDate.toString("MM"));
+    ui->txtYear->setText(opDate.toString("yyyy"));
 }
 
 void LivestockOperationDialog::setTitle(const QString &title)
@@ -35,7 +42,16 @@ void LivestockOperationDialog::setTitle(const QString &title)
 
 void LivestockOperationDialog::on_btnAccept_clicked()
 {
-    m_opDate = ui->dateEdit->dateTime();
+    QString dateStr = ui->txtDay->text() + "." + ui->txtMonth->text() + "." + ui->txtYear->text();
+
+
+    m_opDate = QDateTime(
+                   QDate(
+                       ui->txtYear->text().toInt(),
+                       ui->txtMonth->text().toInt(),
+                       ui->txtDay->text().toInt()),
+                   QTime::currentTime());
+
     m_heads = ui->txtHeads->text().toInt();
 
     accept();
@@ -43,21 +59,50 @@ void LivestockOperationDialog::on_btnAccept_clicked()
 
 void LivestockOperationDialog::on_txtHeads_clicked()
 {
-    QClickableLineEdit *lineEdit = dynamic_cast<QClickableLineEdit*>(sender());
-    QString prevValue = lineEdit->text();
-    InputDigitDialog *dlg = new InputDigitDialog(lineEdit, FrameManager::instance()->MainWindow());
+    QLineEdit *lineEdit = dynamic_cast<QLineEdit*>(sender());
 
-    if(dlg->exec()==QDialog::Rejected)
-    {
-        lineEdit->setText(prevValue);
-    }
-
-    dlg->deleteLater();
+    showDigitDialog(lineEdit, "Поголовъе");
 }
+
+void LivestockOperationDialog::on_txtDay_clicked()
+{
+    QLineEdit *lineEdit = dynamic_cast<QLineEdit*>(sender());
+
+    showDigitDialog(lineEdit, "День");
+}
+
+void LivestockOperationDialog::on_txtMonth_clicked()
+{
+    QLineEdit *lineEdit = dynamic_cast<QLineEdit*>(sender());
+
+    showDigitDialog(lineEdit, "Месяц");
+}
+
+void LivestockOperationDialog::on_txtYear_clicked()
+{
+    QLineEdit *lineEdit = dynamic_cast<QLineEdit*>(sender());
+
+    showDigitDialog(lineEdit, "Год");
+}
+
 
 
 void LivestockOperationDialog::on_btnReject_clicked()
 {
     reject();
+}
+
+void LivestockOperationDialog::showDigitDialog(QLineEdit *txt, const QString &title)
+{
+
+    QString prevValue = txt->text();
+    InputDigitDialog *dlg = new InputDigitDialog(txt, FrameManager::instance()->MainWindow());
+    dlg->setTitle(title);
+    if(dlg->exec()==QDialog::Rejected)
+    {
+        txt->setText(prevValue);
+    }
+
+    dlg->deleteLater();
 }
 

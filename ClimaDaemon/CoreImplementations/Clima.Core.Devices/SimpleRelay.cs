@@ -4,10 +4,14 @@ namespace Clima.Core.Devices
 {
     public class SimpleRelay:IRelay
     {
+        private string _name;
+
         public SimpleRelay()
         {
         }
 
+
+        public string Name => _name;
 
         public void On()
         {

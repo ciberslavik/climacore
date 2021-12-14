@@ -16,14 +16,14 @@ void DeviceProviderService::GetRelayList()
     emit SendRequest(request);
 }
 
-void DeviceProviderService::ProcessReply(NetworkResponse *reply)
+void DeviceProviderService::ProcessReply(const NetworkResponse &reply)
 {
-    if(reply->service == ServiceName())
+    if(reply.service == ServiceName())
     {
-        if(reply->method == "GetRelayList")
+        if(reply.method == "GetRelayList")
         {
             RelayInfoListResponse response;
-            response.fromJson(reply->result.toUtf8());
+            response.fromJson(reply.result.toUtf8());
             emit RelayListReceived(response.Infos);
         }
     }

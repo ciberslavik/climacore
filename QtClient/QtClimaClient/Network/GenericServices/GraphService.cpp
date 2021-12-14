@@ -226,81 +226,81 @@ QList<QString> GraphService::Methods()
     return QList<QString>();
 }
 
-void GraphService::ProcessReply(NetworkResponse *reply)
+void GraphService::ProcessReply(const NetworkResponse &reply)
 {
-    if(reply->service=="GraphProviderService")
+    if(reply.service=="GraphProviderService")
     {
-        if(reply->method == "GetTemperatureProfileInfos")
+        if(reply.method == "GetTemperatureProfileInfos")
         {
             GraphInfosResponce infos;
-            infos.fromJson(reply->result.toUtf8());
+            infos.fromJson(reply.result.toUtf8());
             emit TempInfosResponse(infos.Infos);
         }
-        else if(reply->method == "GetVentilationProfileInfos")
+        else if(reply.method == "GetVentilationProfileInfos")
         {
             GraphInfosResponce infos;
-            infos.fromJson(reply->result.toUtf8());
+            infos.fromJson(reply.result.toUtf8());
             emit VentInfosResponse(infos.Infos);
         }
-        else if(reply->method == "GetValveProfileInfos")
+        else if(reply.method == "GetValveProfileInfos")
         {
             GraphInfosResponce infos;
-            infos.fromJson(reply->result.toUtf8());
+            infos.fromJson(reply.result.toUtf8());
             emit ValveInfosResponse(infos.Infos);
         }
-        else if(reply->method == "GetTemperatureProfile")
+        else if(reply.method == "GetTemperatureProfile")
         {
-            //qDebug() << "GetTemperatureProfile response:" << reply->result;
+            //qDebug() << "GetTemperatureProfile response:" << reply.result;
             ValueByDayProfile profile;
-            profile.fromJson(reply->result.toUtf8());
+            profile.fromJson(reply.result.toUtf8());
 
             emit TempProfileResponse(profile);
         }
-        else if(reply->method == "GetVentilationProfile")
+        else if(reply.method == "GetVentilationProfile")
         {
             MinMaxByDayProfile profile;
-            profile.fromJson(reply->result.toUtf8());
+            profile.fromJson(reply.result.toUtf8());
             emit VentProfileResponse(profile);
         }
-        else if(reply->method == "GetValveProfile")
+        else if(reply.method == "GetValveProfile")
         {
             ValueByValueProfile profile;
-            profile.fromJson(reply->result.toUtf8());
+            profile.fromJson(reply.result.toUtf8());
             emit ValveProfileResponse(profile);
         }
-        else if(reply->method == "CreateTemperatureProfile")
+        else if(reply.method == "CreateTemperatureProfile")
         {
             emit TempProfileCreated();
         }
-        else if(reply->method == "UpdateTemperatureProfile")
+        else if(reply.method == "UpdateTemperatureProfile")
         {
             emit TempProfileUpdated();
         }
-        else if(reply->method == "RemoveTemperatureProfile")
+        else if(reply.method == "RemoveTemperatureProfile")
         {
             emit TempProfileUpdated();
         }
-        else if(reply->method == "CreateVentilationProfile")
+        else if(reply.method == "CreateVentilationProfile")
         {
             emit VentProfileCreated();
         }
-        else if(reply->method == "UpdateVentilationProfile")
+        else if(reply.method == "UpdateVentilationProfile")
         {
             emit VentProfileUpdated();
         }
-        else if(reply->method == "RemoveVentilationProfile")
+        else if(reply.method == "RemoveVentilationProfile")
         {
             emit VentProfileUpdated();
         }
-        else if(reply->method == "CreateValveProfile")
+        else if(reply.method == "CreateValveProfile")
         {
             emit ValveProfileCreated();
         }
-        else if(reply->method == "UpdateValveProfile")
+        else if(reply.method == "UpdateValveProfile")
         {
             emit ValveProfileUpdated();
         }
-        else if(reply->method == "RemoveValveProfile")
+        else if(reply.method == "RemoveValveProfile")
         {
             emit ValveProfileUpdated();
         }

@@ -12,4 +12,5 @@ public:
 
     QS_FIELD(QString, Key)
     QS_FIELD(int, State)
+    QS_FIELD(float, AnalogPower)
 };

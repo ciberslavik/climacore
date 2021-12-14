@@ -12,6 +12,9 @@ using Clima.Basics;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core;
+using Clima.Core.Alarm;
+using Clima.Core.Controllers;
+using Clima.Core.Controllers.Configuration;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel.History;
 using Clima.Core.Devices;
@@ -20,6 +23,7 @@ using Clima.Core.Scheduler;
 using Clima.Core.Tests.IOService;
 using Clima.Core.Tests.IOService.Configurations;
 using Clima.History.MySQL;
+using Clima.History.MySQL.Configurations;
 using Clima.History.Service;
 using Clima.Logger;
 using Clima.NetworkServer;
@@ -36,7 +40,7 @@ namespace Clima.ServiceContainer.CastleWindsor
         private IServiceProvider _serviceProvider;
        
         private ISystemLogger _logger;
-        private const bool isDebug = false;
+        private bool _isDebug;
         public ApplicationBuilder()
         {
             _logger = new ConsoleSystemLogger();
@@ -48,9 +52,9 @@ namespace Clima.ServiceContainer.CastleWindsor
             if(args.ExceptionObject is Exception ex)
                 _logger.Exception(ex);
         }
-        public void Initialize()
+        public void Initialize(bool debug)
         {
-            
+            _isDebug = debug;            
             _container = new WindsorContainer();
             //Register logger
             _container.Register(Component.For<ISystemLogger>().Instance(_logger));
@@ -60,17 +64,15 @@ namespace Clima.ServiceContainer.CastleWindsor
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(LogException);
             
             //if parameter is true then stub io service else real io service
-            _container.Install(new CoreServicesInstaller(true, _logger));
+            _container.Install(new CoreServicesInstaller(_logger));
             _container.Install(new SchedulerInstaller(_logger));
             _serviceProvider = new CastleServiceProvider(_container);
             _container.Register(Component.For<IServiceProvider>().Instance(_serviceProvider));
 
             //_container.Register(Component.For<IServer>().ImplementedBy<SocketListener>())
             _container.Install(new NetworkInstaller(_logger));
-
-            MyClient client = new MyClient();
             
-            client.ConnectToServer();
+//            client.ConnectToServer();
             
             
             
@@ -84,26 +86,61 @@ namespace Clima.ServiceContainer.CastleWindsor
                     .WithServiceAllInterfaces()
                     .WithServiceBase()
                     .LifestyleSingleton());
+//Register controllers 
+
+            _container.Register(
+                Classes
+                    .FromAssemblyInDirectory(new AssemblyFilter(Environment.CurrentDirectory))
+                    .BasedOn<IController>()
+                    .WithServiceAllInterfaces()
+                    .WithServiceBase()
+                    .LifestyleSingleton());
+
             
-            
+            CreateIOService();
             InitializeCoreServices();
+            InitializeControllers();
             ClimaContext.InitContext(_serviceProvider);
             StartCoreServices();
 
             var server = _container.Resolve<IJsonServer>();
         }
 
+        private void InitializeControllers()
+        {
+            _logger.Debug("Initialize controllers");
+
+            var controllers = _container.ResolveAll<IController>();
+            var configStore = _container.Resolve<IConfigurationStorage>();
+            
+            var t = typeof(IConfigurationStorage);
+            MethodInfo getConfigMi = t.GetMethod(nameof(IConfigurationStorage.GetConfig), Type.EmptyTypes);
+
+            if (getConfigMi is not null)
+            {
+                foreach (var controller in controllers)
+                {
+                    var controllerConfig = getConfigMi.MakeGenericMethod(controller.ConfigurationType)
+                        .Invoke(configStore, new object[] { });
+                    if (controllerConfig is not null)
+                    {
+                        controller.Initialize(controllerConfig);
+                    }
+                }
+            }
+
+            _logger.Debug("Controllers initialized");
+        }
         private void InitializeCoreServices()
         {
             _logger.Info("Initialize core services");
-            
-            CreateIOService();
             
             var services = _container.ResolveAll<IService>();
             var configStore = _container.Resolve<IConfigurationStorage>();
             
             var t = typeof(IConfigurationStorage);
             MethodInfo getConfigMi = t.GetMethod(nameof(IConfigurationStorage.GetConfig), Type.EmptyTypes);
+            
             if (getConfigMi is not null)
             {
                 foreach (var service in services)
@@ -119,15 +156,13 @@ namespace Clima.ServiceContainer.CastleWindsor
                     service.Init(serviceConfig);
                 }
             }
-
-            
         }
 
         private void CreateIOService()
         {
             var configStore = _container.Resolve<IConfigurationStorage>();
             IConfigurationItem ioconfig = default;
-            if (isDebug)
+            if (_isDebug)
             {
                 _container.Register(Component.For<IIOService>().ImplementedBy<StubIOService>().LifestyleSingleton());
                 ioconfig = configStore.GetConfig<StubIOServiceConfig>();

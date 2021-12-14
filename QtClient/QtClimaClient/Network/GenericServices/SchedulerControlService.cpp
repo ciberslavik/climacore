@@ -103,39 +103,39 @@ void SchedulerControlService::UpdateVentilationParams(VentilationParams paramete
     emit SendRequest(request);
 }
 
-void SchedulerControlService::ProcessReply(NetworkResponse *reply)
+void SchedulerControlService::ProcessReply(const NetworkResponse &reply)
 {
-    if(reply->service == "SchedulerControlService")
+    if(reply.service == "SchedulerControlService")
     {
-        if(reply->method == "GetProfilesInfo")
+        if(reply.method == "GetProfilesInfo")
         {
             SchedulerProfilesInfo info;
-            info.fromJson(reply->result.toUtf8());
+            info.fromJson(reply.result.toUtf8());
             emit SchedulerProfilesInfoReceived(info);
         }
-        else if(reply->method == "GetProcessInfo")
+        else if(reply.method == "GetProcessInfo")
         {
             SchedulerProcessInfo info;
-            info.fromJson(reply->result.toUtf8());
+            info.fromJson(reply.result.toUtf8());
             emit SchedulerProcessInfoReceived(info);
         }
-        else if(reply->method == "SetTemperatureProfile" ||
-                reply->method == "SetVentilationProfile" ||
-                reply->method == "SetValveProfile" ||
-                reply->method == "SetMineProfile")
+        else if(reply.method == "SetTemperatureProfile" ||
+                reply.method == "SetVentilationProfile" ||
+                reply.method == "SetValveProfile" ||
+                reply.method == "SetMineProfile")
         {
             emit SchedulerUpdated();
         }
-        else if(reply->method == "GetVentilationParams")
+        else if(reply.method == "GetVentilationParams")
         {
             VentilationParamsResponse params;
-            params.fromJson(reply->result.toUtf8());
+            params.fromJson(reply.result.toUtf8());
             emit VentilationParamsReceived(params.Parameters);
         }
-        else if(reply->method == "UpdateVentilationParams")
+        else if(reply.method == "UpdateVentilationParams")
         {
             VentilationParamsResponse params;
-            params.fromJson(reply->result.toUtf8());
+            params.fromJson(reply.result.toUtf8());
             emit VentilationParamsUpdated(params.Parameters);
         }
     }

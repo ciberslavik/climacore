@@ -4,6 +4,8 @@
     {
         public AlarmConfigBase()
         {
+            Title = "";
+            Description = "";
         }
 
         public string Title { get; set; }

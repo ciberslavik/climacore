@@ -1,5 +1,7 @@
 #include "LivestockService.h"
 
+#include <Network/GenericServices/Messages/DefaultRequest.h>
+#include <Network/GenericServices/Messages/LivestockOpListResponse.h>
 #include <Network/GenericServices/Messages/LivestockOperationRequest.h>
 #include <Network/GenericServices/Messages/LivestockStateResponse.h>
 
@@ -85,32 +87,50 @@ void LivestockService::Death(const int &heads, const QDateTime &date)
     emit SendRequest(request);
 }
 
-void LivestockService::ProcessReply(NetworkResponse *reply)
+void LivestockService::GetOpList()
 {
-    if(reply->service == "LivestockService")
+    NetworkRequest *request = new NetworkRequest();
+
+    request->jsonrpc = "0.1a";
+    request->service = "LivestockService";
+    request->method = "GetOperations";
+    request->params = DefaultRequest().toJsonString();
+
+    emit SendRequest(request);
+}
+
+void LivestockService::ProcessReply(const NetworkResponse &reply)
+{
+    if(reply.service == "LivestockService")
     {
         LivestockStateResponse resp;
-        resp.fromJson(reply->result.toUtf8());
+        resp.fromJson(reply.result.toUtf8());
 
-        if(reply->method == "GetLivestockState")
+        if(reply.method == "GetLivestockState")
         {
             emit LivestockStateReceived(resp.State);
         }
-        else if(reply->method == "KillHeads")
+        else if(reply.method == "KillHeads")
         {
             emit KillComlete();
         }
-        else if(reply->method == "RefractHeads")
+        else if(reply.method == "RefractHeads")
         {
             emit RefractionComplete();
         }
-        else if(reply->method == "DeathHeads")
+        else if(reply.method == "DeathHeads")
         {
             emit DeathComplete();
         }
-        else if(reply->method == "PlantHeads")
+        else if(reply.method == "PlantHeads")
         {
             emit PlantedComplete();
+        }
+        else if(reply.method == "GetOperations")
+        {
+            LivestockOpListResponse resp;
+            resp.fromJson(reply.result.toUtf8());
+            emit OpListReceived(resp.Operations);
         }
 
         emit LivestockUpdated(resp.State);

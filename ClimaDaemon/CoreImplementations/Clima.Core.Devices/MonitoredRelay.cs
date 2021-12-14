@@ -2,13 +2,14 @@
 using System.Runtime.CompilerServices;
 using Clima.Basics;
 using Clima.Basics.Configuration;
+using Clima.Core.Alarm;
 using Clima.Core.Devices.Configuration;
 using Clima.Core.Exceptions;
 using Clima.Core.IO;
 
 namespace Clima.Core.Devices
 {
-    public class MonitoredRelay : Device, IRelay, IAlarmNotifier
+    public class MonitoredRelay : IRelay,IAlarmNotifier
     {
         private enum RelayState
         {
@@ -22,15 +23,17 @@ namespace Clima.Core.Devices
         }
 
         private readonly ITimer _monitorTimer;
+        private readonly MonitoredRelayConfig _config;
         private RelayState _state;
         private IDiscreteInput _monitorPin;
         private IDiscreteOutput _enablePin;
-
-        public MonitoredRelay(ITimer timer)
+        public MonitoredRelay(ITimer timer, MonitoredRelayConfig config)
         {
+            _config = config;
             MonitorPin = null;
             EnablePin = null;
             _monitorTimer = timer;
+            _config = config;
             _monitorTimer.Interval = 1000;
             _monitorTimer.Elapsed += MonitorTimerOnElapsed;
 
@@ -40,13 +43,16 @@ namespace Clima.Core.Devices
 
         private void MonitorTimerOnElapsed(object sender)
         {
+            if (_state == RelayState.Alarm)
+                return;
+            
             if (_state == RelayState.TryOff)
             {
-                if (GetMonitorState(MonitorPin.State))
+                /*if (GetMonitorState(MonitorPin.State))
                 {
                     _state = RelayState.Alarm;
-                    OnAlarmNotify($"Рэле {Configuration.RelayName} не отключилось в течении времени ожидания");
-                }
+                    OnAlarmNotify($"Рэле {_config.RelayName} не отключилось в течении времени ожидания {_config.MonitorTimeout}");
+                }*/
 
                 _state = RelayState.Off;
             }
@@ -56,15 +62,10 @@ namespace Clima.Core.Devices
                 {
                     _state = RelayState.Alarm;
                     OnAlarmNotify(
-                        $"Рэле {Configuration.RelayName} не включилось после подачи команды в течении времени ожидания {Configuration.MonitorTimeout}");
+                        $"Рэле {_config.RelayName} не включилось после подачи команды в течении времени ожидания {_config.MonitorTimeout}");
                 }
-
-                _state = RelayState.Off;
             }
         }
-
-        public MonitoredRelayConfig Configuration { get; set; }
-
         public IDiscreteInput MonitorPin
         {
             get => _monitorPin;
@@ -94,31 +95,23 @@ namespace Clima.Core.Devices
 
         public void On()
         {
-            if (Configuration.EnableLevel == ActiveLevel.High)
-            {
-                if (!EnablePin.State) EnablePin.SetState(true, true);
-            }
-            else if (Configuration.EnableLevel == ActiveLevel.Low)
-            {
-                if (EnablePin.State) EnablePin.SetState(false, true);
-            }
-
+            if (_state is RelayState.Alarm or RelayState.On or RelayState.TryOn)
+                return;
+            
+            SetEnablePinState(true);
             _state = RelayState.TryOn;
-            _monitorTimer.Interval = Configuration.StateChangeTimeout;
+            _monitorTimer.Interval = _config.StateChangeTimeout;
             _monitorTimer.Start();
         }
 
         public void Off()
         {
-            if (Configuration.EnableLevel == ActiveLevel.High)
-                EnablePin.SetState(false, true);
-            else if (Configuration.EnableLevel == ActiveLevel.Low)
-                EnablePin.SetState(true, true);
-
+            SetEnablePinState(false);
             _state = RelayState.TryOff;
+            
             if (GetMonitorState(MonitorPin.State))
             {
-                _monitorTimer.Interval = Configuration.StateChangeTimeout;
+                _monitorTimer.Interval = _config.StateChangeTimeout;
                 _monitorTimer.Start();
             }
             else
@@ -127,7 +120,7 @@ namespace Clima.Core.Devices
             }
         }
 
-        public override void InitDevice(IConfigurationItem deviceConfig)
+        /*public override void InitDevice(IConfigurationItem deviceConfig)
         {
             if (deviceConfig is MonitoredRelayConfig relayConfig)
             {
@@ -146,11 +139,11 @@ namespace Clima.Core.Devices
             {
                 throw new ArgumentException("Configuration is not a RelayConfig", nameof(deviceConfig));
             }
-        }
+        }*/
 
         private void MonitorPinOnPinStateChanged(DiscretePinStateChangedEventArgs ea)
         {
-            ClimaContext.Logger.Debug($"monitor pin:{ea.NewState}");
+            ClimaContext.Logger.Debug($"{_config.RelayName} monitor pin:{ea.NewState}");
             if (_state == RelayState.TryOn)
             {
                 if (GetMonitorState(ea.NewState))
@@ -165,7 +158,7 @@ namespace Clima.Core.Devices
                 {
                     _state = RelayState.Alarm;
 
-                    OnAlarmNotify($"Рэле {Configuration.RelayName} отключилось во время работы");
+                    OnAlarmNotify($"Рэле {_config.RelayName} отключилось во время работы");
                 }
             }
             else if (_state == RelayState.TryOff)
@@ -181,20 +174,19 @@ namespace Clima.Core.Devices
                 if (GetMonitorState(ea.NewState))
                 {
                     _state = RelayState.Alarm;
-                    OnAlarmNotify($"Рэле {Configuration.RelayName} включилось в ручном режиме");
+                    OnAlarmNotify($"Рэле {_config.RelayName} включилось в ручном режиме");
                 }
             }
         }
-
         private bool GetMonitorState(bool pinState)
         {
             var monitorState = false;
-            if (Configuration.MonitorLevel == ActiveLevel.High)
+            if (_config.MonitorLevel == ActiveLevel.High)
             {
                 if (pinState)
                     monitorState = true;
             }
-            else if (Configuration.MonitorLevel == ActiveLevel.Low)
+            else if (_config.MonitorLevel == ActiveLevel.Low)
             {
                 if (!pinState)
                     monitorState = true;
@@ -202,23 +194,36 @@ namespace Clima.Core.Devices
 
             return monitorState;
         }
+        private void SetEnablePinState(bool state)
+        {
+            if (_config.EnableLevel == ActiveLevel.High)
+                EnablePin.SetState(state, true);
+            else if (_config.EnableLevel == ActiveLevel.Low)
+                EnablePin.SetState(!state, true);
+        }
+        public event EventHandler<AlarmEventArgs> Notify;
 
-        public event AlarmNotifyEventHandler AlarmNotify;
-        public string NotifierName => Configuration.RelayName;
+        public bool IsAlarm => _state == RelayState.Alarm;
+
+        public bool Reset()
+        {
+            _state = RelayState.Off;
+            return true;
+        }
+
+        public string NotifierName => _config.RelayName;
+
+        public string Name
+        {
+            get => _config.RelayName;
+        }
 
         protected virtual void OnAlarmNotify(string message)
         {
+            _state = RelayState.Alarm;
             SetEnablePinState(false);
-            var ea = new AlarmNotifyEventArgs(message);
-            AlarmNotify?.Invoke(this, ea);
-        }
-
-        private void SetEnablePinState(bool state)
-        {
-            if (Configuration.EnableLevel == ActiveLevel.High)
-                EnablePin.SetState(state, true);
-            else if (Configuration.EnableLevel == ActiveLevel.Low)
-                EnablePin.SetState(!state, true);
+            var ea = new AlarmEventArgs(message);
+            Notify?.Invoke(this, ea);
         }
     }
 }

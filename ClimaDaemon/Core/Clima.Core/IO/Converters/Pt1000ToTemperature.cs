@@ -18,28 +18,32 @@ namespace Clima.Core.IO.Converters
         {
             //Console.WriteLine($"PT1000 value:{value:F4}");
             var va = (ushort)value[1] << 16 | (ushort)value[0];
-            //Console.Write($"PT1000 raw value:{va} ");
-
+            
             double v = (float)va / 100f;
-            double t;
+            double t = 0;
 
             var A = 3.9083e-3;
             var B = -5.775e-7;
-            var D1 = 255.819;
+            /*var D1 = 255.819;
             var D2 = 9.14550;
             var D3 = -2.92363;
-            var D4 = 1.79090;
+            var D4 = 1.79090;*/
             var Ro = 1000.12;
 
-            if (v / Ro >= 1.0)
-                t = (Math.Sqrt(Math.Pow(A, 2) - (1.0 - v / Ro) *
-                    0.0004 * B) - A) / (0.0002 * B);
+            //if (v / Ro >= 1.0)
+            //{
+                t = (Math.Sqrt(Math.Pow(A, 2) - 4 * B * (1.0 - v / Ro)) - A) / (2 * B);
+                
+            /*}
             else
+            {
                 t = D1 * (v * A / Ro - 1.0) +
-                    D2 * Math.Pow(v * A / Ro - 1.0, 2) +
-                    D3 * Math.Pow(v * A / Ro - 1.0, 3) +
-                    D4 * Math.Pow(v * A / Ro - 1.0, 4);
-            //Console.WriteLine($" temperature:{t}");
+                    D2 * Math.Pow(v / Ro - 1.0, 2) +
+                    D3 * Math.Pow(v / Ro - 1.0, 3) +
+                    D4 * Math.Pow(v / Ro - 1.0, 4);
+                Console.WriteLine($" temperature:{t}");
+            }*/
+
             return t;
         }
 

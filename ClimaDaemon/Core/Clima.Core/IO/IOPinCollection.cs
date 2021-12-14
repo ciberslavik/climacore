@@ -15,14 +15,14 @@ namespace Clima.Core.IO
 
         #region Events
 
-        public event DiscretePinStateChangedEventHandler DiscreteInputChanged;
+        public event DiscretePinStateChangedEventHandler? DiscreteInputChanged;
 
         private void OnDiscreteInputChanged(DiscretePinStateChangedEventArgs ea)
         {
             DiscreteInputChanged?.Invoke(ea);
         }
 
-        public event DiscretePinStateChangedEventHandler DiscreteOutputChanged;
+        public event DiscretePinStateChangedEventHandler? DiscreteOutputChanged;
 
         private void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
         {
@@ -30,7 +30,7 @@ namespace Clima.Core.IO
             DiscreteOutputChanged?.Invoke(ea);
         }
 
-        public event AnalogPinValueChangedEventHandler AnalogOutputChanged;
+        public event AnalogPinValueChangedEventHandler? AnalogOutputChanged;
 
         private void OnAnalogOutputChanged(AnalogPinValueChangedEventArgs ea)
         {
@@ -42,7 +42,7 @@ namespace Clima.Core.IO
             AnalogOutputChanged?.Invoke(ea);
         }
 
-        public event AnalogPinValueChangedEventHandler AnalogInputChanged;
+        public event AnalogPinValueChangedEventHandler? AnalogInputChanged;
 
         private void OnAnalogInputChanged(AnalogPinValueChangedEventArgs ea)
         {

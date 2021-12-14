@@ -60,7 +60,7 @@ signals:
 public:
     QString ServiceName() override;
     QList<QString> Methods() override;
-    void ProcessReply(NetworkResponse *reply) override;
+    void ProcessReply(const NetworkResponse &reply) override;
 
 private:
 

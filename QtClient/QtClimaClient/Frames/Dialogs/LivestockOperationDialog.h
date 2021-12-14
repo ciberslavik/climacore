@@ -29,11 +29,19 @@ public:
 private slots:
     void on_btnAccept_clicked();
     void on_txtHeads_clicked();
+
+    void on_txtDay_clicked();
+    void on_txtMonth_clicked();
+    void on_txtYear_clicked();
+
     void on_btnReject_clicked();
+
 
 private:
     Ui::LivestockOperationDialog *ui;
     int m_heads;
     QDateTime m_opDate;
+
+    void showDigitDialog(QLineEdit *txt, const QString &title);
 };
 

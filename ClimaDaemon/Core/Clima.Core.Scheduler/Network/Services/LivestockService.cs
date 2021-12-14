@@ -1,4 +1,5 @@
-﻿using Clima.Basics.Services.Communication;
+﻿using System.Collections.Generic;
+using Clima.Basics.Services.Communication;
 using Clima.Core.Network.Messages;
 using Clima.Core.Scheduler.Network.Messages;
 using Clima.Core.Scheduler;
@@ -58,6 +59,15 @@ namespace Clima.Core.Scheduler.Network.Services
                 State = _scheduler.GetLivestockState()
             };
         }
-        
+
+        [ServiceMethod]
+        public LivestockOpListResponse GetOperations(DefaultRequest request)
+        {
+            var lst = new List<LivestockOperation>(_scheduler.GetOperationsPerCurrentParty());
+            return new LivestockOpListResponse()
+            {
+                Operations = lst
+            };
+        }
     }
 }

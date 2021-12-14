@@ -20,7 +20,7 @@ namespace ConsoleServer
         {
             _logger.Log(LogLevel.Information, "Start building the application...");
             _builder = new ApplicationBuilder();
-            _builder.Initialize();
+            _builder.Initialize(false);
         }
     }
 }

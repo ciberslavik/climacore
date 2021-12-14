@@ -19,7 +19,7 @@ public:
     QUuid *getConnectionId(){return m_connectionId;}
 
 signals:
-    void ReplyReceived(NetworkResponse *reply);
+    void ReplyReceived(const NetworkResponse &reply);
     void ConnectionEstabilished();
     void ConnectionError(const QString &message);
 public slots:

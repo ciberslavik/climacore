@@ -1,54 +1,160 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
+using Clima.Basics.Configuration;
+using Clima.Basics.Services;
+using Clima.Core.Alarm;
+using Clima.Core.Controllers.Configuration;
 using Clima.Core.Controllers.Light;
-using Clima.Core.Devices;
+using Clima.Core.IO;
 
-namespace Clima.Core.Conrollers.Ventilation
+namespace Clima.Core.Controllers
 {
-    public class LightController:ILightController
+    public class LightController : ILightController, IController, IAlarmNotifier
     {
-        public LightController()
+        private readonly IIOService _ioService;
+        private ServiceState _serviceState;
+        private LightControllerConfig _config;
+        private LightTimerProfile _currentProfile;
+
+        private IDiscreteOutput _controlPin;
+        private bool _isAlarm;
+        public ISystemLogger Log { get; set; }
+        public Type ConfigurationType => typeof(LightControllerConfig);
+        public LightTimerProfile CurrentProfile => _currentProfile;
+        public LightController(IIOService ioService)
         {
+            _ioService = ioService;
+            _config = LightControllerConfig.CreateDefault();
+            _isAlarm = false;
         }
-        public LightState State { get; private set; }
-        public bool IsManual { get; set; }
-        public LightTimerPreset Preset { get; set; }
-        public void Process(int currentDay)
+
+        public void Start()
         {
-            if(IsManual)
-                return;
-            
-            Preset.Days.Sort();
 
-            var currentConfigDay = Preset.Days.Last(t => t.Day <= currentDay);
+        }
 
-            foreach (var timer in currentConfigDay.Timers)
+        public void Stop()
+        {
+
+        }
+        
+        public void ReloadConfig(object cnfig)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Process(object? context)
+        {
+
+        }
+
+        public void Initialize(object config)
+        {
+            Log.Debug("Initialize Light controller");
+            if (config is LightControllerConfig c)
             {
-                if (timer.ContainsTime(DateTime.Now))
-                {
-                    LightRelay.On();
-                    State = LightState.LightOn;
+                _config = c;
+
+                if (_config.ControlPinName is null)
                     return;
+
+                if (_ioService.Pins.DiscreteOutputs.ContainsKey(_config.ControlPinName))
+                {
+                    _controlPin = _ioService.Pins.DiscreteOutputs[_config.ControlPinName];
+                }
+                else
+                {
+                    Log.Error($"Light controller control pin \"{_config.ControlPinName}\" not exist");
+                }
+
+                if (_config.Profiles.ContainsKey(_config.CurrentProfileKey ?? ""))
+                {
+                    _currentProfile = _config.Profiles[_config.CurrentProfileKey ?? ""];
+                }
+                else
+                {
+                    Log.Error($"Light profile \"{_config.CurrentProfileKey}\" not exist");
                 }
             }
-            
-            LightRelay.Off();
-            State = LightState.LightOff;
+
+            Log.Debug("Light controller initialised");
         }
 
-        public void ManualOn()
+        public ServiceState ServiceState => _serviceState;
+
+        public void ProcessLight()
         {
-            if(IsManual)
-                LightRelay.On();
+            throw new NotImplementedException();
         }
 
-        public void ManualOff()
+        public void SetCurrentProfileKey(string profileKey)
         {
-            if(IsManual)
-                LightRelay.Off();
+            if (_currentProfile.Key != profileKey)
+            {
+                if (_config.Profiles.ContainsKey(profileKey))
+                {
+                    _currentProfile = _config.Profiles[profileKey];
+                }
+                else
+                {
+                    Log.Error($"Light profile \"{profileKey}\" not exist");
+                }
+            }
         }
 
-        internal IRelay LightRelay { get; set; }
-        
+        public LightTimerProfile CreateProfile(string profileName)
+        {
+            var key = GetNewProfileKey();
+            var profile = new LightTimerProfile()
+            {
+                Key = key,
+                Name = profileName
+            };
+
+            _config.Profiles.Add(key, profile);
+            ClimaContext.Current.SaveConfiguration();
+            return profile;
+        }
+
+        public void UpdateProfile(LightTimerProfile profile)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveProfile(string profileKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string GetNewProfileKey()
+        {
+            const string prefix = "PROFILE:";
+            var newKey = "";
+            for (var i = 0; i < int.MaxValue; i++)
+            {
+                if (!_config.Profiles.ContainsKey(prefix + i))
+                {
+                    newKey = prefix + i;
+                    break;
+                }
+            }
+
+            return newKey;
+        }
+
+        public Dictionary<string, LightTimerProfile> Profiles => _config.Profiles;
+        public event EventHandler<AlarmEventArgs> Notify;
+
+        public bool IsAlarm => _isAlarm;
+
+        public bool Reset()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void OnNotify(AlarmEventArgs ea)
+        {
+            Notify?.Invoke(this, ea);
+        }
     }
 }

@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <Frames/FrameBase.h>
 #include <Models/Graphs/ProfileInfo.h>
+#include <Models/Timers/TimerProfileModel.h>
 
 namespace Ui {
 class TestModeFrame;
@@ -25,7 +26,6 @@ private slots:
 
 private:
     Ui::TestModeFrame *ui;
-     QList<ProfileInfo> testData;
     // QWidget interface
 protected:
     void closeEvent(QCloseEvent *event) override;

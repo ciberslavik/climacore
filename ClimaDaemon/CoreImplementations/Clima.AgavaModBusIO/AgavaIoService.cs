@@ -10,6 +10,7 @@ using Clima.AgavaModBusIO.Model;
 using Clima.AgavaModBusIO.Transport;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
+using Clima.Core;
 using Clima.Core.IO;
 using Clima.Core.IO.Converters;
 using NModbus;
@@ -28,12 +29,19 @@ namespace Clima.AgavaModBusIO
         private static object _queueLocker = new object();
         private Timer _cycleTimer;
         private long _cycleCounter;
-
+        private LogFileWriter _log;
         public AgavaIoService()
         {
             _pins = new IOPinCollection();
             _modules = new Dictionary<byte, AgavaIOModule>();
             _requestQueue = new Queue<AgavaRequest>();
+            _log = new LogFileWriter("IOLog.log");
+            _pins.DiscreteOutputChanged+= PinsOnDiscreteOutputChanged; 
+        }
+
+        private void PinsOnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
+        {
+            _log.WriteLine(ea.Pin.PinName + " - " + ea.NewState);
         }
 
         public bool IsRunning { get; private set; }
@@ -132,15 +140,15 @@ namespace Clima.AgavaModBusIO
                 if (CheckModule(moduleId))
                 {
                     var module = modules[moduleId];
-                    if (module.IsDiscreteModified)
-                    {
-                        var request = AgavaRequest.WriteHoldingRegisterRequest(
+                    //if (module.IsDiscreteModified)
+                    //{
+                        var doRequest = AgavaRequest.WriteHoldingRegisterRequest(
                             moduleId, 10000,new ushort[]{module.DORegister});
-                        _master.WriteRequest(request);
-                        module.AcceptModify();
-                    }
+                        _master.WriteRequest(doRequest);
+                        //module.AcceptModify();
+                    //}
 
-                    if (module.IsAnalogModified)
+                    //if (module.IsAnalogModified)
                         foreach (var ioutput in module.Pins.AnalogOutputs.Values)
                         {
                             var output = ioutput as AgavaAOutput;
@@ -159,21 +167,6 @@ namespace Clima.AgavaModBusIO
                         var response = _master.WriteRequest(request);
                         modules[moduleId].SetDIRawData(response.Data);
                     }
-
-                    /*if (_cycleCounter % _config.AnalogReadCycleDevider == 0)
-                    {
-                        foreach (var iain in modules[moduleId].Pins.AnalogInputs.Values)
-                        {
-                            var ain = iain as AgavaAInput;
-                            if(ain is null)
-                                continue;
-                            
-                            Console.Write($"reg:{(ain.PinNumberInModule * 2)} ");
-                            var request = AgavaRequest.ReadInputRegisterRequest(moduleId, (ushort)(ain.PinNumberInModule * 2), 2);
-                            var response = _master.WriteRequest(request);
-                            ain.SetRawValue(response.Data);
-                        }
-                    }*/
                 }
 
             if (_cycleCounter % _config.AnalogReadCycleDevider == 0) ReadAnalogInputs();
@@ -189,8 +182,11 @@ namespace Clima.AgavaModBusIO
 
                     var request = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, reg, 2);
                     var response = _master.WriteRequest(request);
-                    var value = response.Data[0]; //BufferToFloat(response.Data);
-                    ain.SetRawValue(response.Data);
+                    if (response.Data != null)
+                    {
+                        var value = response.Data[0]; //BufferToFloat(response.Data);
+                        ain.SetRawValue(response.Data);
+                    }
                     //Console.Write($"reg:{reg} pin:{ain.PinName} val:{BufferToFloat(response.Data)}");
                 }
         }

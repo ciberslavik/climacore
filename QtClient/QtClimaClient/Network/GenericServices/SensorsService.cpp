@@ -25,11 +25,11 @@ QList<QString> SensorsService::Methods()
     return QList<QString>();
 }
 
-void SensorsService::ProcessReply(NetworkResponse *reply)
+void SensorsService::ProcessReply(const NetworkResponse &reply)
 {
-    qDebug()<< "SensorsService process reply:" << reply->result;
+    qDebug()<< "SensorsService process reply:" << reply.result;
     SensorsServiceResponse *response = new SensorsServiceResponse();
 
-    response->fromJson(reply->result.toUtf8());
+    response->fromJson(reply.result.toUtf8());
     emit SensorsReceived(response);
 }

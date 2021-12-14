@@ -244,19 +244,6 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
-       <widget class="QLabel" name="lblPressure">
-        <property name="maximumSize">
-         <size>
-          <width>60</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>99.9</string>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="2">
        <widget class="QLabel" name="label_14">
         <property name="maximumSize">
@@ -317,6 +304,19 @@
        <widget class="QLabel" name="lblVentPower">
         <property name="text">
          <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" colspan="2">
+       <widget class="QLabel" name="lblPressure">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>99.9</string>
         </property>
        </widget>
       </item>

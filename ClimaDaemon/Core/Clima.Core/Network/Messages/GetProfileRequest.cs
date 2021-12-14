@@ -6,6 +6,8 @@ namespace Clima.Core.Network.Messages
     {
         public GetProfileRequest()
         {
+            ProfileKey = "";
+            ProfileType = 0;
         }
 
         public int ProfileType { get; set; }

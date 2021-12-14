@@ -2,6 +2,6 @@
 {
     public class CreateResultRespose
     {
-        public string NewGraphKey { get; set; }
+        public string NewGraphKey { get; set; } = "";
     }
 }

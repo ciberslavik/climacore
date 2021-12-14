@@ -1,9 +1,11 @@
 QT       += core gui network printsupport
 QT      += xml sql
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
 CONFIG += c++11
-#QMAKE_CXXFLAGS += -Wno-deprecated-copy
+QMAKE_CXXFLAGS += -Wno-deprecated-copy
+QMAKE_CXXFLAGS += -rdynamic
+QMAKE_LFLAGS += -rdynamic
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -14,12 +16,17 @@ SOURCES += \
     Controls/FanModeSwitch.cpp \
     Controls/FanWidget.cpp \
     Controls/QClickableLabel.cpp \
+    Controls/TimerPresenter.cpp \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
+    Frames/Alarms/AlarmOwerviewFrame.cpp \
     Frames/Dialogs/ConfigValveDialog.cpp \
     Frames/Dialogs/EditAnalogFanDialog.cpp \
     Frames/Dialogs/EditFanDialog.cpp \
+    Frames/Dialogs/EditLightProfileDialog.cpp \
+    Frames/Dialogs/EditTimerDialog.cpp \
     Frames/Dialogs/HeaterConfigDialog.cpp \
+    Frames/Dialogs/LineEditorDialog.cpp \
     Frames/Dialogs/LivestockOperationDialog.cpp \
     Frames/Dialogs/MessageDialog.cpp \
     Frames/Dialogs/MinMaxByDayEditDialog.cpp \
@@ -29,6 +36,9 @@ SOURCES += \
     Frames/Dialogs/ValueByValueEditDialog.cpp \
     Frames/Dialogs/inputdigitdialog.cpp \
     Frames/Dialogs/inputtextdialog.cpp \
+    Frames/Engine/EngineIOOverviewFrame.cpp \
+    Frames/Engine/EngineMenuFrame.cpp \
+    Frames/Engine/IOOverviewModel.cpp \
     Frames/FrameBase.cpp \
     Frames/Graphs/ConfigProfilesFrame.cpp \
     Frames/Graphs/SelectProfileFrame.cpp \
@@ -38,19 +48,23 @@ SOURCES += \
     Frames/HeaterControllerFrame.cpp \
     Frames/Hystory/TemperatureHystoryFrame.cpp \
     Frames/HystoryMenuFrame.cpp \
-    Frames/LightConfigFrame.cpp \
+    Frames/Light/LightConfigFrame.cpp \
+    Frames/Light/LightOwerviewFrame.cpp \
+    Frames/Light/LightProfileEditorFrame.cpp \
+    Frames/LivestockOperationsFrame.cpp \
     Frames/MainMenuFrame.cpp \
     Frames/ProductionFrame.cpp \
-    Frames/SelectLightPresetFrame.cpp \
+    Frames/Light/SelectTimerProfileFrame.cpp \
     Frames/SystemStateFrame.cpp \
     Frames/TemperatureConfigFrame.cpp \
     Frames/TemperatureOwerviewFrame.cpp \
     Frames/TestModeFrame.cpp \
-    Frames/VentControllerConfigFrame.cpp \
-    Frames/VentelationStateFrame.cpp \
-    Frames/VentilationConfigFrame.cpp \
-    Frames/VentilationMenuFrame.cpp \
-    Frames/VentilationOverviewFrame.cpp \
+    Frames/Ventilation/VentControllerConfigFrame.cpp \
+    Frames/Ventilation/VentelationStateFrame.cpp \
+    Frames/Ventilation/VentilationPWMConfigFrame.cpp \
+    Frames/Ventilation/VentilationConfigFrame.cpp \
+    Frames/Ventilation/VentilationMenuFrame.cpp \
+    Frames/Ventilation/VentilationOverviewFrame.cpp \
     GlobalContext.cpp \
     Models/Authorization/User.cpp \
     Models/Dialogs/ProfileInfoModel.cpp \
@@ -59,10 +73,14 @@ SOURCES += \
     Models/Dialogs/VentProfileModel.cpp \
     Models/FanInfosModel.cpp \
     Models/LightTimersModel.cpp \
+    Models/LivestockOperationsModel.cpp \
+    Models/Timers/SelectTimerProfileInfoModel.cpp \
+    Models/Timers/TimerProfileModel.cpp \
     Network/ClientConnection.cpp \
     Network/GenericServices/DeviceProviderService.cpp \
     Network/GenericServices/GraphService.cpp \
     Network/GenericServices/HeaterControllerService.cpp \
+    Network/GenericServices/IONetworkService.cpp \
     Network/GenericServices/LightControllerService.cpp \
     Network/GenericServices/LivestockService.cpp \
     Network/GenericServices/ProductionService.cpp \
@@ -76,6 +94,7 @@ SOURCES += \
     Network/Session.cpp \
     Services/DefaultFrameFactory.cpp \
     Services/FrameManager.cpp \
+    SignalHandler.cpp \
     TimerPool.cpp \
     main.cpp \
     MainWindow.cpp
@@ -83,20 +102,34 @@ SOURCES += \
 HEADERS += \
     ApplicationWorker.h \
     Controls/AnalogModeSwitch.h \
+    Controls/TimerPresenter.h \
+    Frames/Alarms/AlarmOwerviewFrame.h \
     Frames/Dialogs/EditAnalogFanDialog.h \
     Frames/Dialogs/EditFanDialog.h \
+    Frames/Dialogs/EditLightProfileDialog.h \
+    Frames/Dialogs/EditTimerDialog.h \
     Frames/Dialogs/HeaterConfigDialog.h \
+    Frames/Dialogs/LineEditorDialog.h \
     Frames/Dialogs/StartPreparingDialog.h \
     Frames/Dialogs/StartProductionDialog.h \
     Frames/Dialogs/ValueByValueEditDialog.h \
+    Frames/Engine/EngineIOOverviewFrame.h \
+    Frames/Engine/EngineMenuFrame.h \
+    Frames/Engine/IOOverviewModel.h \
     Frames/Graphs/ConfigProfilesFrame.h \
     Frames/Graphs/ValveProfileEditorFrame.h \
     Frames/Graphs/VentProfileEditorFrame.h \
     Frames/HeaterControllerFrame.h \
     Frames/Hystory/TemperatureHystoryFrame.h \
     Frames/HystoryMenuFrame.h \
-    Frames/VentControllerConfigFrame.h \
-    Frames/VentilationMenuFrame.h \
+    Frames/Light/LightConfigFrame.h \
+    Frames/Light/LightOwerviewFrame.h \
+    Frames/Light/LightProfileEditorFrame.h \
+    Frames/LivestockOperationsFrame.h \
+    Frames/Light/SelectTimerProfileFrame.h \
+    Frames/Ventilation/VentControllerConfigFrame.h \
+    Frames/Ventilation/VentilationPWMConfigFrame.h \
+    Frames/Ventilation/VentilationMenuFrame.h \
     Models/Dialogs/ValveProfileModel.h \
     Models/Dialogs/VentProfileModel.h \
     Models/FanControlsEnums.h \
@@ -117,17 +150,15 @@ HEADERS += \
     Frames/Graphs/SelectProfileFrame.h \
     Frames/Graphs/TempProfileEditorFrame.h \
     Frames/IFrameFactory.h \
-    Frames/LightConfigFrame.h \
     Frames/MainMenuFrame.h \
     Frames/ProductionFrame.h \
-    Frames/SelectLightPresetFrame.h \
     Frames/SystemStateFrame.h \
     Frames/TemperatureConfigFrame.h \
     Frames/TemperatureOwerviewFrame.h \
     Frames/TestModeFrame.h \
-    Frames/VentelationStateFrame.h \
-    Frames/VentilationConfigFrame.h \
-    Frames/VentilationOverviewFrame.h \
+    Frames/Ventilation/VentelationStateFrame.h \
+    Frames/Ventilation/VentilationConfigFrame.h \
+    Frames/Ventilation/VentilationOverviewFrame.h \
     GlobalContext.h \
     MainWindow.h \
     Models/Authorization/User.h \
@@ -145,7 +176,10 @@ HEADERS += \
     Models/HeaterParams.h \
     Models/HeaterState.h \
     Models/LightTimersModel.h \
+    Models/LivestockOperation.h \
+    Models/LivestockOperationsModel.h \
     Models/LivestockState.h \
+    Models/PinInfo.h \
     Models/PreparingConfig.h \
     Models/ProductionConfig.h \
     Models/ProductionState.h \
@@ -155,6 +189,12 @@ HEADERS += \
     Models/SchedulerProfilesInfo.h \
     Models/SensorsData.h \
     Models/SystemState.h \
+    Models/Timers/LightTimerDay.h \
+    Models/Timers/LightTimerItem.h \
+    Models/Timers/LightTimerProfile.h \
+    Models/Timers/LightTimerProfileInfo.h \
+    Models/Timers/SelectTimerProfileInfoModel.h \
+    Models/Timers/TimerProfileModel.h \
     Models/VentControllerState.h \
     Models/VentilationParams.h \
     Network/AuthRequest.h \
@@ -162,10 +202,13 @@ HEADERS += \
     Network/GenericServices/DeviceProviderService.h \
     Network/GenericServices/GraphService.h \
     Network/GenericServices/HeaterControllerService.h \
+    Network/GenericServices/IONetworkService.h \
     Network/GenericServices/LightControllerService.h \
     Network/GenericServices/LivestockService.h \
     Network/GenericServices/Messages/ClimatStatusResponse.h \
     Network/GenericServices/Messages/CreateGraphRequest.h \
+    Network/GenericServices/Messages/CreateLightProfileRequest.h \
+    Network/GenericServices/Messages/CreateLightProfileResponse.h \
     Network/GenericServices/Messages/DefaultRequest.h \
     Network/GenericServices/Messages/FanInfoListRequest.h \
     Network/GenericServices/Messages/FanInfoListRsponse.h \
@@ -187,9 +230,14 @@ HEADERS += \
     Network/GenericServices/Messages/HeaterStateListResponse.h \
     Network/GenericServices/Messages/HeaterStateRequest.h \
     Network/GenericServices/Messages/HeaterStateResponse.h \
-    Network/GenericServices/Messages/LightPressetsResponse.h \
+    Network/GenericServices/Messages/KeyRequest.h \
+    Network/GenericServices/Messages/LightProfileListResponse.h \
+    Network/GenericServices/Messages/LightProfileRequest.h \
+    Network/GenericServices/Messages/LightProfileResponse.h \
+    Network/GenericServices/Messages/LivestockOpListResponse.h \
     Network/GenericServices/Messages/LivestockOperationRequest.h \
     Network/GenericServices/Messages/LivestockStateResponse.h \
+    Network/GenericServices/Messages/PinInfoResponse.h \
     Network/GenericServices/Messages/PreparingConfigRequest.h \
     Network/GenericServices/Messages/ProductionConfigRequest.h \
     Network/GenericServices/Messages/ProductionStateResponse.h \
@@ -227,16 +275,21 @@ HEADERS += \
     Services/FrameManager.h \
     Services/FrameName.h \
     Services/QSerializer.h \
+    SignalHandler.h \
     TimerPool.h
 
 FORMS += \
     Controls/AnalogModeSwitch.ui \
     Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
+    Frames/Alarms/AlarmOwerviewFrame.ui \
     Frames/Dialogs/ConfigValveDialog.ui \
     Frames/Dialogs/EditAnalogFanDialog.ui \
     Frames/Dialogs/EditFanDialog.ui \
+    Frames/Dialogs/EditLightProfileDialog.ui \
+    Frames/Dialogs/EditTimerDialog.ui \
     Frames/Dialogs/HeaterConfigDialog.ui \
+    Frames/Dialogs/LineEditorDialog.ui \
     Frames/Dialogs/LivestockOperationDialog.ui \
     Frames/Dialogs/MessageDialog.ui \
     Frames/Dialogs/MinMaxByDayEditDialog.ui \
@@ -246,6 +299,8 @@ FORMS += \
     Frames/Dialogs/ValueByValueEditDialog.ui \
     Frames/Dialogs/inputdigitdialog.ui \
     Frames/Dialogs/inputtextdialog.ui \
+    Frames/Engine/EngineIOOverviewFrame.ui \
+    Frames/Engine/EngineMenuFrame.ui \
     Frames/Graphs/ConfigProfilesFrame.ui \
     Frames/Graphs/SelectProfileFrame.ui \
     Frames/Graphs/TempProfileEditorFrame.ui \
@@ -254,19 +309,23 @@ FORMS += \
     Frames/HeaterControllerFrame.ui \
     Frames/Hystory/TemperatureHystoryFrame.ui \
     Frames/HystoryMenuFrame.ui \
-    Frames/LightConfigFrame.ui \
+    Frames/Light/LightConfigFrame.ui \
+    Frames/Light/LightOwerviewFrame.ui \
+    Frames/Light/LightProfileEditorFrame.ui \
+    Frames/LivestockOperationsFrame.ui \
     Frames/MainMenuFrame.ui \
     Frames/ProductionFrame.ui \
-    Frames/SelectLightPresetFrame.ui \
+    Frames/Light/SelectTimerProfileFrame.ui \
     Frames/SystemStateFrame.ui \
     Frames/TemperatureConfigFrame.ui \
     Frames/TemperatureOwerviewFrame.ui \
     Frames/TestModeFrame.ui \
-    Frames/VentControllerConfigFrame.ui \
-    Frames/VentelationStateFrame.ui \
-    Frames/VentilationConfigFrame.ui \
-    Frames/VentilationMenuFrame.ui \
-    Frames/VentilationOverviewFrame.ui \
+    Frames/Ventilation/VentControllerConfigFrame.ui \
+    Frames/Ventilation/VentelationStateFrame.ui \
+    Frames/Ventilation/VentilationPWMConfigFrame.ui \
+    Frames/Ventilation/VentilationConfigFrame.ui \
+    Frames/Ventilation/VentilationMenuFrame.ui \
+    Frames/Ventilation/VentilationOverviewFrame.ui \
     MainWindow.ui
 
 # Default rules for deployment.

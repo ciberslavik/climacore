@@ -62,33 +62,33 @@ void HeaterControllerService::UpdateHeaterState(const QString &key, HeaterState 
     emit SendRequest(request);
 }
 
-void HeaterControllerService::ProcessReply(NetworkResponse *reply)
+void HeaterControllerService::ProcessReply(const NetworkResponse &reply)
 {
-    if(reply->service == "HeaterControllerService")
+    if(reply.service == "HeaterControllerService")
     {
-        if(reply->method == "GetStateList")
+        if(reply.method == "GetStateList")
         {
             HeaterStateListResponse resp;
-            resp.fromJson(reply->result.toUtf8());
+            resp.fromJson(reply.result.toUtf8());
 
             emit HeaterStateListReceived(resp.SetPoint, resp.Front, resp.Rear, resp.States);
         }
-        else if(reply->method == "SetHeaterState")
+        else if(reply.method == "SetHeaterState")
         {
             HeaterStateResponse resp;
-            resp.fromJson(reply->result.toUtf8());
+            resp.fromJson(reply.result.toUtf8());
             emit HeaterStateUpdated(resp.State);
         }
-        else if(reply->method == "GetHeaterParamsList")
+        else if(reply.method == "GetHeaterParamsList")
         {
             HeaterParamsListResponse resp;
-            resp.fromJson(reply->result.toUtf8());
+            resp.fromJson(reply.result.toUtf8());
             emit HeaterParamsListReceived(resp.ParamsList);
         }
-        else if(reply->method == "UpdateHeaterParamsList")
+        else if(reply.method == "UpdateHeaterParamsList")
         {
             HeaterParamsListResponse resp;
-            resp.fromJson(reply->result.toUtf8());
+            resp.fromJson(reply.result.toUtf8());
             emit HeaterParamsUpdated(resp.ParamsList);
         }
     }

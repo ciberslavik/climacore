@@ -25,7 +25,7 @@ QList<QString> ServerInfoService::Methods()
     return QList<QString>();
 }
 
-void ServerInfoService::ProcessReply(NetworkResponse *reply)
+void ServerInfoService::ProcessReply(const NetworkResponse &reply)
 {
     qDebug()<<"ServerInfo: Process reply";
 }

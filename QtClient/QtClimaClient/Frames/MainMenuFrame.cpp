@@ -1,18 +1,21 @@
-#include "LightConfigFrame.h"
+#include "Frames/Light/LightProfileEditorFrame.h"
 #include "MainMenuFrame.h"
 #include "ProductionFrame.h"
 #include "TemperatureOwerviewFrame.h"
-#include "VentilationConfigFrame.h"
-#include "VentilationOverviewFrame.h"
+#include "Frames/Ventilation/VentilationConfigFrame.h"
+#include "Frames/Ventilation/VentilationOverviewFrame.h"
 #include "HystoryMenuFrame.h"
 #include "HeaterControllerFrame.h"
 
+#include "Frames/Light/LightOwerviewFrame.h"
 #include "ui_MainMenuFrame.h"
 
 
 #include <Services/FrameManager.h>
 
 #include <Frames/Graphs/ConfigProfilesFrame.h>
+
+#include <Frames/Engine/EngineMenuFrame.h>
 
 MainMenuFrame::MainMenuFrame(QWidget *parent) :
     FrameBase(parent),
@@ -61,7 +64,7 @@ void MainMenuFrame::on_btnTemperature_clicked()
 
 void MainMenuFrame::on_btnLightConfig_clicked()
 {
-    LightConfigFrame *lightFrame = new LightConfigFrame();
+    LightOwerviewFrame *lightFrame = new LightOwerviewFrame();
     FrameManager::instance()->setCurrentFrame(lightFrame);
 }
 
@@ -93,5 +96,19 @@ void MainMenuFrame::on_btnHeaterConfig_clicked()
     HeaterControllerFrame *heaterFrame = new HeaterControllerFrame();
 
     FrameManager::instance()->setCurrentFrame(heaterFrame);
+}
+
+
+void MainMenuFrame::on_btnShowDebugFrame_clicked()
+{
+    EngineMenuFrame *frame = new EngineMenuFrame();
+
+    FrameManager::instance()->setCurrentFrame(frame);
+}
+
+
+void MainMenuFrame::on_btnShowAlarmManager_clicked()
+{
+
 }
 

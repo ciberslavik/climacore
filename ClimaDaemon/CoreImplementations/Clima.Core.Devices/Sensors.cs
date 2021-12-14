@@ -22,7 +22,7 @@ namespace Clima.Core.Devices
             _movingAvgTimer = new Timer(MovingAvgUpdate, null, 3000, 1000);
         }
 
-        private void MovingAvgUpdate(object? o)
+        private void MovingAvgUpdate(object o)
         {
             _pressure = _pressureFilter.Calculate(_pressurePin.Value);
         }

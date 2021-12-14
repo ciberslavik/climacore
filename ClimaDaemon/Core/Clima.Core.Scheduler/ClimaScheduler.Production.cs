@@ -12,37 +12,37 @@ namespace Clima.Core.Scheduler
         {
             _pConfig = config;
             Log.Debug($"Start preparing:{_pConfig.TemperatureSetPoint}");
-            if (_state.SchedulerState != SchedulerState.Preparing)
+            if (_context.State != SchedulerState.Preparing)
             {
-                _state.SchedulerState = SchedulerState.Preparing;
+                _context.State = SchedulerState.Preparing;
                 StartTimer();
-                _state.StartPreparingDate = config.StartDate;
+                _context.StartPreparingDate = config.StartDate;
                 Save();
             }
         }
 
         public void StartProduction(ProductionConfig config)
         {
-            if (_state.SchedulerState != SchedulerState.Production)
+            if (_context.State != SchedulerState.Production)
             {
-                _state.SchedulerState = SchedulerState.Production;
+                _context.State = SchedulerState.Production;
                 StartTimer();
                 _config.ProductionConfig = config;
                 
-                _state.StartProductionDate = config.PlandingDate;
-                _state.StartPreProductionDate = config.StartDate;
+                _context.StartProductionDate = config.PlandingDate;
+                _context.StartPreProductionDate = config.StartDate;
                 LivestockPlanting(config.PlaceHeads, config.PlandingDate);
                 
-                _config.LastSchedulerState = _state.SchedulerState;
+                _config.LastSchedulerState = _context.State;
                 Save();
             }
         }
 
         public void StopProduction()
         {
-            if (_state.SchedulerState != SchedulerState.Stopped)
+            if (_context.State != SchedulerState.Stopped)
             {
-                _state.SchedulerState = SchedulerState.Stopped;
+                _context.State = SchedulerState.Stopped;
                 //StopTimer(TimeSpan.FromSeconds(20));
                 _heater.StopHeater();
                 _ventilation.ProcessController(0);
@@ -50,7 +50,7 @@ namespace Clima.Core.Scheduler
             }
         }
 
-        public SchedulerState SchedulerState => _state.SchedulerState;
+        public SchedulerState SchedulerState => _context.State;
         
         public int CurrentHeads => GetCurrentHeads();
 
@@ -61,7 +61,7 @@ namespace Clima.Core.Scheduler
                 if (SchedulerState == SchedulerState.Stopped)
                     return 0;
 
-                var diff = _time.Now - _state.StartProductionDate;
+                var diff = _time.Now - _context.StartProductionDate;
                 return diff.Days;
             }
         }

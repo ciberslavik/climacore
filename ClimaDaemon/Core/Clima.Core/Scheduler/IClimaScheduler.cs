@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Clima.Basics.Services;
 using Clima.Core.DataModel;
 using Clima.Core.DataModel.GraphModel;
@@ -22,7 +23,9 @@ namespace Clima.Core.Scheduler
         void LivestockKill(int heads, DateTime opDate);
         void LivestockReset();
         LivestockState GetLivestockState();
-        
+        IEnumerable<LivestockOperation> GetOperations(DateTime start, DateTime end);
+        IEnumerable<LivestockOperation> GetOperationsPerCurrentParty();
+
         //Production operations
 
         void StartPreparing(PreparingConfig config);

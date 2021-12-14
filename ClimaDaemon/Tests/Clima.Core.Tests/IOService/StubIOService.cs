@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.ReactiveUI;
 using Castle.Core.Internal;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
@@ -20,6 +23,29 @@ namespace Clima.Core.Tests.IOService
         public void Start()
         {
             Console.WriteLine("Stub IO Service Started");
+            /*var v = BuildAvaloniaApp();
+            v.AfterSetup(p =>
+            {
+                if (p.Instance is AvaloniaHost host)
+                {
+                    host.SetVm(new IOSimulatorViewModel(this));
+                }
+            });
+            
+            var result = Task.Run(() => v
+                .StartWithClassicDesktopLifetime(new string[] { }));
+            var v1 = v.Instance;  */        
+            
+        }
+
+        public static AppBuilder BuildAvaloniaApp()
+        {
+            var appBuilder = AppBuilder.Configure<AvaloniaHost>()
+                .UsePlatformDetect()
+                .LogToTrace()
+                .UseReactiveUI();
+            
+            return appBuilder;
         }
 
         public void Stop()
@@ -43,9 +69,6 @@ namespace Clima.Core.Tests.IOService
                 {
                     var discrOut = new StubDiscreteOutput();
                     discrOut.PinName = doConfig.PinName;
-                    
-                    if(!doConfig.MonitorPinName.IsNullOrEmpty())
-                        discrOut.MonitorPin = (StubDiscreteInput)Pins.DiscreteInputs[doConfig.MonitorPinName];
                     
                     Pins.AddDiscreteOutput(doConfig.PinName, discrOut);
                 }

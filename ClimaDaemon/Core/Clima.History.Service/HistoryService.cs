@@ -4,7 +4,7 @@ using Clima.Core.Hystory;
 
 namespace Clima.History.Service
 {
-    public class HistoryService:IHistoryService
+    public class HistoryService//:IHistoryService
     {
         public HistoryService()
         {

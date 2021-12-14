@@ -10,8 +10,7 @@ namespace Clima.Core
     public class ClimaContext
     {
         private static readonly object _lock = new object();
-        private static ClimaContext _instance;
-        private static bool _exitSignal;
+        private static ClimaContext? _instance;
         private static object _exitLocker = new object();
 
         private readonly IServiceProvider _serviceProvider;
@@ -20,9 +19,13 @@ namespace Clima.Core
         {
             _serviceProvider = serviceProvider;
             var devProvider = _serviceProvider.Resolve<IDeviceProvider>();
-            Logger = _serviceProvider.Resolve<ISystemLogger>();
+            Logger = _serviceProvider.Resolve<ISystemLogger>() ?? new LogFileWriter("ClimaContext.log");
         }
 
+        static ClimaContext()
+        {
+            Logger = new LogFileWriter("ClimaContext.log");
+        }
         public static void InitContext(IServiceProvider serviceProvider)
         {
             if (_instance == null)

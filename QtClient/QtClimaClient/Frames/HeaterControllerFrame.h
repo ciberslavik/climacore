@@ -23,7 +23,7 @@ private:
     HeaterControllerService *m_heaterService;
     bool m_heat1modify;
     bool m_heat2modify;
-
+    float m_setpoint;
     QList<HeaterParams> m_heaters;
 
     QMetaObject::Connection timerConnection;
@@ -34,7 +34,7 @@ private slots:
     void on_btnReturn_clicked();
     void onHeaterStateListReceived(float setpoint, float front, float rear, QList<HeaterState> heaterStates);
     void onHeaterParamsListReceived(QList<HeaterParams> heaterParams);
-    void onHeaterUpdated(HeaterState state);
+    //void onHeaterUpdated(HeaterState state);
     void onTxtCorrection1Clicked();
     void onTxtCorrection2Clicked();
     void onTxtDeltaOn1Clicked();

@@ -5,6 +5,8 @@
         public RelayInfo(string key = "")
         {
             Key = key;
+            Name = "";
+            CurrentState = false;
         }
         public string Key { get; set; }
         public string Name { get; set; }

@@ -37,6 +37,7 @@ private slots:
 
 private:
     Ui::MessageDialog *ui;
+    DialogType m_dialogType;
 };
 
 #endif // MESSAGEDIALOG_H

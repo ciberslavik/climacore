@@ -47,7 +47,7 @@ namespace Clima.AgavaModBusIO.Model
         public override PinType PinType => PinType.Analog;
         public override PinDir Direction => PinDir.Output;
 
-        internal bool IsModified { get; set; }
+        internal new bool IsModified { get; private set; }
         internal bool IsPinTypeChanged { get; }
 
 

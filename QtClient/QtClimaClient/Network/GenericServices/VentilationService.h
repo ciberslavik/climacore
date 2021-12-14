@@ -17,6 +17,7 @@ public:
     void GetFanInfo(const QString &fanKey);
 
     void SetFanState(const QString &key, const FanStateEnum &state);
+    void SetFanState(const QString &key, const FanStateEnum &state, const float &analogPower);
     void SetFanMode(const QString &key, const FanModeEnum &state);
 
     void CreateOrUpdateFan(const FanInfo &info);
@@ -30,6 +31,7 @@ public:
 
     void GetVentilationStatus();
 
+    void ResetAlarms();
 signals:
     void FanInfoListReceived(QMap<QString, FanInfo> response);
     void FanInfoReceived(FanInfo info);
@@ -47,6 +49,6 @@ signals:
 public:
     QString ServiceName(){return "VentilationControllerService";}
     QList<QString> Methods(){return QList<QString>();}
-    void ProcessReply(NetworkResponse *reply);
+    void ProcessReply(const NetworkResponse &reply);
 };
 

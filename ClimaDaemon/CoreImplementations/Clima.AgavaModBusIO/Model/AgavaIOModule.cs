@@ -34,7 +34,7 @@ namespace Clima.AgavaModBusIO.Model
                 {
                     _doRegister &= (ushort)(~output.PinMask);
                 }
-                Console.WriteLine($"DO in module:{_moduleId} pin:{ea.Pin.PinName} to:{ea.NewState})");
+                //Console.WriteLine($"DO in module:{_moduleId} pin:{ea.Pin.PinName} to:{ea.NewState})");
             }
         }
 

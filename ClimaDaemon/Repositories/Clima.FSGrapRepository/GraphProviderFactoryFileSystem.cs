@@ -11,11 +11,12 @@ namespace Clima.FSGrapRepository
         private readonly IGraphProvider<TemperatureGraph, ValueByDayPoint> _temperatureProvider;
         private readonly IGraphProvider<VentilationGraph, MinMaxByDayPoint> _ventilationProvider;
         private readonly IGraphProvider<ValvePerVentilationGraph, ValueByValuePoint> _valveProvider;
+        private readonly IGraphProvider<VentCorrectionGraph, ValueByValuePoint> _ventCorrectionProvider;
         
         private GraphProviderConfig<TemperatureGraphPointConfig> _tempProviderConfig;
         private GraphProviderConfig<VentilationGraphPointConfig> _ventProviderConfig;
         private GraphProviderConfig<ValveGraphPointConfig> _valveProviderConfig;
-        //private TemperatureGraphProviderConfig _tempProviderConfig;
+        private GraphProviderConfig<VentCorrectionGraphPointConfig> _ventCorrectionConfig;
         public GraphProviderFactoryFileSystem(IConfigurationStorage configStorgae)
         {
             _configStorgae = configStorgae;
@@ -28,6 +29,36 @@ namespace Clima.FSGrapRepository
 
             LoadOrCreateValveGraphProviderConfig();
             _valveProvider = new ValveGraphProvider(_valveProviderConfig);
+            
+            LoadOrCreateVentCorrectionGraphProviderConfig();
+            _ventCorrectionProvider = new VentCorrectionGraphProvider(_ventCorrectionConfig);
+        }
+
+        private void LoadOrCreateVentCorrectionGraphProviderConfig()
+        {
+            var configName = "VentCorrectionGraphProvider";
+            if (!_configStorgae.Exist(configName))
+            {
+                var ventProviderConfig = new GraphProviderConfig<VentCorrectionGraphPointConfig>();
+                ventProviderConfig.ConfigurationName = "DefaultConfig";
+                ventProviderConfig.CurrentGraph = "Default";
+                ventProviderConfig.Graphs.Add("Default", new GraphConfig<VentCorrectionGraphPointConfig>()
+                {
+                    Info = new ProfileInfo()
+                    {
+                        Key = "Default",
+                        Name = "Default Graph",
+                        CreationTime = DateTime.Now,
+                        ModifiedTime = DateTime.Now
+                    },
+                    Points =
+                    {
+                        new VentCorrectionGraphPointConfig(0, 0)
+                    }
+                });
+                _configStorgae.RegisterConfig(configName, ventProviderConfig);
+                _configStorgae.Save();
+            }
         }
 
         private void TpOnSaveNeeded(object? sender, EventArgs e)
@@ -134,6 +165,15 @@ namespace Clima.FSGrapRepository
         public IGraphProvider<ValvePerVentilationGraph,ValueByValuePoint> ValveGraphProvider()
         {
             return _valveProvider;
+        }
+
+        public IGraphProvider<ValvePerVentilationGraph, ValueByValuePoint> MineGraphProvider()
+        {
+            throw new NotImplementedException();
+        }
+        public IGraphProvider<VentCorrectionGraph, ValueByValuePoint> VentCorrectionGraphProvider()
+        {
+            return _ventCorrectionProvider;
         }
     }
 }

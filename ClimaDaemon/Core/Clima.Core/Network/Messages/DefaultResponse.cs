@@ -5,6 +5,7 @@
         public DefaultResponse(string status = "OK")
         {
             Status = status;
+            RequestName = "";
         }
 
         public string RequestName { get; set; }

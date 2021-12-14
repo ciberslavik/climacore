@@ -71,7 +71,19 @@ namespace Clima.Basics.Services.Communication
                                     }
 
                                     if (service is not null)
-                                        return methodInfo.Invoke(service, new[] {p});
+                                    {
+                                        //Log.Debug($"Executing Service:{serviceType.Name} method:{methodInfo.Name}");
+                                        try
+                                        {
+                                            return methodInfo.Invoke(service, new[] {p});
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Console.WriteLine(e);
+                                            throw;
+                                        }
+                                        //return methodInfo.Invoke(service, new[] {p});
+                                    }
                                     else
                                     {
                                         Log.Debug($"Service:{serviceType.Name} not found");

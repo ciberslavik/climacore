@@ -1,3 +1,4 @@
+#include "LivestockOperationsFrame.h"
 #include "ProductionFrame.h"
 #include "ui_ProductionFrame.h"
 
@@ -27,7 +28,13 @@ ProductionFrame::ProductionFrame(QWidget *parent) :
     connect(m_prodService, &ProductionService::ProductionStarted, this, &ProductionFrame::PreparingStarted);
     connect(m_prodService, &ProductionService::ProductionStateChanged,this, &ProductionFrame::onProductionStateChanged);
 
+    connect(m_liveService, &LivestockService::LivestockStateReceived, this, &ProductionFrame::LivestockStateChanged);
     connect(m_liveService, &LivestockService::LivestockUpdated, this, &ProductionFrame::LivestockStateChanged);
+    connect(m_liveService, &LivestockService::DeathComplete, this, &ProductionFrame::LivestockOpComplete);
+    connect(m_liveService, &LivestockService::KillComlete, this, &ProductionFrame::LivestockOpComplete);
+    connect(m_liveService, &LivestockService::PlantedComplete, this, &ProductionFrame::LivestockOpComplete);
+    connect(m_liveService, &LivestockService::RefractionComplete, this, &ProductionFrame::LivestockOpComplete);
+
     ui->lblDead->setText("0");
     ui->lblKilled->setText("0");
     ui->lblTotalPlending->setText("0");
@@ -46,6 +53,7 @@ void ProductionFrame::on_btnPlending_clicked()
 
     if(dlg->exec()==QDialog::Accepted)
     {
+        m_liveService->Plant(dlg->Heads(), dlg->OperationDate());
 
     }
     dlg->deleteLater();
@@ -59,7 +67,7 @@ void ProductionFrame::on_btnKill_clicked()
 
     if(dlg->exec()==QDialog::Accepted)
     {
-
+        m_liveService->Kill(dlg->Heads(), dlg->OperationDate());
     }
     dlg->deleteLater();
 }
@@ -68,11 +76,11 @@ void ProductionFrame::on_btnKill_clicked()
 void ProductionFrame::on_btnDeath_clicked()
 {
     LivestockOperationDialog *dlg = new LivestockOperationDialog(FrameManager::instance()->MainWindow());
-    dlg->setTitle("Падежъ");
+    dlg->setTitle("Падеж");
 
     if(dlg->exec()==QDialog::Accepted)
     {
-
+        m_liveService->Death(dlg->Heads(), dlg->OperationDate());
     }
     dlg->deleteLater();
 }
@@ -85,7 +93,7 @@ void ProductionFrame::on_btnRefraction_clicked()
 
     if(dlg->exec()==QDialog::Accepted)
     {
-
+        m_liveService->Refraction(dlg->Heads(), dlg->OperationDate());
     }
     dlg->deleteLater();
 }
@@ -166,12 +174,12 @@ void ProductionFrame::onProductionStateChanged(ProductionState state)
         ui->btnPlending->setEnabled(true);
         ui->btnEndGrowing->setEnabled(true);
         ui->btnPreparing->setEnabled(false);
-        ui->btnStartGrowing->setEnabled(true);
+        ui->btnStartGrowing->setEnabled(false);
         break;
     }
 
     ui->lblStartDate->setText(state.StartDate.toString("dd.MM.yyyy hh:mm"));
-    ui->lblTotalPlending->setText(QString::number(state.CurrentHeads));
+    m_liveService->GetLivestockState();
 }
 
 void ProductionFrame::LivestockStateChanged(LivestockState state)
@@ -179,11 +187,25 @@ void ProductionFrame::LivestockStateChanged(LivestockState state)
     ui->lblDead->setText(QString::number(state.TotalDeadHeads));
     ui->lblKilled->setText(QString::number(state.TotalKilledHeads));
     ui->lblTotalPlending->setText(QString::number(state.TotalPlantedHeads));
+    ui->lblRefracted->setText(QString::number(state.TotalRefracted));
+    ui->lblCurrent->setText((QString::number(state.CurrentHeads)));
+}
 
+void ProductionFrame::LivestockOpComplete()
+{
+    m_liveService->GetLivestockState();
 }
 
 void ProductionFrame::showEvent(QShowEvent *event)
 {
     m_prodService->GetProductionState();
+}
+
+
+void ProductionFrame::on_btnShowOperations_clicked()
+{
+    LivestockOperationsFrame *frame = new LivestockOperationsFrame();
+
+    FrameManager::instance()->setCurrentFrame(frame);
 }
 

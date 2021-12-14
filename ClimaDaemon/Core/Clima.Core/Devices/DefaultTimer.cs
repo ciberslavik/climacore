@@ -34,6 +34,6 @@ namespace Clima.Core.Devices
             set => _timer.Interval = value;
         }
 
-        public event TimerElapsedEventHandler Elapsed;
+        public event TimerElapsedEventHandler? Elapsed;
     }
 }

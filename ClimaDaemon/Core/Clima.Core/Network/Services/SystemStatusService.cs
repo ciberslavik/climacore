@@ -20,7 +20,7 @@ namespace Clima.Core.Network.Services
         }
         
         [ServiceMethod]
-        public ClimatStateResponse GetClimatState(DefaultRequest request)
+        public ClimatStateResponse GetClimateState(DefaultRequest request)
         {
             var s = ClimaContext.Current.Sensors;;
             var response = new ClimatStateResponse()

@@ -74,6 +74,21 @@ void VentilationService::SetFanState(const QString &key, const FanStateEnum &sta
     emit SendRequest(request);
 }
 
+void VentilationService::SetFanState(const QString &key, const FanStateEnum &state, const float &analogPower)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "VentilationControllerService";
+    request->method = "SetFanState";
+
+    FanStateRequest fsRequ;
+    fsRequ.Key = key;
+    fsRequ.State = (int)state;
+    fsRequ.AnalogPower = analogPower;
+    request->params = fsRequ.toJsonString();
+
+    emit SendRequest(request);
+}
+
 void VentilationService::SetFanMode(const QString &key, const FanModeEnum &state)
 {
     NetworkRequest *request = new NetworkRequest();
@@ -172,60 +187,69 @@ void VentilationService::GetVentilationStatus()
     emit SendRequest(request);
 }
 
-void VentilationService::ProcessReply(NetworkResponse *reply)
+void VentilationService::ResetAlarms()
 {
-    if(reply->service == ServiceName())
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "VentilationControllerService";
+    request->method = "ResetAlarms";
+
+    emit SendRequest(request);
+}
+
+void VentilationService::ProcessReply(const NetworkResponse &reply)
+{
+    if(reply.service == ServiceName())
     {
-        if(reply->method == "GetFanInfoList")
+        if(reply.method == "GetFanInfoList")
         {
             FanInfoListResponse *response = new FanInfoListResponse();
-            response->fromJson(reply->result.toUtf8());
+            response->fromJson(reply.result.toUtf8());
 
             emit FanInfoListReceived(response->Infos);
 
         }
-        else if(reply->method == "CreateOrUpdateFan")
+        else if(reply.method == "CreateOrUpdateFan")
         {
             emit CreateOrUpdateComplete();
         }
-        else if(reply->method == "SetFanState")
+        else if(reply.method == "SetFanState")
         {
             FanStateResponse rsp;
-            rsp.fromJson(reply->result.toUtf8());
+            rsp.fromJson(reply.result.toUtf8());
             //emit FanStateUpdated(rsp.State);
         }
-        else if(reply->method == "GetValveState")
+        else if(reply.method == "GetValveState")
         {
             ServoStateResponse rsp;
-            rsp.fromJson(reply->result.toUtf8());
+            rsp.fromJson(reply.result.toUtf8());
 
             emit ValveStateReceived(rsp.IsManual, rsp.CurrentPosition, rsp.SetPoint);
         }
-        else if(reply->method == "GetMineState")
+        else if(reply.method == "GetMineState")
         {
             ServoStateResponse rsp;
-            rsp.fromJson(reply->result.toUtf8());
+            rsp.fromJson(reply.result.toUtf8());
 
             emit MineStateReceived(rsp.IsManual, rsp.CurrentPosition, rsp.SetPoint);
         }
-        else if(reply->method == "UpdateMineState")
+        else if(reply.method == "UpdateMineState")
         {
             ServoStateResponse rsp;
-            rsp.fromJson(reply->result.toUtf8());
+            rsp.fromJson(reply.result.toUtf8());
 
             emit MineStateUpdated(rsp.IsManual, rsp.CurrentPosition, rsp.SetPoint);
         }
-        else if(reply->method == "UpdateValveState")
+        else if(reply.method == "UpdateValveState")
         {
             ServoStateResponse rsp;
-            rsp.fromJson(reply->result.toUtf8());
+            rsp.fromJson(reply.result.toUtf8());
 
             emit ValveStateUpdated(rsp.IsManual, rsp.CurrentPosition, rsp.SetPoint);
         }
-        else if(reply->method == "GetVentilationStatus")
+        else if(reply.method == "GetVentilationStatus")
         {
             VentilationStatusResponse rsp;
-            rsp.fromJson(reply->result.toUtf8());
+            rsp.fromJson(reply.result.toUtf8());
 
             emit VentilationStatusReceived(rsp.ValveCurrentPos,
                                            rsp.ValveSetPoint,
@@ -233,10 +257,10 @@ void VentilationService::ProcessReply(NetworkResponse *reply)
                                            rsp.MineSetPoint,
                                            rsp.VentSetPoint);
         }
-        else if(reply->method == "GetFanInfo")
+        else if(reply.method == "GetFanInfo")
         {
             FanInfo info;
-            info.fromJson(reply->result.toUtf8());
+            info.fromJson(reply.result.toUtf8());
             emit FanInfoReceived(info);
         }
     }

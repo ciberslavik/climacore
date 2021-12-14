@@ -14,7 +14,6 @@ namespace Clima.Core.DataModel
         private int _performance;
         private int _fanCount;
         private int _priority;
-        private bool _hermetised;
         private FanModeEnum _mode;
         private FanStateEnum _state;
         private float _startValue;
@@ -22,9 +21,9 @@ namespace Clima.Core.DataModel
 
         public FanInfo(string key = "", string name = "", string relayName = "")
         {
-            Key = key;
-            FanName = name;
-            RelayName = relayName;
+            _key = key;
+            _fanName = name;
+            _relayName = relayName;
         }
 
         public bool IsAnalog

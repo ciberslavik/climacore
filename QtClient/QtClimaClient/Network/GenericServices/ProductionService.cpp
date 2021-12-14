@@ -64,22 +64,22 @@ QList<QString> ProductionService::Methods()
  return QList<QString>();
 }
 
-void ProductionService::ProcessReply(NetworkResponse *reply)
+void ProductionService::ProcessReply(const NetworkResponse &reply)
 {
-    if(reply->service == "ProductionService")
+    if(reply.service == "ProductionService")
     {
         ProductionStateResponse resp;
-        resp.fromJson(reply->result.toUtf8());
+        resp.fromJson(reply.result.toUtf8());
 
-        if(reply->method == "StartPreparing")
+        if(reply.method == "StartPreparing")
         {
             emit PreparingStarted(resp.State.State);
         }
-        else if(reply->method == "StartProduction")
+        else if(reply.method == "StartProduction")
         {
             emit ProductionStarted(resp.State.State);
         }
-        else if(reply->method == "StopProduction")
+        else if(reply.method == "StopProduction")
         {
             emit ProductionStopped(resp.State.State);
         }

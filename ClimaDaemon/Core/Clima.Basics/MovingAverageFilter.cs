@@ -29,7 +29,6 @@ namespace Clima.Basics
 
             // calculate the average
             return _avgSumm / _width;
-            return 0;
         }
     }
 }

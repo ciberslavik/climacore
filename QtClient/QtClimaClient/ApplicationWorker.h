@@ -25,7 +25,7 @@ signals:
 
 private slots:
     void onConnctionEstabilished();
-    void onReplyReceived(NetworkResponse *reply);
+    void onReplyReceived(const NetworkResponse &reply);
     void onSendRequest(NetworkRequest *request);
     void onConnectionError(const QString &message);
 private:

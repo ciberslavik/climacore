@@ -111,32 +111,32 @@ namespace Clima.Core.Controllers
         public float SetPoint => _currentSetPoint;
         private void ProcessHeater(float setpoint, string key)
         {
-            HeaterParams @params = _config.Infos[key];
+            HeaterParams heaterParams = _config.Infos[key];
             
-            if (!@params.IsManual)
+            if (!heaterParams.IsManual)
             {
                 //Get current temperature in selected zone
                 float currTemp = 0;
-                if (@params.ControlZone == 0)
+                if (heaterParams.ControlZone == 0)
                     currTemp = _deviceProvider.GetSensors().FrontTemperature;
-                else if (@params.ControlZone == 1)
+                else if (heaterParams.ControlZone == 1)
                     currTemp = _deviceProvider.GetSensors().RearTemperature;
                 
                 //Add correction
-                var corrected = setpoint + @params.Correction;
+                var corrected = setpoint + heaterParams.Correction;
                 //Calculate start and stop temperatures
-                var heatOn = setpoint + @params.DeltaOn;
-                var heatOff = setpoint + @params.DeltaOff;
+                var heatOn = corrected + heaterParams.DeltaOn;
+                var heatOff = corrected + heaterParams.DeltaOff;
                 Log.Debug($"curr:{currTemp} setpoint:{setpoint} corrected:{corrected} on temp:{heatOn} off temp:{heatOff}");
                 if (currTemp < heatOn)
                 {
-                    _ioService.Pins.DiscreteOutputs[@params.PinName].SetState(true);
+                    _ioService.Pins.DiscreteOutputs[heaterParams.PinName].SetState(true);
                     _heaterStates[key].IsRunning = true;
                 }
 
                 if (currTemp > heatOff)
                 {
-                    _ioService.Pins.DiscreteOutputs[@params.PinName].SetState(false);
+                    _ioService.Pins.DiscreteOutputs[heaterParams.PinName].SetState(false);
                     _heaterStates[key].IsRunning = false;
                 }
             }

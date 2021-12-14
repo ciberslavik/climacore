@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Clima.Basics.Services.Communication;
+using Clima.Core.Alarm;
 using Clima.Core.Controllers.Network.Messages;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel;
@@ -48,7 +49,7 @@ namespace Clima.Core.Controllers.Network.Services
         [ServiceMethod]
         public FanStateResponse SetFanState(FanStateRequest request)
         {
-            _ventController.SetFanState(request.Key, request.State);
+            _ventController.SetFanState(request.Key, request.State, request.AnalogPower);
             return new FanStateResponse()
             {
                 Key = request.Key,
@@ -56,6 +57,15 @@ namespace Clima.Core.Controllers.Network.Services
             };
         }
 
+        [ServiceMethod]
+        public DefaultResponse ResetAlarms(DefaultRequest request)
+        {
+            if (_ventController  is IAlarmSource alarmSource)
+            {
+                alarmSource.Reset();
+            }
+            return new DefaultResponse();
+        }
         [ServiceMethod]
         public FanModeResponse SetFanMode(FanModeRequest request)
         {

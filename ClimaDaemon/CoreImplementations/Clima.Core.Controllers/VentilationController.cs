@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Clima.Basics.Services;
+using Clima.Core.Alarm;
 using Clima.Core.Conrollers.Ventilation.DataModel;
 using Clima.Core.Controllers.Configuration;
 using Clima.Core.Controllers.Ventilation;
@@ -10,7 +11,7 @@ using Clima.Core.Devices;
 
 namespace Clima.Core.Controllers
 {
-    public class VentilationController : IVentilationController
+    public class VentilationController : IVentilationController,IAlarmSource
     {
         private readonly IDeviceProvider _devProvider;
         private readonly Dictionary<string, FanControllerTableItem> _fanTable;
@@ -22,10 +23,10 @@ namespace Clima.Core.Controllers
         private float _currentPerformance;
         private int _totalPerformance;
         private int _discreteDelta;
-        private float _analogPower;
-        private float _analogManualPower;
 
         private LogFileWriter _log;
+        private bool _isAlarm;
+        private IEnumerable<AlarmInfo> _provideAlarms;
         public ISystemLogger Log { get; set; }
         
         public VentilationController(IDeviceProvider devProvider)
@@ -36,6 +37,7 @@ namespace Clima.Core.Controllers
             ServiceState = ServiceState.NotInitialized;
             _discreteDelta = 500;
             _log = new LogFileWriter("Ventilation.log");
+            _isAlarm = false;
         }
         public void Start()
         {
@@ -147,15 +149,12 @@ namespace Clima.Core.Controllers
 
         public void ProcessController(float performance)
         {
-            Log.Debug("Process");
+            Log.Debug("Process ventilation");
             _currentPerformance = performance;
             int perfCounter = 0;
             FanControllerTableItem analogItem = null;
             foreach (var fanTableValue in _fanTable.Values)
             {
-                if(fanTableValue.Info.Mode == FanModeEnum.Manual)
-                    continue;
-                
                 if(fanTableValue.Info.IsAnalog)
                 {
                     analogItem = fanTableValue;
@@ -164,16 +163,19 @@ namespace Clima.Core.Controllers
 
                 if (fanTableValue.Info.Mode == FanModeEnum.Auto)
                 {
-                    if (fanTableValue.StartPerformance <= _currentPerformance)
+                    if (fanTableValue.Info.State != FanStateEnum.Alarm)
                     {
-                        perfCounter += fanTableValue.Info.Performance * fanTableValue.Info.FanCount;
-                        fanTableValue.Info.State = FanStateEnum.Running;
-                        fanTableValue.Relay.On();
-                    }
-                    else
-                    {
-                        fanTableValue.Info.State = FanStateEnum.Stopped;
-                        fanTableValue.Relay.Off();
+                        if (fanTableValue.StartPerformance <= _currentPerformance)
+                        {
+                            perfCounter += fanTableValue.Info.Performance * fanTableValue.Info.FanCount;
+                            fanTableValue.Info.State = FanStateEnum.Running;
+                            fanTableValue.Relay.On();
+                        }
+                        else
+                        {
+                            fanTableValue.Info.State = FanStateEnum.Stopped;
+                            fanTableValue.Relay.Off();
+                        }
                     }
                 }
                 else if (fanTableValue.Info.Mode == FanModeEnum.Disabled)
@@ -181,33 +183,49 @@ namespace Clima.Core.Controllers
                     fanTableValue.Info.State = FanStateEnum.Stopped;
                     fanTableValue.Relay.Off();
                 }
+                else if (fanTableValue.Info.Mode == FanModeEnum.Manual)
+                {
+                    if (fanTableValue.Info.State == FanStateEnum.Running)
+                    {
+                        fanTableValue.Relay.On();
+                    }
+                    else if (fanTableValue.Info.State == FanStateEnum.Stopped ||
+                             fanTableValue.Info.State == FanStateEnum.Alarm)
+                    {
+                        fanTableValue.Relay.Off();
+                    }
+                }
             }
             
             if(analogItem is not null)
             {
                 analogItem.Info.State = FanStateEnum.Running;
                 float powerToAnalog = _currentPerformance - perfCounter;
+                
+                //перевод в проценты
                 float powerPercent = (powerToAnalog / analogItem.CurrentPerformance) * 100.0f;
                 
+                //Ограничения
                 if(powerPercent < analogItem.Info.StopValue)
                   powerPercent = analogItem.Info.StopValue;
                 if(powerPercent > analogItem.Info.StartValue)
                   powerPercent = analogItem.Info.StartValue;
                 
                 
-                _analogPower = powerPercent;
                 if (analogItem.Info.Mode == FanModeEnum.Auto)
                 {
+                    //analogItem.AnalogFan.Start();
                     analogItem.AnalogFan.SetPower(powerPercent);
                     analogItem.Info.AnalogPower = powerPercent;
+                    Console.WriteLine($"Analog AUT performance:{powerToAnalog} percent:{powerPercent}");
                 }
                 else if(analogItem.Info.Mode == FanModeEnum.Manual)
                 {
-                    analogItem.AnalogFan.SetPower(_analogManualPower);
-                    analogItem.Info.AnalogPower = _analogManualPower;
+                    //analogItem.AnalogFan.Start();
+                    analogItem.AnalogFan.SetPower(analogItem.Info.AnalogPower);
+                    
+                    Console.WriteLine($"Analog MAN percent:{analogItem.Info.AnalogPower}");
                 }
-
-                Console.WriteLine($"Analog performance:{powerToAnalog} percent:{powerPercent}");
             }
         }
 
@@ -276,6 +294,13 @@ namespace Clima.Core.Controllers
 
         private void CreateFans()
         {
+            foreach (var i in _fanTable.Values)
+            {
+                if (i.Relay is IAlarmNotifier notifier)
+                {
+                    notifier.Notify -= AlarmNotifierOnNotify;
+                }
+            }
             _fanTable.Clear();
             
             List<FanInfo> infos = _config.FanInfos.Values.ToList();
@@ -301,6 +326,7 @@ namespace Clima.Core.Controllers
                 {
                     //Initialize analog fan
                     tableItem.AnalogFan = _devProvider.GetFrequencyConverter("FC:0");
+                    tableItem.AnalogFan.Start();
                     tableItem.CurrentPerformance = info.Performance * info.FanCount;
                     tableItem.StartPerformance = info.StartValue;
                     tableItem.StopPerformance = info.StopValue;
@@ -310,6 +336,10 @@ namespace Clima.Core.Controllers
                     //Initialize discrete fan
                     
                     tableItem.Relay = _devProvider.GetRelay(info.RelayName);
+                    if (tableItem.Relay is IAlarmNotifier relayAlarm)
+                    {
+                        relayAlarm.Notify += AlarmNotifierOnNotify;
+                    }
                     
                     switch (info.Mode)
                     {
@@ -324,12 +354,12 @@ namespace Clima.Core.Controllers
                             break;
                         case FanModeEnum.Manual:
                         {
-
+                            
                         }
                             break;
                         case FanModeEnum.Disabled:
                         {
-
+                            tableItem.Relay.Off();
                         }
                             break;
                         default:
@@ -344,7 +374,15 @@ namespace Clima.Core.Controllers
 
             _totalPerformance = totalPerfCounter;
         }
-        
+
+        private void AlarmNotifierOnNotify(object sender, AlarmEventArgs ea)
+        {
+            var relay = (IRelay) sender;
+            var fan = _fanTable.Values.Where(f => f.Relay != null).FirstOrDefault(f => f.Relay.Name == relay.Name);
+            fan!.Info.State = FanStateEnum.Alarm;
+            Log.Error(ea.Message);
+        }
+
         public void SetFanMode(string key, FanModeEnum mode)
         {
             if (_fanTable.ContainsKey(key))
@@ -352,21 +390,29 @@ namespace Clima.Core.Controllers
                 if (_fanTable[key].Info.Mode != mode)
                 {
                     _fanTable[key].Info.Mode = mode;
+                    Log.Debug($"Mode changed fan: [{key}] mode: {mode}");
+                    ClimaContext.Current.SaveConfiguration();
+                    CreateFans();
                 }
             }
-            CreateFans();
-            ClimaContext.Current.SaveConfiguration();
         }
         public void SetFanState(string key, FanStateEnum state, float analogPower)
         {
             if(_fanTable.ContainsKey(key))
             {
+                if(_fanTable[key].Info.State== FanStateEnum.Alarm)
+                    return;
+                
                 if (_fanTable[key].Info.IsAnalog)
                 {
                     if (_fanTable[key].Info.Mode == FanModeEnum.Manual)
                     {
-                        _analogManualPower = analogPower;
                         _fanTable[key].AnalogFan.SetPower(analogPower);
+                        _fanTable[key].Info.AnalogPower = analogPower;
+                    }
+                    else
+                    {
+                        _fanTable[key].Info.State = FanStateEnum.Running;
                     }
                 }
                 else
@@ -449,6 +495,30 @@ namespace Clima.Core.Controllers
             _valveServo ??= _devProvider.GetServo(_config.ValveServoName);
             if (position >= 0 && position <= 100)
                 _valveServo.SetPosition(position);
+        }
+
+        public event EventHandler<AlarmEventArgs> Alarm;
+
+        public bool IsAlarm => _isAlarm;
+
+        public IEnumerable<AlarmInfo> ProvideAlarms => _provideAlarms;
+
+        public void Reset()
+        {
+            var discrFans = _fanTable.Values.Where(f => f.Relay != null);
+            foreach (var fanItem in discrFans)
+            {
+                if (fanItem.Relay is IAlarmNotifier relayAlarm)
+                {
+                    relayAlarm.Reset();
+                    fanItem.Info.State = FanStateEnum.Stopped;
+                }
+            }
+        }
+
+        protected virtual void OnAlarm(AlarmEventArgs ea)
+        {
+            Alarm?.Invoke(this, ea);
         }
     }
 }

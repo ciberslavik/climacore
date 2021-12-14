@@ -13,8 +13,8 @@ namespace Clima.Core.DataModel.GraphModel
             _points = new List<TPoint>();
         }
 
-        private event EventHandler PointModified;
-        public event EventHandler GraphModified;
+        private event EventHandler? PointModified;
+        public event EventHandler? GraphModified;
 
         public ProfileInfo Info
         {
@@ -71,5 +71,6 @@ namespace Clima.Core.DataModel.GraphModel
         {
             PointModified?.Invoke(sender, e);
         }
+        
     }
 }

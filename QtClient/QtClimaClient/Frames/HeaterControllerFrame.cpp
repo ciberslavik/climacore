@@ -51,29 +51,35 @@ void HeaterControllerFrame::on_btnReturn_clicked()
 
 void HeaterControllerFrame::onHeaterStateListReceived(float setpoint, float front, float rear,  QList<HeaterState> heaterStates)
 {
-       if(heaterStates.at(0).IsRunning)
-        {
-            ui->lblState1->setText("Вкл.");
-            ui->lblState1->setStyleSheet("QLabel { background-color: lightgreen }");
-        }
-        else
-        {
-            ui->lblState1->setStyleSheet("QLabel { background-color: lightgray }");
-            ui->lblState1->setText("Выкл.");
-        }
-        if(heaterStates.at(1).IsRunning)
-        {
-            ui->lblState2->setStyleSheet("QLabel { background-color: lightgreen }");
-            ui->lblState2->setText("Вкл.");
-        }
-        else
-        {
-            ui->lblState2->setStyleSheet("QLabel { background-color: lightgray }");
-            ui->lblState2->setText("Выкл.");
-        }
-        ui->lblTempSetPoint->setText(QString::number(setpoint,'f',2));
-        ui->lblFrontTemp->setText(QString::number(front, 'f', 2));
-        ui->lblRearTemp->setText(QString::number(rear, 'f', 2));
+    m_setpoint = setpoint;
+    if(heaterStates.at(0).IsRunning)
+    {
+        ui->lblState1->setText("Вкл.");
+        ui->lblState1->setStyleSheet("QLabel { background-color: lightgreen }");
+    }
+    else
+    {
+        ui->lblState1->setStyleSheet("QLabel { background-color: lightgray }");
+        ui->lblState1->setText("Выкл.");
+    }
+    if(heaterStates.at(1).IsRunning)
+    {
+        ui->lblState2->setStyleSheet("QLabel { background-color: lightgreen }");
+        ui->lblState2->setText("Вкл.");
+    }
+    else
+    {
+        ui->lblState2->setStyleSheet("QLabel { background-color: lightgray }");
+        ui->lblState2->setText("Выкл.");
+    }
+    ui->lblTempSetPoint->setText(QString::number(setpoint,'f',2) + " °C");
+    ui->lblFrontTemp->setText(QString::number(front, 'f', 2) + " °C");
+    ui->lblRearTemp->setText(QString::number(rear, 'f', 2) + " °C");
+
+    float corected1 = setpoint + m_heaters[0].Correction;
+    ui->lblHeater1SetPoint->setText(QString::number(corected1,'f',2) + " °C");
+    float corected2 = setpoint + m_heaters[1].Correction;
+    ui->lblHeater2SetPoint->setText(QString::number(corected2,'f',2) + " °C");
 }
 
 void HeaterControllerFrame::onHeaterParamsListReceived(QList<HeaterParams> heaterParams)
@@ -94,10 +100,10 @@ void HeaterControllerFrame::onHeaterParamsListReceived(QList<HeaterParams> heate
 }
 
 
-void HeaterControllerFrame::onHeaterUpdated(HeaterState state)
-{
+//void HeaterControllerFrame::onHeaterUpdated(HeaterState state)
+//{
 
-}
+//}
 
 void HeaterControllerFrame::onTxtCorrection1Clicked()
 {
@@ -113,6 +119,7 @@ void HeaterControllerFrame::onTxtCorrection1Clicked()
     else if(result==QDialog::Accepted)
     {
         txt->setStyleSheet("QLineEdit { background-color: yellow }");
+
         m_heat1modify = true;
     }
 }
@@ -130,8 +137,13 @@ void HeaterControllerFrame::onTxtCorrection2Clicked()
     }
     else if(result==QDialog::Accepted)
     {
-        txt->setStyleSheet("QLineEdit { background-color: yellow }");
-        m_heat2modify = true;
+        if(txt->text() != old)
+        {
+            float sp = m_setpoint + txt->text().toFloat();
+            ui->lblHeater2SetPoint->setText(QString::number(sp,'f',2) + " °C");
+            txt->setStyleSheet("QLineEdit { background-color: yellow }");
+            m_heat2modify = true;
+        }
     }
 }
 
@@ -148,8 +160,13 @@ void HeaterControllerFrame::onTxtDeltaOn1Clicked()
     }
     else if(result==QDialog::Accepted)
     {
-        txt->setStyleSheet("QLineEdit { background-color: yellow }");
-        m_heat1modify = true;
+        if(txt->text() != old)
+        {
+            float sp = m_setpoint + txt->text().toFloat();
+            ui->lblHeater2SetPoint->setText(QString::number(sp,'f',2) + " °C");
+            txt->setStyleSheet("QLineEdit { background-color: yellow }");
+            m_heat1modify = true;
+        }
     }
 }
 
@@ -166,8 +183,11 @@ void HeaterControllerFrame::onTxtDeltaOff1Clicked()
     }
     else if(result==QDialog::Accepted)
     {
-        txt->setStyleSheet("QLineEdit { background-color: yellow }");
-        m_heat1modify = true;
+        if(txt->text() != old)
+        {
+            txt->setStyleSheet("QLineEdit { background-color: yellow }");
+            m_heat1modify = true;
+        }
     }
 }
 
@@ -184,8 +204,11 @@ void HeaterControllerFrame::onTxtDeltaOn2Clicked()
     }
     else if(result==QDialog::Accepted)
     {
-        txt->setStyleSheet("QLineEdit { background-color: yellow }");
-        m_heat2modify = true;
+        if(txt->text() != old)
+        {
+            txt->setStyleSheet("QLineEdit { background-color: yellow }");
+            m_heat2modify = true;
+        }
     }
 }
 
@@ -202,8 +225,11 @@ void HeaterControllerFrame::onTxtDeltaOff2Clicked()
     }
     else if(result==QDialog::Accepted)
     {
-        txt->setStyleSheet("QLineEdit { background-color: yellow }");
-        m_heat2modify = true;
+        if(txt->text() != old)
+        {
+            txt->setStyleSheet("QLineEdit { background-color: yellow }");
+            m_heat2modify = true;
+        }
     }
 }
 
@@ -246,11 +272,14 @@ void HeaterControllerFrame::updateTimeout()
 
 void HeaterControllerFrame::closeEvent(QCloseEvent *event)
 {
+    Q_UNUSED(event)
     disconnect(timerConnection);
 }
 
 void HeaterControllerFrame::showEvent(QShowEvent *event)
 {
+    Q_UNUSED(event)
+
     if(!TimerPool::instance()->getUpdateTimer()->isActive())
         TimerPool::instance()->getUpdateTimer()->start(1000);
     timerConnection = connect(TimerPool::instance()->getUpdateTimer(), &QTimer::timeout, this, &HeaterControllerFrame::updateTimeout);

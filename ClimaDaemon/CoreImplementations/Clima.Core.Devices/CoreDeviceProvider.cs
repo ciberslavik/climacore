@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Clima.Basics;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
+using Clima.Core.Alarm;
 using Clima.Core.DataModel;
 using Clima.Core.Devices.Configuration;
 using Clima.Core.IO;
@@ -46,8 +47,7 @@ namespace Clima.Core.Devices
             }
             else if (_config.MonitoredRelays.ContainsKey(relayName))
             {
-                var relay = new MonitoredRelay(new DefaultTimer());
-                relay.Configuration = _config.MonitoredRelays[relayName];
+                var relay = new MonitoredRelay(new DefaultTimer(), _config.MonitoredRelays[relayName]);
                 relay.EnablePin = _ioService.Pins.DiscreteOutputs[_config.MonitoredRelays[relayName].ControlPinName];
                 relay.MonitorPin = _ioService.Pins.DiscreteInputs[_config.MonitoredRelays[relayName].MonitorPinName];
                 _relays.Add(relayName, relay);

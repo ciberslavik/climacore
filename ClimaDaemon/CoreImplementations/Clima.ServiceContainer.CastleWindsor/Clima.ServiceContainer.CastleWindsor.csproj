@@ -13,10 +13,10 @@
       <ProjectReference Include="..\..\Core\Clima.Core\Clima.Core.csproj" />
       <ProjectReference Include="..\..\Core\Clima.History.Service\Clima.History.Service.csproj" />
       <ProjectReference Include="..\..\Repositories\Clima.FSGrapRepository\Clima.FSGrapRepository.csproj" />
-      <ProjectReference Include="..\..\Repositories\Clima.FSLightRepository\Clima.FSLightRepository.csproj" />
       <ProjectReference Include="..\..\Repositories\Clima.History.MySQL\Clima.History.MySQL.csproj" />
       <ProjectReference Include="..\..\Tests\Clima.Core.Tests\Clima.Core.Tests.csproj" />
       <ProjectReference Include="..\Clima.AgavaModBusIO\Clima.AgavaModBusIO.csproj" />
+      <ProjectReference Include="..\Clima.Alarms\Clima.Alarms.csproj" />
       <ProjectReference Include="..\Clima.Communication\Clima.Communication.csproj" />
       <ProjectReference Include="..\Clima.Configuration.FileSystem\Clima.Configuration.FileSystem.csproj" />
       <ProjectReference Include="..\Clima.Core.Controllers\Clima.Core.Controllers.csproj" />

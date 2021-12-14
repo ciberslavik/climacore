@@ -23,7 +23,6 @@ namespace Clima.Core.Controllers.Configuration
         public string GetNewFanInfoKey()
         {
             var prfix = "FAN:";
-            var counter = 0;
             for(int i = 0; i < Int32.MaxValue; i++)
             {
                 var key = prfix + i;

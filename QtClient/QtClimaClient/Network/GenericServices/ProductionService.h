@@ -23,6 +23,6 @@ signals:
 public:
     QString ServiceName(){return "ProductionService";}
     QList<QString> Methods();
-    void ProcessReply(NetworkResponse *reply);
+    void ProcessReply(const NetworkResponse &reply);
 };
 

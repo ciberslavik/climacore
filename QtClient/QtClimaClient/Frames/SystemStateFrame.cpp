@@ -52,18 +52,18 @@ void SystemStateFrame::showEvent(QShowEvent *ev)
 
 void SystemStateFrame::onClimatStateUpdate(ClimatStatusResponse *data)
 {
-    ui->lblFrontTemp->setText(QString::number(data->FrontTemperature, 'f', 2));
-    ui->lblRearTemp->setText(QString::number(data->RearTemperature, 'f', 2));
-    ui->lblOutdoorTemp->setText(QString::number(data->OutdoorTemperature, 'f', 2));
-    ui->lblHumidity->setText(QString::number(data->Humidity, 'f', 1));
-    ui->lblPressure->setText(QString::number(data->Pressure, 'f', 1));
+    ui->lblFrontTemp->setText(QString::number(data->FrontTemperature, 'f', 2) + " °C");
+    ui->lblRearTemp->setText(QString::number(data->RearTemperature, 'f', 2) + " °C");
+    ui->lblOutdoorTemp->setText(QString::number(data->OutdoorTemperature, 'f', 2) + " °C");
+    ui->lblHumidity->setText(QString::number(data->Humidity, 'f', 1) + " %");
+    ui->lblPressure->setText(QString::number(data->Pressure, 'f', 1) + " Па");
     //ui->barPresure->setValue(data->Pressure);
     ui->barValves->setValue(data->ValvePosition);
     ui->barMines->setValue(data->MinePosition);
     ui->barAnalogFan->setValue(data->AnalogFanPower);
     ui->lblAnalogPower->setText(QString::number(data->AnalogFanPower, 'f', 2) + " %");
     ui->lblAirPerHead->setText(QString::number(data->VentilationSetPoint, 'f', 3));
-    ui->lblTempSetpoint->setText(QString::number(data->TempSetPoint, 'f', 2));
+    ui->lblTempSetpoint->setText(QString::number(data->TempSetPoint, 'f', 2) + " °C");
 
     float realVent = data->VentilationSetPoint * GlobalContext::CurrentHeads;
 

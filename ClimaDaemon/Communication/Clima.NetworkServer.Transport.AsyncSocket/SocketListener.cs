@@ -170,12 +170,12 @@ namespace Clima.NetworkServer.Transport.AsyncSocket
             }
         }
 
-        private void TokenOnDisconnected(object? sender, MessageEventArgs e)
+        private void TokenOnDisconnected(object sender, MessageEventArgs e)
         {
             ClientDisconnected?.Invoke(sender, e);
         }
 
-        private void TokenOnMessageReceived(object? sender, MessageEventArgs e)
+        private void TokenOnMessageReceived(object sender, MessageEventArgs e)
         {
             MessageReceived?.Invoke(sender, e); 
         }

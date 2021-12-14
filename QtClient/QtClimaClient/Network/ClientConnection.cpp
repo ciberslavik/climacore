@@ -94,9 +94,9 @@ void ClientConnection::onReadyRead()
 
                 QJsonObject result = currentObject["result"].toObject();
 
-                NetworkResponse *reply = new NetworkResponse();
-                reply->fromJson(doc.object());
-                reply->result = QJsonDocument(result).toJson(QJsonDocument::Indented);
+                NetworkResponse reply;
+                reply.fromJson(doc.object());
+                reply.result = QJsonDocument(result).toJson(QJsonDocument::Indented);
 
                 emit ReplyReceived(reply);
             }

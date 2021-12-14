@@ -1,11 +1,14 @@
 ﻿using Clima.Core.Devices.Configuration;
 using Clima.Core.IO;
+using Clima.Core.IO.Converters;
 
 namespace Clima.Core.Devices
 {
     public class ThyristorConverter : IFrequencyConverter
     {
         private bool _isRunning;
+        private IAnalogOutput _analogPin;
+
         public void Start()
         {
             if (!_isRunning)
@@ -33,6 +36,15 @@ namespace Clima.Core.Devices
         public float Power => AnalogPin.Value;
 
         internal FrequencyConverterConfig Configuration { get; set; }
-        internal IAnalogOutput AnalogPin { get; set; }
+
+        internal IAnalogOutput AnalogPin
+        {
+            get => _analogPin;
+            set
+            {
+                _analogPin = value;
+                _analogPin.ValueConverter = new VoltageToPercentConverter();
+            }
+        }
     }
 }

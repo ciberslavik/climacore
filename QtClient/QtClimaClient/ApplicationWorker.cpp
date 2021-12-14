@@ -47,12 +47,12 @@ void ApplicationWorker::onConnctionEstabilished()
 //        m_connection->SendRequest(request);
 }
 
-void ApplicationWorker::onReplyReceived(NetworkResponse *reply)
+void ApplicationWorker::onReplyReceived(const NetworkResponse &reply)
 {
     //qDebug()<<"Service:"<< reply->service << " method:" << reply->method << " rsult:" << reply->result;
-    if(m_services->contains(reply->service))
+    if(m_services->contains(reply.service))
     {
-        m_services->value(reply->service)->ProcessReply(reply);
+        m_services->value(reply.service)->ProcessReply(reply);
     }
 }
 

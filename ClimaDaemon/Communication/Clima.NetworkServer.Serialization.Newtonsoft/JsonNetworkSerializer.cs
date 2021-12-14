@@ -32,8 +32,10 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
                 {
                     preview = (GenericMessage) JsonSerializer.Deserialize(sr, typeof(GenericMessage));
                 }
-                catch (JsonReaderException)
+                catch (JsonReaderException e)
                 {
+                    Console.WriteLine(e.Message);
+                    throw;
                 }
 
                 if (preview == null || !preview.IsValid)

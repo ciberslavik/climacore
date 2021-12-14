@@ -26,9 +26,9 @@ namespace Clima.History.SQLite
                 "INSERT INTO ClimateHistory(ControllerID, PointDate, Front, Rear, Outdoor, Humidity, Pressure) " +
                 "VALUES(@ControllerID, @pointdate, @front, @rear, @outdoor, @humidity, @pressure)";
             cmd.Parameters.AddWithValue("@ControllerID", 1);
-            cmd.Parameters.AddWithValue("@front", point.Front);
-            cmd.Parameters.AddWithValue("@rear", point.Rear);
-            cmd.Parameters.AddWithValue("@outdoor", point.Outdoor);
+            cmd.Parameters.AddWithValue("@front", point.FrontTemperature);
+            cmd.Parameters.AddWithValue("@rear", point.RearTemperature);
+            cmd.Parameters.AddWithValue("@outdoor", point.OutdoorTemperature);
             cmd.Parameters.AddWithValue("@humidity", point.Humidity);
             cmd.Parameters.AddWithValue("@pressure", point.Pressure);
             cmd.Parameters.AddWithValue("@pointdate", DateTime.Now);

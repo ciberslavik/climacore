@@ -9,7 +9,8 @@ namespace Clima.Core.Network.Messages
         {
             
         }
-        public ValueByValueProfile Profile { get; set; }
+
+        public ValueByValueProfile Profile { get; set; } = new ValueByValueProfile();
     }
 
     public class ValueByValueProfile

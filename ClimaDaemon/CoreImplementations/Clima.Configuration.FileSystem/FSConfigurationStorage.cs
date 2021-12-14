@@ -116,7 +116,7 @@ namespace Clima.Configuration.FileSystem
 
         public bool Exist<ConfigT>() where ConfigT : IConfigurationItem, new()
         {
-            var configName = typeof(ConfigT).FullName;
+            var configName = typeof(ConfigT).Name;
             return Exist(configName);
         }
 

@@ -43,7 +43,12 @@ private slots:
     void onProductionStateChanged(ProductionState state);
 
     void LivestockStateChanged(LivestockState state);
+
+    void LivestockOpComplete();
+
     // QWidget interface
+    void on_btnShowOperations_clicked();
+
 protected:
     void showEvent(QShowEvent *event) override;
 };

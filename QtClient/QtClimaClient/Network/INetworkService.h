@@ -15,7 +15,7 @@ public:
     }
     virtual QString ServiceName() = 0;
     virtual QList<QString> Methods() = 0;
-    virtual void ProcessReply(NetworkResponse *reply) = 0;
+    virtual void ProcessReply(const NetworkResponse &reply) = 0;
 signals:
     void SendRequest(NetworkRequest *request);
 };

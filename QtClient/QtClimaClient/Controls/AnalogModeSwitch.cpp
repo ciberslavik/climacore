@@ -92,7 +92,7 @@ void AnalogModeSwitch::onTxtClicked()
 void AnalogModeSwitch::on_sldManualPower_sliderReleased()
 {
     float val = ui->sldManualPower->value() / 10;
-    ui->lblManualValue->setText(QString::number(val, 'f', 1));
+    ui->lblManualValue->setText(QString::number(val, 'f', 0) + "%");
     emit fanValueChanged(val);
 }
 
@@ -110,5 +110,11 @@ void AnalogModeSwitch::on_btnAuto_toggled(bool checked)
         ui->groupBox_2->setEnabled(true);
         emit fanModeChanged(FanModeEnum::Manual);
     }
+}
+
+
+void AnalogModeSwitch::on_sldManualPower_valueChanged(int value)
+{
+    ui->lblManualValue->setText(QString::number(value / 10, 'f', 0) + "%");
 }
 

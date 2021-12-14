@@ -25,11 +25,20 @@ CMainWindow::CMainWindow(QWidget *parent)
 
     connect(m_prodService, &ProductionService::ProductionStateChanged, this, &CMainWindow::onProductionStateChanged);
 
+    //QTimer *tmr = TimerPool::instance()->getUpdateTimer();
+    //connect(tmr, &QTimer::timeout, this, &CMainWindow::updateUI);
     flag = true;
+
+//    int *ptr;
+//    ptr=0;
+
+//    *ptr=1;
+//    ptr=nullptr;
 }
 
 CMainWindow::~CMainWindow()
 {
+    disconnect(m_prodService, &ProductionService::ProductionStateChanged, this, &CMainWindow::onProductionStateChanged);
     delete ui;
 }
 
@@ -84,9 +93,12 @@ void CMainWindow::onProductionStateChanged(ProductionState newState)
 
 void CMainWindow::updateUI()
 {
-    QTimer *tmr = TimerPool::instance()->getUpdateTimer();
-    disconnect(tmr, &QTimer::timeout, this, &CMainWindow::updateUI);
+    //QTimer *tmr = TimerPool::instance()->getUpdateTimer();
+    //disconnect(tmr, &QTimer::timeout, this, &CMainWindow::updateUI);
     m_prodService->GetProductionState();
+    QString clockStr = QTime::currentTime().toString("hh:mm");
+    clockStr += " " + QDate::currentDate().toString("dd.MM.yyyy");
+    ui->lblDateTime->setText(clockStr);
 }
 
 void CMainWindow::showEvent(QShowEvent *event)

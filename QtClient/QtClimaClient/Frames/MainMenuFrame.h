@@ -39,6 +39,10 @@ private slots:
 
     void on_btnHeaterConfig_clicked();
 
+    void on_btnShowDebugFrame_clicked();
+
+    void on_btnShowAlarmManager_clicked();
+
 private:
     Ui::MainMenuFrame *ui;
 };

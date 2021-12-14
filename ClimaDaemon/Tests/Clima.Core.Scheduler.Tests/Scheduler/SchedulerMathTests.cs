@@ -1,4 +1,4 @@
-﻿    /*using System;
+﻿    using System;
     using Clima.Core.Controllers;
     using Clima.Core.DataModel.GraphModel;
     using Moq;
@@ -16,14 +16,19 @@
             }
 
             [Test]
+            public void ProcessVent_Test()
+            {
+                
+            }
+            /*[Test]
             public void GetCurrentDayTemperature_Test()
             {
                 var tempGraph = new TemperatureGraph();
                 var pt1 = new ValueByDayPoint();
-                pt1.DayNumber = 1;
+                pt1.Day = 1;
                 pt1.Value = 20;
                 var pt2 = new ValueByDayPoint();
-                pt2.DayNumber = 20;
+                pt2.Day = 20;
                 pt2.Value = 39.5f;
                 tempGraph.AddPoint(pt1);
                 tempGraph.AddPoint(pt2);
@@ -44,6 +49,7 @@
                 Console.WriteLine(debugData);
                 Assert.Pass();
             }
+            */
 
             private GraphBase<ValueByDayPoint> CreateGraph()
             {
@@ -56,7 +62,7 @@
                 for (int i = 1; i < 50; i += 2)
                 {
                     var point = new ValueByDayPoint();
-                    point.DayNumber = i;
+                    point.Day = i;
                     point.Value = rand.Next(20, 40);
                     tempGraph.AddPoint(point);
                 }
@@ -64,4 +70,4 @@
                 return tempGraph;
             }
         }
-    }*/
+    }

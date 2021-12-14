@@ -47,13 +47,13 @@ namespace Clima.FSLightRepository.Tests
 
             //Console.WriteLine($"Preset key:{preset.Key}");
             
-            repo.RemovePreset(new LightTimerPreset(){Key="LightPreset1"});
+            repo.RemovePreset(new LightTimerProfile(){Key="LightPreset1"});
 
             Assert.IsFalse(repo.Exist("LightPreset1"));
         }
-        private static LightTimerPreset CreateLightTimerPreset()
+        private static LightTimerProfile CreateLightTimerPreset()
         {
-            var preset = new LightTimerPreset {Key = "", Name = "Broiler"};
+            var preset = new LightTimerProfile {Key = "", Name = "Broiler"};
             preset.Days.Add(new LightTimerDay()
             {
                 Day = 1,

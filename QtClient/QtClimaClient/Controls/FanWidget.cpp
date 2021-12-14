@@ -230,7 +230,11 @@ void FanWidget::onModeEditorStateChanged(FanStateEnum_t state)
 
 void FanWidget::onModeEditorValueChanged(const float &value)
 {
-
+    if(m_analogValue != value)
+    {
+        setAnalogValue(value);
+        emit FanAnalogValueChanged(m_fanKey, value);
+    }
 }
 
 void FanWidget::createUI()

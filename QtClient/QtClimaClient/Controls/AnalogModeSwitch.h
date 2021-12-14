@@ -40,6 +40,8 @@ private slots:
 
     void on_btnAuto_toggled(bool checked);
 
+    void on_sldManualPower_valueChanged(int value);
+
 private:
     Ui::AnalogModeSwitch *ui;
 };

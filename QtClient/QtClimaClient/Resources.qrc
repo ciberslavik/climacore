@@ -42,5 +42,9 @@
         <file>Images/minus.png</file>
         <file>Images/plus.png</file>
         <file>Images/heater.png</file>
+        <file>Images/gearso.png</file>
+        <file>Images/app.png</file>
+        <file>Images/add-file.png</file>
+        <file>Images/add2.png</file>
     </qresource>
 </RCC>

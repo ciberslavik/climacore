@@ -24,9 +24,9 @@ public slots:
     void getTemperatureStatus();
     // INetworkService interface
 public:
-    QString ServiceName(){return "SystemStatusService";}
-    QList<QString> Methods();
-    void ProcessReply(NetworkResponse *reply);
+    QString ServiceName()override{return "SystemStatusService";}
+    QList<QString> Methods() override;
+    void ProcessReply(const NetworkResponse &reply) override;
 
 };
 

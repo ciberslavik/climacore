@@ -13,7 +13,7 @@ MessageDialog::MessageDialog(const QString &title, const QString &message, const
     ui(new Ui::MessageDialog)
 {
     ui->setupUi(this);
-
+    m_dialogType = dialogType;
     setDialogType(OkCancelDialog);
     setWindowTitle(title);
     ui->lblMessage->setText(message);

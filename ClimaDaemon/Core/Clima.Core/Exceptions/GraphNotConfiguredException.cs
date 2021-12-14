@@ -10,6 +10,7 @@ namespace Clima.Core.Exceptions
         public GraphNotConfiguredException(string propertyName = "", string message = "") : base(message)
         {
             _propertyName = propertyName;
+            _messageInternal = message;
         }
 
 

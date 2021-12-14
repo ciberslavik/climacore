@@ -304,7 +304,7 @@ void SelectProfileFrame::drawVentilationGraph(MinMaxByDayProfile *profile)
     plot->graph(1)->setData(days, minValues);
 
     plot->xAxis->setRange(0,50);
-    plot->yAxis->setRange(0,5);
+    plot->yAxis->setRange(0,10);
 
     plot->replot();
 }
@@ -476,6 +476,7 @@ void SelectProfileFrame::on_btnDelete_clicked()
 
 void SelectProfileFrame::onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(deselected);
     if(selected.indexes().count() > 0)
     {
         int row = selected.indexes().at(0).row();
