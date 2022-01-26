@@ -9,7 +9,7 @@ namespace Clima.Core.Controllers.Light
         {
         }
 
-        public int Day { get; set; }
+        public int DayNumber { get; set; }
         public List<LightTimerItem> Timers { get; set; } = new List<LightTimerItem>();
 
         public int CompareTo(LightTimerDay? other)
@@ -17,7 +17,7 @@ namespace Clima.Core.Controllers.Light
             if (other is null)
                 return 1;
             
-            return Day - other.Day;
+            return DayNumber - other.DayNumber;
         }
     }
 }

@@ -5,6 +5,7 @@ using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Basics.Services.Communication;
 using Clima.Configuration.FileSystem;
+using Clima.Core.Alarm;
 using Clima.Core.Hystory;
 using Clima.History.MySQL;
 using Clima.History.MySQL.Configurations;
@@ -27,8 +28,6 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
         {
             Log.Info("Install basic components");
 
-            
-            
             container.Register(
                 Component
                     .For<IConfigurationSerializer>()
@@ -59,7 +58,6 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                 sqlConfig = HistoryMySQLConfig.CreateDefault(); 
                 configStore.RegisterConfig(sqlConfig);
             }
-
             
             var sqlHistory = new MyClient(sqlConfig);
             
@@ -69,6 +67,10 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                 Component
                     .For<IHistoryService>()
                     .Instance(sqlHistory)
+                    .LifestyleSingleton(),
+                Component
+                    .For<IAlarmManager>()
+                    .ImplementedBy<AlarmManager>()
                     .LifestyleSingleton());
         }
     }

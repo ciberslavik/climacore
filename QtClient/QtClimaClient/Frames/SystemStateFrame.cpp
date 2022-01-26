@@ -27,9 +27,6 @@ SystemStateFrame::SystemStateFrame(QWidget *parent) :
 
 SystemStateFrame::~SystemStateFrame()
 {
-    disconnect(m_updateTmer, &QTimer::timeout, this, &SystemStateFrame::onTimerElapsed);
-    disconnect(m_statusService,&SystemStatusService::onClimatStatusRecv,this, &SystemStateFrame::onClimatStateUpdate);
-
     delete ui;
 }
 

@@ -9,6 +9,7 @@ namespace Clima.Core.IO
         void Init(object config);
         void Start();
         void Stop();
+        
         IOPinCollection Pins { get; }
     }
 }

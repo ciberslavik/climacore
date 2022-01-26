@@ -23,7 +23,7 @@ void EditLightProfileDialog::on_btnAccept_clicked()
 
 void EditLightProfileDialog::on_btnReject_clicked()
 {
-
+    reject();
 }
 
 

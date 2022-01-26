@@ -3,8 +3,7 @@
 typedef enum class FanStateEnum:int
 {
     Stopped = 0,
-    Running = 1,
-    Alarm = 2
+    Running = 1
 }FanStateEnum_t;
 
 typedef enum class FanModeEnum:int

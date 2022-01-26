@@ -117,30 +117,7 @@ namespace Clima.Core.Devices
             return _heaters[heaterName];
         }
 
-        public ISensors GetSensors()
-        {
-            if (!_ioService.IsInit)
-                return default;
-            
-            if (_sensors is null)
-            {
-                var s = new Sensors();
-                s.FrontTempPin = _ioService.Pins.AnalogInputs[_config.Sensors.FrontTempPinName];
-                s.RearTempPin = _ioService.Pins.AnalogInputs[_config.Sensors.RearTempPinName];
-                s.OutdoorTempPin = _ioService.Pins.AnalogInputs[_config.Sensors.OutdoorTempPinName];
-
-                s.HumidityPin = _ioService.Pins.AnalogInputs[_config.Sensors.HumidityPinName];
-                s.PressurePin = _ioService.Pins.AnalogInputs[_config.Sensors.PressurePinName];
-		        s.Valve1OSPin = _ioService.Pins.AnalogInputs[_config.Sensors.Valve1PinName];
-		        s.Valve2OSPin = _ioService.Pins.AnalogInputs[_config.Sensors.Valve2PinName];
-                _sensors = s;
-                return s;
-            }
-            else
-            {
-                return _sensors;
-            }
-        }
+        
 
         public ISystemLogger Logger { get; set; }
 

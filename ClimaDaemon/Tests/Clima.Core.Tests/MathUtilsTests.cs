@@ -15,11 +15,8 @@ namespace Clima.Core.Tests
         {
             
         }
-        
-        [TestCase(22)]
-        [TestCase(23)]
-        [TestCase(24)]
-        [TestCase(25)]
+
+        [TestCase(22), TestCase(23), TestCase(24), TestCase(25)]
         public void Lerp_Test(int currentDay)
         {
             float largeDayTemp = 100f;

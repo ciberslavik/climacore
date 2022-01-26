@@ -19,7 +19,10 @@ SOURCES += \
     Controls/TimerPresenter.cpp \
     Controls/qclickablelineedit.cpp \
     Controls/qcustomplot.cpp \
+    Frames/Alarms/AlarmConfigFrame.cpp \
     Frames/Alarms/AlarmOwerviewFrame.cpp \
+    Frames/Alarms/DiscreteAlarmControl.cpp \
+    Frames/Alarms/MinMaxAlarmControl.cpp \
     Frames/Dialogs/ConfigValveDialog.cpp \
     Frames/Dialogs/EditAnalogFanDialog.cpp \
     Frames/Dialogs/EditFanDialog.cpp \
@@ -103,7 +106,10 @@ HEADERS += \
     ApplicationWorker.h \
     Controls/AnalogModeSwitch.h \
     Controls/TimerPresenter.h \
+    Frames/Alarms/AlarmConfigFrame.h \
     Frames/Alarms/AlarmOwerviewFrame.h \
+    Frames/Alarms/DiscreteAlarmControl.h \
+    Frames/Alarms/MinMaxAlarmControl.h \
     Frames/Dialogs/EditAnalogFanDialog.h \
     Frames/Dialogs/EditFanDialog.h \
     Frames/Dialogs/EditLightProfileDialog.h \
@@ -234,6 +240,7 @@ HEADERS += \
     Network/GenericServices/Messages/LightProfileListResponse.h \
     Network/GenericServices/Messages/LightProfileRequest.h \
     Network/GenericServices/Messages/LightProfileResponse.h \
+    Network/GenericServices/Messages/LightStatusResponse.h \
     Network/GenericServices/Messages/LivestockOpListResponse.h \
     Network/GenericServices/Messages/LivestockOperationRequest.h \
     Network/GenericServices/Messages/LivestockStateResponse.h \
@@ -282,7 +289,10 @@ FORMS += \
     Controls/AnalogModeSwitch.ui \
     Controls/FanModeSwitch.ui \
     Controls/qclickablelineedit.ui \
+    Frames/Alarms/AlarmConfigFrame.ui \
     Frames/Alarms/AlarmOwerviewFrame.ui \
+    Frames/Alarms/DiscreteAlarmControl.ui \
+    Frames/Alarms/MinMaxAlarmControl.ui \
     Frames/Dialogs/ConfigValveDialog.ui \
     Frames/Dialogs/EditAnalogFanDialog.ui \
     Frames/Dialogs/EditFanDialog.ui \

@@ -24,6 +24,7 @@ private:
     void drawLeftBar(QPainter *painter);
     void drawTopBar(QPainter *painter);
     void drawTimer(QPainter *painter, const LightTimerDay &timers, const QRect &rect);
+    void calcSize();
     const double MinsPerDay;
     double m_tickHeight;
     double m_columnWidth;

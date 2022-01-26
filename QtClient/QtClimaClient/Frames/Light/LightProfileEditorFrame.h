@@ -8,6 +8,8 @@
 #include <Models/Timers/LightTimerProfile.h>
 #include <Models/Timers/TimerProfileModel.h>
 
+#include <Network/GenericServices/LightControllerService.h>
+
 namespace Ui {
     class LightProfileEditorFrame;
 }
@@ -25,6 +27,8 @@ private:
     Ui::LightProfileEditorFrame *ui;
     LightTimerProfile *m_profile;
     TimerProfileModel *m_infoModel;
+    LightControllerService *m_lightService;
+    bool m_isModified;
 signals:
     void EditorAccepted();
     void EditorRejected();
@@ -38,5 +42,6 @@ private slots:
     void on_btnAddTimer_clicked();
     void on_btnRemoveTimer_clicked();
     void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    void on_btnEditTimer_clicked();
 };
 

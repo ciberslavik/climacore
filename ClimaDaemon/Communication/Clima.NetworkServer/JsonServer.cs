@@ -55,7 +55,7 @@ namespace Clima.NetworkServer
             try
             {
                 RequestContext.CurrentContextHolder.Value = context;
-                //Logger.Debug("HandleMessage");
+                //Logger.Debug($"HandleMessage:{e.Data}");
                 request = (RequestMessage) _serializer.Deserialize(e.Data, _messageTypeProvider, null);
                 context.RequestMessage = request;
                 try

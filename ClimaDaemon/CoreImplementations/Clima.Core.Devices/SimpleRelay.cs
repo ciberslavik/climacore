@@ -6,8 +6,9 @@ namespace Clima.Core.Devices
     {
         private string _name;
 
-        public SimpleRelay()
+        public SimpleRelay(string name)
         {
+            _name = name;
         }
 
 

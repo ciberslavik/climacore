@@ -2,24 +2,11 @@
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Clima.AgavaModBusIO;
-using Clima.Alarms;
 using Clima.Basics.Services;
 using Clima.Core;
-using Clima.Core.Alarm;
-using Clima.Core.Conrollers.Ventilation;
-using Clima.Core.Controllers;
-using Clima.Core.Controllers.Heater;
-using Clima.Core.Controllers.Light;
-using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel.GraphModel;
 using Clima.Core.Devices;
-using Clima.Core.IO;
-using Clima.Core.Tests;
-using Clima.Core.Tests.IOService;
 using Clima.FSGrapRepository;
-using Clima.ServiceContainer.CastleWindsor.Factories;
-using IIOServiceFactory = Clima.Core.IO.IIOServiceFactory;
 
 namespace Clima.ServiceContainer.CastleWindsor.Installers
 {

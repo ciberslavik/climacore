@@ -79,7 +79,7 @@ class QSerializer {
         QJsonDocument doc;
         doc.setObject(toJson());
 
-        return doc.toJson(QJsonDocument::Indented);
+        return doc.toJson(QJsonDocument::Compact);
     }
     ///\brief Deserialize all accessed JSON propertyes for this object
     void fromJson(const QJsonValue & val) {

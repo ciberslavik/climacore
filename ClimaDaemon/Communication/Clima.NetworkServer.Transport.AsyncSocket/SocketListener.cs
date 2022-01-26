@@ -203,24 +203,26 @@ namespace Clima.NetworkServer.Transport.AsyncSocket
             {
                 if (e.SocketError == SocketError.Success)
                 {
-                    Token token = e.UserToken as Token;
-                    token.SetData(e);
+                    if (e.UserToken is Token token)
+                    {
+                        token.SetData(e);
 
-                    Socket s = token.Connection;
-                    if (s.Available == 0)
-                    {
-                        // Set return buffer.
-                        token.ProcessData(e);
-                        if (!s.SendAsync(e))
+                        Socket s = token.Connection;
+                        if (s.Available == 0)
                         {
-                            // Set the buffer to send back to the client.
-                            this.ProcessSend(e);
+                            // Set return buffer.
+                            token.ProcessData(e);
+                            if (!s.SendAsync(e))
+                            {
+                                // Set the buffer to send back to the client.
+                                this.ProcessSend(e);
+                            }
                         }
-                    }
-                    else if (!s.ReceiveAsync(e))
-                    {
-                        // Read the next block of data sent by client.
-                        this.ProcessReceive(e);
+                        else if (!s.ReceiveAsync(e))
+                        {
+                            // Read the next block of data sent by client.
+                            this.ProcessReceive(e);
+                        }
                     }
                 }
                 else
@@ -358,7 +360,7 @@ namespace Clima.NetworkServer.Transport.AsyncSocket
             {
                 SocketAsyncEventArgs readWriteEventArg = new SocketAsyncEventArgs();
                 readWriteEventArg.Completed += new EventHandler<SocketAsyncEventArgs>(OnIOCompleted);
-                readWriteEventArg.SetBuffer(new Byte[this._bufferSize], 0, this._bufferSize);
+                readWriteEventArg.SetBuffer(new Byte[1024], 0, 1024);
 
                 // Add SocketAsyncEventArg to the pool.
                 this._readWritePool.Push(readWriteEventArg);

@@ -54,8 +54,9 @@ void FrameManager::PreviousFrame()
 
     if(m_CurrentFrame != nullptr)
     {
-        m_CurrentFrame->close();
         frameLayout->removeWidget(m_CurrentFrame);
+        m_CurrentFrame->close();
+
         delete m_CurrentFrame;
 
         FrameBase *prevFrame = m_FrameHistory.pop();

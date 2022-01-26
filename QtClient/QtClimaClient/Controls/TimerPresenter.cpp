@@ -13,7 +13,7 @@ TimerPresenter::TimerPresenter(QWidget *parent) : QWidget(parent),
 void TimerPresenter::setTimerProfile(const LightTimerProfile &profile)
 {
     m_profile = profile;
-
+    calcSize();
 //    qSort(m_timers.Timers.begin(),m_timers.Timers.end(),
 //          [](const TimerInfo &a, const TimerInfo &b) -> bool { return a.OnTime < b.OnTime; });
     update();
@@ -30,29 +30,13 @@ void TimerPresenter::paintEvent(QPaintEvent *event)
     drawLeftBar(&painter);
     drawTopBar(&painter);
 
-
 }
 
 void TimerPresenter::resizeEvent(QResizeEvent *event)
 {
+    Q_UNUSED(event)
 
-    m_borderRect.setX(0);
-    m_borderRect.setY(0);
-    m_borderRect.setWidth(event->size().width() - 1);
-    m_borderRect.setHeight(event->size().height() - 1);
-
-    m_graphRect.setX(_leftLegendSize);
-    m_graphRect.setY(_topLegendSize);
-    m_graphRect.setWidth(event->size().width() - (_leftLegendSize +3));
-    m_graphRect.setHeight(event->size().height() - (_topLegendSize +3));
-
-    m_tickHeight = m_graphRect.height() / MinsPerDay;
-
-    if(m_profile.Days.count()>0)
-        m_columnWidth = m_graphRect.width() / m_profile.Days.count();
-    else
-        m_columnWidth = 10;
-
+    calcSize();
     update();
 }
 
@@ -112,7 +96,7 @@ void TimerPresenter::drawTopBar(QPainter *painter)
 void TimerPresenter::drawTimer(QPainter *painter, const LightTimerDay &timers, const QRect &rect)
 {
 
-        qDebug() << rect;
+
         foreach(const LightTimerItem &timer, timers.Timers)
         {
             double onMinute = ((timer.OnTime.time().msecsSinceStartOfDay() / 1000) / 60);
@@ -124,11 +108,30 @@ void TimerPresenter::drawTimer(QPainter *painter, const LightTimerDay &timers, c
 
             QRect tRect(rect.left(), y, rect.width(), h);
 
-            qDebug() << tRect;
             QBrush brush = painter->brush();
             painter->setBrush(Qt::green);
             painter->drawRect(tRect);
             painter->setBrush(brush);
 
         }
+}
+
+void TimerPresenter::calcSize()
+{
+    m_borderRect.setX(0);
+    m_borderRect.setY(0);
+    m_borderRect.setWidth(size().width() - 1);
+    m_borderRect.setHeight(size().height() - 1);
+
+    m_graphRect.setX(_leftLegendSize);
+    m_graphRect.setY(_topLegendSize);
+    m_graphRect.setWidth(size().width() - (_leftLegendSize +3));
+    m_graphRect.setHeight(size().height() - (_topLegendSize +3));
+
+    m_tickHeight = m_graphRect.height() / MinsPerDay;
+
+    if(m_profile.Days.count()>0)
+        m_columnWidth = m_graphRect.width() / m_profile.Days.count();
+    else
+        m_columnWidth = 10;
 }

@@ -18,6 +18,7 @@ namespace Clima.Core.Controllers.Configuration
         public string ControlPinName { get; set; }
         public string CurrentProfileKey { get; set; }
         
+        public bool IsAuto { get; set; }
         public Dictionary<string, LightTimerProfile> Profiles { get; set; } =
             new Dictionary<string, LightTimerProfile>();
 
@@ -34,7 +35,7 @@ namespace Clima.Core.Controllers.Configuration
                 {
                     new LightTimerDay()
                     {
-                        Day = 0,
+                        DayNumber = 0,
                         Timers =
                         {
                             new LightTimerItem(DateTime.Parse("00:00"),DateTime.Parse("01:00")),

@@ -6,6 +6,7 @@ using Clima.Basics;
 using Clima.Basics.Services;
 using Clima.Core.Controllers;
 using Clima.Core.Controllers.Heater;
+using Clima.Core.Controllers.Light;
 using Clima.Core.Controllers.Ventilation;
 using Clima.Core.DataModel;
 using Clima.Core.DataModel.GraphModel;
@@ -25,8 +26,10 @@ namespace Clima.Core.Scheduler
         private readonly ITimeProvider _time;
         private readonly IHeaterController _heater;
         private readonly IVentilationController _ventilation;
+        private readonly ILightController _lightController;
         private readonly IGraphProviderFactory _graphProviderFactory;
         private readonly IDeviceProvider _deviceProvider;
+        private readonly ISensors _sensors;
         private readonly IHistoryService _historyService;
 
         private SchedulerContext _context;
@@ -48,16 +51,20 @@ namespace Clima.Core.Scheduler
         public ClimaScheduler(ITimeProvider timeProvider,
             IHeaterController heater,
             IVentilationController ventilation,
+            ILightController lightController,
             IGraphProviderFactory graphProviderFactory,
             IDeviceProvider deviceProvider,
+            ISensors sensors,
             IHistoryService historyService,
             ISystemLogger? logger = null)
         {
             _time = timeProvider;
             _heater = heater;
             _ventilation = ventilation;
+            _lightController = lightController;
             _graphProviderFactory = graphProviderFactory;
             _deviceProvider = deviceProvider;
+            _sensors = sensors;
             _historyService = historyService;
             _schedulerTimerRunning = false;
 
@@ -65,6 +72,7 @@ namespace Clima.Core.Scheduler
             _context.State = SchedulerState.Stopped;
             _config = SchedulerConfig.CreateDefault();
             ServiceState = ServiceState.NotInitialized;
+            
             Log = logger ?? new LogFileWriter("ClimaScheduler.log");
         }
 
@@ -304,19 +312,23 @@ namespace Clima.Core.Scheduler
 
                 if (!_ventilation.MineIsManual)
                     _ventilation.SetMinePosition(context.SetPoints.Mines);
+                
+                _lightController.ProcessLight(context.CurrentDay);
             }
             else if (context.State == SchedulerState.Stopped)
             {
                 _ventilation.ProcessController(0);
                 _ventilation.Stop();
             }
+            
+            
         }
 
         private float ProcessVent(float tempSetPoint, float minVent, float maxVent)
         {
             //Calculate temperature controller
-            var currFront = _deviceProvider.GetSensors().FrontTemperature;
-            var currRear = _deviceProvider.GetSensors().RearTemperature;
+            var currFront = _sensors.FrontTemperature;
+            var currRear = _sensors.RearTemperature;
 
             var currAvg = (currFront + currRear) / 2;   //Average temperature
 

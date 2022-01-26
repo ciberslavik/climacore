@@ -18,7 +18,6 @@ namespace Clima.Core
         private ClimaContext(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            var devProvider = _serviceProvider.Resolve<IDeviceProvider>();
             Logger = _serviceProvider.Resolve<ISystemLogger>() ?? new LogFileWriter("ClimaContext.log");
         }
 
@@ -54,7 +53,7 @@ namespace Clima.Core
 
         public static ISystemLogger Logger { get; set; }
 
-        public ISensors Sensors => _serviceProvider.Resolve<IDeviceProvider>().GetSensors();
+        public ISensors Sensors => _serviceProvider.Resolve<ISensors>();
 
         public void SaveConfiguration()
         {

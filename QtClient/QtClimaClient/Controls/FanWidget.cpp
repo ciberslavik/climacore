@@ -28,12 +28,17 @@ FanWidget::~FanWidget()
 
 void FanWidget::setFanState(FanStateEnum_t state)
 {
-    if(m_fanState != state)
-    {
-        m_fanState = state;
-        rebuildUI();
-        update();
-    }
+    setFanState(state, false);
+}
+
+void FanWidget::setFanState(FanStateEnum_t state, bool isAlarm)
+{
+
+    m_isAlarm = isAlarm;
+    m_fanState = state;
+    rebuildUI();
+    update();
+
 }
 
 void FanWidget::setFanMode(FanModeEnum mode)
@@ -268,6 +273,18 @@ void FanWidget::createUI()
 
 void FanWidget::rebuildUI()
 {
+    m_nameLabel->setText(m_fanName);
+    if(m_isAnalog)
+        m_analogValueLabel->setText(QString::number(m_analogValue, 'f', 1));
+
+    if(m_isAlarm)
+    {
+        m_stateBrush = QBrush(Qt::red);
+        m_modeLabel->setPixmap(m_alertPixmap);
+        m_fanMovie->stop();
+        return;
+    }
+
     switch(m_fanMode)
     {
         case FanModeEnum::Auto:
@@ -294,21 +311,11 @@ void FanWidget::rebuildUI()
                 m_stateBrush = QBrush(Qt::GlobalColor::black);
                 m_fanMovie->stop();
             break;
-            case FanStateEnum::Alarm:
-                m_stateBrush = QBrush(Qt::red);
-                m_modeLabel->setPixmap(m_alertPixmap);
-                m_fanMovie->stop();
-            break;
         }
+
     }
     else
     {
         m_stateBrush = QBrush(Qt::gray);
-
     }
-
-    if(m_isAnalog)
-        m_analogValueLabel->setText(QString::number(m_analogValue, 'f', 1));
-
-    m_nameLabel->setText(m_fanName);
 }

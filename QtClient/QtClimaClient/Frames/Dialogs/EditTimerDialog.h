@@ -15,7 +15,8 @@ class EditTimerDialog : public QDialog
 public:
     explicit EditTimerDialog(QWidget *parent = nullptr);
     ~EditTimerDialog();
-    void setTimerInfo(LightTimerItem *info);
+    void setTimerInfo(const LightTimerItem &info);
+    void setTitle(const QString &title);
     QDateTime onTime() const;
     QDateTime offTime() const;
 private slots:

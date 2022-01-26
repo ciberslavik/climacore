@@ -13,6 +13,6 @@ namespace Clima.Core.Controllers.Light
         public string Key { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<LightTimerDay> Days { get; }=new List<LightTimerDay>();
+        public List<LightTimerDay> Days { get; } = new List<LightTimerDay>();
     }
 }

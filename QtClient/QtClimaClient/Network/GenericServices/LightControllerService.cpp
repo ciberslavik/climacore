@@ -28,7 +28,7 @@ void LightControllerService::UpdateProfile(const LightTimerProfile &profile)
 {
     NetworkRequest *request = new NetworkRequest();
     request->service = "LightControllerService";
-    request->method = "CreateProfile";
+    request->method = "UpdateProfile";
 
     request->params = profile.toJsonString();
 
@@ -38,6 +38,15 @@ void LightControllerService::UpdateProfile(const LightTimerProfile &profile)
 void LightControllerService::RemoveProfile(const QString &key)
 {
 
+}
+
+void LightControllerService::GetLightStatus()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "LightControllerService";
+    request->method = "GetLightStatus";
+
+    emit SendRequest(request);
 }
 
 void LightControllerService::GetProfileInfoList()
@@ -65,6 +74,58 @@ void LightControllerService::GetCurrentProfileInfo()
 
 }
 
+void LightControllerService::GetCurrentProfile()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "LightControllerService";
+    request->method = "GetCurrentProfile";
+
+
+    emit SendRequest(request);
+}
+
+void LightControllerService::SetCurrentProfile(const QString &profileKey)
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "LightControllerService";
+    request->method = "SetCurrentProfile";
+    request->params = "\"" + profileKey.toUtf8() + "\"";
+
+    emit SendRequest(request);
+}
+
+void LightControllerService::ToManual()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "LightControllerService";
+    request->method = "ToManual";
+    emit SendRequest(request);
+}
+
+void LightControllerService::ToAuto()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "LightControllerService";
+    request->method = "ToAuto";
+    emit SendRequest(request);
+}
+
+void LightControllerService::LightOn()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "LightControllerService";
+    request->method = "LightOn";
+    emit SendRequest(request);
+}
+
+void LightControllerService::LightOff()
+{
+    NetworkRequest *request = new NetworkRequest();
+    request->service = "LightControllerService";
+    request->method = "LightOff";
+    emit SendRequest(request);
+}
+
 QList<QString> LightControllerService::Methods()
 {
     return QList<QString>();
@@ -85,11 +146,25 @@ void LightControllerService::ProcessReply(const NetworkResponse &reply)
 
         emit PresetListReceived(resp.Profiles);
     }
-    else if(reply.method == "GetProfile")
+    else if((reply.method == "GetProfile")||(reply.method == "GetCurrentProfile"))
     {
         LightProfileResponse resp;
         resp.fromJson(reply.result.toUtf8());
-        qDebug() << reply.result.toUtf8();
         emit ProfileReceived(resp.Profile);
+    }
+    else if(reply.method == "GetLightStatus")
+    {
+        LightStatusResponse resp;
+        resp.fromJson(reply.result.toUtf8());
+
+        emit LightStatusReceived(resp);
+    }
+    else if(reply.method == "ToManual")
+    {
+        emit LightModeChanged(false);
+    }
+    else if(reply.method == "ToAuto")
+    {
+        emit LightModeChanged(true);
     }
 }

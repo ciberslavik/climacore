@@ -8,7 +8,7 @@ namespace Clima.Core.Alarm
 
         public AlarmEventArgs(string message)
         {
-            _alarmInfo = new AlarmInfo();
+            _alarmInfo = new AlarmInfo(Guid.NewGuid().ToString());
             _alarmInfo.Message = message;
         }
 

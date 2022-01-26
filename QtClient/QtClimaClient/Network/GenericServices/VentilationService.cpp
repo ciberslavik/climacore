@@ -42,8 +42,8 @@ void VentilationService::UpdateFanInfoList(const QMap<QString, FanInfo> &infos)
     FanInfoListRequest rq;
     rq.Infos = infos;
 
-    request->params = rq.toJsonString();
-
+    request->params = rq.toJsonString().toUtf8();
+    qDebug() << request->params;
     emit SendRequest(request);
 }
 
@@ -204,7 +204,7 @@ void VentilationService::ProcessReply(const NetworkResponse &reply)
         {
             FanInfoListResponse *response = new FanInfoListResponse();
             response->fromJson(reply.result.toUtf8());
-
+            //qDebug() << reply.result.toUtf8();
             emit FanInfoListReceived(response->Infos);
 
         }

@@ -46,17 +46,7 @@ namespace Clima.Core.Devices
             if (_state == RelayState.Alarm)
                 return;
             
-            if (_state == RelayState.TryOff)
-            {
-                /*if (GetMonitorState(MonitorPin.State))
-                {
-                    _state = RelayState.Alarm;
-                    OnAlarmNotify($"Рэле {_config.RelayName} не отключилось в течении времени ожидания {_config.MonitorTimeout}");
-                }*/
-
-                _state = RelayState.Off;
-            }
-            else if (_state == RelayState.TryOn)
+            if (_state == RelayState.TryOn)
             {
                 if (!GetMonitorState(MonitorPin.State))
                 {
@@ -65,6 +55,7 @@ namespace Clima.Core.Devices
                         $"Рэле {_config.RelayName} не включилось после подачи команды в течении времени ожидания {_config.MonitorTimeout}");
                 }
             }
+            _monitorTimer.Stop();
         }
         public IDiscreteInput MonitorPin
         {
@@ -171,11 +162,11 @@ namespace Clima.Core.Devices
             }
             else if (_state == RelayState.Off)
             {
-                if (GetMonitorState(ea.NewState))
+                /*if (GetMonitorState(ea.NewState))
                 {
                     _state = RelayState.Alarm;
                     OnAlarmNotify($"Рэле {_config.RelayName} включилось в ручном режиме");
-                }
+                }*/
             }
         }
         private bool GetMonitorState(bool pinState)

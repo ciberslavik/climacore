@@ -5,7 +5,7 @@ using Clima.Core.Alarm;
 
 namespace Clima.Alarms
 {
-    public class AlarmManager:IAlarmManager
+    /*public class AlarmManager:IAlarmManager
     {
         private Dictionary<string, IAlarmNotifier> _notifiers;
         public ISystemLogger Log { get; set; }
@@ -23,5 +23,6 @@ namespace Clima.Alarms
                 _notifiers.Add(name, notifier);
             }
         }
-    }
+        */
+    
 }

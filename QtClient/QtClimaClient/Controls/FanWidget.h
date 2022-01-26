@@ -22,6 +22,7 @@ public:
 
     ~FanWidget();
     void setFanState(FanStateEnum_t state);
+    void setFanState(FanStateEnum_t state, bool isAlarm);
     void setFanMode(FanMode_t mode);
     FanStateEnum fanState();
     FanMode_t fanMode(){return m_fanMode;}
@@ -34,7 +35,6 @@ public:
 
     void setAnalogMax(float max);
     void setAnalogMin(float min);
-
 
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
@@ -63,7 +63,7 @@ private:
     QLabel *m_nameLabel;
     QClickableLabel *m_modeLabel;
     float m_analogValue;
-
+    bool m_isAlarm;
     //Rects
     QRect m_borderRect;
     QRect m_stateRect;

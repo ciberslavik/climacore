@@ -56,8 +56,6 @@ void FanModeSwitch::setFanState(FanStateEnum_t state)
         case FanStateEnum::Stopped:
             ui->btnOff->setChecked(true);
             break;
-        case FanStateEnum::Alarm:
-            break;
         }
     }
 }

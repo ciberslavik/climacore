@@ -18,6 +18,7 @@ namespace Clima.Core.DataModel
         private FanStateEnum _state;
         private float _startValue;
         private float _stopValue;
+        private bool _isAlarm;
 
         public FanInfo(string key = "", string name = "", string relayName = "")
         {
@@ -67,12 +68,7 @@ namespace Clima.Core.DataModel
             get => _priority;
             set => Update(ref _priority, value);
         }
-
-        /*public bool Hermetised
-        {
-            get => _hermetised;
-            set => Update(ref _hermetised, value);
-        }*/
+        
         public float StartValue
         {
             get => _startValue;
@@ -105,6 +101,12 @@ namespace Clima.Core.DataModel
             set => _analogPower = value;
         }
 
+        public bool IsAlarm
+        {
+            get => _isAlarm;
+            set => _isAlarm = value;
+        }
+
         public int CompareTo(FanInfo? other)
         {
             if (other is null)
@@ -118,15 +120,16 @@ namespace Clima.Core.DataModel
         [EnumMember]
         Stopped = 0,
         [EnumMember]
-        Running = 1,
-        [EnumMember]
-        Alarm = 2
+        Running = 1
     }
 
     public enum FanModeEnum : int
     {
+        [EnumMember]
         Auto = 0,
+        [EnumMember]
         Manual = 1,
+        [EnumMember]
         Disabled = 2
     }
 }

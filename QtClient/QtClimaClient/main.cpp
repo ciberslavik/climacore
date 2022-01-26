@@ -60,11 +60,11 @@ int main(int argc, char *argv[])
 
     //if(CheckController())
     {
-     //   conn->ConnectToHost("127.0.0.1", 5911);
+        conn->ConnectToHost("127.0.0.1", 5911);
     }
     //else
     {
-       conn->ConnectToHost("10.0.10.146", 5911);
+     // conn->ConnectToHost("10.0.10.146", 5911);
     }
     //dbTest();
     //

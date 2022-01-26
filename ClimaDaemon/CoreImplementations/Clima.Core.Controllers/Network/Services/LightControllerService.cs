@@ -18,29 +18,46 @@ namespace Clima.Core.Controllers.Network.Services
         }
 
         [ServiceMethod]
-        public DefaultResponse SetManual(DefaultRequest request)
+        public LightStatusResponse GetLightStatus(DefaultRequest request)
         {
-            throw new NotImplementedException();
+            return new LightStatusResponse()
+            {
+                CurrentProfileKey = _lightController.CurrentProfile.Key,
+                CurrentProfileName = _lightController.CurrentProfile.Name,
+                IsAuto = _lightController.IsAuto,
+                IsOn = _lightController.IsOn
+            };
+        }
+        [ServiceMethod]
+        public DefaultResponse ToManual(DefaultRequest request)
+        {
+            if(_lightController.IsAuto)
+                _lightController.ToManual();
+
+            return new DefaultResponse();
         }
 
         [ServiceMethod]
-        public DefaultResponse SetAuto(DefaultRequest request)
+        public DefaultResponse ToAuto(DefaultRequest request)
         {
-            throw new NotImplementedException();
+            if(!_lightController.IsAuto)
+                _lightController.ToAuto();
+
+            return new DefaultResponse();
         }
 
         [ServiceMethod]
-        public DefaultResponse ManualOn(DefaultRequest request)
+        public DefaultResponse LightOn(DefaultRequest request)
         {
-
-            throw new NotImplementedException();
+            _lightController.On();
+            return new DefaultResponse();
         }
 
         [ServiceMethod]
-        public DefaultResponse ManualOff(DefaultRequest request)
+        public DefaultResponse LightOff(DefaultRequest request)
         {
-            
-            throw new NotImplementedException();
+            _lightController.Off();
+            return new DefaultResponse();
         }
 
         [ServiceMethod]
@@ -73,6 +90,28 @@ namespace Clima.Core.Controllers.Network.Services
         }
 
         [ServiceMethod]
+        public LightProfileResponse GetCurrentProfile(DefaultRequest request)
+        {
+            return new LightProfileResponse()
+            {
+                Profile = _lightController.CurrentProfile
+            };
+        }
+
+        [ServiceMethod]
+        public DefaultResponse SetCurrentProfile(string profileKey)
+        {
+            if (_lightController.Profiles.ContainsKey(profileKey))
+            {
+                _lightController.SetCurrentProfileKey(profileKey);
+                return new DefaultResponse();
+            }
+            else
+            {
+                return new DefaultResponse("ProfileNotFound");
+            }
+        }
+        [ServiceMethod]
         public CurrentLightProfileInfoResponse GetCurrentProfileInfo(DefaultRequest request)
         {
             return new CurrentLightProfileInfoResponse()
@@ -83,7 +122,7 @@ namespace Clima.Core.Controllers.Network.Services
         [ServiceMethod]
         public DefaultResponse UpdateProfile(LightTimerProfile profile)
         {
-
+            _lightController.UpdateProfile(profile);
             return new DefaultResponse();
         }
     }

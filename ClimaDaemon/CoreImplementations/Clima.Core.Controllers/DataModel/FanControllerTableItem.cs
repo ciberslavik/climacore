@@ -15,5 +15,6 @@ namespace Clima.Core.Conrollers.Ventilation.DataModel
         internal IRelay Relay { get; set; }
         internal IFrequencyConverter AnalogFan { get; set; }
         internal FanInfo Info { get; set; }
+        internal FanStateEnum PreAlarmState { get; set; }
     }
 }

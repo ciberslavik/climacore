@@ -24,6 +24,6 @@ public:
     QS_FIELD(int, State)
     QS_FIELD(int, Mode)
     QS_FIELD(float, AnalogPower)
-
+    QS_FIELD(bool, IsAlarm)
 
 };

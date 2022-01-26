@@ -13,7 +13,27 @@ namespace Clima.NetworkServer.Serialization.Newtonsoft
     public class JsonNetworkSerializer : INetworkSerializer
     {
         private JsonSerializer JsonSerializer { get; set; } = JsonSerializer.Create();
+        private JsonSerializerSettings Settings;
 
+        public JsonNetworkSerializer()
+        {
+            Settings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.None,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                //ContractResolver = new ProjectContractResolver(),
+                NullValueHandling = NullValueHandling.Include
+                //Converters =
+                //{
+                //    new KeyValuePairConverter(),
+                //    new ArgbColorJsonConverter(),
+                //    new FontStyleConverter(),
+                //    new ShapeStateConverter()
+                //}
+            };      
+        }
         public string Serialize(IMessage message)
         {
             using (var sw = new StringWriter())

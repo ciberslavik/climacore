@@ -11,6 +11,6 @@ namespace Clima.Core.Devices
         IFrequencyConverter GetFrequencyConverter(string converterName);
         IServoDrive GetServo(string servoName);
         IHeater GetHeater(string heaterName);
-        ISensors GetSensors();
+        //ISensors GetSensors();
     }
 }

@@ -218,8 +218,7 @@ void VentilationConfigFrame::on_btnAccept_clicked()
     foreach (const FanInfo &i, m_infos) {
         if(i.Hermetised)
             m_infos[i.Key].Mode = (int)FanModeEnum::Disabled;
-        else
-            m_infos[i.Key].Mode = (int)FanModeEnum::Auto;
+
     }
     m_ventService->UpdateFanInfoList(m_infos);
 }

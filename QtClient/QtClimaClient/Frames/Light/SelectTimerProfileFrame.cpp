@@ -24,7 +24,10 @@ SelectTimerProfileFrame::SelectTimerProfileFrame(QWidget *parent) :
     connect(m_lightService, &LightControllerService::PresetListReceived, this, &SelectTimerProfileFrame::LightProfileListReceived);
 
     m_infosModel = new SelectTimerProfileInfoModel();
+    connect(ui->tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &SelectTimerProfileFrame::onSelectionChanged);
     m_lightService->GetProfileInfoList();
+
+    m_needEditProfile = false;
 }
 
 SelectTimerProfileFrame::~SelectTimerProfileFrame()
@@ -72,6 +75,7 @@ void SelectTimerProfileFrame::on_btnEditProfile_clicked()
     {
         int index = selection->selectedIndexes().at(0).row();
         QString key = m_infos[index].Key;
+        m_needEditProfile = true;
         m_lightService->GetProfile(key);
     }
 }
@@ -85,7 +89,24 @@ void SelectTimerProfileFrame::on_btnRemoveProfile_clicked()
 
 void SelectTimerProfileFrame::on_btnAccept_clicked()
 {
+    QItemSelectionModel *selection = ui->tableView->selectionModel();
+    if(selection->selectedIndexes().count() > 0)
+    {
+        int row = selection->selectedIndexes().at(0).row();
+        m_lightService->SetCurrentProfile(m_infos[row].Key);
+    }
 
+    FrameManager::instance()->PreviousFrame();
+}
+
+void SelectTimerProfileFrame::onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    Q_UNUSED(deselected)
+    if(selected.count() > 0)
+    {
+        QString key = m_infos[selected[0].indexes().at(0).row()].Key;
+        m_lightService->GetProfile(key);
+    }
 }
 
 void SelectTimerProfileFrame::LightProfileCreated(const LightTimerProfile &profile)
@@ -102,13 +123,18 @@ void SelectTimerProfileFrame::LightProfileListReceived(const QList<LightTimerPro
     m_infosModel->setProfileList(&m_infos);
     ui->tableView->setModel(m_infosModel);
     ui->tableView->resizeColumnsToContents();
+    connect(ui->tableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &SelectTimerProfileFrame::onSelectionChanged);
 }
 
 void SelectTimerProfileFrame::LightProfileReceived(const LightTimerProfile &profile)
 {
-    m_editProfile = new LightTimerProfile(profile);
-    LightProfileEditorFrame *frame = new LightProfileEditorFrame(m_editProfile);
-
-    FrameManager::instance()->setCurrentFrame(frame);
+    ui->timerPresenter->setTimerProfile(profile);
+    if(m_needEditProfile)
+    {
+        m_needEditProfile = false;
+        m_editProfile = new LightTimerProfile(profile);
+        LightProfileEditorFrame *frame = new LightProfileEditorFrame(m_editProfile);
+        FrameManager::instance()->setCurrentFrame(frame);
+    }
 }
 

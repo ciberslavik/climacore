@@ -1,9 +1,14 @@
-﻿namespace Clima.Core.Devices.Configuration
+﻿using Clima.Basics.Configuration;
+
+namespace Clima.Core.Devices.Configuration
 {
-    public class SensorsConfig
+    public class SensorsConfig:IConfigurationItem
     {
+        private string _configurationName;
+
         public SensorsConfig()
         {
+            _configurationName = nameof(SensorsConfig);
         }
 
         public string FrontTempPinName { get; set; }
@@ -25,5 +30,7 @@
 	    c.Valve2PinName = "AI:1:5";
             return c;
         }
+
+        public string ConfigurationName => _configurationName;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core.Alarm;
@@ -56,7 +57,10 @@ namespace Clima.Core.Controllers
                 _config = c;
 
                 if (_config.ControlPinName is null)
+                {
+                    Log.Error("Light control pin not configured");
                     return;
+                }
 
                 if (_ioService.Pins.DiscreteOutputs.ContainsKey(_config.ControlPinName))
                 {
@@ -82,11 +86,54 @@ namespace Clima.Core.Controllers
 
         public ServiceState ServiceState => _serviceState;
 
-        public void ProcessLight()
+        public void ProcessLight(int currentDay)
         {
-            throw new NotImplementedException();
+            if (_config.IsAuto)
+            {
+                if (CheckTimer(currentDay, DateTime.Now.TimeOfDay))
+                {
+                    if (_controlPin.State == false)
+                    {
+                        _controlPin.SetState(true);
+                        Log.Debug("Light auto on");
+                    }
+                }
+                else
+                {
+                    if (_controlPin.State == true)
+                    {
+                        _controlPin.SetState(false);
+                        Log.Debug("Light auto off");
+                    }
+                }
+            }
         }
 
+        private bool CheckTimer(int currentDay, TimeSpan currentTime)
+        {
+            var profile = _config.Profiles[_config.CurrentProfileKey];
+
+            var day = (from n1 in profile.Days
+                where n1.DayNumber < currentDay
+                orderby n1.DayNumber descending
+                select n1).First();
+            
+            if (day is not null)
+            {
+                foreach (var timer in day.Timers)
+                {
+                    var ontime = timer.OnTime.TimeOfDay;
+                    var offtime = timer.OffTime.TimeOfDay;
+                    
+                    if ((ontime <= currentTime) && (offtime >= currentTime))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
         public void SetCurrentProfileKey(string profileKey)
         {
             if (_currentProfile.Key != profileKey)
@@ -94,11 +141,19 @@ namespace Clima.Core.Controllers
                 if (_config.Profiles.ContainsKey(profileKey))
                 {
                     _currentProfile = _config.Profiles[profileKey];
+                    _config.CurrentProfileKey = _currentProfile.Key;
+                    ClimaContext.Current.SaveConfiguration();
                 }
                 else
                 {
                     Log.Error($"Light profile \"{profileKey}\" not exist");
                 }
+            }
+            else
+            {
+                _currentProfile = _config.Profiles[profileKey];
+                _config.CurrentProfileKey = _currentProfile.Key;
+                ClimaContext.Current.SaveConfiguration();
             }
         }
 
@@ -118,7 +173,14 @@ namespace Clima.Core.Controllers
 
         public void UpdateProfile(LightTimerProfile profile)
         {
-            throw new NotImplementedException();
+            if (profile is null)
+                throw new ArgumentNullException(nameof(profile));
+
+            if (_config.Profiles.ContainsKey(profile.Key))
+            {
+                _config.Profiles[profile.Key] = profile;
+                ClimaContext.Current.SaveConfiguration();
+            }
         }
 
         public void RemoveProfile(string profileKey)
@@ -147,9 +209,52 @@ namespace Clima.Core.Controllers
 
         public bool IsAlarm => _isAlarm;
 
+        public bool IsAuto => _config.IsAuto;
+
+        public bool IsOn => _controlPin.State;
+        public void On()
+        {
+            if(_config.IsAuto)
+                return;
+            if(_controlPin.State == true)
+                return;
+            
+            _controlPin.SetState(true);    
+        }
+
+        public void Off()
+        {
+            if(_config.IsAuto)
+                return;
+            if(_controlPin.State == false)
+                return;
+            
+            _controlPin.SetState(false);
+        }
+
+        public void ToManual()
+        {
+            if (_config.IsAuto)
+            {
+                Log.Debug("Light to manual");
+                _config.IsAuto = false;
+                ClimaContext.Current.SaveConfiguration();
+            }
+        }
+
+        public void ToAuto()
+        {
+            if (!_config.IsAuto)
+            {
+                Log.Debug("Light to auto");
+                _config.IsAuto = true;
+                ClimaContext.Current.SaveConfiguration();
+            }
+        }
+
         public bool Reset()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         protected virtual void OnNotify(AlarmEventArgs ea)

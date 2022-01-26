@@ -2,6 +2,7 @@ using System;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Configuration.FileSystem;
+using Clima.Core;
 using Clima.Core.DataModel.GraphModel;
 using Clima.FSGrapRepository;
 using Clima.FSGrapRepository.Configuration;
@@ -17,7 +18,7 @@ namespace Clima.FSGraphRepository.Tests
         [SetUp]
         public void Setup()
         {
-            _configurationStorage = new FSConfigurationStorage(new ConfigurationSerializer(), new DefaultFileSystem());
+            _configurationStorage = new FSConfigurationStorage(new ConfigurationSerializer(), new DefaultFileSystem(), new LogFileWriter("test"));
         }
 
         [Test]

@@ -11,10 +11,9 @@ namespace Clima.Core.Devices.Network.Services
         private ISensors _sensors;
         public ISystemLogger Logger { get; set; }
 
-        public SensorsService(IDeviceProvider deviceProvider)
+        public SensorsService(ISensors sensors)
         {
-            _deviceProvider = deviceProvider;
-            _sensors = _deviceProvider.GetSensors();
+            _sensors = sensors;
         }
 
         [ServiceMethod]

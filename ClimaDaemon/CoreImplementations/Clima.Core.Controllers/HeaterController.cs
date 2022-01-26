@@ -14,15 +14,17 @@ namespace Clima.Core.Controllers
     {
         private readonly IIOService _ioService;
         private readonly IDeviceProvider _deviceProvider;
+        private readonly ISensors _sensors;
 
         private HeaterControllerConfig _config;
         
         private Dictionary<string, HeaterState> _heaterStates;
         private float _currentSetPoint;
-        public HeaterController(IIOService ioService, IDeviceProvider deviceProvider)
+        public HeaterController(IIOService ioService, IDeviceProvider deviceProvider, ISensors sensors)
         {
             _ioService = ioService;
             _deviceProvider = deviceProvider;
+            _sensors = sensors;
 
             _heaterStates = new Dictionary<string, HeaterState>();
             _currentSetPoint = 0;
@@ -118,9 +120,9 @@ namespace Clima.Core.Controllers
                 //Get current temperature in selected zone
                 float currTemp = 0;
                 if (heaterParams.ControlZone == 0)
-                    currTemp = _deviceProvider.GetSensors().FrontTemperature;
+                    currTemp = _sensors.FrontTemperature;
                 else if (heaterParams.ControlZone == 1)
-                    currTemp = _deviceProvider.GetSensors().RearTemperature;
+                    currTemp = _sensors.RearTemperature;
                 
                 //Add correction
                 var corrected = setpoint + heaterParams.Correction;

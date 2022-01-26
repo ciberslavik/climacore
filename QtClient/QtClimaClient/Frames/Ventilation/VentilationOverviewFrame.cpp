@@ -232,7 +232,7 @@ void VentilationOverviewFrame::updateFanWidgets()
         {
             w->setFanMode((FanMode_t)s->Mode);
         }
-        w->setFanState((FanStateEnum)s->State);
+        w->setFanState((FanStateEnum)s->State, s->IsAlarm);
         if(s->IsAnalog)
         {
             w->setAnalogValue(s->AnalogPower);

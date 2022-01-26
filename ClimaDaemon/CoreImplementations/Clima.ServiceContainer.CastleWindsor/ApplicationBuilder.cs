@@ -99,11 +99,34 @@ namespace Clima.ServiceContainer.CastleWindsor
             
             CreateIOService();
             InitializeCoreServices();
+            InitializeAlarms();
             InitializeControllers();
             ClimaContext.InitContext(_serviceProvider);
             StartCoreServices();
 
             var server = _container.Resolve<IJsonServer>();
+        }
+
+        private void InitializeAlarms()
+        {
+            _logger.Debug("Initialize Alarms...");
+
+            var alarmSources = _container.ResolveAll<IAlarmSource>();
+            if (alarmSources is not null)
+            {
+                var alarmManager = _container.Resolve<IAlarmManager>();
+                var registerLog = "\n";
+                foreach (var source in alarmSources)
+                {
+                    alarmManager.RegisterSource(source);
+                    registerLog += source.GetType().Name + ":\n";
+                    foreach (var alarmInfo in source.ProvideAlarms)
+                    {
+                        registerLog += "\t\t" + alarmInfo.Key + " " + alarmInfo.Name + "\n";
+                    }
+                }
+                _logger.Debug(registerLog);
+            }
         }
 
         private void InitializeControllers()

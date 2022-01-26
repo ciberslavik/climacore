@@ -114,7 +114,10 @@ QString FanInfosModel::getRowKey(int row)
 
 QColor FanInfosModel::getModeColor(const FanInfo &info) const
 {
-
+    if(info.IsAlarm)
+    {
+        return QColor("lightred");
+    }
 
     if(info.State == (int)FanModeEnum::Disabled)
         return QColor(Qt::lightGray);
@@ -127,10 +130,6 @@ QColor FanInfosModel::getModeColor(const FanInfo &info) const
     {
         return QColor(Qt::white);
     }
-    else if(info.State == (int)FanStateEnum::Alarm)
-    {
-        return QColor("lightred");
-    }
     else
         return QColor(Qt::white);
 }
@@ -140,38 +139,40 @@ QString FanInfosModel::getModeString(const FanInfo &info) const
     QString modeChar;
     QString stateChar;
 
-        if(info.Mode == (int)FanModeEnum::Auto)
-        {
-            modeChar = 'A';
-        }
-        else if(info.Mode == (int)FanModeEnum::Manual)
-        {
-            modeChar = 'M';
-        }
-        else if(info.Mode == (int)FanModeEnum::Disabled)
-        {
-            modeChar = 'D';
-        }
-
-    if(info.State == (int)FanStateEnum::Running)
+    if(info.Mode == (int)FanModeEnum::Auto)
     {
-        stateChar = 'R';
+        modeChar = 'A';
     }
-    else if(info.State == (int)FanStateEnum::Stopped)
+    else if(info.Mode == (int)FanModeEnum::Manual)
     {
-        stateChar = 'S';
+        modeChar = 'M';
     }
-    else if(info.State == (int)FanStateEnum::Alarm)
+    else if(info.Mode == (int)FanModeEnum::Disabled)
     {
-        stateChar = 'E';
+        modeChar = 'D';
     }
-    if(info.IsAnalog)
+    if(info.IsAlarm)
     {
-        return modeChar + stateChar + ' ' + QString::number(info.AnalogPower, 'f', 1) + '%';
+        stateChar = "Err";
     }
     else
     {
-        return modeChar + stateChar;
+        if(info.State == (int)FanStateEnum::Running)
+        {
+            stateChar = 'R';
+        }
+        else if(info.State == (int)FanStateEnum::Stopped)
+        {
+            stateChar = 'S';
+        }
+    }
+    if(info.IsAnalog)
+    {
+        return modeChar + " " + stateChar + ' ' + QString::number(info.AnalogPower, 'f', 1) + '%';
+    }
+    else
+    {
+        return modeChar + " " + stateChar;
     }
 }
 

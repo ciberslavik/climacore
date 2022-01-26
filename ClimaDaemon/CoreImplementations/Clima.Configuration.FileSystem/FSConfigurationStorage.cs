@@ -11,12 +11,14 @@ namespace Clima.Configuration.FileSystem
     {
         private readonly IConfigurationSerializer _serializer;
         private readonly IFileSystem _fs;
+        private readonly ISystemLogger _logger;
         private Dictionary<string, IConfigurationItem> _loaded;
 
-        public FSConfigurationStorage(IConfigurationSerializer serializer, IFileSystem fs)
+        public FSConfigurationStorage(IConfigurationSerializer serializer, IFileSystem fs, ISystemLogger logger)
         {
             _serializer = serializer;
             _fs = fs;
+            _logger = logger;
 
             if (!_fs.FolderExist(_fs.ConfigurationPath)) _fs.CreateDirectory(_fs.ConfigurationPath);
 
@@ -89,6 +91,7 @@ namespace Clima.Configuration.FileSystem
             }
             else
             {
+                _logger.Debug($"Configuration file: {name} not found, load default config");
                 var configType = typeof(ConfigT);
                 var defaultMI = configType
                     .GetMethod("CreateDefault", Type.EmptyTypes);

@@ -15,10 +15,15 @@ EditTimerDialog::~EditTimerDialog()
     delete ui;
 }
 
-void EditTimerDialog::setTimerInfo(LightTimerItem *info)
+void EditTimerDialog::setTimerInfo(const LightTimerItem &info)
 {
-    ui->txtOnTime->setText(info->OnTime.toString("hh:mm"));
-    ui->txtOffTime->setText(info->OffTime.toString("hh:mm"));
+    ui->txtOnTime->setText(info.OnTime.toString("hh:mm"));
+    ui->txtOffTime->setText(info.OffTime.toString("hh:mm"));
+}
+
+void EditTimerDialog::setTitle(const QString &title)
+{
+    ui->lblTitle->setText(title);
 }
 
 QDateTime EditTimerDialog::onTime() const
@@ -33,8 +38,11 @@ QDateTime EditTimerDialog::offTime() const
 
 void EditTimerDialog::on_btnAccept_clicked()
 {
-    m_onTime = QDateTime(QDate(), QTime::fromString(ui->txtOnTime->text()));
-    m_offTime = QDateTime(QDate(), QTime::fromString(ui->txtOffTime->text()));
+    QDate dummyDate = QDate::fromString("01.01.2000", "dd.MM.yyyy");
+
+    m_onTime = QDateTime(dummyDate, QTime::fromString(ui->txtOnTime->text(), "hh:mm"));
+
+    m_offTime = QDateTime(dummyDate, QTime::fromString(ui->txtOffTime->text(), "hh:mm"));
     if(m_onTime > m_offTime)
     {
         QMessageBox mb;
