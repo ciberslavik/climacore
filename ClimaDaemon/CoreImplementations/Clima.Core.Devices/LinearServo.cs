@@ -61,7 +61,6 @@ namespace Clima.Core.Devices
             //Check need moving
             if (HitFineWindow(current, target))
             {
-                Console.WriteLine("Current position in target window");
                 return;
             }
 

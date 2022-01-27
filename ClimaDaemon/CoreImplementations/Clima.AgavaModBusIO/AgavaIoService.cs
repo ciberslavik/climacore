@@ -137,16 +137,14 @@ namespace Clima.AgavaModBusIO
 
             foreach (var moduleId in modules.Keys)
                 //Read modules status for check is module live!
-                if (CheckModule(moduleId))
+                //if (CheckModule(moduleId))
                 {
                     var module = modules[moduleId];
-                    //if (module.IsDiscreteModified)
-                    //{
-                        var doRequest = AgavaRequest.WriteHoldingRegisterRequest(
-                            moduleId, 10000,new ushort[]{module.DORegister});
-                        _master.WriteRequest(doRequest);
-                        //module.AcceptModify();
-                    //}
+                    if (module.IsDiscreteModified)
+                    {
+                        
+                        module.AcceptModify();
+                    }
 
                     //if (module.IsAnalogModified)
                         foreach (var ioutput in module.Pins.AnalogOutputs.Values)
@@ -166,6 +164,10 @@ namespace Clima.AgavaModBusIO
                         var request = AgavaRequest.ReadInputRegisterRequest(moduleId, 10000, 1);
                         var response = _master.WriteRequest(request);
                         modules[moduleId].SetDIRawData(response.Data);
+                        
+                        var doRequest = AgavaRequest.WriteHoldingRegisterRequest(
+                            moduleId, 10000,new ushort[]{module.DORegister});
+                        _master.WriteRequest(doRequest);
                     }
                 }
 
@@ -190,66 +192,7 @@ namespace Clima.AgavaModBusIO
                     //Console.Write($"reg:{reg} pin:{ain.PinName} val:{BufferToFloat(response.Data)}");
                 }
         }
-
-        private float BufferToFloat(ushort[] buffer)
-        {
-            var bytes = new byte[4];
-            var b1 = BitConverter.GetBytes(buffer[0]);
-            var b2 = BitConverter.GetBytes(buffer[1]);
-            Console.Write($" buffer:{buffer[0]:X}, {buffer[1]:X}");
-            bytes[0] = b1[0];
-            bytes[1] = b1[1];
-            bytes[2] = b2[0];
-            bytes[3] = b2[1];
-
-            return BufferToFloat2(bytes);
-            /*Pin:AI:1:0  buffer:FF40, 0 value:0,0000000000
-            Pin:AI:1:1  buffer:FF0B, 0 value:0,0000000000
-            Pin:AI:1:2  buffer:1, 0 value:0,0000000000
-            Pin:AI:1:3  buffer:0, 0 value:0,0000000000
-            Pin:AI:1:4  buffer:0, 0 value:0,0000000000
-            Pin:AI:1:5  buffer:2, 0 value:0,0000000000
-            Pin:AI:1:6  buffer:18, 0 value:0,0000000000
-            Pin:AI:1:7  buffer:40, 0 value:0,0000000000
-            Pin:AI:1:8  buffer:0, 0 value:0,0000000000
-            Pin:AI:1:9  buffer:0, 0 value:0,0000000000*/
-        }
-
-        private float BufferToFloat2(byte[] data)
-        {
-            var fb = BitConverter.ToUInt32(data);
-
-            var sign = (int) ((fb >> 31) & 1);
-            var exponent = (int) ((fb >> 23) & 0xFF);
-            var mantissa = (int) (fb & 0x7FFFFF);
-
-            float fMantissa;
-            var fSign = sign == 0 ? 1.0f : -1.0f;
-
-            if (exponent != 0)
-            {
-                exponent -= 127;
-                fMantissa = 1.0f + mantissa / (float) 0x800000;
-            }
-            else
-            {
-                if (mantissa != 0)
-                {
-                    // denormal
-                    exponent -= 126;
-                    fMantissa = 1.0f / (float) 0x800000;
-                }
-                else
-                {
-                    // +0 and -0 cases
-                    fMantissa = 0;
-                }
-            }
-
-            var fExponent = (float) Math.Pow(2.0, exponent);
-            var ret = fSign * fMantissa * fExponent;
-            return ret;
-        }
+        
 
         private bool CheckModule(byte moduleId)
         {

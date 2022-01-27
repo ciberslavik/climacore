@@ -59,7 +59,7 @@ namespace Clima.ServiceContainer.CastleWindsor.Installers
                 configStore.RegisterConfig(sqlConfig);
             }
             
-            var sqlHistory = new MyClient(sqlConfig);
+            var sqlHistory = new MyClient(sqlConfig, Log);
             
             sqlHistory.AddBootRecord();
 

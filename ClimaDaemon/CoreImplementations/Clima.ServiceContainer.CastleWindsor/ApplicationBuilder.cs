@@ -1,34 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
-using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Clima.AgavaModBusIO;
 using Clima.AgavaModBusIO.Configuration;
-using Clima.Basics;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
 using Clima.Core;
 using Clima.Core.Alarm;
 using Clima.Core.Controllers;
-using Clima.Core.Controllers.Configuration;
-using Clima.Core.Controllers.Ventilation;
-using Clima.Core.DataModel.History;
-using Clima.Core.Devices;
 using Clima.Core.IO;
-using Clima.Core.Scheduler;
 using Clima.Core.Tests.IOService;
 using Clima.Core.Tests.IOService.Configurations;
-using Clima.History.MySQL;
-using Clima.History.MySQL.Configurations;
-using Clima.History.Service;
 using Clima.Logger;
 using Clima.NetworkServer;
-using Clima.NetworkServer.Transport;
-using Clima.NetworkServer.Transport.AsyncSocket;
 using Clima.ServiceContainer.CastleWindsor.Installers;
 using IServiceProvider = Clima.Basics.Services.IServiceProvider;
 
@@ -38,9 +25,10 @@ namespace Clima.ServiceContainer.CastleWindsor
     {
         private IWindsorContainer _container;
         private IServiceProvider _serviceProvider;
-       
+        private List<Action> _cycleDelegates = new List<Action>();
         private ISystemLogger _logger;
         private bool _isDebug;
+        private Timer _cycleTimer;
         public ApplicationBuilder()
         {
             _logger = new ConsoleSystemLogger();
@@ -103,7 +91,7 @@ namespace Clima.ServiceContainer.CastleWindsor
             InitializeControllers();
             ClimaContext.InitContext(_serviceProvider);
             StartCoreServices();
-
+            
             var server = _container.Resolve<IJsonServer>();
         }
 
@@ -177,6 +165,11 @@ namespace Clima.ServiceContainer.CastleWindsor
                     _logger.Debug($"Initialize :{service.GetType().Name}");
 
                     service.Init(serviceConfig);
+                    
+                    _cycleDelegates.Add(() =>
+                    {
+                        service.Cycle();
+                    });
                 }
             }
         }
@@ -211,6 +204,19 @@ namespace Clima.ServiceContainer.CastleWindsor
             foreach (var service in services)
             {
                 service.Start();
+            }
+
+            _cycleTimer = new Timer(TimerFunc, _cycleDelegates, 5000, 1000);
+        }
+
+        private void TimerFunc(object? state)
+        {
+            if (state is List<Action> st)
+            {
+                foreach (var cycleAction in st)
+                {
+                    cycleAction.Invoke();
+                }
             }
         }
     }

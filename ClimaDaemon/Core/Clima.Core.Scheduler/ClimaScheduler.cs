@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using Clima.Basics;
 using Clima.Basics.Services;
-using Clima.Core.Controllers;
 using Clima.Core.Controllers.Heater;
 using Clima.Core.Controllers.Light;
 using Clima.Core.Controllers.Ventilation;
@@ -14,7 +12,6 @@ using Clima.Core.DataModel.History;
 using Clima.Core.Devices;
 using Clima.Core.Hystory;
 using Clima.Core.Scheduler.Configuration;
-using Clima.Core.Scheduler;
 using Clima.Core.Scheduler.DataModel;
 
 namespace Clima.Core.Scheduler
@@ -23,7 +20,7 @@ namespace Clima.Core.Scheduler
     public partial class ClimaScheduler : IClimaScheduler
     {
         //private readonly IControllerFactory _controllerFactory;
-        private readonly ITimeProvider _time;
+//        private readonly ITimeProvider _time;
         private readonly IHeaterController _heater;
         private readonly IVentilationController _ventilation;
         private readonly ILightController _lightController;
@@ -35,7 +32,7 @@ namespace Clima.Core.Scheduler
         private SchedulerContext _context;
 
         private readonly object _threadLock = new object();
-        private Timer? _schedulerTimer;
+        //private Timer? _schedulerTimer;
         private bool _schedulerTimerRunning;
 
 
@@ -48,8 +45,7 @@ namespace Clima.Core.Scheduler
         private ValvePerVentilationGraph _valveGraph = new ValvePerVentilationGraph();
         private ValvePerVentilationGraph _mineGraph = new ValvePerVentilationGraph();
 
-        public ClimaScheduler(ITimeProvider timeProvider,
-            IHeaterController heater,
+        public ClimaScheduler(IHeaterController heater,
             IVentilationController ventilation,
             ILightController lightController,
             IGraphProviderFactory graphProviderFactory,
@@ -58,7 +54,7 @@ namespace Clima.Core.Scheduler
             IHistoryService historyService,
             ISystemLogger? logger = null)
         {
-            _time = timeProvider;
+  //          _time = timeProvider;
             _heater = heater;
             _ventilation = ventilation;
             _lightController = lightController;
@@ -215,7 +211,7 @@ namespace Clima.Core.Scheduler
                 }
                 _isRunning = true;
                 ServiceState = ServiceState.Running;
-                StartTimer();
+                //StartTimer();
             }
         }
 
@@ -262,14 +258,14 @@ namespace Clima.Core.Scheduler
         private void SchedulerProcess(object? o)
         {
             if (!(o is SchedulerContext context)) return;
-            
-            if (context.StartProductionDate <= _time.Now)
+            var currentTime = DateTime.Now;
+            if (context.StartProductionDate <= currentTime)
             {
-                var workingTime = _time.Now - context.StartProductionDate;
+                var workingTime = currentTime - context.StartProductionDate;
                 context.CurrentDay = workingTime.Days;
             }
-            else if (context.StartPreProductionDate <= _time.Now &&
-                     context.StartProductionDate >= _time.Now)
+            else if (context.StartPreProductionDate <= currentTime &&
+                     context.StartProductionDate >= currentTime)
             {
                 context.CurrentDay = 0;
             }
@@ -355,50 +351,7 @@ namespace Clima.Core.Scheduler
             return 0f;
         }
 
-        /*private float GetDayTemperature(int dayNumber)
-        {
-            //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
-            //соседними точками для текущего дня
-            /*TimeSpan workingTime = DateTime.Now - SchedulerState.StartGrowingTime;
-            int currentDay = workingTime.Days;#1#
-            /*if (dayNumber == 0)
-            {
-                return _temperatureGraph.Points[0].Value;
-            }#1#
-            ValueByDayPoint? pt = _temperatureGraph.Points.FirstOrDefault(point => point.Day == dayNumber);
-            if (pt != null)
-                return pt.Value;
-
-            if (_temperatureGraph is TemperatureGraph tGraph)
-            {
-                tGraph.ContainsDay(15);
-                tGraph.ContainsDay(0);
-                tGraph.ContainsDay(1);
-                tGraph.ContainsDay(20);
-                tGraph.ContainsDay(21);
-                tGraph.ContainsDay(22);
-            }
-            var smallerNumberCloseToInput = (from n1 in _temperatureGraph.Points
-                where n1.Day < dayNumber
-                orderby n1.Day descending
-                select n1).First();
-
-            var largerNumberCloseToInput = (from n1 in _temperatureGraph.Points
-                where n1.Day > dayNumber
-                orderby n1.Day
-                select n1).FirstOrDefault();
-
-            var periodDays = largerNumberCloseToInput.Day - smallerNumberCloseToInput.Day;
-            float diff = dayNumber - smallerNumberCloseToInput.Day;
-            var point = diff / periodDays;
-            
-            var temperature = MathUtils.Lerp(
-                smallerNumberCloseToInput.Value,
-                largerNumberCloseToInput.Value,
-                point);
-
-            return temperature;
-        }*/
+        
         internal float GetCurrentValve(float ventValue)
         {
             //Если текущего дня нет в графике, начинаем интерполяцию промежуточного значения между
@@ -472,6 +425,14 @@ namespace Clima.Core.Scheduler
             }
         }
 
+        public void Cycle()
+        {
+            if ((_context.State == SchedulerState.Preparing) || (_context.State == SchedulerState.Production))
+            {
+                SchedulerProcess(_context);
+            }
+        }
+
         public void Init(object config)
         {
             if (config is SchedulerConfig cfg)
@@ -503,7 +464,7 @@ namespace Clima.Core.Scheduler
         {
             ClimaContext.Current.SaveConfiguration();
         }
-        private void StartTimer()
+        /*private void StartTimer()
         {
             if(_schedulerTimerRunning)
                 return;
@@ -513,9 +474,9 @@ namespace Clima.Core.Scheduler
                 _schedulerTimer.Change(TimeSpan.FromTicks(0), TimeSpan.FromSeconds(_config.SchedulerPeriodSeconds));
                 _schedulerTimerRunning = true;
             }
-        }
+        }*/
 
-        private void StopTimer(TimeSpan timeout)
+        /*private void StopTimer(TimeSpan timeout)
         {
             if(_schedulerTimer is not null)
                 lock (_threadLock)
@@ -533,9 +494,9 @@ namespace Clima.Core.Scheduler
                         _schedulerTimer = null;
                     }
                 }
-        }
+        }*/
         
         
-#nullable disable
+    #nullable disable
     }
 }

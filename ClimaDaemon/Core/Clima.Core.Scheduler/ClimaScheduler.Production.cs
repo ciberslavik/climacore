@@ -15,7 +15,6 @@ namespace Clima.Core.Scheduler
             if (_context.State != SchedulerState.Preparing)
             {
                 _context.State = SchedulerState.Preparing;
-                StartTimer();
                 _context.StartPreparingDate = config.StartDate;
                 Save();
             }
@@ -26,7 +25,6 @@ namespace Clima.Core.Scheduler
             if (_context.State != SchedulerState.Production)
             {
                 _context.State = SchedulerState.Production;
-                StartTimer();
                 _config.ProductionConfig = config;
                 
                 _context.StartProductionDate = config.PlandingDate;
@@ -61,7 +59,7 @@ namespace Clima.Core.Scheduler
                 if (SchedulerState == SchedulerState.Stopped)
                     return 0;
 
-                var diff = _time.Now - _context.StartProductionDate;
+                var diff = DateTime.Now - _context.StartProductionDate;
                 return diff.Days;
             }
         }

@@ -337,6 +337,11 @@ namespace Clima.NetworkServer.Transport.AsyncSocket
             _mutex.ReleaseMutex();
         }
 
+        public void Cycle()
+        {
+            
+        }
+
         public void Init(object config)
         {
             if (config is SocketServerConfig cfg)

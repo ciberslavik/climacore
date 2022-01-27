@@ -40,6 +40,11 @@ namespace Clima.Core.Controllers
             
         }
 
+        public void Cycle()
+        {
+            
+        }
+
         public void StopHeater()
         {
             foreach (var heaterConfig in _config.Infos.Values)
@@ -129,7 +134,7 @@ namespace Clima.Core.Controllers
                 //Calculate start and stop temperatures
                 var heatOn = corrected + heaterParams.DeltaOn;
                 var heatOff = corrected + heaterParams.DeltaOff;
-                Log.Debug($"curr:{currTemp} setpoint:{setpoint} corrected:{corrected} on temp:{heatOn} off temp:{heatOff}");
+                //Log.Debug($"curr:{currTemp} setpoint:{setpoint} corrected:{corrected} on temp:{heatOn} off temp:{heatOff}");
                 if (currTemp < heatOn)
                 {
                     _ioService.Pins.DiscreteOutputs[heaterParams.PinName].SetState(true);

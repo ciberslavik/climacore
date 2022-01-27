@@ -9,7 +9,7 @@ using Clima.Core.IO;
 
 namespace Clima.Core.Devices
 {
-    public class Sensors : ISensors,IService, IAlarmSource
+    public class Sensors : ISensors, IService, IAlarmSource
     {
         private readonly IIOService _ioService;
         private SensorsConfig _config;
@@ -20,7 +20,7 @@ namespace Clima.Core.Devices
         private IAnalogInput _pressurePin;
         private IAnalogInput _valve1Pin;
         private IAnalogInput _valve2Pin;
-        private Timer _movingAvgTimer;
+        //private Timer _movingAvgTimer;
         private MovingAverageFilter _pressureFilter;
         private float _pressure;
         private bool _isAlarm;
@@ -47,7 +47,7 @@ namespace Clima.Core.Devices
 
         private void MovingAvgUpdate(object o)
         {
-            _pressure = _pressureFilter.Calculate(_pressurePin.Value);
+            
         }
 
         
@@ -151,13 +151,18 @@ namespace Clima.Core.Devices
 
         public void Start()
         {
-            _movingAvgTimer = new Timer(MovingAvgUpdate, null, 3000, 1000);
+            //_movingAvgTimer = new Timer(MovingAvgUpdate, null, 3000, 1000);
             _serviceState = ServiceState.Running;
         }
 
         public void Stop()
         {
             
+        }
+
+        public void Cycle()
+        {
+            _pressure = _pressureFilter.Calculate(_pressurePin.Value);
         }
 
         public void Init(object config)

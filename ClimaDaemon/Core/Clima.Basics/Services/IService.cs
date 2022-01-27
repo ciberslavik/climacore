@@ -6,6 +6,7 @@ namespace Clima.Basics.Services
     {
         void Start();
         void Stop();
+        void Cycle();
         void Init(object config);
         Type ConfigType { get; }
         ServiceState ServiceState { get; }

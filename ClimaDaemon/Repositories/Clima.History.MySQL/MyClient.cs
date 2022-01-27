@@ -14,8 +14,9 @@ namespace Clima.History.MySQL
         private readonly HistoryMySQLConfig _config;
         private MySqlConnection _conn;
         private ISystemLogger _log;
-        public MyClient(HistoryMySQLConfig config)
+        public MyClient(HistoryMySQLConfig config, ISystemLogger log)
         {
+            _log = log;
             _config = config;
             var sb = new MySqlConnectionStringBuilder()
             {
@@ -38,12 +39,12 @@ namespace Clima.History.MySQL
             {
                 Log.Error(e.ToString());
             }
-
-
-            if (_conn.State == ConnectionState.Open)
-            {
-                _conn.Close();
-            }
+            
+            if(_conn!=null)
+                if (_conn.State == ConnectionState.Open)
+                {
+                    _conn.Close();
+                }
         }
 
         public ISystemLogger Log

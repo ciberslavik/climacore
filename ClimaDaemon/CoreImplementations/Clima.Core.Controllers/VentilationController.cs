@@ -71,6 +71,11 @@ namespace Clima.Core.Controllers
             }
         }
 
+        public void Cycle()
+        {
+            
+        }
+
         public void Init(object config)
         {
             if (config is VentilationControllerConfig cfg)
