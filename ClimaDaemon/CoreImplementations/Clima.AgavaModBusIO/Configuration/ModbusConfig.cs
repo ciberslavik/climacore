@@ -42,7 +42,7 @@ namespace Clima.AgavaModBusIO.Configuration
         public int BusEndAddress { get; set; }
 
         public string ConfigurationName { get; set; }
-
+        
         public Dictionary<string, AgavaAnalogInType> AnalogInputsTypes { get; set; }
         public Dictionary<string, AgavaAnalogOutType> AnalogOutputTypes { get; set; }
     }

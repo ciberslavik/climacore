@@ -53,6 +53,16 @@ namespace Clima.Core.Tests.IOService
             Console.WriteLine("Stub IO Service Stopped");
         }
 
+        public void Read()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Init(object config)
         {
             Pins = new IOPinCollection();

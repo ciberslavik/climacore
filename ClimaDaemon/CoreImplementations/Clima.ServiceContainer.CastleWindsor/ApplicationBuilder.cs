@@ -12,6 +12,7 @@ using Clima.Core;
 using Clima.Core.Alarm;
 using Clima.Core.Controllers;
 using Clima.Core.IO;
+using Clima.Core.Scheduler;
 using Clima.Core.Tests.IOService;
 using Clima.Core.Tests.IOService.Configurations;
 using Clima.Logger;
@@ -29,6 +30,9 @@ namespace Clima.ServiceContainer.CastleWindsor
         private ISystemLogger _logger;
         private bool _isDebug;
         private Timer _cycleTimer;
+
+        private IClimaScheduler _scheduler;
+        private IIOService _ioService;
         public ApplicationBuilder()
         {
             _logger = new ConsoleSystemLogger();
@@ -198,25 +202,25 @@ namespace Clima.ServiceContainer.CastleWindsor
         private void StartCoreServices()
         {
             _logger.Info("Starting core services");
-            _container.Resolve<IIOService>().Start();
-            
+            _ioService = _container.Resolve<IIOService>();
+            _ioService.Start();
+            _scheduler = _container.Resolve<IClimaScheduler>();
             var services = _container.ResolveAll<IService>();
             foreach (var service in services)
             {
                 service.Start();
             }
 
-            _cycleTimer = new Timer(TimerFunc, _cycleDelegates, 5000, 1000);
+            _cycleTimer = new Timer(TimerFunc, _cycleDelegates, 3000, 500);
         }
 
         private void TimerFunc(object? state)
         {
             if (state is List<Action> st)
             {
-                foreach (var cycleAction in st)
-                {
-                    cycleAction.Invoke();
-                }
+                _ioService.Read();
+                _scheduler.SchedulerCycle();
+                _ioService.Write();
             }
         }
     }

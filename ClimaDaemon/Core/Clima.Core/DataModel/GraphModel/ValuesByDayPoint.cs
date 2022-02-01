@@ -2,6 +2,10 @@
 {
     public class ValueByDayPoint : GraphPointBase
     {
+        private int _pointIndex;
+        private int _day;
+        private float _value;
+
         public ValueByDayPoint()
         {
             Day = 1;
@@ -15,9 +19,37 @@
         }
 
 
-        public override int PointIndex { get; set; }
+        public override int PointIndex
+        {
+            get => _pointIndex;
+            set
+            {
+                _pointIndex = value;
+                IsModified = true;
+                OnModified();
+            }
+        }
 
-        public int Day { get; set; }
-        public float Value { get; set; }
+        public int Day
+        {
+            get => _day;
+            set
+            {
+                _day = value;
+                IsModified = true;
+                OnModified();
+            }
+        }
+
+        public float Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                IsModified = true;
+                OnModified();
+            }
+        }
     }
 }

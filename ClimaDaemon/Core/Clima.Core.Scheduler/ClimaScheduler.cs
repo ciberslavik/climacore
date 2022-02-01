@@ -119,6 +119,8 @@ namespace Clima.Core.Scheduler
             }
         }
 
+        
+
         public DateTime StartDate
         {
             get
@@ -203,7 +205,7 @@ namespace Clima.Core.Scheduler
             {
                 if(_context.State is SchedulerState.Production or SchedulerState.Preparing)
                 {
-                    
+                    CalculateSetPoints();
                 }
                 else if(_context.State == SchedulerState.Stopped)
                 {
@@ -255,47 +257,72 @@ namespace Clima.Core.Scheduler
         {
             return (int)Math.Round(value * _context.CurrentHeads, 0);
         }
+
+        private void CalculateSetPoints()
+        {
+
+            //Calculate setpoints
+            //Temperature
+            _context.SetPoints.Temperature = _temperatureGraph.GetDayPoint(_context.CurrentDay).Value;
+
+            //Ventilation graph min max
+            var dayVent = _ventilationGraph.GetDayPoint(_context.CurrentDay);
+
+            _context.SetPoints.VentilationMax = dayVent.MaxValue;
+            _context.SetPoints.VentilationMin = dayVent.MinValue;
+            //Valves
+            var ventPercent = VentToReal(_context.SetPoints.Ventilation) / _ventilation.TotalPerformance * 100;
+            _context.SetPoints.Valves = GetCurrentValve(ventPercent);
+            _context.SetPoints.Mines = GetCurrentMine(ventPercent);
+            
+        }
+
         private void SchedulerProcess(object? o)
         {
             if (!(o is SchedulerContext context)) return;
             var currentTime = DateTime.Now;
-            if (context.StartProductionDate <= currentTime)
+
+            bool newDayFlag = false;
+            if (_context.StartProductionDate <= currentTime)
             {
-                var workingTime = currentTime - context.StartProductionDate;
-                context.CurrentDay = workingTime.Days;
+                var workingTime = currentTime - _context.StartProductionDate;
+                if (_context.CurrentDay < workingTime.Days) //if new day, calculate set points
+                {
+                    _context.CurrentDay = workingTime.Days;
+                    newDayFlag = true;
+                    CalculateSetPoints();
+                    
+                }
             }
-            else if (context.StartPreProductionDate <= currentTime &&
-                     context.StartProductionDate >= currentTime)
+            else if (_context.StartPreProductionDate <= currentTime &&
+                     _context.StartProductionDate >= currentTime)
             {
-                context.CurrentDay = 0;
+                _context.CurrentDay = 0;
             }
+
+            if (_temperatureGraph.IsModified ||
+                _ventilationGraph.IsModified ||
+                _valveGraph.IsModified ||
+                _mineGraph.IsModified)
+            {
+                _temperatureGraph.IsModified = false;
+                _ventilationGraph.IsModified = false;
+                _valveGraph.IsModified = false;
+                _mineGraph.IsModified = false;
+                
+                CalculateSetPoints();
+            }
+            
 
             Log.Debug("Process scheduler");
             if (context.State == SchedulerState.Production)
             {
-                //Calculate setpoints
-                //Temperature
-                context.SetPoints.Temperature = _temperatureGraph.GetDayPoint(context.CurrentDay).Value;
                 
-                //Ventilation graph min max
-                var dayVent = _ventilationGraph.GetDayPoint(context.CurrentDay);
-                
-                context.SetPoints.VentilationMax = dayVent.MaxValue;
-                context.SetPoints.VentilationMin = dayVent.MinValue;
                 //Ventilation setpoint
                 context.SetPoints.Ventilation = ProcessVent(context.SetPoints.Temperature,
                     minVent:context.SetPoints.VentilationMin,
                     maxVent:context.SetPoints.VentilationMax);
                 
-                var ventilationInMeters = context.SetPoints.Ventilation * context.CurrentHeads;
-
-                var ventPercent = VentToReal(context.SetPoints.Ventilation) / _ventilation.TotalPerformance * 100;
-
-                //Valves
-
-                context.SetPoints.Valves = GetCurrentValve(ventPercent);
-                context.SetPoints.Mines = GetCurrentMine(ventPercent);
-
                 LogContext(context);
 
                 _heater.Process(_context.SetPoints.Temperature);
@@ -426,6 +453,10 @@ namespace Clima.Core.Scheduler
         }
 
         public void Cycle()
+        {
+            
+        }
+        public void SchedulerCycle()
         {
             if ((_context.State == SchedulerState.Preparing) || (_context.State == SchedulerState.Production))
             {

@@ -42,6 +42,8 @@ namespace Clima.Core.Scheduler
         DateTime StartDate { get; }
         SchedulerProcessInfo SchedulerProcessInfo { get; }
         SchedulerProfilesInfo SchedulerProfilesInfo { get; }
-        
+
+        void SchedulerCycle();
+
     }
 }

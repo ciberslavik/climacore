@@ -2,6 +2,11 @@
 {
     public class MinMaxByDayPoint : GraphPointBase
     {
+        private int _pointIndex;
+        private int _day;
+        private float _maxValue;
+        private float _minValue;
+
         public MinMaxByDayPoint()
         {
         }
@@ -13,10 +18,43 @@
             MaxValue = max;
         }
 
-        public override int PointIndex { get; set; }
+        public override int PointIndex
+        {
+            get => _pointIndex;
+            set => _pointIndex = value;
+        }
 
-        public int Day { get; set; }
-        public float MaxValue { get; set; }
-        public float MinValue { get; set; }
+        public int Day
+        {
+            get => _day;
+            set
+            {
+                _day = value;
+                IsModified = true;
+                OnModified();
+            }
+        }
+
+        public float MaxValue
+        {
+            get => _maxValue;
+            set
+            {
+                _maxValue = value;
+                IsModified = true;
+                OnModified();
+            }
+        }
+
+        public float MinValue
+        {
+            get => _minValue;
+            set
+            {
+                _minValue = value; 
+                IsModified = true;
+                OnModified();
+            }
+        }
     }
 }

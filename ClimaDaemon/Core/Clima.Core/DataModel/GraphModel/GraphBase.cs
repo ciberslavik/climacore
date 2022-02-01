@@ -7,7 +7,7 @@ namespace Clima.Core.DataModel.GraphModel
     {
         protected List<TPoint> _points;
         private ProfileInfo _info = new ProfileInfo();
-
+        protected bool _isModified = false;
         protected GraphBase()
         {
             _points = new List<TPoint>();
@@ -42,6 +42,12 @@ namespace Clima.Core.DataModel.GraphModel
             }
         }
 
+        public virtual bool IsModified
+        {
+            get => _isModified;
+            set => _isModified = value;
+        }
+
         public virtual void AddPoint(TPoint point)
         {
             if (!_points.Contains(point))
@@ -64,11 +70,13 @@ namespace Clima.Core.DataModel.GraphModel
 
         protected virtual void OnGraphModified()
         {
+            IsModified = true;
             GraphModified?.Invoke(this, EventArgs.Empty);
         }
 
         private void PointOnModified(object? sender, EventArgs e)
         {
+            _isModified = true;
             PointModified?.Invoke(sender, e);
         }
         
