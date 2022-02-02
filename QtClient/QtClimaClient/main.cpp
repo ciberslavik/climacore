@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 
     //if(CheckController())
     {
-        conn->ConnectToHost("11.0.10.37", 5911);
+        conn->ConnectToHost("127.0.0.1", 5911);
     }
     //else
     {

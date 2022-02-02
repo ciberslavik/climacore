@@ -139,7 +139,7 @@ namespace Clima.AgavaModBusIO
             foreach (var module in _modules.Values)
             {
                 var doRequest = AgavaRequest.WriteHoldingRegisterRequest(
-                    module.ModuleId, 10000,new ushort[]{module.DORegister});
+                    module.ModuleId, 10000,new[]{module.DORegister});
                 _master.WriteRequest(doRequest);
                 
                 foreach (var ioutput in module.Pins.AnalogOutputs.Values)

@@ -240,6 +240,7 @@ namespace GraphProviderService
             if (vGraphProvider.ContainsKey(request.Key))
             {
                 vGraphProvider.RemoveGraph(request.Key);
+                _providerFactory.Save();
                 return new DefaultResponse();
             }
 
