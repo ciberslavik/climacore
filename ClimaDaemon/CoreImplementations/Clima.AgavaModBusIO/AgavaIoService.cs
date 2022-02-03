@@ -124,7 +124,28 @@ namespace Clima.AgavaModBusIO
 
                 if (_cycleCounter % _config.AnalogReadCycleDevider == 0)
                 {
-                    foreach (var iain in module.Pins.AnalogInputs.Values)
+                    if (module.AinCount > 0)
+                    {
+                        ushort regCount = (ushort)(module.AinCount * 2);
+                        var aiReadResult = _rtuMaster.ReadInputRegisters(module.ModuleId, 0, regCount);
+                        
+                            int cnt=0;
+                            foreach (var iain in module.Pins.AnalogInputs.Values)
+                            {
+                                if (iain is AgavaAInput ain)
+                                {
+                                    
+                                    var pinValue = aiReadResult[new Range(cnt, cnt + 2)];
+                                    Console.WriteLine("0x" + pinValue[0].ToString("X") + pinValue[1].ToString("X"));
+                                    ain.SetRawValue(pinValue);
+
+                                }
+
+                                cnt += 2;
+                            }
+                        
+                    }
+                   /* foreach (var iain in module.Pins.AnalogInputs.Values)
                     {
                         if (iain is AgavaAInput ain)
                         {
@@ -133,16 +154,16 @@ namespace Clima.AgavaModBusIO
                             var aResult = _rtuMaster.ReadInputRegisters(module.ModuleId, reg, 2);
 
                             ain.SetRawValue(aResult);
-                            /*var request = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, reg, 2);
+                            *//*var request = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, reg, 2);
                             var response = _master.WriteRequest(request);
                             if (response.Data != null)
                             {
                                 var value = response.Data[0]; //BufferToFloat(response.Data);
                                 ain.SetRawValue(response.Data);
-                            }*/
+                            }*//*
                             //Console.Write($"reg:{reg} pin:{ain.PinName} val:{BufferToFloat(response.Data)}");
                         }
-                    }
+                    }*/
                 }
             }
 

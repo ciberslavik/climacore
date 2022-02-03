@@ -13,12 +13,14 @@ namespace Clima.AgavaModBusIO.Model
         private IOPinCollection _pins;
         private ushort _doRegister;
         private ushort _diRegister;
+        private ushort _ainCount;
         private AgavaIOModule(byte moduleId)
         {
             _moduleId = moduleId;
             _pins = new IOPinCollection();
             _diRegister = 0x0000;
             _doRegister = 0x0000;
+            _ainCount = 0;
         }
 
         private void OnDiscreteOutputChanged(DiscretePinStateChangedEventArgs ea)
@@ -135,6 +137,8 @@ namespace Clima.AgavaModBusIO.Model
                 }
             }
 
+            module._ainCount = (ushort)mAiCount;
+
             return module;
         }
 
@@ -189,6 +193,8 @@ namespace Clima.AgavaModBusIO.Model
         public bool IsDiscreteModified => _pins.IsDiscreteModified;
         public bool IsAnalogModified => _pins.IsAnalogModified;
         public IOPinCollection Pins => _pins;
+
+        public ushort AinCount => _ainCount;
 
         public void AcceptModify()
         {

@@ -250,7 +250,7 @@ namespace Clima.Core.Scheduler
                 TemperatureSetPoint = context.SetPoints.Temperature,
                 PointDate = DateTime.Now
             };
-            _historyService.AddClimatPoint(historyPoint);
+            //_historyService.AddClimatPoint(historyPoint);
         }
 
         private int VentToReal(float value)

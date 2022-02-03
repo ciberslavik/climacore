@@ -14,11 +14,14 @@ namespace Clima.Core
         private static object _exitLocker = new object();
 
         private readonly IServiceProvider _serviceProvider;
-        
+        private readonly ISensors _sensors;
+        private readonly IConfigurationStorage _configuration;
         private ClimaContext(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             Logger = _serviceProvider.Resolve<ISystemLogger>() ?? new LogFileWriter("ClimaContext.log");
+            _sensors = _serviceProvider.Resolve<ISensors>();
+            _configuration = _serviceProvider.Resolve<IConfigurationStorage>();
         }
 
         static ClimaContext()
@@ -46,18 +49,18 @@ namespace Clima.Core
         }
 
         public IConfigurationStorage ConfigurationStorage =>
-            _serviceProvider.Resolve<IConfigurationStorage>();
+            _configuration;
 
         public IFileSystem FileSystem =>
             _serviceProvider.Resolve<IFileSystem>();
 
         public static ISystemLogger Logger { get; set; }
 
-        public ISensors Sensors => _serviceProvider.Resolve<ISensors>();
+        public ISensors Sensors => _sensors;
 
         public void SaveConfiguration()
         {
-            _serviceProvider.Resolve<IConfigurationStorage>().Save();
+            _configuration.Save();
         }
     }
 }

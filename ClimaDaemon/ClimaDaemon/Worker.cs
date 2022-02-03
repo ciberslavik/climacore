@@ -20,6 +20,7 @@ namespace ConsoleServer
         {
             _logger.Log(LogLevel.Information, "Start building the application...");
             _builder = new ApplicationBuilder();
+            ThreadPool.SetMaxThreads(3,3);
             _builder.Initialize(false);
         }
     }
