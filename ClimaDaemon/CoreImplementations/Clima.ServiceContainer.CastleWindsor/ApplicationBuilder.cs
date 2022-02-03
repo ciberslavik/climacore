@@ -211,7 +211,7 @@ namespace Clima.ServiceContainer.CastleWindsor
                 service.Start();
             }
 
-            _cycleTimer = new Timer(TimerFunc, _cycleDelegates, 3000, 500);
+            _cycleTimer = new Timer(TimerFunc, _cycleDelegates, 3000, 1000);
         }
 
         private void TimerFunc(object? state)

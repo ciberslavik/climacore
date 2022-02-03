@@ -1,5 +1,5 @@
 ﻿using System;
-using Avalonia.Threading;
+
 using Clima.Basics;
 using Clima.Core.IO;
 
@@ -21,21 +21,7 @@ namespace Clima.Core.Tests.IOService
             private set => this.Update(ref _state, value);
         }
 
-        protected override bool Update<T>(ref T prop, T value, string propertyName = null)
-        {
-            if (!Equals(prop, value))
-            {
-                prop = value;
-                if(Dispatcher.UIThread.CheckAccess())
-                    OnPropertyChanged(propertyName);
-                else
-                {
-                    Dispatcher.UIThread.InvokeAsync(() => { OnPropertyChanged(propertyName);});
-                }
-                return true;
-            }
-            return false;
-        }
+       
 
         public void SetState(bool state, bool queued = true)
         {

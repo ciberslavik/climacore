@@ -108,7 +108,7 @@ namespace Clima.History.MySQL
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+               // Console.WriteLine(e);
             }
         }
         public void AddClimatPoint(ClimatStateHystoryItem point)
@@ -148,7 +148,6 @@ namespace Clima.History.MySQL
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e.ToString());
                     return;
                 }
             }
@@ -159,7 +158,7 @@ namespace Clima.History.MySQL
             }
             catch (Exception e)
             {
-                Log.Error(e.ToString());
+                return;
             }
         }
     }

@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
-using System.Threading;
 using Clima.AgavaModBusIO.Configuration;
 using Clima.AgavaModBusIO.Model;
 using Clima.AgavaModBusIO.Transport;
@@ -23,11 +22,12 @@ namespace Clima.AgavaModBusIO
     {
         private ModbusConfig _config;
         private IAgavaMaster _master;
+        private IModbusMaster _rtuMaster;
+
         private IOPinCollection _pins;
         private Dictionary<byte, AgavaIOModule> _modules;
         private Queue<AgavaRequest> _requestQueue;
         private static object _queueLocker = new object();
-        private Timer _cycleTimer;
         private long _cycleCounter;
         private LogFileWriter _log;
         public AgavaIoService()
@@ -60,12 +60,15 @@ namespace Clima.AgavaModBusIO
 
             Log.Info("Start initialize IO Service");
             var port = CreatePort();
+            
+            var factory = new ModbusFactory();
+            var transport = factory.CreateRtuTransport(port);
+            _rtuMaster = factory.CreateMaster(transport);
+            _rtuMaster.Transport.ReadTimeout = _config.ResponseTimeout;
+            _rtuMaster.Transport.WriteTimeout = _config.ResponseTimeout;
 
             _master = new AgavaModbusRTUMaster(port);
 
-            _master.ReadTimeout = _config.ResponseTimeout;
-            _master.WriteTimeout = _config.ResponseTimeout;
-            
             Log.Debug("Start scanning IO bus.");
 
             ScanBus(_config.BusStartAddress, _config.BusEndAddress);
@@ -73,8 +76,9 @@ namespace Clima.AgavaModBusIO
             Log.Debug("Read analogInputs");
             ReadAnalogInputs();
 
-            Log.Info($"IO System  initialization complete Thread:{Thread.CurrentThread.ManagedThreadId}");
+            Log.Info($"IO System  initialization complete");
             IsInit = true;
+            _cycleCounter = 0;
             ServiceState = ServiceState.Initialized;
         }
 
@@ -102,7 +106,7 @@ namespace Clima.AgavaModBusIO
         {
             if (IsInit && IsRunning)
             {
-                _cycleTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                
                 IsRunning = false;
                 ServiceState = ServiceState.Stopped;
             }
@@ -112,44 +116,58 @@ namespace Clima.AgavaModBusIO
         {
             foreach (var module in _modules.Values)
             {
-                var drequest = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, 10000, 1);
-                var dresponse = _master.WriteRequest(drequest);
-                module.SetDIRawData(dresponse.Data);
+               // var drequest = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, 10000, 1);
+                //var dresponse = _master.WriteRequest(drequest);
 
-                foreach (var iain in module.Pins.AnalogInputs.Values)
+                var result = _rtuMaster.ReadInputRegisters(module.ModuleId, 10000, 1);
+                module.SetDIRawData(result);
+
+                if (_cycleCounter % _config.AnalogReadCycleDevider == 0)
                 {
-                    if (iain is AgavaAInput ain)
+                    foreach (var iain in module.Pins.AnalogInputs.Values)
                     {
-                        var reg = (ushort) (ain.PinNumberInModule * 2);
-
-                        var request = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, reg, 2);
-                        var response = _master.WriteRequest(request);
-                        if (response.Data != null)
+                        if (iain is AgavaAInput ain)
                         {
-                            var value = response.Data[0]; //BufferToFloat(response.Data);
-                            ain.SetRawValue(response.Data);
+                            var reg = (ushort) (ain.PinNumberInModule * 2);
+
+                            var aResult = _rtuMaster.ReadInputRegisters(module.ModuleId, reg, 2);
+
+                            ain.SetRawValue(aResult);
+                            /*var request = AgavaRequest.ReadInputRegisterRequest(module.ModuleId, reg, 2);
+                            var response = _master.WriteRequest(request);
+                            if (response.Data != null)
+                            {
+                                var value = response.Data[0]; //BufferToFloat(response.Data);
+                                ain.SetRawValue(response.Data);
+                            }*/
+                            //Console.Write($"reg:{reg} pin:{ain.PinName} val:{BufferToFloat(response.Data)}");
                         }
-                        //Console.Write($"reg:{reg} pin:{ain.PinName} val:{BufferToFloat(response.Data)}");
                     }
                 }
             }
+
+            _cycleCounter++;
         }
         public void Write()
         {
             foreach (var module in _modules.Values)
             {
-                var doRequest = AgavaRequest.WriteHoldingRegisterRequest(
+                /*var doRequest = AgavaRequest.WriteHoldingRegisterRequest(
                     module.ModuleId, 10000,new[]{module.DORegister});
-                _master.WriteRequest(doRequest);
-                
+                _master.WriteRequest(doRequest);*/
+                _rtuMaster.WriteSingleRegisterAsync(module.ModuleId, 10000, module.DORegister);
+
+
                 foreach (var ioutput in module.Pins.AnalogOutputs.Values)
                 {
                     if (ioutput is AgavaAOutput output)
                     {
                         if (output.IsModified)
                         {
-                            var request = output.GetWriteValueRequest();
-                            _master.WriteRequest(request);
+                            _rtuMaster.WriteMultipleRegistersAsync(module.ModuleId, output.RegAddress,
+                                output.GetValue());
+                            //var request = output.GetWriteValueRequest();
+                            //_master.WriteRequest(request);
                         }
                     }
                 }

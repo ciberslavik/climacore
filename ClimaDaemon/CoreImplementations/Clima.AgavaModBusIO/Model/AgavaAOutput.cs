@@ -50,7 +50,12 @@ namespace Clima.AgavaModBusIO.Model
         internal new bool IsModified { get; private set; }
         internal bool IsPinTypeChanged { get; }
 
+        internal ushort[] GetValue()
+        {
+            return ValueConverter.ConvertFrom(_value);
+        }
 
+        
         internal AgavaRequest GetWriteValueRequest()
         {
             var request = new AgavaRequest();

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.ReactiveUI;
 using Castle.Core.Internal;
 using Clima.Basics.Configuration;
 using Clima.Basics.Services;
@@ -38,15 +36,7 @@ namespace Clima.Core.Tests.IOService
             
         }
 
-        public static AppBuilder BuildAvaloniaApp()
-        {
-            var appBuilder = AppBuilder.Configure<AvaloniaHost>()
-                .UsePlatformDetect()
-                .LogToTrace()
-                .UseReactiveUI();
-            
-            return appBuilder;
-        }
+        
 
         public void Stop()
         {

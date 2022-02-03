@@ -260,7 +260,7 @@ namespace Clima.Core.Scheduler
 
         private void CalculateSetPoints()
         {
-
+            Log.Debug("Calculate setpoints");
             //Calculate setpoints
             //Temperature
             _context.SetPoints.Temperature = _temperatureGraph.GetDayPoint(_context.CurrentDay).Value;
